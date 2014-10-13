@@ -28,14 +28,16 @@ import ru.spbftu.igorbotian.phdapp.conf.Configuration;
 
 import javax.inject.Inject;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
  * Средство для работы с наборами исходных данных, хранящихся в виде файлов
+ *
+ * @see InputDataManager
  */
 public abstract class FileBasedInputDataManager implements InputDataManager {
 
@@ -153,22 +155,22 @@ public abstract class FileBasedInputDataManager implements InputDataManager {
      *
      * @param stream файловый поток
      * @return набор исходных данных
-     * @throws IOException   в случае проблемы получения данных из файлового потока
-     * @throws DataException если из данных, хранящихся в файле, невозможно сформировать набор исходных данных
+     * @throws IOException                    в случае проблемы получения данных из файлового потока
+     * @throws DataException                  если из данных, хранящихся в файле, невозможно сформировать набор исходных данных
      * @throws java.lang.NullPointerException если файловый поток не задан
      */
-    protected abstract TrainingData deserialize(FileInputStream stream) throws IOException, DataException;
+    protected abstract TrainingData deserialize(InputStream stream) throws IOException, DataException;
 
     /**
      * Сериализация заданного набора исходных данных в файл
      *
      * @param data   набор исходных данных
      * @param stream файловый поток
-     * @throws IOException   в случае проблемы записи данных в файловый поток
-     * @throws DataException в случае проблемы формирования сериализованного представления набора исходных данных
+     * @throws IOException                    в случае проблемы записи данных в файловый поток
+     * @throws DataException                  в случае проблемы формирования сериализованного представления набора исходных данных
      * @throws java.lang.NullPointerException если хотя бы один из параметров не задан
      */
-    protected abstract void serialize(TrainingData data, FileOutputStream stream) throws IOException, DataException;
+    protected abstract void serialize(TrainingData data, OutputStream stream) throws IOException, DataException;
 
     /**
      * Получение расширения файла, которому соответствует поддерживаемый формат сериализации

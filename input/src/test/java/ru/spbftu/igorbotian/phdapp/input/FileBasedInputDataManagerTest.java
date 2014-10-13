@@ -28,13 +28,14 @@ import ru.spbftu.igorbotian.phdapp.common.TrainingData;
 import ru.spbftu.igorbotian.phdapp.conf.Configuration;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Модульные тесты для класса <code>FileBasedInputDataManager</code>
- * @see
+ *
+ * @see FileBasedInputDataManager
  */
 public class FileBasedInputDataManagerTest {
 
@@ -102,6 +103,7 @@ public class FileBasedInputDataManagerTest {
 
     private Configuration mockConfigWithNoProperties() {
         Configuration config = EasyMock.createNiceMock(Configuration.class);
+
         EasyMock.expect(config.hasSetting(EasyMock.anyString())).andReturn(false);
         EasyMock.replay(config);
 
@@ -112,6 +114,7 @@ public class FileBasedInputDataManagerTest {
         assert (StringUtils.isNotEmpty(pathToDataFolder));
 
         Configuration config = EasyMock.createNiceMock(Configuration.class);
+
         EasyMock.expect(config.hasSetting(FileBasedInputDataManager.DATA_FOLDER_CONFIG_SETTING)).andReturn(true);
         EasyMock.expect(config.getString(FileBasedInputDataManager.DATA_FOLDER_CONFIG_SETTING)).andReturn(pathToDataFolder);
         EasyMock.replay(config);
@@ -126,12 +129,12 @@ public class FileBasedInputDataManagerTest {
         }
 
         @Override
-        protected TrainingData deserialize(FileInputStream stream) throws IOException, DataException {
+        protected TrainingData deserialize(InputStream stream) throws IOException, DataException {
             return null;
         }
 
         @Override
-        protected void serialize(TrainingData data, FileOutputStream stream) throws IOException, DataException {
+        protected void serialize(TrainingData data, OutputStream stream) throws IOException, DataException {
             // nothing
         }
 

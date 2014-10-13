@@ -81,9 +81,15 @@ project(':input-json') {
         compile(
                 project(':input'),
                 project(':conf'),
+                gson,
                 googleGuice,
                 commonsLang,
                 log4j
+        )
+
+        testCompile(
+                junit,
+                easyMock
         )
     }
 }

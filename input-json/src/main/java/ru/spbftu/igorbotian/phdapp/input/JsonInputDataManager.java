@@ -18,10 +18,13 @@
 
 package ru.spbftu.igorbotian.phdapp.input;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.inject.Singleton;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.io.IOUtils;
 import ru.spbftu.igorbotian.phdapp.common.DataException;
 import ru.spbftu.igorbotian.phdapp.common.TrainingData;
+import ru.spbftu.igorbotian.phdapp.common.pdu.TrainingDataPDU;
 import ru.spbftu.igorbotian.phdapp.conf.ConfigFolderPath;
 import ru.spbftu.igorbotian.phdapp.conf.Configuration;
 
@@ -30,10 +33,16 @@ import java.io.*;
 
 /**
  * Реализация средства для работы с исходными данными, использующее в своей основе формат JSON
- * @see InputDataManager
+ *
+ * @see InputDataManager, FileBasedInputDataManager
  */
 @Singleton
 class JsonInputDataManager extends FileBasedInputDataManager {
+
+    /**
+     * Средство преобразования объектов в строковое представление в формате JSON и обратно
+     */
+    private final Gson gson = new Gson();
 
     @Inject
     JsonInputDataManager(Configuration config, @ConfigFolderPath String pathToConfigFolder) {
@@ -41,17 +50,33 @@ class JsonInputDataManager extends FileBasedInputDataManager {
     }
 
     @Override
-    protected TrainingData deserialize(FileInputStream stream) throws IOException, DataException {
-        return null; // TODO
+    protected TrainingData deserialize(InputStream stream) throws IOException, DataException {
+        if (stream == null) {
+            throw new NullPointerException("Input stream cannot be null");
+        }
+
+        try {
+            return gson.fromJson(new InputStreamReader(stream), TrainingDataPDU.class).toObject();
+        } catch (JsonSyntaxException e) {
+            throw new DataException("Failed to deserialize input data", e);
+        }
     }
 
     @Override
-    protected void serialize(TrainingData data, FileOutputStream stream) throws IOException, DataException {
-        // TODO
+    protected void serialize(TrainingData data, OutputStream stream) throws IOException {
+        if (data == null) {
+            throw new NullPointerException("Data cannot be null");
+        }
+
+        if (stream == null) {
+            throw new NullPointerException("Input stream cannot be null");
+        }
+
+        IOUtils.write(gson.toJson(TrainingDataPDU.toPDU(data)), stream);
     }
 
     @Override
     protected String supportedFileExtension() {
-        return ".json";
+        return "json";
     }
 }
