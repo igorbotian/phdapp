@@ -25,10 +25,4 @@ import java.io.File;
  */
 public interface InputDataManager {
 
-    /**
-     * Получение директории, в которой хранятся наборы исходных данных (по умолчанию) или в которой в последний раз
-     * был сохранен набор исходных данных
-     * @return директория
-     */
-    public File inputDataFolder();
 }

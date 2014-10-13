@@ -21,6 +21,7 @@ package ru.spbftu.igorbotian.phdapp.input;
 import com.google.inject.Singleton;
 import org.apache.commons.lang3.StringUtils;
 import ru.spbftu.igorbotian.phdapp.conf.ConfigFolderPath;
+import ru.spbftu.igorbotian.phdapp.conf.Configuration;
 
 import javax.inject.Inject;
 import java.io.File;
@@ -30,36 +31,10 @@ import java.io.File;
  * @see InputDataManager
  */
 @Singleton
-class JsonInputDataManager implements InputDataManager {
-
-    /**
-     * Название директории для хранения наборов исходных данных
-     */
-    private static final String DATA_FOLDER_NAME = "data";
-
-    /**
-     * Директория для хранения наборов исходных данных
-     */
-    private final File dataFolder;
+class JsonInputDataManager extends FileBasedInputDataManager {
 
     @Inject
-    public JsonInputDataManager(@ConfigFolderPath String pathToConfigFolder) {
-        if (StringUtils.isEmpty(pathToConfigFolder)) {
-            throw new IllegalArgumentException("Configuration folder cannot be null or empty");
-        }
-
-        File configFolder = new File(pathToConfigFolder);
-        dataFolder = new File(configFolder.exists() ? configFolder.getParent() : "..", DATA_FOLDER_NAME);
-
-        if(!dataFolder.exists()) {
-            if(!dataFolder.mkdir()) {
-                throw new IllegalStateException("Unable to create a folder intended to store input data");
-            }
-        }
-    }
-
-    @Override
-    public File inputDataFolder() {
-        return dataFolder;
+    JsonInputDataManager(Configuration config, @ConfigFolderPath String pathToConfigFolder) {
+        super(config, pathToConfigFolder);
     }
 }
