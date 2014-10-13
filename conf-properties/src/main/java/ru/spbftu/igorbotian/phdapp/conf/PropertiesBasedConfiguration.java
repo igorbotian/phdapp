@@ -163,6 +163,15 @@ class PropertiesBasedConfiguration implements Configuration {
     }
 
     @Override
+    public boolean hasSetting(String param) {
+        if(StringUtils.isEmpty(param)) {
+            throw new IllegalArgumentException("Param cannot be null or empty");
+        }
+
+        return config.getProperty(param) != null;
+    }
+
+    @Override
     public Boolean getBoolean(String param) {
         return getValue(param, Boolean::parseBoolean);
     }
