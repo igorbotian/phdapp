@@ -1,2 +1,2 @@
-include 'common', 'conf', 'conf-json', 'input', 'input-json', 'log-log4j', 'main'
+include 'common', 'conf', 'conf-properties', 'input', 'input-json', 'log-log4j', 'main'
 rootProject.name = phdAppName

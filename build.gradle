@@ -3,16 +3,16 @@
 //-------------------------------------------------------------------------------------------------
 
 allprojects {
-	apply plugin: 'java'
-	group = phdAppGroup
-	sourceCompatibility = phdAppSourceCompatibility
-	version = phdAppVersion
+    apply plugin: 'java'
+    group = phdAppGroup
+    sourceCompatibility = phdAppSourceCompatibility
+    version = phdAppVersion
 
     jar.archiveName = "${phdAppName}-${project.name}-${project.version}.jar"
 
-	repositories {
-		mavenCentral()
-	}
+    repositories {
+        mavenCentral()
+    }
 }
 
 //-------------------------------------------------------------------------------------------------
@@ -23,10 +23,10 @@ project(':common') {
     description 'Domain area objects module'
 
     dependencies {
-        compile (
-            commonsLang,
-            log4j,
-            validationApi
+        compile(
+                commonsLang,
+                log4j,
+                validationApi
         )
 
         testCompile junit
@@ -41,15 +41,16 @@ project(':conf') {
     }
 }
 
-project(':conf-json') {
+project(':conf-properties') {
     description '.properties file-based configuration implementation module'
 
     dependencies {
-        compile (
-            project(':conf'),
-            googleGuice,
-            commonsLang,
-            log4j
+        compile(
+                project(':conf'),
+                gson,
+                googleGuice,
+                commonsLang,
+                log4j
         )
     }
 }
@@ -62,12 +63,12 @@ project(':input-json') {
     description 'JSON-based input data management implementation module'
 
     dependencies {
-        compile (
-            project(':input'),
-            project(':conf'),
-            googleGuice,
-            commonsLang,
-            log4j,
+        compile(
+                project(':input'),
+                project(':conf'),
+                googleGuice,
+                commonsLang,
+                log4j
         )
     }
 }
@@ -83,11 +84,11 @@ project(':log-log4j') {
 project(':main') {
     dependencies {
         compile(
-            project(':conf'),
-            project(':conf-json'),
-            project(':input'),
-            project(':input-json'),
-            project(':log-log4j')
+                project(':conf'),
+                project(':conf-properties'),
+                project(':input'),
+                project(':input-json'),
+                project(':log-log4j')
         )
     }
 }
