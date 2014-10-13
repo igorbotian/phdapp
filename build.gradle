@@ -57,6 +57,19 @@ project(':conf-properties') {
 
 project(':input') {
     description 'Input data management interface module'
+
+    dependencies {
+        compile(
+                project(':conf'),
+                commonsLang
+        )
+
+        testCompile(
+                junit,
+                easyMock,
+                commonsIO
+        )
+    }
 }
 
 project(':input-json') {

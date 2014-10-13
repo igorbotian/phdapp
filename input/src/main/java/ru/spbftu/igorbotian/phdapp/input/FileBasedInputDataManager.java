@@ -33,12 +33,12 @@ public abstract class FileBasedInputDataManager implements InputDataManager {
     /**
      * Название директории для хранения наборов исходных данных
      */
-    private static final String DATA_FOLDER_NAME = "data";
+    static final String DATA_FOLDER_NAME = "data";
 
     /**
      * Настройка конфигурации приложения, указывающая на директорию для хранения наборов исходных данных
      */
-    private static final String DATA_FOLDER_CONFIG_SETTING = "phdapp.data.folder";
+    static final String DATA_FOLDER_CONFIG_SETTING = "phdapp.data.folder";
 
     /**
      * Средства конфигурации приложения
@@ -52,7 +52,7 @@ public abstract class FileBasedInputDataManager implements InputDataManager {
 
     @Inject
     public FileBasedInputDataManager(Configuration config, @ConfigFolderPath String pathToConfigFolder) {
-        if(config == null) {
+        if (config == null) {
             throw new NullPointerException("Configuration cannot be null");
         }
 
@@ -61,23 +61,24 @@ public abstract class FileBasedInputDataManager implements InputDataManager {
         }
 
         this.config = config;
-        dataFolder = formDataFolder(new File(pathToConfigFolder));
+        dataFolder = initDataFolder(new File(pathToConfigFolder));
         rememberPathToDataFolderOnExit();
     }
 
-    private File formDataFolder(File configFolder) {
+    private File initDataFolder(File configFolder) {
+        assert (configFolder != null);
+
         File dataFolder;
 
-        if(config.hasSetting(DATA_FOLDER_CONFIG_SETTING)) {
+        if (config.hasSetting(DATA_FOLDER_CONFIG_SETTING)) {
             dataFolder = new File(config.getString(DATA_FOLDER_CONFIG_SETTING));
         } else {
-            dataFolder = new File(configFolder.exists() ? configFolder.getParent() : "..", DATA_FOLDER_NAME);
+            File parentFolder = configFolder.exists() ? configFolder.getParentFile() : new File(".").getParentFile();
+            dataFolder = new File(parentFolder, DATA_FOLDER_NAME);
         }
 
-        if(!dataFolder.exists()) {
-            if(!dataFolder.mkdir()) {
-                throw new IllegalStateException("Unable to create a folder intended to store input data");
-            }
+        if (!dataFolder.exists() && !dataFolder.mkdir()) {
+            throw new IllegalStateException("Unable to create a folder intended to store input data");
         }
 
         return dataFolder;
@@ -109,7 +110,7 @@ public abstract class FileBasedInputDataManager implements InputDataManager {
      * @throws java.lang.NullPointerException если директория не задана
      */
     public void setDefaultInputDataFolder(File folder) {
-        if(folder == null) {
+        if (folder == null) {
             throw new NullPointerException("Folder cannot be null");
         }
 
