@@ -1,7 +1,5 @@
 package ru.spbftu.igorbotian.phdapp.input;
 
-import java.io.File;
-
 /**
  * Copyright (c) 2014 Igor Botian
  * <p/>
@@ -20,9 +18,43 @@ import java.io.File;
  * @author Igor Botian <igor.botian@gmail.com>
  */
 
+import ru.spbftu.igorbotian.phdapp.common.DataException;
+import ru.spbftu.igorbotian.phdapp.common.TrainingData;
+
+import java.io.IOException;
+import java.util.Set;
+
 /**
  * Средство для работы с исходными данными
  */
 public interface InputDataManager {
 
+    /**
+     * Получение множество названий наборов исходных данных
+     *
+     * @return множество названий наборов исходных данных
+     * @throws IOException в случае проблемы получения данного множества
+     */
+    public Set<String> listIds() throws IOException;
+
+    /**
+     * Получение набора исходных данных по названию
+     *
+     * @param id название набора исходных данных (непустое)
+     * @return набор исходных данных
+     * @throws java.lang.NullPointerException если название набора исходных данных не задано
+     * @throws IOException                    в случае проблемы получения набора
+     * @throws DataException                  в случае проблемы формирования данного набора (проблемы его десериализации)
+     */
+    public TrainingData getById(String id) throws IOException, DataException;
+
+    /**
+     * Сохранение заданного набора исходных данных (сериализация)
+     *
+     * @param id   название набора исходных данных
+     * @param data набор исходных данных
+     * @throws java.lang.NullPointerException если хотя бы один из параметров не задан
+     * @throws IOException                    в случае проблем сериализации
+     */
+    public void save(String id, TrainingData data) throws IOException;
 }

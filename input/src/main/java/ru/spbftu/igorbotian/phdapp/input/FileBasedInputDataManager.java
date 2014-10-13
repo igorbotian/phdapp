@@ -18,12 +18,21 @@
 
 package ru.spbftu.igorbotian.phdapp.input;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
+import ru.spbftu.igorbotian.phdapp.common.DataException;
+import ru.spbftu.igorbotian.phdapp.common.TrainingData;
 import ru.spbftu.igorbotian.phdapp.conf.ConfigFolderPath;
 import ru.spbftu.igorbotian.phdapp.conf.Configuration;
 
 import javax.inject.Inject;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * Средство для работы с наборами исходных данных, хранящихся в виде файлов
@@ -116,4 +125,55 @@ public abstract class FileBasedInputDataManager implements InputDataManager {
 
         this.dataFolder = folder;
     }
+
+    @Override
+    public Set<String> listIds() throws IOException {
+        Set<String> ids = new LinkedHashSet<>();
+
+        FileUtils.iterateFiles(dataFolder, new String[]{supportedFileExtension()}, false).
+                forEachRemaining(
+                        file -> ids.add(FilenameUtils.getBaseName(file.getName()))
+                );
+
+        return ids;
+    }
+
+    @Override
+    public TrainingData getById(String id) throws IOException, DataException {
+        return deserialize(FileUtils.openInputStream(new File(dataFolder, id + "." + supportedFileExtension())));
+    }
+
+    @Override
+    public void save(String id, TrainingData data) throws IOException {
+        serialize(data, FileUtils.openOutputStream(new File(id + "." + supportedFileExtension()), false));
+    }
+
+    /**
+     * Десериализация набора исходных данных из файла
+     *
+     * @param stream файловый поток
+     * @return набор исходных данных
+     * @throws IOException   в случае проблемы получения данных из файлового потока
+     * @throws DataException если из данных, хранящихся в файле, невозможно сформировать набор исходных данных
+     * @throws java.lang.NullPointerException если файловый поток не задан
+     */
+    protected abstract TrainingData deserialize(FileInputStream stream) throws IOException, DataException;
+
+    /**
+     * Сериализация заданного набора исходных данных в файл
+     *
+     * @param data   набор исходных данных
+     * @param stream файловый поток
+     * @throws IOException   в случае проблемы записи данных в файловый поток
+     * @throws DataException в случае проблемы формирования сериализованного представления набора исходных данных
+     * @throws java.lang.NullPointerException если хотя бы один из параметров не задан
+     */
+    protected abstract void serialize(TrainingData data, FileOutputStream stream) throws IOException, DataException;
+
+    /**
+     * Получение расширения файла, которому соответствует поддерживаемый формат сериализации
+     *
+     * @return строковое представление расширения файла (не равно <code>null</code>)
+     */
+    protected abstract String supportedFileExtension();
 }

@@ -23,15 +23,40 @@ import org.apache.commons.lang3.StringUtils;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Test;
+import ru.spbftu.igorbotian.phdapp.common.DataException;
+import ru.spbftu.igorbotian.phdapp.common.TrainingData;
 import ru.spbftu.igorbotian.phdapp.conf.Configuration;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * Модульные тесты для класса <code>FileBasedInputDataManager</code>
  * @see
  */
 public class FileBasedInputDataManagerTest {
+
+    @Test
+    public void testDefaultInputDataFolder() {
+        File anyFolder = new File(FileBasedInputDataManager.DATA_FOLDER_NAME);
+        FileBasedInputDataManager instance = new FileBasedInputDataManagerImpl(mockConfigWithNoProperties(),
+                "anyPathToConfigFolder");
+
+        Assert.assertEquals(anyFolder.getAbsolutePath(), instance.defaultInputDataFolder().getAbsolutePath());
+    }
+
+    @Test
+    public void testSetDefaultInputDataFolder() {
+        File expectedDataFolder = new File("dataFolder");
+        FileBasedInputDataManager instance = new FileBasedInputDataManagerImpl(mockConfigWithNoProperties(),
+                "anyPathToConfigFolder");
+
+        Assert.assertNotEquals(expectedDataFolder, instance.defaultInputDataFolder());
+        instance.setDefaultInputDataFolder(expectedDataFolder);
+        Assert.assertEquals(expectedDataFolder.getAbsolutePath(), instance.defaultInputDataFolder().getAbsolutePath());
+    }
 
     @Test
     public void testDefaultInputDataFolderSetByConfig() {
@@ -98,6 +123,21 @@ public class FileBasedInputDataManagerTest {
 
         private FileBasedInputDataManagerImpl(Configuration config, String pathToConfigFolder) {
             super(config, pathToConfigFolder);
+        }
+
+        @Override
+        protected TrainingData deserialize(FileInputStream stream) throws IOException, DataException {
+            return null;
+        }
+
+        @Override
+        protected void serialize(TrainingData data, FileOutputStream stream) throws IOException, DataException {
+            // nothing
+        }
+
+        @Override
+        protected String supportedFileExtension() {
+            return "any";
         }
     }
 }

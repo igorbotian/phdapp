@@ -20,11 +20,13 @@ package ru.spbftu.igorbotian.phdapp.input;
 
 import com.google.inject.Singleton;
 import org.apache.commons.lang3.StringUtils;
+import ru.spbftu.igorbotian.phdapp.common.DataException;
+import ru.spbftu.igorbotian.phdapp.common.TrainingData;
 import ru.spbftu.igorbotian.phdapp.conf.ConfigFolderPath;
 import ru.spbftu.igorbotian.phdapp.conf.Configuration;
 
 import javax.inject.Inject;
-import java.io.File;
+import java.io.*;
 
 /**
  * Реализация средства для работы с исходными данными, использующее в своей основе формат JSON
@@ -36,5 +38,20 @@ class JsonInputDataManager extends FileBasedInputDataManager {
     @Inject
     JsonInputDataManager(Configuration config, @ConfigFolderPath String pathToConfigFolder) {
         super(config, pathToConfigFolder);
+    }
+
+    @Override
+    protected TrainingData deserialize(FileInputStream stream) throws IOException, DataException {
+        return null; // TODO
+    }
+
+    @Override
+    protected void serialize(TrainingData data, FileOutputStream stream) throws IOException, DataException {
+        // TODO
+    }
+
+    @Override
+    protected String supportedFileExtension() {
+        return ".json";
     }
 }

@@ -60,8 +60,10 @@ project(':input') {
 
     dependencies {
         compile(
+                project(':common'),
                 project(':conf'),
-                commonsLang
+                commonsLang,
+                commonsIO
         )
 
         testCompile(
