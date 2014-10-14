@@ -22,6 +22,7 @@ import com.google.inject.AbstractModule;
 import ru.spbftu.igorbotian.phdapp.conf.ConfigFolderPath;
 
 import java.nio.file.Path;
+import java.util.Objects;
 
 /**
  * Модуль для работы с исходными данными в формате JSON
@@ -42,10 +43,7 @@ public class JsonInputDataManagementModule extends AbstractModule {
      * @throws java.lang.NullPointerException если директория не задана
      */
     public JsonInputDataManagementModule(Path configFolder) {
-        if (configFolder == null) {
-            throw new NullPointerException("Configuration folder cannot be null");
-        }
-
+        Objects.requireNonNull(configFolder);
         this.configFolder = configFolder;
     }
 

@@ -18,6 +18,7 @@
 
 package ru.spbftu.igorbotian.phdapp.common;
 
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -38,18 +39,13 @@ public class TrainingDataObject extends DataObject {
      * @param id         строковое представление идентификатора объекта (не может быть <code>null</code> или пустым)
      * @param parameters множество параметров, которыми характеризуется объект (непустое)
      * @param realClass  реальный класса классификации, которому соответствует объект
-     * @throws java.lang.NullPointerException     если множества параметров или реальный класс классификации равен
-     *                                            <code>null</code>
-     * @throws java.lang.IllegalArgumentException если идентификатор объекта пустой или множество параметров
+     * @throws java.lang.NullPointerException если хотя бы один из параметров не задан
      */
     public TrainingDataObject(String id, Set<DataObjectParameter> parameters, DataClass realClass) {
 
         super(id, parameters);
 
-        if (realClass == null) {
-            throw new NullPointerException("Real class cannot be null");
-        }
-
+        Objects.requireNonNull(realClass);
         this.realClass = realClass;
     }
 

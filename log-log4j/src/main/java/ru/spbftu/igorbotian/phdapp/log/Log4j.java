@@ -23,6 +23,7 @@ import org.apache.log4j.xml.DOMConfigurator;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Objects;
 
 /**
  * Вспомогательный класс, отвечающий за инициализацию и конфигурацию средств логирования.
@@ -53,10 +54,7 @@ public final class Log4j {
      * @throws java.lang.NullPointerException если директория не задана
      */
     public static void init(Path configFolder) {
-        if (configFolder == null) {
-            throw new NullPointerException("Configuration folder cannot be null");
-        }
-
+        Objects.requireNonNull(configFolder);
         Path log4jXml = configFolder.resolve(LOG4J_XML);
 
         if (Files.exists(log4jXml)) {

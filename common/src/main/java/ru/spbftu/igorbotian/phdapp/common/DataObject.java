@@ -21,6 +21,7 @@ package ru.spbftu.igorbotian.phdapp.common;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Collections;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -52,16 +53,15 @@ public class DataObject {
      *                                            не содержит ни одного элемента
      */
     public DataObject(String id, Set<DataObjectParameter> parameters) {
+        Objects.requireNonNull(id);
+        Objects.requireNonNull(parameters);
+
         if (StringUtils.isEmpty(id)) {
             throw new IllegalArgumentException("ID cannot be empty");
         }
 
-        if (parameters == null) {
-            throw new NullPointerException("Parameters cannot be null");
-        }
-
         if (parameters.isEmpty()) {
-            throw new IllegalArgumentException("At least one parameter should be");
+            throw new IllegalArgumentException("At least one parameter should be presented");
         }
 
         this.id = id;

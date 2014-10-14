@@ -21,6 +21,7 @@ package ru.spbftu.igorbotian.phdapp.conf;
 import com.google.inject.AbstractModule;
 
 import java.nio.file.Path;
+import java.util.Objects;
 
 /**
  * Модуль конфигурации приложения на основе файла формата .properties / .conf
@@ -41,10 +42,7 @@ public class PropertiesBasedConfigurationModule extends AbstractModule {
      * @throws java.lang.NullPointerException если директория не задана
      */
     public PropertiesBasedConfigurationModule(Path configFolder) {
-        if (configFolder == null) {
-            throw new NullPointerException("Configuration folder cannot be null");
-        }
-
+        Objects.requireNonNull(configFolder);
         this.configFolder = configFolder;
     }
 

@@ -26,7 +26,8 @@ public interface Localization {
      * @return локализация заданной строки согласно текущей локали;
      * если строка не локализована для текущей локали, то возвращается её перевод по умолчанию;
      * если и перевода по умолчанию нет, то возвращается сам идентификатор строки
-     * @throws java.lang.IllegalArgumentException если строка не задана или является пустой
+     * @throws java.lang.IllegalArgumentException если строка является пустой
+     * @throws java.lang.NullPointerException     если строка не задана
      */
     public String getLabel(String label);
 }

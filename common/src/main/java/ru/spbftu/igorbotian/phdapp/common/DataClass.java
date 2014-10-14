@@ -20,6 +20,8 @@ package ru.spbftu.igorbotian.phdapp.common;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Objects;
+
 /**
  * Класс, которому соответствует классифцируемый или ранжируемый объект.
  * Класс является потокобезопасным, а его объекты - неизменяемыми.
@@ -37,11 +39,14 @@ public class DataClass {
      * Конструктор объекта
      *
      * @param name идентификатор класса (не может быть пустым)
-     * @throws java.lang.IllegalArgumentException если идентификатор класса пустой или равен <code>null</code>
+     * @throws java.lang.NullPointerException     если идентификатор класса не задан
+     * @throws java.lang.IllegalArgumentException если идентификатор класса пустой или равен
      */
     public DataClass(String name) {
+        Objects.requireNonNull(name);
+
         if (StringUtils.isEmpty(name)) {
-            throw new IllegalArgumentException("Name cannot be null or empty");
+            throw new IllegalArgumentException("Name cannot be empty");
         }
 
         this.name = name;

@@ -20,6 +20,7 @@ package ru.spbftu.igorbotian.phdapp.common;
 
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -55,16 +56,11 @@ public class Data {
     public Data(Set<? extends DataClass> classes, Set<? extends DataObject> objects)
             throws DataException {
 
-        if (classes == null) {
-            throw new NullPointerException("Classes cannot be null");
-        }
+        Objects.requireNonNull(classes);
+        Objects.requireNonNull(objects);
 
         if (classes.size() < 2) {
             throw new DataException("Number of classes cannot be less than 2");
-        }
-
-        if (objects == null) {
-            throw new NullPointerException("Objects cannot be null");
         }
 
         if (objects.isEmpty()) {
@@ -87,6 +83,8 @@ public class Data {
      * <code>false</code>, если все объекты характеризуются одинаковым набором параметров
      */
     protected boolean objectsHaveDifferentParams(Set<? extends DataObject> objects) {
+        Objects.requireNonNull(objects);
+
         Iterator<? extends DataObject> it = objects.iterator();
         Set<DataObjectParameter> primerParams = it.next().parameters();
 

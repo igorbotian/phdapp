@@ -19,6 +19,7 @@
 package ru.spbftu.igorbotian.phdapp.common;
 
 import java.util.Collections;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -52,10 +53,7 @@ public class TrainingDataBuilder {
      * @throws java.lang.NullPointerException если класс равен <code>null</code>
      */
     public void defineClass(DataClass clazz) {
-        if (clazz == null) {
-            throw new NullPointerException("Class cannot be null");
-        }
-
+        Objects.requireNonNull(clazz);
         classes.add(clazz);
     }
 
@@ -66,10 +64,7 @@ public class TrainingDataBuilder {
      * @throws java.lang.NullPointerException если объект равен <code>null</code>
      */
     public void addTestingObject(DataObject data) {
-        if (data == null) {
-            throw new NullPointerException("Testing data cannot be null");
-        }
-
+        Objects.requireNonNull(data);
         testingSet.add(data);
     }
 
@@ -80,10 +75,7 @@ public class TrainingDataBuilder {
      * @throws java.lang.NullPointerException если объект равен <code>null</code>
      */
     public void addTrainingObject(TrainingDataObject data) {
-        if (data == null) {
-            throw new NullPointerException("Training data cannot be null");
-        }
-
+        Objects.requireNonNull(data);
         trainingSet.add(data);
     }
 

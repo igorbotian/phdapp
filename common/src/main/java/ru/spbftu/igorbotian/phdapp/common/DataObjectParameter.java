@@ -20,6 +20,8 @@ package ru.spbftu.igorbotian.phdapp.common;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Objects;
+
 /**
  * Параметр объекта, подлежащего класссификации или другому действию.
  * Параметр характеризуется названием и значением.
@@ -42,18 +44,17 @@ public class DataObjectParameter {
     /**
      * Конструктор класса
      *
-     * @param name  название объекта (не может быть <code>null</code> или пустым)
-     * @param value значение объекта (не может быть <code>null</code>)
-     * @throws java.lang.IllegalArgumentException если название объекта пустое или равно <code>null</code>
-     * @throws java.lang.NullPointerException     если значение объекта равно <code>null</code>
+     * @param name  название объекта (непустое)
+     * @param value значение объекта
+     * @throws java.lang.IllegalArgumentException если название объекта пустое
+     * @throws java.lang.NullPointerException     если название или значение объекта не задано
      */
     public DataObjectParameter(String name, String value) {
+        Objects.requireNonNull(name);
+        Objects.requireNonNull(value);
+
         if (StringUtils.isEmpty(name)) {
             throw new IllegalArgumentException("Name cannot be empty");
-        }
-
-        if (value == null) {
-            throw new NullPointerException("Value cannot be null");
         }
 
         this.name = name;

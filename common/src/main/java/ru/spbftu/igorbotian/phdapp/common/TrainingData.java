@@ -19,6 +19,7 @@
 package ru.spbftu.igorbotian.phdapp.common;
 
 import java.util.Collections;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -48,9 +49,7 @@ public class TrainingData extends Data {
                         Set<? extends TrainingDataObject> trainingSet) throws DataException {
         super(classes, testingSet);
 
-        if (trainingSet == null) {
-            throw new NullPointerException("Training cannot be null");
-        }
+        Objects.requireNonNull(trainingSet);
 
         this.trainingSet = Collections.unmodifiableSet(trainingSet);
 

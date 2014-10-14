@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.function.Function;
 
@@ -61,13 +62,16 @@ class PropertiesBasedConfiguration implements Configuration {
      * Конструктор объекта
      *
      * @param pathToConfigFolder директория для хранения конфигурационных файлов
-     * @throws java.lang.IllegalArgumentException если директория не задана или физически не является директорией
+     * @throws java.lang.IllegalArgumentException если директория физически не является директорией
      * @throws java.lang.IllegalStateException    если директория не существует и её невозможно создать
+     * @throws java.lang.NullPointerException     если директория не задана
      */
     @Inject
     public PropertiesBasedConfiguration(@ConfigFolderPath String pathToConfigFolder) {
+        Objects.requireNonNull(pathToConfigFolder);
+
         if (StringUtils.isEmpty(pathToConfigFolder)) {
-            throw new IllegalArgumentException("Configuration folder cannot be null or empty");
+            throw new IllegalArgumentException("Configuration folder cannot be empty");
         }
 
         Path configFolder = Paths.get(pathToConfigFolder);
@@ -137,12 +141,11 @@ class PropertiesBasedConfiguration implements Configuration {
     }
 
     private void setValue(String param, Object value) {
-        if (StringUtils.isEmpty(param)) {
-            throw new IllegalArgumentException("Parameter cannot be null or empty");
-        }
+        Objects.requireNonNull(param);
+        Objects.requireNonNull(value);
 
-        if (value == null) {
-            throw new NullPointerException("Value cannot be null");
+        if (StringUtils.isEmpty(param)) {
+            throw new IllegalArgumentException("Parameter cannot be empty");
         }
 
         Object existingValue = config.getProperty(param);
@@ -155,8 +158,12 @@ class PropertiesBasedConfiguration implements Configuration {
     }
 
     private <T> T getValue(String param, Function<String, T> parser) {
+        assert (parser != null);
+
+        Objects.requireNonNull(param);
+
         if (StringUtils.isEmpty(param)) {
-            throw new IllegalArgumentException("Parameter cannot be null or empty");
+            throw new IllegalArgumentException("Parameter cannot be empty");
         }
 
         String value = config.getProperty(param);
@@ -165,8 +172,10 @@ class PropertiesBasedConfiguration implements Configuration {
 
     @Override
     public boolean hasSetting(String param) {
+        Objects.requireNonNull(param);
+
         if (StringUtils.isEmpty(param)) {
-            throw new IllegalArgumentException("Param cannot be null or empty");
+            throw new IllegalArgumentException("Param cannot be empty");
         }
 
         return config.getProperty(param) != null;

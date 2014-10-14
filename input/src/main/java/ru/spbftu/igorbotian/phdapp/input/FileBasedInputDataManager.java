@@ -76,7 +76,11 @@ public abstract class FileBasedInputDataManager implements InputDataManager {
         Objects.requireNonNull(fileExtension);
 
         if (StringUtils.isEmpty(pathToConfigFolder)) {
-            throw new IllegalArgumentException("Configuration folder cannot be null or empty");
+            throw new IllegalArgumentException("Configuration folder cannot be empty");
+        }
+
+        if (StringUtils.isEmpty(fileExtension)) {
+            throw new IllegalArgumentException("File extension cannot be empty");
         }
 
         this.config = config;
@@ -136,10 +140,7 @@ public abstract class FileBasedInputDataManager implements InputDataManager {
      * @throws java.lang.NullPointerException если директория не задана
      */
     public void setDefaultInputDataFolder(Path folder) {
-        if (folder == null) {
-            throw new NullPointerException("Folder cannot be null");
-        }
-
+        Objects.requireNonNull(folder);
         this.dataFolder = folder;
     }
 

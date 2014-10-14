@@ -33,6 +33,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 /**
  * Реализация средства для работы с исходными данными, использующее в своей основе формат JSON
@@ -59,9 +60,7 @@ class JsonInputDataManager extends FileBasedInputDataManager {
 
     @Override
     protected TrainingData deserialize(InputStream stream) throws IOException, DataException {
-        if (stream == null) {
-            throw new NullPointerException("Input stream cannot be null");
-        }
+        Objects.requireNonNull(stream);
 
         try {
             return gson.fromJson(new InputStreamReader(stream, StandardCharsets.UTF_8), TrainingDataPDU.class).toObject();
@@ -72,13 +71,8 @@ class JsonInputDataManager extends FileBasedInputDataManager {
 
     @Override
     protected void serialize(TrainingData data, OutputStream stream) throws IOException {
-        if (data == null) {
-            throw new NullPointerException("Data cannot be null");
-        }
-
-        if (stream == null) {
-            throw new NullPointerException("Input stream cannot be null");
-        }
+        Objects.requireNonNull(data);
+        Objects.requireNonNull(stream);
 
         stream.write(gson.toJson(TrainingDataPDU.toPDU(data)).getBytes(StandardCharsets.UTF_8));
     }

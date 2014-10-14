@@ -26,6 +26,7 @@ import ru.spbftu.igorbotian.phdapp.locale.Localization;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.MissingResourceException;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -70,8 +71,10 @@ class JavaI18NLocalization implements Localization {
 
     @Override
     public String getLabel(String label) {
+        Objects.requireNonNull(label);
+
         if (StringUtils.isEmpty(label)) {
-            throw new IllegalArgumentException("Label cannot be null or empty");
+            throw new IllegalArgumentException("Label cannot be empty");
         }
 
         if (labels == null) {
