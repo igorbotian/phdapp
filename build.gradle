@@ -122,10 +122,9 @@ project(':log-log4j') {
 project(':main') {
     dependencies {
         compile(
-                project(':conf'),
                 project(':conf-properties'),
-                project(':input'),
                 project(':input-json'),
+                project(':locale-java-i18n'),
                 project(':log-log4j')
         )
     }

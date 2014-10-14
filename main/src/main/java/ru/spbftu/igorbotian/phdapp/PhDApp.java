@@ -23,6 +23,7 @@ import com.google.inject.Guice;
 import org.apache.commons.lang3.StringUtils;
 import ru.spbftu.igorbotian.phdapp.conf.PropertiesBasedConfigurationModule;
 import ru.spbftu.igorbotian.phdapp.input.JsonInputDataManagementModule;
+import ru.spbftu.igorbotian.phdapp.locale.java.JavaI18NLocalizationModule;
 import ru.spbftu.igorbotian.phdapp.log.Log4j;
 
 import java.nio.file.Files;
@@ -54,7 +55,8 @@ public class PhDApp {
     public static final Set<? extends AbstractModule> INJECTION_MODULES = Collections.unmodifiableSet(
             new HashSet<>(Arrays.asList(
                     new PropertiesBasedConfigurationModule(CONFIG_FOLDER),
-                    new JsonInputDataManagementModule(CONFIG_FOLDER)
+                    new JsonInputDataManagementModule(CONFIG_FOLDER),
+                    new JavaI18NLocalizationModule()
             ))
     );
 
