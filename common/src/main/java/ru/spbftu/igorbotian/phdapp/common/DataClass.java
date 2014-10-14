@@ -63,7 +63,7 @@ public class DataClass {
 
     @Override
     public int hashCode() {
-        return name.hashCode();
+        return Objects.hashCode(name);
     }
 
     @Override

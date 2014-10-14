@@ -85,6 +85,11 @@ public class TrainingData extends Data {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), trainingSet);
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (obj == this) {
             return true;

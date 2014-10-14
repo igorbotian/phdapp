@@ -60,12 +60,7 @@ public class TrainingDataObject extends DataObject {
 
     @Override
     public int hashCode() {
-        int hashCode = 19;
-
-        hashCode += super.hashCode() + 31;
-        hashCode += realClass.hashCode() + 47;
-
-        return hashCode;
+        return Objects.hash(super.hashCode(), realClass);
     }
 
     @Override

@@ -88,12 +88,7 @@ public class DataObject {
 
     @Override
     public int hashCode() {
-        int hashCode = 17;
-
-        hashCode += id.hashCode() + 37;
-        hashCode += parameters.hashCode() + 51;
-
-        return hashCode;
+        return Objects.hash(id, parameters);
     }
 
     @Override

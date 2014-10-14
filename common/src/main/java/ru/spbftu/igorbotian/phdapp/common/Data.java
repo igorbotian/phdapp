@@ -119,12 +119,7 @@ public class Data {
 
     @Override
     public int hashCode() {
-        int hashCode = 13;
-
-        hashCode += classes.hashCode() + 29;
-        hashCode += objects.hashCode() + 37;
-
-        return hashCode;
+        return Objects.hash(objects, classes);
     }
 
     @Override
