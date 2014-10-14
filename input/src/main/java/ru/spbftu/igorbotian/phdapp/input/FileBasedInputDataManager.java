@@ -18,8 +18,6 @@
 
 package ru.spbftu.igorbotian.phdapp.input;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import ru.spbftu.igorbotian.phdapp.common.DataException;
 import ru.spbftu.igorbotian.phdapp.common.TrainingData;
@@ -27,12 +25,19 @@ import ru.spbftu.igorbotian.phdapp.conf.ConfigFolderPath;
 import ru.spbftu.igorbotian.phdapp.conf.Configuration;
 
 import javax.inject.Inject;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Средство для работы с наборами исходных данных, хранящихся в виде файлов
@@ -55,40 +60,50 @@ public abstract class FileBasedInputDataManager implements InputDataManager {
      * Средства конфигурации приложения
      */
     private final Configuration config;
-
+    /**
+     * Разрешение файлов, содержащих исходные данные поддерживаемого формата
+     */
+    private final String fileExtension;
     /**
      * Директория для хранения наборов исходных данных
      */
-    private File dataFolder;
+    private Path dataFolder;
 
     @Inject
-    public FileBasedInputDataManager(Configuration config, @ConfigFolderPath String pathToConfigFolder) {
-        if (config == null) {
-            throw new NullPointerException("Configuration cannot be null");
-        }
+    public FileBasedInputDataManager(Configuration config, @ConfigFolderPath String pathToConfigFolder, String fileExtension) {
+        Objects.requireNonNull(config);
+        Objects.requireNonNull(pathToConfigFolder);
+        Objects.requireNonNull(fileExtension);
 
         if (StringUtils.isEmpty(pathToConfigFolder)) {
             throw new IllegalArgumentException("Configuration folder cannot be null or empty");
         }
 
         this.config = config;
-        dataFolder = initDataFolder(new File(pathToConfigFolder));
+        this.fileExtension = fileExtension;
+        dataFolder = initDataFolder(Paths.get(pathToConfigFolder));
         rememberPathToDataFolderOnExit();
     }
 
-    private File initDataFolder(File configFolder) {
+    private Path initDataFolder(Path configFolder) {
         assert (configFolder != null);
 
-        File dataFolder;
+        Path dataFolder;
 
         if (config.hasSetting(DATA_FOLDER_CONFIG_SETTING)) {
-            dataFolder = new File(config.getString(DATA_FOLDER_CONFIG_SETTING));
+            dataFolder = Paths.get(config.getString(DATA_FOLDER_CONFIG_SETTING));
         } else {
-            File parentFolder = configFolder.exists() ? configFolder.getParentFile() : new File(".").getParentFile();
-            dataFolder = new File(parentFolder, DATA_FOLDER_NAME);
+            Path parentFolder = Files.exists(configFolder)
+                    ? configFolder.getParent()
+                    : Paths.get(".").toAbsolutePath().getParent();
+            dataFolder = parentFolder.resolve(DATA_FOLDER_NAME);
         }
 
-        if (!dataFolder.exists() && !dataFolder.mkdir()) {
+        try {
+            if (!Files.exists(dataFolder)) {
+                Files.createDirectory(dataFolder);
+            }
+        } catch (IOException e) {
             throw new IllegalStateException("Unable to create a folder intended to store input data");
         }
 
@@ -100,7 +115,7 @@ public abstract class FileBasedInputDataManager implements InputDataManager {
 
             @Override
             public void run() {
-                config.setString(DATA_FOLDER_CONFIG_SETTING, dataFolder.getAbsolutePath());
+                config.setString(DATA_FOLDER_CONFIG_SETTING, dataFolder.toString());
             }
         });
     }
@@ -110,7 +125,7 @@ public abstract class FileBasedInputDataManager implements InputDataManager {
      *
      * @return директория
      */
-    public File defaultInputDataFolder() {
+    public Path defaultInputDataFolder() {
         return dataFolder;
     }
 
@@ -120,7 +135,7 @@ public abstract class FileBasedInputDataManager implements InputDataManager {
      * @param folder директория
      * @throws java.lang.NullPointerException если директория не задана
      */
-    public void setDefaultInputDataFolder(File folder) {
+    public void setDefaultInputDataFolder(Path folder) {
         if (folder == null) {
             throw new NullPointerException("Folder cannot be null");
         }
@@ -130,24 +145,25 @@ public abstract class FileBasedInputDataManager implements InputDataManager {
 
     @Override
     public Set<String> listIds() throws IOException {
-        Set<String> ids = new LinkedHashSet<>();
+        Predicate<Path> byExtension = file -> file.getFileName().endsWith("." + fileExtension);
+        Function<Path, String> toFileName = file -> file.getFileName().toString();
 
-        FileUtils.iterateFiles(dataFolder, new String[]{supportedFileExtension()}, false).
-                forEachRemaining(
-                        file -> ids.add(FilenameUtils.getBaseName(file.getName()))
+        return Files.walk(dataFolder)
+                .filter(byExtension)
+                .map(toFileName)
+                .collect(
+                        Collectors.toCollection(LinkedHashSet::new)
                 );
-
-        return ids;
     }
 
     @Override
     public TrainingData getById(String id) throws IOException, DataException {
-        return deserialize(FileUtils.openInputStream(new File(dataFolder, id + "." + supportedFileExtension())));
+        return deserialize(Files.newInputStream(dataFolder.resolve(id + "." + fileExtension)));
     }
 
     @Override
     public void save(String id, TrainingData data) throws IOException {
-        serialize(data, FileUtils.openOutputStream(new File(id + "." + supportedFileExtension()), false));
+        serialize(data, Files.newOutputStream(dataFolder.resolve(id + "." + fileExtension), StandardOpenOption.CREATE));
     }
 
     /**
@@ -171,11 +187,4 @@ public abstract class FileBasedInputDataManager implements InputDataManager {
      * @throws java.lang.NullPointerException если хотя бы один из параметров не задан
      */
     protected abstract void serialize(TrainingData data, OutputStream stream) throws IOException, DataException;
-
-    /**
-     * Получение расширения файла, которому соответствует поддерживаемый формат сериализации
-     *
-     * @return строковое представление расширения файла (не равно <code>null</code>)
-     */
-    protected abstract String supportedFileExtension();
 }

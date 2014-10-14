@@ -23,8 +23,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
 
-import java.nio.charset.Charset;
-import java.util.*;
+import java.nio.charset.StandardCharsets;
+import java.util.Locale;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 /**
  * Реализация
@@ -35,16 +37,6 @@ import java.util.*;
 class JavaI18NLocalization implements Localization {
 
     private static final Logger LOGGER = Logger.getLogger(JavaI18NLocalization.class);
-
-    /**
-     * Фактическая кодировка файлов переводов
-     */
-    private static final Charset LOCALIZATION_CHARSET = Charset.forName("UTF-8");
-
-    /**
-     * Кодировка, которая подразумевается в процессе чтения файлов переводов стандартными средствами Java
-     */
-    private static final Charset JAVA_I18N_CHARSET = Charset.forName("ISO-8859-1");
 
     /**
      * Префикс для файлов локализации
@@ -82,7 +74,7 @@ class JavaI18NLocalization implements Localization {
             throw new IllegalArgumentException("Label cannot be null or empty");
         }
 
-        if(labels == null) {
+        if (labels == null) {
             return label;
         }
 
@@ -94,7 +86,9 @@ class JavaI18NLocalization implements Localization {
         assert (labels != null);
 
         try {
-            return new String(labels.getString(label).getBytes(JAVA_I18N_CHARSET), LOCALIZATION_CHARSET);
+            // файлы локализации имеют кодировку UTF-8, а встроенные средства локализации Java работают с ними
+            // в кодировке ISO-8869-1
+            return new String(labels.getString(label).getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
         } catch (MissingResourceException e) {
             LOGGER.warn(String.format("There is no translation for label '%s' for locale '%s'",
                     label, Locale.getDefault().toString()), e);

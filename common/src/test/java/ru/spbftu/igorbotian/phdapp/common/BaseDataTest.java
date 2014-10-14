@@ -26,15 +26,17 @@ import java.util.Set;
 /**
  * Тест, базовый для тестов объектов предметной области.
  * Предоставляет проверки, общие для поведения каждого объекта предметной области
+ *
  * @param <T> объект предметной области, который тестируется
  */
 public abstract class BaseDataTest<T> {
 
     /**
      * Тестирование метода hashCode
-     * @param obj первый объект
+     *
+     * @param obj          первый объект
      * @param differentObj второй объект, который отличается своими параметрами от первого
-     * @param similarObj третий объект, который идентичен своими параметрами первому
+     * @param similarObj   третий объект, который идентичен своими параметрами первому
      */
     protected void testHashCode(T obj, T differentObj, T similarObj) {
         Set<T> container = new HashSet<>(); // hash code based collection
@@ -52,9 +54,10 @@ public abstract class BaseDataTest<T> {
 
     /**
      * Тестирование метода equals
-     * @param obj первый объект
+     *
+     * @param obj          первый объект
      * @param differentObj второй объект, который отличается своими параметрами от первого
-     * @param similarObj третий объект, который идентичен своими параметрами первому
+     * @param similarObj   третий объект, который идентичен своими параметрами первому
      */
     protected void testEquals(T obj, T differentObj, T similarObj) {
         Assert.assertFalse(obj.equals(BaseDataTest.this /* или любой другой объект, имеющий другой класс */));

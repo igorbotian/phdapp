@@ -21,7 +21,6 @@ package ru.spbftu.igorbotian.phdapp.input;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.inject.Singleton;
-import org.apache.commons.io.IOUtils;
 import ru.spbftu.igorbotian.phdapp.common.DataException;
 import ru.spbftu.igorbotian.phdapp.common.TrainingData;
 import ru.spbftu.igorbotian.phdapp.common.pdu.TrainingDataPDU;
@@ -29,7 +28,11 @@ import ru.spbftu.igorbotian.phdapp.conf.ConfigFolderPath;
 import ru.spbftu.igorbotian.phdapp.conf.Configuration;
 
 import javax.inject.Inject;
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Реализация средства для работы с исходными данными, использующее в своей основе формат JSON
@@ -40,13 +43,18 @@ import java.io.*;
 class JsonInputDataManager extends FileBasedInputDataManager {
 
     /**
+     * Расширение JSON-файлов
+     */
+    private static final String JSON_FILE_EXT = "json";
+
+    /**
      * Средство преобразования объектов в строковое представление в формате JSON и обратно
      */
     private final Gson gson = new Gson();
 
     @Inject
     JsonInputDataManager(Configuration config, @ConfigFolderPath String pathToConfigFolder) {
-        super(config, pathToConfigFolder);
+        super(config, pathToConfigFolder, JSON_FILE_EXT);
     }
 
     @Override
@@ -56,7 +64,7 @@ class JsonInputDataManager extends FileBasedInputDataManager {
         }
 
         try {
-            return gson.fromJson(new InputStreamReader(stream), TrainingDataPDU.class).toObject();
+            return gson.fromJson(new InputStreamReader(stream, StandardCharsets.UTF_8), TrainingDataPDU.class).toObject();
         } catch (JsonSyntaxException e) {
             throw new DataException("Failed to deserialize input data", e);
         }
@@ -72,11 +80,6 @@ class JsonInputDataManager extends FileBasedInputDataManager {
             throw new NullPointerException("Input stream cannot be null");
         }
 
-        IOUtils.write(gson.toJson(TrainingDataPDU.toPDU(data)), stream);
-    }
-
-    @Override
-    protected String supportedFileExtension() {
-        return "json";
+        stream.write(gson.toJson(TrainingDataPDU.toPDU(data)).getBytes(StandardCharsets.UTF_8));
     }
 }

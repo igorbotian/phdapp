@@ -23,10 +23,10 @@ import com.google.inject.Singleton;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.function.Function;
 
@@ -36,17 +36,15 @@ import java.util.function.Function;
 @Singleton
 class PropertiesBasedConfiguration implements Configuration {
 
-    private final Logger LOGGER = Logger.getLogger(PropertiesBasedConfiguration.class);
-
     /**
      * Название файла конфигурации приложения в формате .properties / .conf
      */
     public static final String CONF_FILE_NAME = "phdapp.conf";
-
+    private final Logger LOGGER = Logger.getLogger(PropertiesBasedConfiguration.class);
     /**
      * Директория для хранения конфигурационных файлов
      */
-    private final File CONF_FILE;
+    private final Path CONF_FILE;
 
     /**
      * Контейнер для хранения конфигурационных настроек
@@ -72,19 +70,22 @@ class PropertiesBasedConfiguration implements Configuration {
             throw new IllegalArgumentException("Configuration folder cannot be null or empty");
         }
 
-        File configFolder = new File(pathToConfigFolder);
+        Path configFolder = Paths.get(pathToConfigFolder);
 
-        if (!configFolder.isDirectory()) {
+        if (!Files.isDirectory(configFolder)) {
             throw new IllegalArgumentException("Configuration folder parameter should point to a folder, not a file");
         }
 
-        if (!configFolder.exists()) {
-            if (!configFolder.mkdir()) {
-                throw new IllegalStateException("Unable to create configuration folder: " + configFolder.getAbsolutePath());
+        if (!Files.exists(configFolder)) {
+            try {
+                Files.createDirectory(configFolder);
+            } catch (IOException e) {
+                throw new IllegalStateException("Unable to create configuration folder: "
+                        + configFolder.toAbsolutePath().toString());
             }
         }
 
-        CONF_FILE = new File(configFolder, CONF_FILE_NAME);
+        CONF_FILE = configFolder.resolve(CONF_FILE_NAME);
 
         try {
             load();
@@ -96,8 +97,8 @@ class PropertiesBasedConfiguration implements Configuration {
     }
 
     private void load() throws IOException {
-        if (CONF_FILE.exists()) {
-            config.load(new FileReader(CONF_FILE));
+        if (Files.exists(CONF_FILE)) {
+            config.load(Files.newBufferedReader(CONF_FILE));
         } else {
             LOGGER.info("No configuration found. All settings are set to default");
         }
@@ -105,7 +106,7 @@ class PropertiesBasedConfiguration implements Configuration {
 
     private void store() throws IOException {
         if (configChanged()) {
-            config.store(new FileWriter(CONF_FILE), "PhD application configuration");
+            config.store(Files.newBufferedWriter(CONF_FILE), "PhD application configuration");
         }
     }
 
@@ -164,7 +165,7 @@ class PropertiesBasedConfiguration implements Configuration {
 
     @Override
     public boolean hasSetting(String param) {
-        if(StringUtils.isEmpty(param)) {
+        if (StringUtils.isEmpty(param)) {
             throw new IllegalArgumentException("Param cannot be null or empty");
         }
 

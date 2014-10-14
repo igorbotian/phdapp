@@ -26,10 +26,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Аннотация для параметра, указывающего на директорию для хранения конфигурационных файлов.
- * @see ru.spbftu.igorbotian.phdapp.Main
+ * Аннотация для параметра, указывающего на директорию для хранения конфигурационных файлов
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @BindingAnnotation
-public @interface ConfigFolderPath {}
+public @interface ConfigFolderPath {
+}

@@ -25,6 +25,7 @@ public interface Configuration {
 
     /**
      * Получение информации о том, содержится ли в конфигурации приложения заданная настройка или нет
+     *
      * @param param название настройки (непустое)
      * @return <code>true</code>, если содержится; иначе <code>false</code>
      * @throws java.lang.IllegalArgumentException если название настройки пустое или не задано
@@ -136,7 +137,7 @@ public interface Configuration {
      * @param param имя настройки (непустое)
      * @param value значение настройки типа <code>String</code> (не равно <code>null</code>)
      * @throws java.lang.IllegalArgumentException если название настройки пустое или не задано
-     * @throws java.lang.NullPointerException если значение настройки не задано
+     * @throws java.lang.NullPointerException     если значение настройки не задано
      */
     public void setString(String param, String value);
 }

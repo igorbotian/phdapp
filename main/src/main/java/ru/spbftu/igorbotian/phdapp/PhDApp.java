@@ -25,7 +25,9 @@ import ru.spbftu.igorbotian.phdapp.conf.PropertiesBasedConfigurationModule;
 import ru.spbftu.igorbotian.phdapp.input.JsonInputDataManagementModule;
 import ru.spbftu.igorbotian.phdapp.log.Log4j;
 
-import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -45,22 +47,7 @@ public class PhDApp {
     /**
      * Директория для хранения конфигурационных файлов
      */
-    private static final File CONFIG_FOLDER = getConfigFolder();
-
-    private static File getConfigFolder() {
-        String customConfFolderName = System.getProperty(CONFIG_FOLDER_SYSTEM_PROPERTY);
-
-        if (StringUtils.isNotEmpty(customConfFolderName)) {
-            File customConfFolder = new File(customConfFolderName);
-
-            if (customConfFolder.exists()) {
-                return customConfFolder;
-            }
-        }
-
-        return new File(".");
-    }
-
+    private static final Path CONFIG_FOLDER = getConfigFolder();
     /**
      * Список из модулей приложения
      */
@@ -70,6 +57,20 @@ public class PhDApp {
                     new JsonInputDataManagementModule(CONFIG_FOLDER)
             ))
     );
+
+    private static Path getConfigFolder() {
+        String customConfFolderName = System.getProperty(CONFIG_FOLDER_SYSTEM_PROPERTY);
+
+        if (StringUtils.isNotEmpty(customConfFolderName)) {
+            Path customConfigFolder = Paths.get(customConfFolderName);
+
+            if (Files.exists(customConfigFolder)) {
+                return customConfigFolder;
+            }
+        }
+
+        return Paths.get(".");
+    }
 
     /**
      * Точка входа в программу

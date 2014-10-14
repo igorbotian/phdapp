@@ -18,8 +18,6 @@
 
 package ru.spbftu.igorbotian.phdapp.input;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Test;
@@ -27,10 +25,12 @@ import ru.spbftu.igorbotian.phdapp.common.DataException;
 import ru.spbftu.igorbotian.phdapp.common.TrainingData;
 import ru.spbftu.igorbotian.phdapp.conf.Configuration;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * Модульные тесты для класса <code>FileBasedInputDataManager</code>
@@ -39,65 +39,66 @@ import java.io.OutputStream;
  */
 public class FileBasedInputDataManagerTest {
 
+    private static final Path anyConfigFolder = Paths.get("anyPath");
+
     @Test
     public void testDefaultInputDataFolder() {
-        File anyFolder = new File(FileBasedInputDataManager.DATA_FOLDER_NAME);
-        FileBasedInputDataManager instance = new FileBasedInputDataManagerImpl(mockConfigWithNoProperties(),
-                "anyPathToConfigFolder");
+        Path dataFolder = Paths.get(FileBasedInputDataManager.DATA_FOLDER_NAME);
+        FileBasedInputDataManager instance = new InputDataManagerImpl(mockConfigWithNoProperties(), anyConfigFolder);
 
-        Assert.assertEquals(anyFolder.getAbsolutePath(), instance.defaultInputDataFolder().getAbsolutePath());
+        Assert.assertEquals(dataFolder.toAbsolutePath(), instance.defaultInputDataFolder().toAbsolutePath());
     }
 
     @Test
     public void testSetDefaultInputDataFolder() {
-        File expectedDataFolder = new File("dataFolder");
-        FileBasedInputDataManager instance = new FileBasedInputDataManagerImpl(mockConfigWithNoProperties(),
-                "anyPathToConfigFolder");
+        Path dataFolder = Paths.get("dataFolder");
+        FileBasedInputDataManager instance = new InputDataManagerImpl(mockConfigWithNoProperties(), anyConfigFolder);
 
-        Assert.assertNotEquals(expectedDataFolder, instance.defaultInputDataFolder());
-        instance.setDefaultInputDataFolder(expectedDataFolder);
-        Assert.assertEquals(expectedDataFolder.getAbsolutePath(), instance.defaultInputDataFolder().getAbsolutePath());
+        Assert.assertNotEquals(dataFolder, instance.defaultInputDataFolder());
+        instance.setDefaultInputDataFolder(dataFolder);
+        Assert.assertEquals(dataFolder.toAbsolutePath(), instance.defaultInputDataFolder().toAbsolutePath());
     }
 
     @Test
-    public void testDefaultInputDataFolderSetByConfig() {
-        File expectedDataFolder = new File("pathToDataFolder");
-        testDefaultInputDataFolder(expectedDataFolder, mockConfigWithDataFolderProperty(
-                expectedDataFolder.getAbsolutePath()), "anyConfigFolder");
+    public void testDefaultInputDataFolderSetByConfig() throws IOException {
+        Path dataFolder = Paths.get("pathToDataFolder");
+        testDefaultInputDataFolder(mockConfigWithDataFolderProperty(dataFolder), anyConfigFolder, dataFolder);
     }
 
     @Test
-    public void testInputDataFolderIsNearConfigFolderByDefault() {
-        File parentFolder = new File("parentFolder");
-        File configFolder = new File(parentFolder, "configFolder");
-        File expectedDataFolder = new File(parentFolder, FileBasedInputDataManager.DATA_FOLDER_NAME);
+    public void testInputDataFolderIsNearConfigFolderByDefault() throws IOException {
+        Path parentFolder = Paths.get("parentFolder");
+        Path configFolder = parentFolder.resolve("configFolder");
+        Path dataFolder = parentFolder.resolve(FileBasedInputDataManager.DATA_FOLDER_NAME);
 
-        configFolder.mkdirs();
+        Files.createDirectory(configFolder);
 
         try {
-            testDefaultInputDataFolder(expectedDataFolder, mockConfigWithNoProperties(), configFolder.getAbsolutePath());
+            testDefaultInputDataFolder(mockConfigWithNoProperties(), configFolder, dataFolder);
         } finally {
-            FileUtils.deleteQuietly(configFolder);
+            Files.deleteIfExists(configFolder);
         }
     }
 
     @Test
-    public void testInputDataFolderIsInCurrentFolderByDefault() {
-        File configFolder = new File("anyNonExistingFolder");
-        File expectedDataFolder = new File(FileBasedInputDataManager.DATA_FOLDER_NAME);
+    public void testInputDataFolderIsInCurrentFolderByDefault() throws IOException {
+        Path configFolder = Paths.get("anyNonExistingFolder");
+        Path dataFolder = Paths.get(FileBasedInputDataManager.DATA_FOLDER_NAME);
 
-        testDefaultInputDataFolder(expectedDataFolder, mockConfigWithNoProperties(), configFolder.getAbsolutePath());
+        testDefaultInputDataFolder(mockConfigWithNoProperties(), configFolder, dataFolder);
     }
 
-    private void testDefaultInputDataFolder(File expectedDataFolder, Configuration config, String pathToConfigFolder) {
-        FileBasedInputDataManager instance = new FileBasedInputDataManagerImpl(config, pathToConfigFolder);
-        File defaultDataFolder = instance.defaultInputDataFolder();
+    private void testDefaultInputDataFolder(Configuration config, Path configFolder, Path expectedDataFolder)
+            throws IOException {
+
+        FileBasedInputDataManager instance = new InputDataManagerImpl(config, configFolder);
+        Path defaultDataFolder = instance.defaultInputDataFolder();
 
         try {
-            Assert.assertEquals(expectedDataFolder.getAbsolutePath(), defaultDataFolder.getAbsolutePath());
+            Assert.assertEquals(expectedDataFolder.toAbsolutePath(), defaultDataFolder.toAbsolutePath());
         } finally {
-            FileUtils.deleteQuietly(expectedDataFolder);
-            FileUtils.deleteQuietly(defaultDataFolder);
+            Files.deleteIfExists(expectedDataFolder);
+            Files.deleteIfExists(defaultDataFolder);
         }
     }
 
@@ -110,22 +111,21 @@ public class FileBasedInputDataManagerTest {
         return config;
     }
 
-    private Configuration mockConfigWithDataFolderProperty(String pathToDataFolder) {
-        assert (StringUtils.isNotEmpty(pathToDataFolder));
-
+    private Configuration mockConfigWithDataFolderProperty(Path dataFolder) {
         Configuration config = EasyMock.createNiceMock(Configuration.class);
 
         EasyMock.expect(config.hasSetting(FileBasedInputDataManager.DATA_FOLDER_CONFIG_SETTING)).andReturn(true);
-        EasyMock.expect(config.getString(FileBasedInputDataManager.DATA_FOLDER_CONFIG_SETTING)).andReturn(pathToDataFolder);
+        EasyMock.expect(config.getString(FileBasedInputDataManager.DATA_FOLDER_CONFIG_SETTING)).andReturn(
+                dataFolder.toString());
         EasyMock.replay(config);
 
         return config;
     }
 
-    private class FileBasedInputDataManagerImpl extends FileBasedInputDataManager {
+    private class InputDataManagerImpl extends FileBasedInputDataManager {
 
-        private FileBasedInputDataManagerImpl(Configuration config, String pathToConfigFolder) {
-            super(config, pathToConfigFolder);
+        private InputDataManagerImpl(Configuration config, Path configFolder) {
+            super(config, configFolder.toString(), "any");
         }
 
         @Override
@@ -136,11 +136,6 @@ public class FileBasedInputDataManagerTest {
         @Override
         protected void serialize(TrainingData data, OutputStream stream) throws IOException, DataException {
             // nothing
-        }
-
-        @Override
-        protected String supportedFileExtension() {
-            return "any";
         }
     }
 }

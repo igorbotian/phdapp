@@ -21,7 +21,8 @@ package ru.spbftu.igorbotian.phdapp.log;
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.log4j.xml.DOMConfigurator;
 
-import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /**
  * Вспомогательный класс, отвечающий за инициализацию и конфигурацию средств логирования.
@@ -51,20 +52,20 @@ public final class Log4j {
      * @param configFolder директория для хранения конфигурационных файлов
      * @throws java.lang.NullPointerException если директория не задана
      */
-    public static void init(File configFolder) {
+    public static void init(Path configFolder) {
         if (configFolder == null) {
             throw new NullPointerException("Configuration folder cannot be null");
         }
 
-        File log4jXml = new File(configFolder, LOG4J_XML);
+        Path log4jXml = configFolder.resolve(LOG4J_XML);
 
-        if (log4jXml.exists()) {
-            DOMConfigurator.configure(log4jXml.getAbsolutePath());
+        if (Files.exists(log4jXml)) {
+            DOMConfigurator.configure(log4jXml.toAbsolutePath().toString());
         } else {
-            File log4jProps = new File(configFolder, LOG4J_PROPERTIES);
+            Path log4jProps = configFolder.resolve(LOG4J_PROPERTIES);
 
-            if (log4jProps.exists()) {
-                PropertyConfigurator.configure(log4jProps.getAbsolutePath());
+            if (Files.exists(log4jProps)) {
+                PropertyConfigurator.configure(log4jProps.toAbsolutePath().toString());
             }
         }
     }

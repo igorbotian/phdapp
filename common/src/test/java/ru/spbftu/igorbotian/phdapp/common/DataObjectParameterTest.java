@@ -23,6 +23,7 @@ import org.junit.Test;
 
 /**
  * Модульные тесты для класса <code>DataObjectParameter</code>
+ *
  * @see ru.spbftu.igorbotian.phdapp.common.DataObjectParameter
  */
 public class DataObjectParameterTest extends BaseDataTest<DataObjectParameter> {

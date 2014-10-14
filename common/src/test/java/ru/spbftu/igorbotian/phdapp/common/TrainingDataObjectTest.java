@@ -28,6 +28,7 @@ import java.util.Set;
 
 /**
  * Модульные тесты для класса <code>TrainingDataObject</code>
+ *
  * @see TrainingDataObject
  */
 public class TrainingDataObjectTest extends BaseDataTest<TrainingDataObject> {

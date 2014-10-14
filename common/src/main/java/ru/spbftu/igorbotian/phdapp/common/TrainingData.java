@@ -38,8 +38,9 @@ public class TrainingData extends Data {
 
     /**
      * Конструктор класса
-     * @param classes непустой набор классов классификации размером не меньше двух
-     * @param testingSet тестирующая выборка (непустое множество объектов)
+     *
+     * @param classes     непустой набор классов классификации размером не меньше двух
+     * @param testingSet  тестирующая выборка (непустое множество объектов)
      * @param trainingSet обучающая выборка (непустое множество объектов, для которых известны реальные классы классификации)
      * @throws java.lang.NullPointerException если обучающая выборка равна <code>null</code>
      */
@@ -55,19 +56,20 @@ public class TrainingData extends Data {
 
         // проверка на наличие объекта в обучающей выборке, который соответствует классу, отличному от тех,
         // которые будут использованы при классификации
-        for(TrainingDataObject obj : trainingSet) {
-            if(!classes().contains(obj.realClass())) {
+        for (TrainingDataObject obj : trainingSet) {
+            if (!classes().contains(obj.realClass())) {
                 throw new DataException("Object has a real class not taken into account on testing: " + obj);
             }
         }
 
-        if(objectsHaveDifferentParams(trainingSet)) {
+        if (objectsHaveDifferentParams(trainingSet)) {
             throw new DataException("Elements of training set should not have different set of parameters");
         }
     }
 
     /**
      * Получение тестирующей выборки
+     *
      * @return непустое неизменяемое множество объектов
      */
     public Set<? extends DataObject> testingSet() {
@@ -76,6 +78,7 @@ public class TrainingData extends Data {
 
     /**
      * Получение обучающей выборки
+     *
      * @return непустое неизменяемое множество объектов, для которых известны реальные классы классификации
      */
     public Set<? extends TrainingDataObject> trainingSet() {
@@ -84,11 +87,11 @@ public class TrainingData extends Data {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj == this) {
+        if (obj == this) {
             return true;
         }
 
-        if(obj == null || !(obj instanceof TrainingData)) {
+        if (obj == null || !(obj instanceof TrainingData)) {
             return false;
         }
 

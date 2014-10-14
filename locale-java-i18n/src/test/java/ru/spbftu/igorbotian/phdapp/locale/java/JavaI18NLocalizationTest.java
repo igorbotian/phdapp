@@ -18,7 +18,10 @@
 
 package ru.spbftu.igorbotian.phdapp.locale.java;
 
-import org.junit.*;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
 
 import java.util.Locale;
