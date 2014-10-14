@@ -104,6 +104,6 @@ public class DataObjectParameter {
 
     @Override
     public String toString() {
-        return String.format("%s:%s", name, value);
+        return String.join(":", name, value);
     }
 }

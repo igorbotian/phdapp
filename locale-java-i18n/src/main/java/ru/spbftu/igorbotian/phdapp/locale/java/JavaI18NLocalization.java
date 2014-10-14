@@ -46,7 +46,7 @@ class JavaI18NLocalization implements Localization {
     /**
      * Путь к файлам локализации
      */
-    private static final String LABELS_BUNDLE_NAME = String.format("%s.%s",
+    private static final String LABELS_BUNDLE_NAME = String.join(".",
             JavaI18NLocalization.class.getPackage().getName(), LABELS_BUNDLE_BASENAME);
 
     /**

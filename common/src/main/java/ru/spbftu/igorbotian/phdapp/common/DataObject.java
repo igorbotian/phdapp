@@ -114,6 +114,6 @@ public class DataObject {
 
     @Override
     public String toString() {
-        return String.format("%s:%s", id, parameters.toString());
+        return String.join(":", id, parameters.toString());
     }
 }

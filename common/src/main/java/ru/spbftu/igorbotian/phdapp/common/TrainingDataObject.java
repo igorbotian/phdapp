@@ -88,6 +88,6 @@ public class TrainingDataObject extends DataObject {
 
     @Override
     public String toString() {
-        return String.format("%s:%s", super.toString(), realClass.toString());
+        return String.join(":", super.toString(), realClass.toString());
     }
 }

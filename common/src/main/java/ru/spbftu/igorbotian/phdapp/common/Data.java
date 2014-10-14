@@ -148,6 +148,6 @@ public class Data {
 
     @Override
     public String toString() {
-        return String.format("%s;%s", classes, objects);
+        return String.join(";", classes.toString(), objects.toString());
     }
 }
