@@ -94,6 +94,25 @@ project(':input-json') {
     }
 }
 
+project('locale') {
+    description "Localization interface module"
+}
+
+project(':locale-java-i18n') {
+    description "Java I18N-based localization implementation module"
+
+    dependencies {
+        compile(
+                project(':locale'),
+                googleGuice,
+                commonsLang,
+                log4j
+        )
+
+        testCompile junit
+    }
+}
+
 project(':log-log4j') {
     description 'Log4j logging-related facilities module'
 

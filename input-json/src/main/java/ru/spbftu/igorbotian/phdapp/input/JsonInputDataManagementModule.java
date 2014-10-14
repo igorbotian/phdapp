@@ -24,9 +24,11 @@ import ru.spbftu.igorbotian.phdapp.conf.ConfigFolderPath;
 import java.io.File;
 
 /**
- * Модуль для работы с исходными данными
+ * Модуль для работы с исходными данными в формате JSON
+ *
+ * @see ru.spbftu.igorbotian.phdapp.input.JsonInputDataManager
  */
-public class JsonInputDataManagementModule extends AbstractModule{
+public class JsonInputDataManagementModule extends AbstractModule {
 
     /**
      * Директория для хранения конфигурационных файлов
@@ -40,7 +42,7 @@ public class JsonInputDataManagementModule extends AbstractModule{
      * @throws java.lang.NullPointerException если директория не задана
      */
     public JsonInputDataManagementModule(File configFolder) {
-        if(configFolder == null) {
+        if (configFolder == null) {
             throw new NullPointerException("Configuration folder cannot be null");
         }
 

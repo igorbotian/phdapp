@@ -23,7 +23,9 @@ import com.google.inject.AbstractModule;
 import java.io.File;
 
 /**
- * Модуль конфигурации приложения
+ * Модуль конфигурации приложения на основе файла формата .properties / .conf
+ *
+ * @see ru.spbftu.igorbotian.phdapp.conf.PropertiesBasedConfiguration
  */
 public class PropertiesBasedConfigurationModule extends AbstractModule {
 
