@@ -19,6 +19,7 @@
 package ru.spbftu.igorbotian.phdapp.common;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Фабрика объектов предметной области
@@ -39,6 +40,16 @@ public final class DataFactory {
      */
     public static DataClass newClass(String name) {
         return new DataClassImpl(name);
+    }
+
+    /**
+     * Создание множества объектов классов классификации на основе их имён
+     *
+     * @param names названия классов (каждое не может быть пустым)
+     * @return множество классов
+     */
+    public static Set<DataClass> newClasses(Set<String> names) {
+        return names.stream().map(DataFactory::newClass).collect(Collectors.toSet());
     }
 
     /**
@@ -107,7 +118,7 @@ public final class DataFactory {
      * @see ru.spbftu.igorbotian.phdapp.common.TrainingData
      */
     public static TrainingData newTrainingData(Set<? extends DataClass> classes, Set<? extends DataObject> testingSet,
-                                       Set<? extends TrainingDataObject> trainingSet) {
+                                               Set<? extends TrainingDataObject> trainingSet) {
         return new TrainingDataImpl(classes, testingSet, trainingSet);
     }
 }

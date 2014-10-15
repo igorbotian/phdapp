@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @see ru.spbftu.igorbotian.phdapp.common.Data
@@ -76,12 +77,14 @@ class DataImpl implements Data {
         }
 
         Iterator<? extends DataObject> it = objects.iterator();
-        Set<DataObjectParameter> primerParams = it.next().parameters();
+        Set<String> primerParamNames =
+                it.next().parameters().stream().map(DataObjectParameter::name).collect(Collectors.toSet());
 
         while (it.hasNext()) {
-            Set<DataObjectParameter> params = it.next().parameters();
+            Set<String> paramNames =
+                    it.next().parameters().stream().map(DataObjectParameter::name).collect(Collectors.toSet());
 
-            if (primerParams.size() != params.size() || !primerParams.containsAll(params)) {
+            if (primerParamNames.size() != paramNames.size() || !primerParamNames.containsAll(paramNames)) {
                 return true;
             }
         }

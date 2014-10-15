@@ -22,7 +22,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -42,12 +41,11 @@ public class TrainingDataObjectTest extends BaseDataTest<TrainingDataObject> {
 
     @Before
     public void setUp() {
-        realClass = DataFactory.newClass("class");
-        setOfParams = Collections.singleton(DataFactory.newObjectParameter("param", "value"));
+        realClass = randomClass();
+        setOfParams = randomObjectParameters(2);
 
-        DataClass anotherRealClass = DataFactory.newClass("anotherClass");
-        Set<DataObjectParameter> anotherSetOfParams =
-                Collections.singleton(DataFactory.newObjectParameter("anotherParam", "value"));
+        DataClass anotherRealClass = randomClass();
+        Set<DataObjectParameter> anotherSetOfParams = randomObjectParameters(3);
 
         obj = DataFactory.newTrainingObject("obj", setOfParams, realClass);
         differentObj = DataFactory.newTrainingObject("differentObj", anotherSetOfParams, anotherRealClass);

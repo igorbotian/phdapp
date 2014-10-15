@@ -22,17 +22,15 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Collections;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Модульные тесты для класса <code>DataBuilder</code>
  *
+ * @see ru.spbftu.igorbotian.phdapp.common.AbstractDataTest
  * @see ru.spbftu.igorbotian.phdapp.common.DataBuilder
  */
-public class DataBuilderTest {
+public class DataBuilderTest extends AbstractDataTest {
 
     /**
      * Тестовые данные
@@ -45,17 +43,8 @@ public class DataBuilderTest {
     private DataBuilder dataBuilder;
 
     public DataBuilderTest() {
-        Set<DataClass> classes = Stream.of(
-                DataFactory.newClass("first"),
-                DataFactory.newClass("second")
-        ).collect(Collectors.toSet());
-
-        Set<DataObjectParameter> params = Collections.singleton(DataFactory.newObjectParameter("param", "value"));
-
-        Set<DataObject> objects = Stream.of(
-                DataFactory.newObject("fisrt", params),
-                DataFactory.newObject("second", params)
-        ).collect(Collectors.toSet());
+        Set<DataClass> classes = randomClasses(2);
+        Set<DataObject> objects = randomObjects(2, 2);
 
         data = DataFactory.newData(classes, objects);
     }

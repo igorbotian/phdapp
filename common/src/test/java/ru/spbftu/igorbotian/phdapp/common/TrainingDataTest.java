@@ -22,8 +22,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -44,26 +42,25 @@ public class TrainingDataTest extends BaseDataTest<TrainingData> {
 
     @Before
     public void setUp() {
-        setOfClasses = new HashSet<>();
-        setOfClasses.add(DataFactory.newClass("firstClass"));
-        setOfClasses.add(DataFactory.newClass("secondClass"));
+        Set<String> classNames = randomStrings(2);
+        setOfClasses = DataFactory.newClasses(classNames);
 
-        Set<DataObjectParameter> setOfParams = Collections.singleton(DataFactory.newObjectParameter("param", "value"));
-        testingSet = Collections.singleton(DataFactory.newObject("testingObj", setOfParams));
-        trainingSet = Collections.singleton(DataFactory.newTrainingObject("trainingObj", setOfParams, setOfClasses.iterator().next()));
+        Set<String> paramNames = randomStrings(2);
+        testingSet = randomObjects(2, paramNames);
+        trainingSet = randomTrainingObjects(2, paramNames, classNames);
 
-        Set<DataClass> anotherSetOfClasses = new HashSet<>();
-        anotherSetOfClasses.add(DataFactory.newClass("thirdClass"));
-        anotherSetOfClasses.add(DataFactory.newClass("fourthClass"));
+        Set<String> anotherSetOfClassNames = randomStrings(2);
+        Set<DataClass> anotherSetOfClasses = DataFactory.newClasses(anotherSetOfClassNames);
 
-        Set<DataObjectParameter> anotherSetOfParams = Collections.singleton(DataFactory.newObjectParameter("anotherParam", "value"));
-        Set<DataObject> anotherTestingSet = Collections.singleton(DataFactory.newObject("anotherTestingObj", anotherSetOfParams));
-        Set<TrainingDataObject> anotherTrainingSet = Collections.singleton(DataFactory.newTrainingObject("anotherTrainingObj",
-                anotherSetOfParams, anotherSetOfClasses.iterator().next()));
+        Set<String> anotherParamNames = randomStrings(2);
+        Set<DataObject> anotherTestingSet = randomObjects(2, paramNames);
+        Set<TrainingDataObject> anotherTrainingSet =
+                randomTrainingObjects(2, anotherParamNames, anotherSetOfClassNames);
 
         obj = DataFactory.newTrainingData(setOfClasses, testingSet, trainingSet);
         differentObj = DataFactory.newTrainingData(anotherSetOfClasses, anotherTestingSet, anotherTrainingSet);
-        objWithSameClassesAndDifferentTrainingSet = DataFactory.newTrainingData(anotherSetOfClasses, testingSet, anotherTrainingSet);
+        objWithSameClassesAndDifferentTrainingSet =
+                DataFactory.newTrainingData(anotherSetOfClasses, testingSet, anotherTrainingSet);
         similarObj = DataFactory.newTrainingData(setOfClasses, testingSet, trainingSet);
     }
 

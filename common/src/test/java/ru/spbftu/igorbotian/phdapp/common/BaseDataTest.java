@@ -25,11 +25,12 @@ import java.util.Set;
 
 /**
  * Тест, базовый для тестов объектов предметной области.
- * Предоставляет проверки, общие для поведения каждого объекта предметной области
+ * Предоставляет проверки, общие для поведения каждого объекта предметной области.
  *
  * @param <T> объект предметной области, который тестируется
+ * @see ru.spbftu.igorbotian.phdapp.common.AbstractDataTest
  */
-public abstract class BaseDataTest<T> {
+public abstract class BaseDataTest<T> extends AbstractDataTest {
 
     /**
      * Тестирование метода hashCode

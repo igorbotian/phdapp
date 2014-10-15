@@ -22,7 +22,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -42,9 +41,8 @@ public class DataObjectTest extends BaseDataTest<DataObject> {
 
     @Before
     public void setUp() {
-        setOfParams = Collections.singleton(DataFactory.newObjectParameter("param", "value"));
-        Set<DataObjectParameter> anotherSetOfParams =
-                Collections.singleton(DataFactory.newObjectParameter("anotherParam", "value"));
+        setOfParams = randomObjectParameters(2);
+        Set<DataObjectParameter> anotherSetOfParams = randomObjectParameters(2);
 
         obj = DataFactory.newObject("obj", setOfParams);
         differentObj = DataFactory.newObject("differentObj", anotherSetOfParams);
@@ -60,7 +58,7 @@ public class DataObjectTest extends BaseDataTest<DataObject> {
 
     @Test
     public void testParams() {
-        Set<DataObjectParameter> setOfParams = Collections.singleton(DataFactory.newObjectParameter("param", "value"));
+        Set<DataObjectParameter> setOfParams = randomObjectParameters(2);
         DataObject obj = DataFactory.newObject("obj", setOfParams);
 
         Assert.assertEquals(setOfParams.size(), obj.parameters().size());

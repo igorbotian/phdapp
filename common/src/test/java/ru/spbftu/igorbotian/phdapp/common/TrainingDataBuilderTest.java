@@ -24,15 +24,14 @@ import org.junit.Test;
 
 import java.util.Collections;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Модульные тесты для класса <code>TrainingDataBuilder</code>
  *
+ * @see ru.spbftu.igorbotian.phdapp.common.AbstractDataTest
  * @see ru.spbftu.igorbotian.phdapp.common.TrainingDataBuilder
  */
-public class TrainingDataBuilderTest {
+public class TrainingDataBuilderTest extends AbstractDataTest {
 
     /**
      * Тестовые данные, которые содержат обучающую выборку
@@ -50,25 +49,15 @@ public class TrainingDataBuilderTest {
     private TrainingDataBuilder dataBuilder;
 
     public TrainingDataBuilderTest() {
-        Set<DataClass> classes = Stream.of(
-                DataFactory.newClass("first"),
-                DataFactory.newClass("second")
-        ).collect(Collectors.toSet());
+        Set<String> classNames = randomStrings(2);
+        Set<String> paramNames = randomStrings(2);
 
-        Set<DataObjectParameter> params = Collections.singleton(DataFactory.newObjectParameter("param", "value"));
+        Set<DataObject> testingSet = randomObjects(2, paramNames);
+        Set<TrainingDataObject> trainingSet = randomTrainingObjects(2, paramNames, classNames);
 
-        Set<DataObject> testingSet = Stream.of(
-                DataFactory.newObject("fisrt", params),
-                DataFactory.newObject("second", params)
-        ).collect(Collectors.toSet());
-
-        Set<TrainingDataObject> trainingSet = Stream.of(
-                DataFactory.newTrainingObject("third", params, classes.iterator().next()),
-                DataFactory.newTrainingObject("fourth", params, classes.iterator().next())
-        ).collect(Collectors.toSet());
-
-        data = DataFactory.newTrainingData(classes, testingSet, trainingSet);
-        dataWitoutTrainingSet = DataFactory.newTrainingData(classes, testingSet, Collections.emptySet());
+        data = DataFactory.newTrainingData(DataFactory.newClasses(classNames), testingSet, trainingSet);
+        dataWitoutTrainingSet =
+                DataFactory.newTrainingData(DataFactory.newClasses(classNames), testingSet, Collections.emptySet());
     }
 
     @Before
