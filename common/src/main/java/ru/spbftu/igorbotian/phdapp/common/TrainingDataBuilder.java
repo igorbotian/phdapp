@@ -45,7 +45,7 @@ public class TrainingDataBuilder extends DataBuilder {
     public void addTrainingObject(TrainingDataObject data) {
         Objects.requireNonNull(data);
 
-        if (trainingSet == null) {
+        if(trainingSet == null) {
             trainingSet = new LinkedHashSet<>();
         }
 
@@ -66,7 +66,7 @@ public class TrainingDataBuilder extends DataBuilder {
         }
 
         Data data = super.build();
-        return new TrainingData(data.classes(), data.objects(),
+        return DataFactory.newTrainingData(data.classes(), data.objects(),
                 (trainingSet != null) ? trainingSet : Collections.emptySet());
     }
 }

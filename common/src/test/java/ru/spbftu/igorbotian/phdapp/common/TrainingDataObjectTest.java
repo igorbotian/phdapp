@@ -42,20 +42,21 @@ public class TrainingDataObjectTest extends BaseDataTest<TrainingDataObject> {
 
     @Before
     public void setUp() {
-        realClass = new DataClass("class");
-        setOfParams = Collections.singleton(new DataObjectParameter("param", "value"));
+        realClass = DataFactory.newClass("class");
+        setOfParams = Collections.singleton(DataFactory.newObjectParameter("param", "value"));
 
-        DataClass anotherRealClass = new DataClass("anotherClass");
-        Set<DataObjectParameter> anotherSetOfParams = Collections.singleton(new DataObjectParameter("anotherParam", "value"));
+        DataClass anotherRealClass = DataFactory.newClass("anotherClass");
+        Set<DataObjectParameter> anotherSetOfParams =
+                Collections.singleton(DataFactory.newObjectParameter("anotherParam", "value"));
 
-        obj = new TrainingDataObject("obj", setOfParams, realClass);
-        differentObj = new TrainingDataObject("differentObj", anotherSetOfParams, anotherRealClass);
-        similarObj = new TrainingDataObject("obj", new HashSet<>(setOfParams), realClass);
+        obj = DataFactory.newTrainingObject("obj", setOfParams, realClass);
+        differentObj = DataFactory.newTrainingObject("differentObj", anotherSetOfParams, anotherRealClass);
+        similarObj = DataFactory.newTrainingObject("obj", new HashSet<>(setOfParams), realClass);
     }
 
     @Test
     public void testRealClass() {
-        Assert.assertEquals(realClass, new TrainingDataObject("id", setOfParams, realClass).realClass());
+        Assert.assertEquals(realClass, DataFactory.newTrainingObject("id", setOfParams, realClass).realClass());
     }
 
     @Test

@@ -18,6 +18,7 @@
 
 package ru.spbftu.igorbotian.phdapp.common.pdu;
 
+import ru.spbftu.igorbotian.phdapp.common.DataFactory;
 import ru.spbftu.igorbotian.phdapp.common.DataObject;
 import ru.spbftu.igorbotian.phdapp.common.DataObjectParameter;
 
@@ -47,6 +48,6 @@ public final class DataObjectPDU {
     public DataObject toObject() {
         Set<DataObjectParameter> params = new LinkedHashSet<>();
         this.params.forEach(param -> params.add(param.toObject()));
-        return new DataObject(id, params);
+        return DataFactory.newObject(id, params);
     }
 }

@@ -18,6 +18,7 @@
 
 package ru.spbftu.igorbotian.phdapp.common.pdu;
 
+import ru.spbftu.igorbotian.phdapp.common.DataFactory;
 import ru.spbftu.igorbotian.phdapp.common.DataObjectParameter;
 
 /**
@@ -40,6 +41,6 @@ public final class DataObjectParameterPDU {
     }
 
     public DataObjectParameter toObject() {
-        return new DataObjectParameter(name, value);
+        return DataFactory.newObjectParameter(name, value);
     }
 }

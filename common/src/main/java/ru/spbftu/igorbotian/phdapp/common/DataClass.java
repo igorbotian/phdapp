@@ -18,69 +18,19 @@
 
 package ru.spbftu.igorbotian.phdapp.common;
 
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.Objects;
-
 /**
  * Класс, которому соответствует классифцируемый или ранжируемый объект.
  * Класс является потокобезопасным, а его объекты - неизменяемыми.
  *
- * @see DataObject, TrainingDataObject
+ * @see ru.spbftu.igorbotian.phdapp.common.DataObject
+ * @see ru.spbftu.igorbotian.phdapp.common.TrainingDataObject
  */
-public class DataClass {
-
-    /**
-     * Название класса (его строковое представление)
-     */
-    private final String name;
-
-    /**
-     * Конструктор объекта
-     *
-     * @param name идентификатор класса (не может быть пустым)
-     * @throws java.lang.NullPointerException     если идентификатор класса не задан
-     * @throws java.lang.IllegalArgumentException если идентификатор класса пустой или равен
-     */
-    public DataClass(String name) {
-        Objects.requireNonNull(name);
-
-        if (StringUtils.isEmpty(name)) {
-            throw new IllegalArgumentException("Name cannot be empty");
-        }
-
-        this.name = name;
-    }
+public interface DataClass {
 
     /**
      * Получение идентификатора класса
      *
      * @return строковое представление названия класса
      */
-    public String name() {
-        return name;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(name);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) {
-            return true;
-        }
-
-        if (obj == null || !(obj instanceof DataClass)) {
-            return false;
-        }
-
-        return name.equals(((DataClass) obj).name);
-    }
-
-    @Override
-    public String toString() {
-        return name();
-    }
+    String name();
 }

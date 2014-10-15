@@ -18,88 +18,26 @@
 
 package ru.spbftu.igorbotian.phdapp.common;
 
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.Objects;
-
 /**
  * Параметр объекта, подлежащего класссификации или другому действию.
  * Параметр характеризуется названием и значением.
  * Класс является потокобезопасным, а его объекты - неизменяемыми.
- * <p>
- * * @see DataObject
+ *
+ * @see ru.spbftu.igorbotian.phdapp.common.DataObject
  */
-public class DataObjectParameter {
-
-    /**
-     * Название (строковый идентификатор) объекта
-     */
-    private final String name;
-
-    /**
-     * Значение параметра
-     */
-    private final String value;
-
-    /**
-     * Конструктор класса
-     *
-     * @param name  название объекта (непустое)
-     * @param value значение объекта
-     * @throws java.lang.IllegalArgumentException если название объекта пустое
-     * @throws java.lang.NullPointerException     если название или значение объекта не задано
-     */
-    public DataObjectParameter(String name, String value) {
-        Objects.requireNonNull(name);
-        Objects.requireNonNull(value);
-
-        if (StringUtils.isEmpty(name)) {
-            throw new IllegalArgumentException("Name cannot be empty");
-        }
-
-        this.name = name;
-        this.value = value;
-    }
+public interface DataObjectParameter {
 
     /**
      * Получение названия параметра
      *
      * @return строковое представление названия параметра
      */
-    public String name() {
-        return name;
-    }
+    String name();
 
     /**
      * Получение значения параметра
      *
-     * @return значение параметра заданного класса; не может быть null
+     * @return значение параметра заданного класса; не может быть <code>null</code>
      */
-    public String value() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, value);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) {
-            return true;
-        }
-
-        if (obj == null || !(obj instanceof DataObjectParameter)) {
-            return false;
-        }
-
-        DataObjectParameter other = (DataObjectParameter) obj;
-        return (name.equals(other.name) && value.equals(other.value));
-    }
-
-    @Override
-    public String toString() {
-        return String.join(":", name, value);
-    }
+    String value();
 }

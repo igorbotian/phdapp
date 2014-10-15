@@ -18,10 +18,6 @@
 
 package ru.spbftu.igorbotian.phdapp.common;
 
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.Collections;
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -29,86 +25,22 @@ import java.util.Set;
  * Каждый объект характеризуется идентификатором и набором параметров.
  * Класс является потобезопасным, а его объекты - неизменяемыми.
  *
- * @see DataObjectParameter , Data
+ * @see ru.spbftu.igorbotian.phdapp.common.Data
+ * @see ru.spbftu.igorbotian.phdapp.common.DataObjectParameter
  */
-public class DataObject {
-
-    /**
-     * Идентификатор объекта (необходим для быстрого различения одного объекта от другого)
-     */
-    private final String id;
-
-    /**
-     * Набор параметров объекта, которыми он характеризуется
-     */
-    private final Set<DataObjectParameter> parameters;
-
-    /**
-     * Конструктор класса
-     *
-     * @param id         строковое представление идентификатора объекта (не может быть <code>null</code> или пустым)
-     * @param parameters множество параметров, которыми характеризуется объект (непустое)
-     * @throws java.lang.NullPointerException     если множества параметров равно <code>null</code>
-     * @throws java.lang.IllegalArgumentException если идентификатор объекта пустой или множество параметров
-     *                                            не содержит ни одного элемента
-     */
-    public DataObject(String id, Set<DataObjectParameter> parameters) {
-        Objects.requireNonNull(id);
-        Objects.requireNonNull(parameters);
-
-        if (StringUtils.isEmpty(id)) {
-            throw new IllegalArgumentException("ID cannot be empty");
-        }
-
-        if (parameters.isEmpty()) {
-            throw new IllegalArgumentException("At least one parameter should be presented");
-        }
-
-        this.id = id;
-        this.parameters = Collections.unmodifiableSet(parameters);
-    }
+public interface DataObject {
 
     /**
      * Получение идентификатора объекта
      *
      * @return строковое представление идентификатора объекта
      */
-    public String id() {
-        return id;
-    }
+    String id();
 
     /**
      * Получение множества параметров, которыми характеризуется объект
      *
      * @return непустое неизменяемое множество параметров
      */
-    public Set<DataObjectParameter> parameters() {
-        return parameters;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, parameters);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) {
-            return true;
-        }
-
-        if (obj == null || !(obj instanceof DataObject)) {
-            return false;
-        }
-
-        DataObject other = (DataObject) obj;
-        return id.equals(other.id)
-                && parameters.size() == other.parameters.size()
-                && parameters.containsAll(other.parameters);
-    }
-
-    @Override
-    public String toString() {
-        return String.join(":", id, parameters.toString());
-    }
+    Set<DataObjectParameter> parameters();
 }

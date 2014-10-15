@@ -42,25 +42,26 @@ public class DataObjectTest extends BaseDataTest<DataObject> {
 
     @Before
     public void setUp() {
-        setOfParams = Collections.singleton(new DataObjectParameter("param", "value"));
-        Set<DataObjectParameter> anotherSetOfParams = Collections.singleton(new DataObjectParameter("anotherParam", "value"));
+        setOfParams = Collections.singleton(DataFactory.newObjectParameter("param", "value"));
+        Set<DataObjectParameter> anotherSetOfParams =
+                Collections.singleton(DataFactory.newObjectParameter("anotherParam", "value"));
 
-        obj = new DataObject("obj", setOfParams);
-        differentObj = new DataObject("differentObj", anotherSetOfParams);
-        objWithSameNameAndDifferentParams = new DataObject("obj", anotherSetOfParams);
-        similarObj = new DataObject("obj", new HashSet<>(setOfParams));
+        obj = DataFactory.newObject("obj", setOfParams);
+        differentObj = DataFactory.newObject("differentObj", anotherSetOfParams);
+        objWithSameNameAndDifferentParams = DataFactory.newObject("obj", anotherSetOfParams);
+        similarObj = DataFactory.newObject("obj", new HashSet<>(setOfParams));
     }
 
     @Test
     public void testId() {
         String id = "test";
-        Assert.assertEquals(id, new DataObject(id, setOfParams).id());
+        Assert.assertEquals(id, DataFactory.newObject(id, setOfParams).id());
     }
 
     @Test
     public void testParams() {
-        Set<DataObjectParameter> setOfParams = Collections.singleton(new DataObjectParameter("param", "value"));
-        DataObject obj = new DataObject("obj", setOfParams);
+        Set<DataObjectParameter> setOfParams = Collections.singleton(DataFactory.newObjectParameter("param", "value"));
+        DataObject obj = DataFactory.newObject("obj", setOfParams);
 
         Assert.assertEquals(setOfParams.size(), obj.parameters().size());
         Assert.assertTrue(setOfParams.containsAll(obj.parameters()));

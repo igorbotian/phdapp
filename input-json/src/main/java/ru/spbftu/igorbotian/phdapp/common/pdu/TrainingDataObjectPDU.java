@@ -18,6 +18,7 @@
 
 package ru.spbftu.igorbotian.phdapp.common.pdu;
 
+import ru.spbftu.igorbotian.phdapp.common.DataFactory;
 import ru.spbftu.igorbotian.phdapp.common.DataObjectParameter;
 import ru.spbftu.igorbotian.phdapp.common.TrainingDataObject;
 
@@ -49,6 +50,6 @@ public final class TrainingDataObjectPDU {
     public TrainingDataObject toObject() {
         Set<DataObjectParameter> params = new LinkedHashSet<>();
         this.params.forEach(param -> params.add(param.toObject()));
-        return new TrainingDataObject(id, params, realClass.toObject());
+        return DataFactory.newTrainingObject(id, params, realClass.toObject());
     }
 }

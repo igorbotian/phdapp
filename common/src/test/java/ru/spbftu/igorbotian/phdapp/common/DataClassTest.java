@@ -24,18 +24,18 @@ import org.junit.Test;
 /**
  * Модульные тесты для класса <code>DataClass</code>
  *
- * @see DataClass
+ * @see ru.spbftu.igorbotian.phdapp.common.DataClass
  */
 public class DataClassTest extends BaseDataTest<DataClass> {
 
-    private final DataClass obj = new DataClass("obj");
-    private final DataClass similarObj = new DataClass("obj");
-    private final DataClass differentObj = new DataClass("differentObj");
+    private final DataClass obj = DataFactory.newClass("obj");
+    private final DataClass similarObj = DataFactory.newClass("obj");
+    private final DataClass differentObj = DataFactory.newClass("differentObj");
 
     @Test
     public void testName() {
         String className = "test";
-        Assert.assertEquals(className, new DataClass(className).name());
+        Assert.assertEquals(className, DataFactory.newClass(className).name());
     }
 
     @Test

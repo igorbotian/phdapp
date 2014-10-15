@@ -18,9 +18,6 @@
 
 package ru.spbftu.igorbotian.phdapp.common;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -28,123 +25,24 @@ import java.util.Set;
  * Состоит из набора классов классификации и множества объектов, которые необходимо классифицировать.
  * Класс является потокобезопасным, а его объекты - неизменяемыми.
  *
- * @see DataClass, DataObject, TrainingData, TrainingDataBuilder
+ * @see ru.spbftu.igorbotian.phdapp.common.DataClass
+ * @see ru.spbftu.igorbotian.phdapp.common.DataObject
+ * @see ru.spbftu.igorbotian.phdapp.common.TrainingData
+ * @see ru.spbftu.igorbotian.phdapp.common.TrainingDataBuilder
  */
-public class Data {
-
-    /**
-     * Классы классификации
-     */
-    private final Set<? extends DataClass> classes;
-
-    /**
-     * Множество объектов, предназначенных для классификации или выполнения какого-либо другого действия над ними
-     */
-    private final Set<? extends DataObject> objects;
-
-    /**
-     * Конструктор класса
-     *
-     * @param classes непустой набор классов классификации размером не меньше двух
-     * @param objects непустое множество объектов
-     * @throws DataException                                    если набор классов содержит меньше, чем минимально необходимое количество элементов;
-     *                                                          если множество объектов является пустым
-     * @throws java.lang.NullPointerException                   если множество классов или множество объектов равно <code>null</code>
-     * @throws ru.spbftu.igorbotian.phdapp.common.DataException если множество объектов имеет хотя бы один объект,
-     *                                                          отличающихся от других множеством определяюмых его параметров
-     */
-    public Data(Set<? extends DataClass> classes, Set<? extends DataObject> objects)
-            throws DataException {
-
-        Objects.requireNonNull(classes);
-        Objects.requireNonNull(objects);
-
-        if (classes.size() < 2) {
-            throw new DataException("Number of classes cannot be less than 2");
-        }
-
-        if (objects.isEmpty()) {
-            throw new DataException("At least one object should be presented");
-        }
-
-        this.classes = Collections.unmodifiableSet(classes);
-        this.objects = Collections.unmodifiableSet(objects);
-
-        if (objectsHaveDifferentParams(objects)) {
-            throw new DataException("Objects should not have different set of parameters");
-        }
-    }
-
-    /**
-     * Проверка на то, отличается ли хотя бы один объект множеством определяемых его параметров от других или нет
-     *
-     * @param objects множество объектов
-     * @return <code>true</code>, если есть хотя бы один объект, отличающийся от других множеством своих параметров;
-     * <code>false</code>, если все объекты характеризуются одинаковым набором параметров
-     */
-    protected boolean objectsHaveDifferentParams(Set<? extends DataObject> objects) {
-        Objects.requireNonNull(objects);
-
-        if(objects.isEmpty()) {
-            return false;
-        }
-
-        Iterator<? extends DataObject> it = objects.iterator();
-        Set<DataObjectParameter> primerParams = it.next().parameters();
-
-        while (it.hasNext()) {
-            Set<DataObjectParameter> params = it.next().parameters();
-
-            if (primerParams.size() != params.size() || !primerParams.containsAll(params)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
+public interface Data {
 
     /**
      * Получение набора классов классификации
      *
      * @return непустое неизменяемое множество классов классификации
      */
-    public Set<? extends DataClass> classes() {
-        return classes;
-    }
+    Set<? extends DataClass> classes();
 
     /**
      * Получение множества объектов, предназначенных для классификации
      *
      * @return непустое неизменяемое множество объектов
      */
-    public Set<? extends DataObject> objects() {
-        return objects;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(objects, classes);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) {
-            return true;
-        }
-
-        if (obj == null || !(obj instanceof Data)) {
-            return false;
-        }
-
-        Data other = (Data) obj;
-        return classes.size() == other.classes.size()
-                && classes.containsAll(other.classes)
-                && objects.size() == other.objects.size()
-                && objects.containsAll(other.objects);
-    }
-
-    @Override
-    public String toString() {
-        return String.join(";", classes.toString(), objects.toString());
-    }
+    Set<? extends DataObject> objects();
 }

@@ -20,6 +20,7 @@ package ru.spbftu.igorbotian.phdapp.common.pdu;
 
 import ru.spbftu.igorbotian.phdapp.common.Data;
 import ru.spbftu.igorbotian.phdapp.common.DataClass;
+import ru.spbftu.igorbotian.phdapp.common.DataFactory;
 import ru.spbftu.igorbotian.phdapp.common.DataObject;
 
 import java.util.LinkedHashSet;
@@ -54,6 +55,6 @@ public final class DataPDU {
         Set<DataObject> objects = new LinkedHashSet<>();
         this.objects.forEach(obj -> objects.add(obj.toObject()));
 
-        return new Data(classes, objects);
+        return DataFactory.newData(classes, objects);
     }
 }

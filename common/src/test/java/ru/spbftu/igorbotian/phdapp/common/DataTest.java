@@ -44,28 +44,28 @@ public class DataTest extends BaseDataTest<Data> {
     @Before
     public void setUp() {
         setOfClasses = new HashSet<>();
-        setOfClasses.add(new DataClass("firstClass"));
-        setOfClasses.add(new DataClass("secondClass"));
+        setOfClasses.add(DataFactory.newClass("firstClass"));
+        setOfClasses.add(DataFactory.newClass("secondClass"));
 
-        Set<DataObjectParameter> setOfParams = Collections.singleton(new DataObjectParameter("param", "value"));
-        setOfObjects = Collections.singleton(new DataObject("obj", setOfParams));
+        Set<DataObjectParameter> setOfParams = Collections.singleton(DataFactory.newObjectParameter("param", "value"));
+        setOfObjects = Collections.singleton(DataFactory.newObject("obj", setOfParams));
 
         Set<DataClass> anotherSetOfClasses = new HashSet<>();
-        anotherSetOfClasses.add(new DataClass("thirdClass"));
-        anotherSetOfClasses.add(new DataClass("fourthClass"));
+        anotherSetOfClasses.add(DataFactory.newClass("thirdClass"));
+        anotherSetOfClasses.add(DataFactory.newClass("fourthClass"));
 
-        Set<DataObjectParameter> anotherSetOfParams = Collections.singleton(new DataObjectParameter("anotherParam", "value"));
-        Set<DataObject> anotherSetOfObjects = Collections.singleton(new DataObject("anotherObj", anotherSetOfParams));
+        Set<DataObjectParameter> anotherSetOfParams = Collections.singleton(DataFactory.newObjectParameter("anotherParam", "value"));
+        Set<DataObject> anotherSetOfObjects = Collections.singleton(DataFactory.newObject("anotherObj", anotherSetOfParams));
 
-        obj = new Data(setOfClasses, setOfObjects);
-        differentObj = new Data(anotherSetOfClasses, anotherSetOfObjects);
-        objWithSameClassesAndDifferentObjects = new Data(setOfClasses, anotherSetOfObjects);
-        similarObj = new Data(setOfClasses, setOfObjects);
+        obj = DataFactory.newData(setOfClasses, setOfObjects);
+        differentObj = DataFactory.newData(anotherSetOfClasses, anotherSetOfObjects);
+        objWithSameClassesAndDifferentObjects = DataFactory.newData(setOfClasses, anotherSetOfObjects);
+        similarObj = DataFactory.newData(setOfClasses, setOfObjects);
     }
 
     @Test
     public void testClasses() {
-        Data data = new Data(setOfClasses, setOfObjects);
+        Data data = DataFactory.newData(setOfClasses, setOfObjects);
 
         Assert.assertEquals(setOfClasses.size(), data.classes().size());
         Assert.assertTrue(setOfClasses.containsAll(data.classes()));
@@ -73,7 +73,7 @@ public class DataTest extends BaseDataTest<Data> {
 
     @Test
     public void testObjects() {
-        Data data = new Data(setOfClasses, setOfObjects);
+        Data data = DataFactory.newData(setOfClasses, setOfObjects);
 
         Assert.assertEquals(setOfObjects.size(), data.objects().size());
         Assert.assertTrue(setOfObjects.containsAll(data.objects()));

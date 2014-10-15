@@ -54,23 +54,23 @@ public class JsonInputDataManagerTest {
         dataManager = new JsonInputDataManager(mockConfigWithNoProperties(), "anyFolder");
 
         Set<DataClass> classes = new HashSet<>(Arrays.asList(
-                new DataClass("firstClass"),
-                new DataClass("secondClass")
+                DataFactory.newClass("firstClass"),
+                DataFactory.newClass("secondClass")
         ));
         Set<DataObjectParameter> params = new HashSet<>(Arrays.asList(
-                new DataObjectParameter("firstParam", "firstValue"),
-                new DataObjectParameter("secondParam", "secondValue")
+                DataFactory.newObjectParameter("firstParam", "firstValue"),
+                DataFactory.newObjectParameter("secondParam", "secondValue")
         ));
         Set<DataObject> testingSet = new HashSet<>(Arrays.asList(
-                new DataObject("firstObject", params),
-                new DataObject("secondObject", params)
+                DataFactory.newObject("firstObject", params),
+                DataFactory.newObject("secondObject", params)
         ));
         Set<TrainingDataObject> trainingSet = new HashSet<>(Arrays.asList(
-                new TrainingDataObject("thirdObject", params, classes.iterator().next()),
-                new TrainingDataObject("fourthObject", params, classes.iterator().next())
+                DataFactory.newTrainingObject("thirdObject", params, classes.iterator().next()),
+                DataFactory.newTrainingObject("fourthObject", params, classes.iterator().next())
         ));
 
-        data = new TrainingData(classes, testingSet, trainingSet);
+        data = DataFactory.newTrainingData(classes, testingSet, trainingSet);
     }
 
     private Configuration mockConfigWithNoProperties() {

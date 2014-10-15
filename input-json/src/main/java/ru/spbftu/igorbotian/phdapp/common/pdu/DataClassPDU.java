@@ -19,6 +19,7 @@
 package ru.spbftu.igorbotian.phdapp.common.pdu;
 
 import ru.spbftu.igorbotian.phdapp.common.DataClass;
+import ru.spbftu.igorbotian.phdapp.common.DataFactory;
 
 /**
  * POJO-версия класса, предназначенная для использования в механизме сериализации
@@ -36,6 +37,6 @@ public final class DataClassPDU {
     }
 
     public DataClass toObject() {
-        return new DataClass(name);
+        return DataFactory.newClass(name);
     }
 }

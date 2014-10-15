@@ -45,31 +45,31 @@ public class TrainingDataTest extends BaseDataTest<TrainingData> {
     @Before
     public void setUp() {
         setOfClasses = new HashSet<>();
-        setOfClasses.add(new DataClass("firstClass"));
-        setOfClasses.add(new DataClass("secondClass"));
+        setOfClasses.add(DataFactory.newClass("firstClass"));
+        setOfClasses.add(DataFactory.newClass("secondClass"));
 
-        Set<DataObjectParameter> setOfParams = Collections.singleton(new DataObjectParameter("param", "value"));
-        testingSet = Collections.singleton(new DataObject("testingObj", setOfParams));
-        trainingSet = Collections.singleton(new TrainingDataObject("trainingObj", setOfParams, setOfClasses.iterator().next()));
+        Set<DataObjectParameter> setOfParams = Collections.singleton(DataFactory.newObjectParameter("param", "value"));
+        testingSet = Collections.singleton(DataFactory.newObject("testingObj", setOfParams));
+        trainingSet = Collections.singleton(DataFactory.newTrainingObject("trainingObj", setOfParams, setOfClasses.iterator().next()));
 
         Set<DataClass> anotherSetOfClasses = new HashSet<>();
-        anotherSetOfClasses.add(new DataClass("thirdClass"));
-        anotherSetOfClasses.add(new DataClass("fourthClass"));
+        anotherSetOfClasses.add(DataFactory.newClass("thirdClass"));
+        anotherSetOfClasses.add(DataFactory.newClass("fourthClass"));
 
-        Set<DataObjectParameter> anotherSetOfParams = Collections.singleton(new DataObjectParameter("anotherParam", "value"));
-        Set<DataObject> anotherTestingSet = Collections.singleton(new DataObject("anotherTestingObj", anotherSetOfParams));
-        Set<TrainingDataObject> anotherTrainingSet = Collections.singleton(new TrainingDataObject("anotherTrainingObj",
+        Set<DataObjectParameter> anotherSetOfParams = Collections.singleton(DataFactory.newObjectParameter("anotherParam", "value"));
+        Set<DataObject> anotherTestingSet = Collections.singleton(DataFactory.newObject("anotherTestingObj", anotherSetOfParams));
+        Set<TrainingDataObject> anotherTrainingSet = Collections.singleton(DataFactory.newTrainingObject("anotherTrainingObj",
                 anotherSetOfParams, anotherSetOfClasses.iterator().next()));
 
-        obj = new TrainingData(setOfClasses, testingSet, trainingSet);
-        differentObj = new TrainingData(anotherSetOfClasses, anotherTestingSet, anotherTrainingSet);
-        objWithSameClassesAndDifferentTrainingSet = new TrainingData(anotherSetOfClasses, testingSet, anotherTrainingSet);
-        similarObj = new TrainingData(setOfClasses, testingSet, trainingSet);
+        obj = DataFactory.newTrainingData(setOfClasses, testingSet, trainingSet);
+        differentObj = DataFactory.newTrainingData(anotherSetOfClasses, anotherTestingSet, anotherTrainingSet);
+        objWithSameClassesAndDifferentTrainingSet = DataFactory.newTrainingData(anotherSetOfClasses, testingSet, anotherTrainingSet);
+        similarObj = DataFactory.newTrainingData(setOfClasses, testingSet, trainingSet);
     }
 
     @Test
     public void testTestingSet() {
-        TrainingData data = new TrainingData(setOfClasses, testingSet, trainingSet);
+        TrainingData data = DataFactory.newTrainingData(setOfClasses, testingSet, trainingSet);
 
         Assert.assertEquals(testingSet.size(), data.testingSet().size());
         Assert.assertTrue(testingSet.containsAll(data.testingSet()));
@@ -77,7 +77,7 @@ public class TrainingDataTest extends BaseDataTest<TrainingData> {
 
     @Test
     public void testTrainingSet() {
-        TrainingData data = new TrainingData(setOfClasses, testingSet, trainingSet);
+        TrainingData data = DataFactory.newTrainingData(setOfClasses, testingSet, trainingSet);
 
         Assert.assertEquals(trainingSet.size(), data.trainingSet().size());
         Assert.assertTrue(trainingSet.containsAll(data.trainingSet()));

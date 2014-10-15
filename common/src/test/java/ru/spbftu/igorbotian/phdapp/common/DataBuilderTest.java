@@ -46,18 +46,18 @@ public class DataBuilderTest {
 
     public DataBuilderTest() {
         Set<DataClass> classes = Stream.of(
-                new DataClass("first"),
-                new DataClass("second")
+                DataFactory.newClass("first"),
+                DataFactory.newClass("second")
         ).collect(Collectors.toSet());
 
-        Set<DataObjectParameter> params = Collections.singleton(new DataObjectParameter("param", "value"));
+        Set<DataObjectParameter> params = Collections.singleton(DataFactory.newObjectParameter("param", "value"));
 
         Set<DataObject> objects = Stream.of(
-                new DataObject("fisrt", params),
-                new DataObject("second", params)
+                DataFactory.newObject("fisrt", params),
+                DataFactory.newObject("second", params)
         ).collect(Collectors.toSet());
 
-        data = new Data(classes, objects);
+        data = DataFactory.newData(classes, objects);
     }
 
     @Before

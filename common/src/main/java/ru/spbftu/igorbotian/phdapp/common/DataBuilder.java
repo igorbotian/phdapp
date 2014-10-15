@@ -49,7 +49,7 @@ public class DataBuilder {
     public void defineClass(DataClass clazz) {
         Objects.requireNonNull(clazz);
 
-        if(classes == null) {
+        if (classes == null) {
             classes = new LinkedHashSet<>();
         }
 
@@ -65,7 +65,7 @@ public class DataBuilder {
     public void addObject(DataObject data) {
         Objects.requireNonNull(data);
 
-        if(objects == null) {
+        if (objects == null) {
             objects = new LinkedHashSet<>();
         }
 
@@ -94,6 +94,6 @@ public class DataBuilder {
                     "Classes and testing set should be initialized first");
         }
 
-        return new Data(classes, objects);
+        return DataFactory.newData(classes, objects);
     }
 }
