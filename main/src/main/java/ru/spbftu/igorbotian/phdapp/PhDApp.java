@@ -21,6 +21,7 @@ package ru.spbftu.igorbotian.phdapp;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import ru.spbftu.igorbotian.phdapp.conf.PropertiesBasedConfigurationModule;
 import ru.spbftu.igorbotian.phdapp.input.JsonInputDataManagementModule;
 import ru.spbftu.igorbotian.phdapp.locale.java.JavaI18NLocalizationModule;
@@ -49,6 +50,7 @@ public class PhDApp {
      * Директория для хранения конфигурационных файлов
      */
     private static final Path CONFIG_FOLDER = getConfigFolder();
+
     /**
      * Список из модулей приложения
      */
@@ -81,6 +83,13 @@ public class PhDApp {
      */
     public static void main(String[] args) {
         Log4j.init(CONFIG_FOLDER);
-        Guice.createInjector(INJECTION_MODULES);
+        Logger logger = Logger.getLogger(PhDApp.class);
+
+        try {
+            Guice.createInjector(INJECTION_MODULES);
+        } catch (Throwable e) {
+            e.printStackTrace();
+            logger.fatal("Unhandled exception caught. Exiting application", e);
+        }
     }
 }
