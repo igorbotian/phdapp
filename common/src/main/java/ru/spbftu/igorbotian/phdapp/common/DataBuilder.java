@@ -18,7 +18,6 @@
 
 package ru.spbftu.igorbotian.phdapp.common;
 
-import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -27,29 +26,59 @@ import java.util.Set;
  * Реализация шаблона проектирования <i>Builder</i>, направленная на поэтапное формирование набора исходных данных
  * для классификации или выполнения какого-либо другого действия над ними.
  *
- * @see DataClass, DataObject, TrainingDataObject
+ * @see DataClass, DataObject
  */
-public class TrainingDataBuilder extends DataBuilder {
+public class DataBuilder {
 
     /**
-     * Обучающая выборка, объекты которой содержат информацию о реальных классах классификации, которым они соответствуют
+     * Классы классификации
      */
-    private Set<TrainingDataObject> trainingSet;
+    private Set<DataClass> classes;
 
     /**
-     * Добавление нового элемента в обучающую выборку
+     * Множество объектов для проведения классификации над ними или выполнения какого-либо другого действия
+     */
+    private Set<DataObject> objects;
+
+    /**
+     * Задание нового класса конфигурации
      *
-     * @param data новый элемент обучающей выборки
-     * @throws java.lang.NullPointerException если объект не задан
+     * @param clazz класс конфигурации
+     * @throws java.lang.NullPointerException если класс не задан
      */
-    public void addTrainingObject(TrainingDataObject data) {
-        Objects.requireNonNull(data);
+    public void defineClass(DataClass clazz) {
+        Objects.requireNonNull(clazz);
 
-        if (trainingSet == null) {
-            trainingSet = new LinkedHashSet<>();
+        if(classes == null) {
+            classes = new LinkedHashSet<>();
         }
 
-        trainingSet.add(data);
+        classes.add(clazz);
+    }
+
+    /**
+     * Добавление нового элемента в множество исходных объектов
+     *
+     * @param data новый элемент множества исходных объектов
+     * @throws java.lang.NullPointerException если объект не задан
+     */
+    public void addObject(DataObject data) {
+        Objects.requireNonNull(data);
+
+        if(objects == null) {
+            objects = new LinkedHashSet<>();
+        }
+
+        objects.add(data);
+    }
+
+    /**
+     * Указывает, возможно ли в данный момент формирование набора исходных данных или нет
+     *
+     * @return <code>true</code>, если формирование возможно; <code>false</code>, если нет
+     */
+    public boolean isReady() {
+        return (classes != null && objects != null);
     }
 
     /**
@@ -59,14 +88,12 @@ public class TrainingDataBuilder extends DataBuilder {
      * @throws DataException если формирование набора в данный момент не возможно или формируемый набор является
      *                       некорректным
      */
-    public TrainingData build() throws DataException {
+    public Data build() throws DataException {
         if (!isReady()) {
             throw new IllegalStateException("Can't build a training data. " +
                     "Classes and testing set should be initialized first");
         }
 
-        Data data = super.build();
-        return new TrainingData(data.classes(), data.objects(),
-                (trainingSet != null) ? trainingSet : Collections.emptySet());
+        return new Data(classes, objects);
     }
 }

@@ -85,6 +85,10 @@ public class Data {
     protected boolean objectsHaveDifferentParams(Set<? extends DataObject> objects) {
         Objects.requireNonNull(objects);
 
+        if(objects.isEmpty()) {
+            return false;
+        }
+
         Iterator<? extends DataObject> it = objects.iterator();
         Set<DataObjectParameter> primerParams = it.next().parameters();
 
