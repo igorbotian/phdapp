@@ -41,32 +41,38 @@ public abstract class AbstractDataTest {
         return UUID.randomUUID().toString();
     }
 
-    private static <T> Set<T> newSet(int count, Supplier<T> supplier) {
+    // TODO некрасивое решение
+    private static <P, T> Set<T> newSet(int count, Supplier<T> ctorWithoutArgs,
+                                        Function<P, T> ctorWithArg, P ctorParam) {
         if (count < 0) {
             throw new IllegalArgumentException("Count cannot have a negative value");
+        }
+
+        if (ctorParam == null) {
+            if (ctorWithoutArgs == null) {
+                throw new IllegalStateException("Constructor without arguments should be initialized");
+            }
+        } else {
+            if (ctorWithArg == null) {
+                throw new IllegalStateException("Constructor with an argument should be initialized");
+            }
         }
 
         Set<T> objects = new HashSet<>();
 
         for (int i = 0; i < count; i++) {
-            objects.add(supplier.get());
+            objects.add((ctorParam == null) ? ctorWithoutArgs.get() : ctorWithArg.apply(ctorParam));
         }
 
         return objects;
     }
 
+    private static <T> Set<T> newSet(int count, Supplier<T> supplier) {
+        return newSet(count, supplier, null, null);
+    }
+
     private static <P, T> Set<T> newSet(int count, Function<P, T> func, P param) {
-        if (count < 0) {
-            throw new IllegalArgumentException("Count cannot have a negative value");
-        }
-
-        Set<T> objects = new HashSet<>();
-
-        for (int i = 0; i < count; i++) {
-            objects.add(func.apply(param));
-        }
-
-        return objects;
+        return newSet(count, null, func, param);
     }
 
     /**
