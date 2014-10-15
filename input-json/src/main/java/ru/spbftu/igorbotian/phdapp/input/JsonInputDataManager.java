@@ -38,7 +38,8 @@ import java.util.Objects;
 /**
  * Реализация средства для работы с исходными данными, использующее в своей основе формат JSON
  *
- * @see InputDataManager, FileBasedInputDataManager
+ * @see ru.spbftu.igorbotian.phdapp.input.InputDataManager
+ * @see ru.spbftu.igorbotian.phdapp.input.FileBasedInputDataManager
  */
 @Singleton
 class JsonInputDataManager extends FileBasedInputDataManager {

@@ -21,7 +21,9 @@ package ru.spbftu.igorbotian.phdapp.common;
 /**
  * Исключение, генерируемое в случае некорректного формирования набора исходных данных
  *
- * @see Data, TrainingData, TrainingDataBuilder
+ * @see ru.spbftu.igorbotian.phdapp.common.Data
+ * @see ru.spbftu.igorbotian.phdapp.common.TrainingData
+ * @see ru.spbftu.igorbotian.phdapp.common.TrainingDataBuilder
  */
 public class DataException extends RuntimeException {
 

@@ -33,6 +33,8 @@ import java.util.function.Function;
 
 /**
  * Средство управления конфигурацией приложения, хранящейся в файле формата <code>.properties/.conf</code>
+ *
+ * @see ru.spbftu.igorbotian.phdapp.conf.Configuration
  */
 @Singleton
 class PropertiesBasedConfiguration implements Configuration {

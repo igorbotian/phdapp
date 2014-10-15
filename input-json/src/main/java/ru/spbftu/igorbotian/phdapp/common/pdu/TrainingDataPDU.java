@@ -26,7 +26,7 @@ import java.util.Set;
 /**
  * POJO-версия класса, предназначенная для использования в механизме сериализации
  *
- * @see TrainingDataPDU
+ * @see ru.spbftu.igorbotian.phdapp.common.TrainingData
  */
 public class TrainingDataPDU {
 

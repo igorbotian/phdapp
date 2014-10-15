@@ -29,7 +29,7 @@ import java.util.Set;
 /**
  * Модульные тесты для класса <code>DataObject</code>
  *
- * @see DataObject
+ * @see ru.spbftu.igorbotian.phdapp.common.DataObject
  */
 public class DataObjectTest extends BaseDataTest<DataObject> {
 

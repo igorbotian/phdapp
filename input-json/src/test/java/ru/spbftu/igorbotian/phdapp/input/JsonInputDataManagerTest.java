@@ -35,7 +35,7 @@ import java.util.Set;
 /**
  * Модульные тесты для класса <code>JsonInputDataManager</code>
  *
- * @see JsonInputDataManager
+ * @see ru.spbftu.igorbotian.phdapp.input.JsonInputDataManager
  */
 public class JsonInputDataManagerTest {
 

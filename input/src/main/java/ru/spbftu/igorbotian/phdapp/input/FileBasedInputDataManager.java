@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
 /**
  * Средство для работы с наборами исходных данных, хранящихся в виде файлов
  *
- * @see InputDataManager
+ * @see ru.spbftu.igorbotian.phdapp.input.InputDataManager
  */
 public abstract class FileBasedInputDataManager implements InputDataManager {
 

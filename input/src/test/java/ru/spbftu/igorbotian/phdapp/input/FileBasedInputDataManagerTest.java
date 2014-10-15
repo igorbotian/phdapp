@@ -35,7 +35,7 @@ import java.nio.file.Paths;
 /**
  * Модульные тесты для класса <code>FileBasedInputDataManager</code>
  *
- * @see FileBasedInputDataManager
+ * @see ru.spbftu.igorbotian.phdapp.input.FileBasedInputDataManager
  */
 public class FileBasedInputDataManagerTest {
 

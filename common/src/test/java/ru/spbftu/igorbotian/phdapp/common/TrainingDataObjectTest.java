@@ -29,7 +29,7 @@ import java.util.Set;
 /**
  * Модульные тесты для класса <code>TrainingDataObject</code>
  *
- * @see TrainingDataObject
+ * @see ru.spbftu.igorbotian.phdapp.common.TrainingDataObject
  */
 public class TrainingDataObjectTest extends BaseDataTest<TrainingDataObject> {
 

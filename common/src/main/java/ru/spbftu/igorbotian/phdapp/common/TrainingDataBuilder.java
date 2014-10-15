@@ -27,7 +27,9 @@ import java.util.Set;
  * Реализация шаблона проектирования <i>Builder</i>, направленная на поэтапное формирование набора исходных данных
  * для классификации или выполнения какого-либо другого действия над ними.
  *
- * @see DataClass, DataObject, TrainingDataObject
+ * @see ru.spbftu.igorbotian.phdapp.common.DataClass
+ * @see ru.spbftu.igorbotian.phdapp.common.DataObject
+ * @see ru.spbftu.igorbotian.phdapp.common.TrainingDataObject
  */
 public class TrainingDataBuilder extends DataBuilder {
 
