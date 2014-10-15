@@ -71,12 +71,13 @@ public class FileBasedInputDataManagerTest {
         Path configFolder = parentFolder.resolve("configFolder");
         Path dataFolder = parentFolder.resolve(FileBasedInputDataManager.DATA_FOLDER_NAME);
 
-        Files.createDirectory(configFolder);
+        Files.createDirectories(configFolder);
 
         try {
             testDefaultInputDataFolder(mockConfigWithNoProperties(), configFolder, dataFolder);
         } finally {
             Files.deleteIfExists(configFolder);
+            Files.deleteIfExists(parentFolder);
         }
     }
 
