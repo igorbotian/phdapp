@@ -25,6 +25,7 @@ import ru.spbftu.igorbotian.phdapp.conf.ConfigFolderPath;
 import ru.spbftu.igorbotian.phdapp.conf.Configuration;
 
 import javax.inject.Inject;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -32,6 +33,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -103,14 +105,6 @@ public abstract class FileBasedInputDataManager implements InputDataManager {
             dataFolder = parentFolder.resolve(DATA_FOLDER_NAME);
         }
 
-        try {
-            if (!Files.exists(dataFolder)) {
-                Files.createDirectory(dataFolder);
-            }
-        } catch (IOException e) {
-            throw new IllegalStateException("Unable to create a folder intended to store input data");
-        }
-
         return dataFolder;
     }
 
@@ -149,6 +143,10 @@ public abstract class FileBasedInputDataManager implements InputDataManager {
         Predicate<Path> byExtension = file -> file.getFileName().endsWith("." + fileExtension);
         Function<Path, String> toFileName = file -> file.getFileName().toString();
 
+        if(!Files.exists(dataFolder)) {
+            return Collections.emptySet();
+        }
+
         return Files.walk(dataFolder)
                 .filter(byExtension)
                 .map(toFileName)
@@ -159,12 +157,25 @@ public abstract class FileBasedInputDataManager implements InputDataManager {
 
     @Override
     public TrainingData getById(String id) throws IOException, DataException {
-        return deserialize(Files.newInputStream(dataFolder.resolve(id + "." + fileExtension)));
+        Path targetFile = dataFolder.resolve(id + "." + fileExtension);
+
+        if(!Files.exists(targetFile)) {
+            throw new FileNotFoundException("File corresponding to the given ID doesn't exist: "
+                    + targetFile.toAbsolutePath().toString());
+        }
+
+        return deserialize(Files.newInputStream(targetFile));
     }
 
     @Override
     public void save(String id, TrainingData data) throws IOException {
-        serialize(data, Files.newOutputStream(dataFolder.resolve(id + "." + fileExtension), StandardOpenOption.CREATE));
+        Path targetFile = dataFolder.resolve(id + "." + fileExtension);
+
+        if(!Files.exists(dataFolder)) {
+            Files.createDirectories(dataFolder);
+        }
+
+        serialize(data, Files.newOutputStream(targetFile, StandardOpenOption.CREATE));
     }
 
     /**
