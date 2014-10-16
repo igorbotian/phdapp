@@ -64,7 +64,8 @@ class JsonInputDataManager extends FileBasedInputDataManager {
         Objects.requireNonNull(stream);
 
         try {
-            return gson.fromJson(new InputStreamReader(stream, StandardCharsets.UTF_8), TrainingDataPDU.class).toObject();
+            return gson.fromJson(
+                    new InputStreamReader(stream, StandardCharsets.UTF_8), TrainingDataPDU.class).toObject();
         } catch (JsonSyntaxException e) {
             throw new DataException("Failed to deserialize input data", e);
         }

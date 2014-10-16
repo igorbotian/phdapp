@@ -81,10 +81,10 @@ class JavaI18NLocalization implements Localization {
             return label;
         }
 
-        return getLocalizedLabel(label);
+        return getBundledLabel(label);
     }
 
-    private String getLocalizedLabel(String label) {
+    private String getBundledLabel(String label) {
         assert (StringUtils.isNotEmpty(label));
         assert (labels != null);
 

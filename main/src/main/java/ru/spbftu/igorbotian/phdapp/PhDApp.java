@@ -30,10 +30,9 @@ import ru.spbftu.igorbotian.phdapp.log.Log4j;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Основной класс приложения.
@@ -45,22 +44,17 @@ public class PhDApp {
      * Название системного свойства, значение которого указывает на директорию для хранения конфигурационных файлов
      */
     private static final String CONFIG_FOLDER_SYSTEM_PROPERTY = "phdapp.conf.folder";
-
     /**
      * Директория для хранения конфигурационных файлов
      */
     private static final Path CONFIG_FOLDER = getConfigFolder();
-
     /**
      * Список из модулей приложения
      */
-    public static final Set<? extends AbstractModule> INJECTION_MODULES = Collections.unmodifiableSet(
-            new HashSet<>(Arrays.asList(
-                    new PropertiesBasedConfigurationModule(CONFIG_FOLDER),
-                    new JsonInputDataManagementModule(CONFIG_FOLDER),
-                    new JavaI18NLocalizationModule()
-            ))
-    );
+    public static final Set<? extends AbstractModule> INJECTION_MODULES = Stream.of(
+            new PropertiesBasedConfigurationModule(CONFIG_FOLDER),
+            new JsonInputDataManagementModule(CONFIG_FOLDER),
+            new JavaI18NLocalizationModule()).collect(Collectors.toSet());
 
     private static Path getConfigFolder() {
         String customConfFolderName = System.getProperty(CONFIG_FOLDER_SYSTEM_PROPERTY);
