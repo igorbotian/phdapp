@@ -22,6 +22,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import ru.spbftu.igorbotian.phdapp.utils.ShutdownHook;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -37,7 +38,7 @@ import java.util.function.Function;
  * @see ru.spbftu.igorbotian.phdapp.conf.Configuration
  */
 @Singleton
-class PropertiesBasedConfiguration implements Configuration {
+class PropertiesBasedConfiguration implements Configuration, ShutdownHook {
 
     /**
      * Название файла конфигурации приложения в формате .properties / .conf
@@ -98,8 +99,6 @@ class PropertiesBasedConfiguration implements Configuration {
         } catch (IOException e) {
             LOGGER.error("Failed to read configuration", e);
         }
-
-        registerShutdownHook();
     }
 
     private void load() throws IOException {
@@ -114,21 +113,6 @@ class PropertiesBasedConfiguration implements Configuration {
         if (configChanged()) {
             config.store(Files.newBufferedWriter(CONF_FILE), "PhD application configuration");
         }
-    }
-
-    private void registerShutdownHook() {
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-
-            @Override
-            public void run() {
-                try {
-                    store();
-                    LOGGER.debug("Configuration stored");
-                } catch (IOException e) {
-                    LOGGER.error("Failed to store configuration", e);
-                }
-            }
-        });
     }
 
     private boolean configChanged() {
@@ -170,6 +154,16 @@ class PropertiesBasedConfiguration implements Configuration {
 
         String value = config.getProperty(param);
         return (value == null) ? null : parser.apply(value);
+    }
+
+    @Override
+    public void onExit() {
+        try {
+            store();
+            LOGGER.debug("Configuration stored");
+        } catch (IOException e) {
+            LOGGER.error("Failed to store configuration", e);
+        }
     }
 
     @Override

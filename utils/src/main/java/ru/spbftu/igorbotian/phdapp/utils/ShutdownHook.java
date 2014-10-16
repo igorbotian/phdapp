@@ -1,11 +1,13 @@
+package ru.spbftu.igorbotian.phdapp.utils;
+
 /**
  * Copyright (c) 2014 Igor Botian
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
  * Software Foundation; either version 2 of the License, or (at your option)
  * any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
@@ -16,20 +18,13 @@
  * @author Igor Botian <igor.botian@gmail.com>
  */
 
-package ru.spbftu.igorbotian.phdapp.locale.java;
-
-import ru.spbftu.igorbotian.phdapp.ioc.PhDAppModule;
-import ru.spbftu.igorbotian.phdapp.locale.Localization;
-
 /**
- * Модуль локализации на основе стандартных средств локализации Java
- *
- * @see ru.spbftu.igorbotian.phdapp.locale.java.JavaI18NLocalization
+ * Интерфейс для классов, которым необходимо выполнить какие-либо необходимые действия перед закрытием приложения
  */
-public class JavaI18NLocalizationModule extends PhDAppModule {
+public interface ShutdownHook {
 
-    @Override
-    protected void configure() {
-        bind(Localization.class, JavaI18NLocalization.class);
-    }
+    /**
+     * Метод, который будет вызван перед закрытием приложения
+     */
+    void onExit();
 }

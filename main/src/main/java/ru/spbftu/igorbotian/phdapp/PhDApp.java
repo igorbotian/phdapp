@@ -18,21 +18,24 @@
 
 package ru.spbftu.igorbotian.phdapp;
 
-import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import ru.spbftu.igorbotian.phdapp.conf.PropertiesBasedConfigurationModule;
 import ru.spbftu.igorbotian.phdapp.input.JsonInputDataManagementModule;
+import ru.spbftu.igorbotian.phdapp.ioc.PhDAppModule;
 import ru.spbftu.igorbotian.phdapp.locale.java.JavaI18NLocalizationModule;
 import ru.spbftu.igorbotian.phdapp.log.Log4j;
+import ru.spbftu.igorbotian.phdapp.utils.ShutdownHooks;
+import ru.spbftu.igorbotian.phdapp.utils.UtilsModule;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Основной класс приложения.
@@ -51,10 +54,12 @@ public class PhDApp {
     /**
      * Список из модулей приложения
      */
-    public static final Set<? extends AbstractModule> INJECTION_MODULES = Stream.of(
+    public static final Set<PhDAppModule> INJECTION_MODULES = new LinkedHashSet<>(Arrays.asList(
             new PropertiesBasedConfigurationModule(CONFIG_FOLDER),
             new JsonInputDataManagementModule(CONFIG_FOLDER),
-            new JavaI18NLocalizationModule()).collect(Collectors.toSet());
+            new JavaI18NLocalizationModule(),
+            new UtilsModule()
+    ));
 
     private static Path getConfigFolder() {
         String customConfFolderName = System.getProperty(CONFIG_FOLDER_SYSTEM_PROPERTY);
@@ -80,10 +85,26 @@ public class PhDApp {
         Logger logger = Logger.getLogger(PhDApp.class);
 
         try {
-            Guice.createInjector(INJECTION_MODULES);
+            start();
+            logger.info("Application successfully initialized");
         } catch (Throwable e) {
             e.printStackTrace();
             logger.fatal("Unhandled exception caught. Exiting application", e);
         }
+    }
+
+    private static void start() {
+        Injector injector = Guice.createInjector(INJECTION_MODULES);
+        registerShutdownHooks(injector.getInstance(ShutdownHooks.class));
+    }
+
+    private static void registerShutdownHooks(final ShutdownHooks hooks) {
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+
+            @Override
+            public synchronized void start() {
+                hooks.triggerAll();
+            }
+        });
     }
 }

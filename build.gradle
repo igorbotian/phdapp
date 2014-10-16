@@ -47,6 +47,8 @@ project(':conf-properties') {
     dependencies {
         compile(
                 project(':conf'),
+                project(':ioc'),
+                project(':utils'),
                 gson,
                 googleGuice,
                 commonsLang,
@@ -62,6 +64,7 @@ project(':input') {
         compile(
                 project(':common'),
                 project(':conf'),
+                project(':utils'),
                 commonsLang
         )
 
@@ -78,6 +81,7 @@ project(':input-json') {
     dependencies {
         compile(
                 project(':input'),
+                project(':ioc'),
                 project(':conf'),
                 gson,
                 googleGuice,
@@ -92,6 +96,17 @@ project(':input-json') {
     }
 }
 
+project(':ioc') {
+    description "Module providing some auxiliary features to implementation modules"
+
+    dependencies {
+        compile(
+                googleGuice,
+                googleGuiceMultibindings
+        )
+    }
+}
+
 project('locale') {
     description "Localization interface module"
 }
@@ -101,6 +116,7 @@ project(':locale-java-i18n') {
 
     dependencies {
         compile(
+                project(':ioc'),
                 project(':locale'),
                 googleGuice,
                 commonsLang,
@@ -120,12 +136,26 @@ project(':log-log4j') {
 }
 
 project(':main') {
+    description 'Main module. Application entry point'
+
     dependencies {
         compile(
                 project(':conf-properties'),
                 project(':input-json'),
                 project(':locale-java-i18n'),
-                project(':log-log4j')
+                project(':log-log4j'),
+                project(':utils')
+        )
+    }
+}
+
+project(':utils') {
+    description 'An utilitarian module'
+
+    dependencies {
+        compile(
+                project(':ioc'),
+                log4j
         )
     }
 }

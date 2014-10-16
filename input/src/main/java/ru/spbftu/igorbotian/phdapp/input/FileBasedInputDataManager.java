@@ -23,6 +23,7 @@ import ru.spbftu.igorbotian.phdapp.common.DataException;
 import ru.spbftu.igorbotian.phdapp.common.TrainingData;
 import ru.spbftu.igorbotian.phdapp.conf.ConfigFolderPath;
 import ru.spbftu.igorbotian.phdapp.conf.Configuration;
+import ru.spbftu.igorbotian.phdapp.utils.ShutdownHook;
 
 import javax.inject.Inject;
 import java.io.FileNotFoundException;
@@ -46,7 +47,7 @@ import java.util.stream.Collectors;
  *
  * @see ru.spbftu.igorbotian.phdapp.input.InputDataManager
  */
-public abstract class FileBasedInputDataManager implements InputDataManager {
+public abstract class FileBasedInputDataManager implements InputDataManager, ShutdownHook {
 
     /**
      * Название директории для хранения наборов исходных данных
@@ -88,7 +89,6 @@ public abstract class FileBasedInputDataManager implements InputDataManager {
         this.config = config;
         this.fileExtension = fileExtension;
         dataFolder = initDataFolder(Paths.get(pathToConfigFolder));
-        rememberPathToDataFolderOnExit();
     }
 
     private Path initDataFolder(Path configFolder) {
@@ -106,16 +106,6 @@ public abstract class FileBasedInputDataManager implements InputDataManager {
         }
 
         return dataFolder;
-    }
-
-    private void rememberPathToDataFolderOnExit() {
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-
-            @Override
-            public void run() {
-                config.setString(DATA_FOLDER_CONFIG_SETTING, dataFolder.toString());
-            }
-        });
     }
 
     /**
@@ -136,6 +126,11 @@ public abstract class FileBasedInputDataManager implements InputDataManager {
     public void setDefaultInputDataFolder(Path folder) {
         Objects.requireNonNull(folder);
         this.dataFolder = folder;
+    }
+
+    @Override
+    public void onExit() {
+        config.setString(DATA_FOLDER_CONFIG_SETTING, dataFolder.toString());
     }
 
     @Override

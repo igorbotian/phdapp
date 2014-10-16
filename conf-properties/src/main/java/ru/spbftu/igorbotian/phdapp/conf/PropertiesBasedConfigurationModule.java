@@ -18,7 +18,8 @@
 
 package ru.spbftu.igorbotian.phdapp.conf;
 
-import com.google.inject.AbstractModule;
+import ru.spbftu.igorbotian.phdapp.ioc.PhDAppModule;
+import ru.spbftu.igorbotian.phdapp.utils.ShutdownHook;
 
 import java.nio.file.Path;
 import java.util.Objects;
@@ -28,7 +29,7 @@ import java.util.Objects;
  *
  * @see ru.spbftu.igorbotian.phdapp.conf.PropertiesBasedConfiguration
  */
-public class PropertiesBasedConfigurationModule extends AbstractModule {
+public class PropertiesBasedConfigurationModule extends PhDAppModule {
 
     /**
      * Директория для хранения конфигурационных файлов
@@ -49,6 +50,7 @@ public class PropertiesBasedConfigurationModule extends AbstractModule {
     @Override
     protected void configure() {
         bindConstant().annotatedWith(ConfigFolderPath.class).to(configFolder.toAbsolutePath().toString());
-        bind(Configuration.class).to(PropertiesBasedConfiguration.class);
+        bind(Configuration.class, PropertiesBasedConfiguration.class);
+        multiBind(ShutdownHook.class, PropertiesBasedConfiguration.class);
     }
 }

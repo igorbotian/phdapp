@@ -16,20 +16,17 @@
  * @author Igor Botian <igor.botian@gmail.com>
  */
 
-package ru.spbftu.igorbotian.phdapp.locale.java;
+package ru.spbftu.igorbotian.phdapp.utils;
 
 import ru.spbftu.igorbotian.phdapp.ioc.PhDAppModule;
-import ru.spbftu.igorbotian.phdapp.locale.Localization;
 
 /**
- * Модуль локализации на основе стандартных средств локализации Java
- *
- * @see ru.spbftu.igorbotian.phdapp.locale.java.JavaI18NLocalization
+ * @see ShutdownHooks
  */
-public class JavaI18NLocalizationModule extends PhDAppModule {
+public class UtilsModule extends PhDAppModule {
 
     @Override
     protected void configure() {
-        bind(Localization.class, JavaI18NLocalization.class);
+        bind(ShutdownHooks.class).to(ShutdownHookSet.class);
     }
 }
