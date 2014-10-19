@@ -35,22 +35,19 @@ public class DataBuilderTest extends AbstractDataTest {
     /**
      * Тестовые данные
      */
-    private final Data data;
+    private Data data;
 
     /**
      * Объект тестируемого класса
      */
     private DataBuilder dataBuilder;
 
-    public DataBuilderTest() {
+    @Before
+    public void setUp() throws DataException {
         Set<DataClass> classes = randomClasses(2);
         Set<DataObject> objects = randomObjects(2, 2);
 
         data = DataFactory.newData(classes, objects);
-    }
-
-    @Before
-    public void setUp() {
         dataBuilder = new DataBuilder();
     }
 
@@ -73,13 +70,13 @@ public class DataBuilderTest extends AbstractDataTest {
         Assert.assertFalse(dataBuilder.isReady());
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void testNonReadyBuild() {
+    @Test(expected = DataException.class)
+    public void testNonReadyBuild() throws DataException {
         dataBuilder.build();
     }
 
     @Test
-    public void testBuild() {
+    public void testBuild() throws DataException {
         data.classes().forEach(dataBuilder::defineClass);
         data.objects().forEach(dataBuilder::addObject);
         Assert.assertEquals(data, dataBuilder.build());

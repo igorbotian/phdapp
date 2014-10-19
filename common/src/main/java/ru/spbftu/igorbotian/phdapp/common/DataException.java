@@ -25,7 +25,7 @@ package ru.spbftu.igorbotian.phdapp.common;
  * @see ru.spbftu.igorbotian.phdapp.common.TrainingData
  * @see ru.spbftu.igorbotian.phdapp.common.TrainingDataBuilder
  */
-public class DataException extends RuntimeException {
+public class DataException extends Exception {
 
     public DataException() {
         super();

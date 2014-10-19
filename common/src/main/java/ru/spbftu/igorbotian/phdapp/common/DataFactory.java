@@ -97,14 +97,14 @@ public final class DataFactory {
      *
      * @param classes непустой набор классов классификации размером не меньше двух
      * @param objects непустое множество объектов
-     * @throws DataException                                    если набор классов содержит меньше, чем минимально необходимое количество элементов;
-     *                                                          если множество объектов является пустым
-     * @throws java.lang.NullPointerException                   если множество классов или множество объектов равно <code>null</code>
-     * @throws ru.spbftu.igorbotian.phdapp.common.DataException если множество объектов имеет хотя бы один объект,
-     *                                                          отличающихся от других множеством определяюмых его параметров
+     * @throws DataException                  если набор классов содержит меньше, чем минимально необходимое количество элементов;
+     *                                        если множество объектов является пустым;
+     *                                        если множество объектов имеет хотя бы один объект,
+     *                                        отличающихся от других множеством определяюмых его параметров
+     * @throws java.lang.NullPointerException если множество классов или множество объектов равно <code>null</code>
      * @see ru.spbftu.igorbotian.phdapp.common.Data
      */
-    public static Data newData(Set<? extends DataClass> classes, Set<? extends DataObject> objects) {
+    public static Data newData(Set<? extends DataClass> classes, Set<? extends DataObject> objects) throws DataException {
         return new DataImpl(classes, objects);
     }
 
@@ -118,7 +118,7 @@ public final class DataFactory {
      * @see ru.spbftu.igorbotian.phdapp.common.TrainingData
      */
     public static TrainingData newTrainingData(Set<? extends DataClass> classes, Set<? extends DataObject> testingSet,
-                                               Set<? extends TrainingDataObject> trainingSet) {
+                                               Set<? extends TrainingDataObject> trainingSet) throws DataException {
         return new TrainingDataImpl(classes, testingSet, trainingSet);
     }
 }

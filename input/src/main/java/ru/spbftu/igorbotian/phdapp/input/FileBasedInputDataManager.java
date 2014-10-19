@@ -193,5 +193,5 @@ public abstract class FileBasedInputDataManager implements InputDataManager, Shu
      * @throws DataException                  в случае проблемы формирования сериализованного представления набора исходных данных
      * @throws java.lang.NullPointerException если хотя бы один из параметров не задан
      */
-    protected abstract void serialize(TrainingData data, OutputStream stream) throws IOException, DataException;
+    protected abstract void serialize(TrainingData data, OutputStream stream) throws IOException;
 }

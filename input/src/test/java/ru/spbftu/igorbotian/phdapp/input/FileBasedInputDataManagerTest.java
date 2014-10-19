@@ -135,7 +135,7 @@ public class FileBasedInputDataManagerTest {
         }
 
         @Override
-        protected void serialize(TrainingData data, OutputStream stream) throws IOException, DataException {
+        protected void serialize(TrainingData data, OutputStream stream) throws IOException {
             // nothing
         }
     }

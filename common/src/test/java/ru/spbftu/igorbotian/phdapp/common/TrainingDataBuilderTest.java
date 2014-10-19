@@ -36,19 +36,20 @@ public class TrainingDataBuilderTest extends AbstractDataTest {
     /**
      * Тестовые данные, которые содержат обучающую выборку
      */
-    private final TrainingData data;
+    private TrainingData data;
 
     /**
      * Тестовые данные, которые не содержат обучающую выборку
      */
-    private final TrainingData dataWitoutTrainingSet;
+    private TrainingData dataWitoutTrainingSet;
 
     /**
      * Объект тестируемого класса
      */
     private TrainingDataBuilder dataBuilder;
 
-    public TrainingDataBuilderTest() {
+    @Before
+    public void setUp() throws DataException {
         Set<String> classNames = randomStrings(2);
         Set<String> paramNames = randomStrings(2);
 
@@ -58,10 +59,6 @@ public class TrainingDataBuilderTest extends AbstractDataTest {
         data = DataFactory.newTrainingData(DataFactory.newClasses(classNames), testingSet, trainingSet);
         dataWitoutTrainingSet =
                 DataFactory.newTrainingData(DataFactory.newClasses(classNames), testingSet, Collections.emptySet());
-    }
-
-    @Before
-    public void setUp() {
         dataBuilder = new TrainingDataBuilder();
     }
 
@@ -92,20 +89,20 @@ public class TrainingDataBuilderTest extends AbstractDataTest {
         Assert.assertFalse(dataBuilder.isReady());
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void testNonReadyBuild() {
+    @Test(expected = DataException.class)
+    public void testNonReadyBuild() throws DataException {
         dataBuilder.build();
     }
 
     @Test
-    public void testBuildWithNoTrainingSetPresence() {
+    public void testBuildWithNoTrainingSetPresence() throws DataException {
         dataWitoutTrainingSet.classes().forEach(dataBuilder::defineClass);
         dataWitoutTrainingSet.testingSet().forEach(dataBuilder::addObject);
         Assert.assertEquals(dataWitoutTrainingSet, dataBuilder.build());
     }
 
     @Test
-    public void testBuildWithTrainingSetPresented() {
+    public void testBuildWithTrainingSetPresented() throws DataException {
         data.classes().forEach(dataBuilder::defineClass);
         data.testingSet().forEach(dataBuilder::addObject);
         data.trainingSet().forEach(dataBuilder::addTrainingObject);

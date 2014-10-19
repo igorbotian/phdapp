@@ -50,7 +50,7 @@ public class JsonInputDataManagerTest {
     private TrainingData data;
 
     @Before
-    public void setUp() {
+    public void setUp() throws DataException {
         dataManager = new JsonInputDataManager(mockConfigWithNoProperties(), "anyFolder");
 
         Set<DataClass> classes = new HashSet<>(Arrays.asList(
@@ -83,7 +83,7 @@ public class JsonInputDataManagerTest {
     }
 
     @Test
-    public void testSerializationMechanism() throws IOException {
+    public void testSerializationMechanism() throws IOException, DataException {
         ByteArrayOutputStream json = new ByteArrayOutputStream();
         dataManager.serialize(data, json);
         Assert.assertEquals(data, dataManager.deserialize(new ByteArrayInputStream(json.toByteArray())));

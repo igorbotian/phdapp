@@ -49,7 +49,7 @@ public class TrainingDataPDU {
         return pdu;
     }
 
-    public TrainingData toObject() {
+    public TrainingData toObject() throws DataException {
         Set<DataClass> classes = new LinkedHashSet<>();
         this.classes.forEach(clazz -> classes.add(clazz.toObject()));
 

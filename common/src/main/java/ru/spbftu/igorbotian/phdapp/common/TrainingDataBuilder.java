@@ -47,7 +47,7 @@ public class TrainingDataBuilder extends DataBuilder {
     public void addTrainingObject(TrainingDataObject data) {
         Objects.requireNonNull(data);
 
-        if(trainingSet == null) {
+        if (trainingSet == null) {
             trainingSet = new LinkedHashSet<>();
         }
 
@@ -58,12 +58,12 @@ public class TrainingDataBuilder extends DataBuilder {
      * Формирование набора исходных данных
      *
      * @return набор исходных данных
-     * @throws DataException если формирование набора в данный момент не возможно или формируемый набор является
-     *                       некорректным
+     * @throws ru.spbftu.igorbotian.phdapp.common.DataException если формирование набора в данный момент невозможно
+     *                                                          или формируемый набор является некорректным
      */
     public TrainingData build() throws DataException {
         if (!isReady()) {
-            throw new IllegalStateException("Can't build a training data. " +
+            throw new DataException("Can't build a training data. " +
                     "Classes and testing set should be initialized first");
         }
 

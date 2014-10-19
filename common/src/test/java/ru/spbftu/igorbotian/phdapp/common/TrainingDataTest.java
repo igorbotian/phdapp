@@ -41,7 +41,7 @@ public class TrainingDataTest extends BaseDataTest<TrainingData> {
     private TrainingData similarObj;
 
     @Before
-    public void setUp() {
+    public void setUp() throws DataException {
         Set<String> classNames = randomStrings(2);
         setOfClasses = DataFactory.newClasses(classNames);
 
@@ -65,7 +65,7 @@ public class TrainingDataTest extends BaseDataTest<TrainingData> {
     }
 
     @Test
-    public void testTestingSet() {
+    public void testTestingSet() throws DataException {
         TrainingData data = DataFactory.newTrainingData(setOfClasses, testingSet, trainingSet);
 
         Assert.assertEquals(testingSet.size(), data.testingSet().size());
@@ -73,7 +73,7 @@ public class TrainingDataTest extends BaseDataTest<TrainingData> {
     }
 
     @Test
-    public void testTrainingSet() {
+    public void testTrainingSet() throws DataException {
         TrainingData data = DataFactory.newTrainingData(setOfClasses, testingSet, trainingSet);
 
         Assert.assertEquals(trainingSet.size(), data.trainingSet().size());
