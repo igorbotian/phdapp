@@ -21,7 +21,7 @@ package ru.spbftu.igorbotian.phdapp.utils;
 import ru.spbftu.igorbotian.phdapp.ioc.PhDAppModule;
 
 /**
- * @see ShutdownHooks
+ * @see ru.spbftu.igorbotian.phdapp.utils.ShutdownHooks
  */
 public class UtilsModule extends PhDAppModule {
 

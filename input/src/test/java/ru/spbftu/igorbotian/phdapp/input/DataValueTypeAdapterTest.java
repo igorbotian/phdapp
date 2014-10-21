@@ -27,7 +27,7 @@ import java.io.IOException;
  * Базовый класс для модульных тестов для класса <code>DataValueTypeAdapter</code>
  *
  * @param <T> тип значения параметра объекта исходных данных
- * @see DataValueTypeAdapter
+ * @see ru.spbftu.igorbotian.phdapp.input.DataValueTypeAdapter
  */
 public abstract class DataValueTypeAdapterTest<T> {
 

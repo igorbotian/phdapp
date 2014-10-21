@@ -29,7 +29,7 @@ import java.util.Set;
 /**
  * Контейнер для всех действий, которые необходимо выполнить перед завершением работы приложения
  *
- * @see ShutdownHooks
+ * @see ru.spbftu.igorbotian.phdapp.utils.ShutdownHooks
  * @see ru.spbftu.igorbotian.phdapp.utils.ShutdownHook
  */
 @Singleton

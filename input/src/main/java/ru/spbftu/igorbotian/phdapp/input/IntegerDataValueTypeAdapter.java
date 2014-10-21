@@ -27,7 +27,7 @@ import java.util.Objects;
 /**
  * Адаптер для серилазиции и десериализации целых чисел в и из строкового представления
  *
- * @see DataValueTypeAdapter
+ * @see ru.spbftu.igorbotian.phdapp.input.DataValueTypeAdapter
  */
 public class IntegerDataValueTypeAdapter implements DataValueTypeAdapter<Integer> {
 

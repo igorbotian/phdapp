@@ -27,8 +27,8 @@ import java.io.IOException;
 /**
  * Модульные тесты для класса <code>IntegerDataValueTypeAdapter</code>
  *
- * @see IntegerDataValueTypeAdapter
- * @see DataValueTypeAdapterTest
+ * @see ru.spbftu.igorbotian.phdapp.input.IntegerDataValueTypeAdapter
+ * @see ru.spbftu.igorbotian.phdapp.input.DataValueTypeAdapterTest
  */
 public class IntegerDataValueTypeAdapterTest extends DataValueTypeAdapterTest<Integer> {
 
