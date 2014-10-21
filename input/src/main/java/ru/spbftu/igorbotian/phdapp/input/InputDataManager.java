@@ -42,9 +42,9 @@ public interface InputDataManager {
      *
      * @param id название набора исходных данных (непустое)
      * @return набор исходных данных
-     * @throws java.lang.NullPointerException если название набора исходных данных не задано
-     * @throws IOException                    в случае проблемы получения набора
-     * @throws DataException                  в случае проблемы формирования данного набора (проблемы его десериализации)
+     * @throws java.lang.NullPointerException                   если название набора исходных данных не задано
+     * @throws java.io.IOException                              в случае проблемы получения набора
+     * @throws ru.spbftu.igorbotian.phdapp.common.DataException в случае проблемы формирования данного набора (проблемы его десериализации)
      */
     TrainingData getById(String id) throws IOException, DataException;
 
@@ -53,8 +53,8 @@ public interface InputDataManager {
      *
      * @param id   название набора исходных данных
      * @param data набор исходных данных
-     * @throws java.lang.NullPointerException если хотя бы один из параметров не задан
-     * @throws IOException                    в случае проблем сериализации
+     * @throws java.lang.NullPointerException                   если хотя бы один из параметров не задан
+     * @throws IOException                                      в случае проблем сериализации
      * @throws ru.spbftu.igorbotian.phdapp.common.DataException в случае проблем сериализации
      */
     void save(String id, TrainingData data) throws IOException, DataException;

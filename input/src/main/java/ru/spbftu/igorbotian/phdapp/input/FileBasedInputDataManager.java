@@ -178,9 +178,9 @@ public abstract class FileBasedInputDataManager implements InputDataManager, Shu
      *
      * @param stream файловый поток
      * @return набор исходных данных
-     * @throws IOException                    в случае проблемы получения данных из файлового потока
-     * @throws DataException                  если из данных, хранящихся в файле, невозможно сформировать набор исходных данных
-     * @throws java.lang.NullPointerException если файловый поток не задан
+     * @throws java.io.IOException                              в случае проблемы получения данных из файлового потока
+     * @throws ru.spbftu.igorbotian.phdapp.common.DataException если из данных, хранящихся в файле, невозможно сформировать набор исходных данных
+     * @throws java.lang.NullPointerException                   если файловый поток не задан
      */
     protected abstract TrainingData deserialize(InputStream stream) throws IOException, DataException;
 
@@ -189,9 +189,9 @@ public abstract class FileBasedInputDataManager implements InputDataManager, Shu
      *
      * @param data   набор исходных данных
      * @param stream файловый поток
-     * @throws IOException                    в случае проблемы записи данных в файловый поток
-     * @throws DataException                  в случае проблемы формирования сериализованного представления набора исходных данных
-     * @throws java.lang.NullPointerException если хотя бы один из параметров не задан
+     * @throws java.io.IOException                              в случае проблемы записи данных в файловый поток
+     * @throws ru.spbftu.igorbotian.phdapp.common.DataException в случае проблемы формирования сериализованного представления набора исходных данных
+     * @throws java.lang.NullPointerException                   если хотя бы один из параметров не задан
      */
     protected abstract void serialize(TrainingData data, OutputStream stream) throws IOException, DataException;
 }
