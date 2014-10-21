@@ -22,6 +22,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -67,6 +69,21 @@ public class DataTest extends BaseDataTest<Data> {
 
         Assert.assertEquals(setOfObjects.size(), data.objects().size());
         Assert.assertTrue(setOfObjects.containsAll(data.objects()));
+    }
+
+    @Test(expected = DataException.class)
+    public void testObjectsWithDifferentParams() throws DataException {
+        String paramName = randomString();
+        Set<DataObjectParameter<?>> firstSetOfParams = Collections.singleton(
+                DataFactory.newObjectParameter(paramName, 1.0, BasicDataValueTypes.REAL));
+        Set<DataObjectParameter<?>> secondSetOfParams = Collections.singleton(
+                DataFactory.newObjectParameter(paramName, randomString(), BasicDataValueTypes.STRING));
+
+        Set<DataObject> objects = new HashSet<>();
+        objects.add(DataFactory.newObject(randomString(), firstSetOfParams));
+        objects.add(DataFactory.newObject(randomString(), secondSetOfParams));
+
+        DataFactory.newData(randomClasses(2), objects);
     }
 
     @Test

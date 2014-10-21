@@ -22,6 +22,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -59,10 +60,24 @@ public class DataObjectTest extends BaseDataTest<DataObject> {
     @Test
     public void testParams() {
         Set<DataObjectParameter<?>> setOfParams = randomStringObjectParameters(2);
-        DataObject obj = DataFactory.newObject("obj", setOfParams);
+        DataObject obj = DataFactory.newObject(randomString(), setOfParams);
 
         Assert.assertEquals(setOfParams.size(), obj.parameters().size());
         Assert.assertTrue(setOfParams.containsAll(obj.parameters()));
+    }
+
+    @Test
+    public void testParamsWithDifferentTypes() {
+        Set<DataObjectParameter<?>> setOfParams = new HashSet<>();
+        setOfParams.add(DataFactory.newObjectParameter(randomString(), 1, BasicDataValueTypes.INTEGER));
+        setOfParams.add(DataFactory.newObjectParameter(randomString(), 1.0, BasicDataValueTypes.REAL));
+        setOfParams.add(DataFactory.newObjectParameter(randomString(), randomString(), BasicDataValueTypes.STRING));
+
+        DataObject obj = DataFactory.newObject(randomString(), setOfParams);
+
+        for(DataObjectParameter param : setOfParams) {
+            Assert.assertTrue(obj.parameters().contains(param));
+        }
     }
 
     @Test
