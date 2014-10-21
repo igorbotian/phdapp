@@ -48,6 +48,12 @@ public class DataObjectParameterTest extends BaseDataTest<DataObjectParameter> {
     }
 
     @Test
+    public void testValueType() {
+        DataValueType<String> dataValueType = BasicDataValueTypes.STRING;
+        Assert.assertEquals(dataValueType, DataFactory.newObjectParameter("anyParam", "anyValue", dataValueType).valueType());
+    }
+
+    @Test
     public void testHashCode() {
         testHashCode(obj, differentObj, similarObj);
         testHashCode(obj, objWithSameNameAndDifferentValue, similarObj);
