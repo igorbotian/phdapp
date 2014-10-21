@@ -50,7 +50,9 @@ public final class DataPDU {
         this.classes.forEach(clazz -> classes.add(clazz.toObject()));
 
         Set<DataObject> objects = new LinkedHashSet<>();
-        this.objects.forEach(obj -> objects.add(obj.toObject()));
+        for(DataObjectPDU pdu : this.objects) {
+            objects.add(pdu.toObject());
+        }
 
         return DataFactory.newData(classes, objects);
     }

@@ -42,5 +42,5 @@ public interface DataObject {
      *
      * @return непустое неизменяемое множество параметров
      */
-    Set<DataObjectParameter> parameters();
+    Set<DataObjectParameter<?>> parameters();
 }

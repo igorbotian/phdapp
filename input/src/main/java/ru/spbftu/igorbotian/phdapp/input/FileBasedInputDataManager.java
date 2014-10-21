@@ -138,7 +138,7 @@ public abstract class FileBasedInputDataManager implements InputDataManager, Shu
         Predicate<Path> byExtension = file -> file.getFileName().endsWith("." + fileExtension);
         Function<Path, String> toFileName = file -> file.getFileName().toString();
 
-        if(!Files.exists(dataFolder)) {
+        if (!Files.exists(dataFolder)) {
             return Collections.emptySet();
         }
 
@@ -154,7 +154,7 @@ public abstract class FileBasedInputDataManager implements InputDataManager, Shu
     public TrainingData getById(String id) throws IOException, DataException {
         Path targetFile = dataFolder.resolve(id + "." + fileExtension);
 
-        if(!Files.exists(targetFile)) {
+        if (!Files.exists(targetFile)) {
             throw new FileNotFoundException("File corresponding to the given ID doesn't exist: "
                     + targetFile.toAbsolutePath().toString());
         }
@@ -163,10 +163,10 @@ public abstract class FileBasedInputDataManager implements InputDataManager, Shu
     }
 
     @Override
-    public void save(String id, TrainingData data) throws IOException {
+    public void save(String id, TrainingData data) throws IOException, DataException {
         Path targetFile = dataFolder.resolve(id + "." + fileExtension);
 
-        if(!Files.exists(dataFolder)) {
+        if (!Files.exists(dataFolder)) {
             Files.createDirectories(dataFolder);
         }
 
@@ -193,5 +193,5 @@ public abstract class FileBasedInputDataManager implements InputDataManager, Shu
      * @throws DataException                  в случае проблемы формирования сериализованного представления набора исходных данных
      * @throws java.lang.NullPointerException если хотя бы один из параметров не задан
      */
-    protected abstract void serialize(TrainingData data, OutputStream stream) throws IOException;
+    protected abstract void serialize(TrainingData data, OutputStream stream) throws IOException, DataException;
 }

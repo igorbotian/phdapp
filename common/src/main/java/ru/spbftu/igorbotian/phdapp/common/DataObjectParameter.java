@@ -23,9 +23,10 @@ package ru.spbftu.igorbotian.phdapp.common;
  * Параметр характеризуется названием и значением.
  * Класс является потокобезопасным, а его объекты - неизменяемыми.
  *
+ * @param <T> тип значения параметра
  * @see ru.spbftu.igorbotian.phdapp.common.DataObject
  */
-public interface DataObjectParameter {
+public interface DataObjectParameter<T> {
 
     /**
      * Получение названия параметра
@@ -39,5 +40,12 @@ public interface DataObjectParameter {
      *
      * @return значение параметра заданного класса; не может быть <code>null</code>
      */
-    String value();
+    T value();
+
+    /**
+     * Тип значения параметра
+     *
+     * @return Класс значения параметра
+     */
+    DataValueType<T> valueType();
 }

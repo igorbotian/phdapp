@@ -33,7 +33,7 @@ import java.util.Set;
 public class TrainingDataObjectTest extends BaseDataTest<TrainingDataObject> {
 
     private DataClass realClass;
-    private Set<DataObjectParameter> setOfParams;
+    private Set<DataObjectParameter<?>> setOfParams;
 
     private TrainingDataObject obj;
     private TrainingDataObject differentObj;
@@ -42,10 +42,10 @@ public class TrainingDataObjectTest extends BaseDataTest<TrainingDataObject> {
     @Before
     public void setUp() {
         realClass = randomClass();
-        setOfParams = randomObjectParameters(2);
+        setOfParams = randomStringObjectParameters(2);
 
         DataClass anotherRealClass = randomClass();
-        Set<DataObjectParameter> anotherSetOfParams = randomObjectParameters(3);
+        Set<DataObjectParameter<?>> anotherSetOfParams = randomStringObjectParameters(3);
 
         obj = DataFactory.newTrainingObject("obj", setOfParams, realClass);
         differentObj = DataFactory.newTrainingObject("differentObj", anotherSetOfParams, anotherRealClass);
@@ -54,7 +54,7 @@ public class TrainingDataObjectTest extends BaseDataTest<TrainingDataObject> {
 
     @Test
     public void testRealClass() {
-        Assert.assertEquals(realClass, DataFactory.newTrainingObject("id", setOfParams, realClass).realClass());
+        Assert.assertEquals(realClass, DataFactory.newTrainingObject("name", setOfParams, realClass).realClass());
     }
 
     @Test

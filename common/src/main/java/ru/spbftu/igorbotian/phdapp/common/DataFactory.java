@@ -58,11 +58,11 @@ public final class DataFactory {
      * @param name  название объекта (непустое)
      * @param value значение объекта
      * @throws java.lang.IllegalArgumentException если название объекта пустое
-     * @throws java.lang.NullPointerException     если название или значение объекта не задано
+     * @throws java.lang.NullPointerException     если хотя бы один из параметров не задан
      * @see ru.spbftu.igorbotian.phdapp.common.DataObjectParameter
      */
-    public static DataObjectParameter newObjectParameter(String name, String value) {
-        return new DataObjectParameterImpl(name, value);
+    public static <V> DataObjectParameter<V> newObjectParameter(String name, V value, DataValueType<V> valueType) {
+        return new DataObjectParameterImpl<>(name, value, valueType);
     }
 
     /**
@@ -75,7 +75,7 @@ public final class DataFactory {
      *                                            не содержит ни одного элемента
      * @see ru.spbftu.igorbotian.phdapp.common.DataObject
      */
-    public static DataObject newObject(String id, Set<DataObjectParameter> params) {
+    public static DataObject newObject(String id, Set<DataObjectParameter<?>> params) {
         return new DataObjectImpl(id, params);
     }
 
@@ -88,7 +88,7 @@ public final class DataFactory {
      * @throws java.lang.NullPointerException если хотя бы один из параметров не задан
      * @see ru.spbftu.igorbotian.phdapp.common.TrainingDataObject
      */
-    public static TrainingDataObject newTrainingObject(String id, Set<DataObjectParameter> params, DataClass realClass) {
+    public static TrainingDataObject newTrainingObject(String id, Set<DataObjectParameter<?>> params, DataClass realClass) {
         return new TrainingDataObjectImpl(id, params, realClass);
     }
 

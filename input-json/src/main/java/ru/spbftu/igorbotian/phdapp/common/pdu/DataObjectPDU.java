@@ -18,6 +18,7 @@
 
 package ru.spbftu.igorbotian.phdapp.common.pdu;
 
+import ru.spbftu.igorbotian.phdapp.common.DataException;
 import ru.spbftu.igorbotian.phdapp.common.DataFactory;
 import ru.spbftu.igorbotian.phdapp.common.DataObject;
 import ru.spbftu.igorbotian.phdapp.common.DataObjectParameter;
@@ -33,7 +34,7 @@ import java.util.Set;
 public final class DataObjectPDU {
 
     public String id;
-    public Set<DataObjectParameterPDU> params;
+    public Set<DataObjectParameterPDU<?>> params;
 
     public static DataObjectPDU toPDU(DataObject obj) {
         DataObjectPDU pdu = new DataObjectPDU();
@@ -45,9 +46,13 @@ public final class DataObjectPDU {
         return pdu;
     }
 
-    public DataObject toObject() {
-        Set<DataObjectParameter> params = new LinkedHashSet<>();
-        this.params.forEach(param -> params.add(param.toObject()));
+    public DataObject toObject() throws DataException {
+        Set<DataObjectParameter<?>> params = new LinkedHashSet<>();
+
+        for(DataObjectParameterPDU param : this.params) {
+            params.add(param.toObject());
+        }
+
         return DataFactory.newObject(id, params);
     }
 }

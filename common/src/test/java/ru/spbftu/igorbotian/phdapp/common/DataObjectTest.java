@@ -32,7 +32,7 @@ import java.util.Set;
  */
 public class DataObjectTest extends BaseDataTest<DataObject> {
 
-    private Set<DataObjectParameter> setOfParams;
+    private Set<DataObjectParameter<?>> setOfParams;
 
     private DataObject obj;
     private DataObject differentObj;
@@ -41,8 +41,8 @@ public class DataObjectTest extends BaseDataTest<DataObject> {
 
     @Before
     public void setUp() {
-        setOfParams = randomObjectParameters(2);
-        Set<DataObjectParameter> anotherSetOfParams = randomObjectParameters(2);
+        setOfParams = randomStringObjectParameters(2);
+        Set<DataObjectParameter<?>> anotherSetOfParams = randomStringObjectParameters(2);
 
         obj = DataFactory.newObject("obj", setOfParams);
         differentObj = DataFactory.newObject("differentObj", anotherSetOfParams);
@@ -58,7 +58,7 @@ public class DataObjectTest extends BaseDataTest<DataObject> {
 
     @Test
     public void testParams() {
-        Set<DataObjectParameter> setOfParams = randomObjectParameters(2);
+        Set<DataObjectParameter<?>> setOfParams = randomStringObjectParameters(2);
         DataObject obj = DataFactory.newObject("obj", setOfParams);
 
         Assert.assertEquals(setOfParams.size(), obj.parameters().size());

@@ -18,43 +18,39 @@
 
 package ru.spbftu.igorbotian.phdapp.common;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.Objects;
 
 /**
- * @see ru.spbftu.igorbotian.phdapp.common.DataObjectParameter
- * @see ru.spbftu.igorbotian.phdapp.common.DataFactory
+ * Каркас для создания типов данных <code>DataValueType</code>
+ *
+ * @param <T> Java-класс, соответствующий типу данных
+ * @see ru.spbftu.igorbotian.phdapp.common.DataValueType
  */
-class DataObjectParameterImpl<V> implements DataObjectParameter<V> {
+public abstract class AbstractDataValueType<T> implements DataValueType<T> {
 
     /**
-     * Название (строковый идентификатор) объекта
+     * Идентификатор типа данных
      */
     private final String name;
 
     /**
-     * Значение параметра
+     * Java-класс, соответствующий этому типу данных
      */
-    private final V value;
+    private final Class<T> javaClass;
 
     /**
-     * Класс значения параметра
+     * Конструктор класса
+     *
+     * @param name      идентификатор типа данных
+     * @param javaClass Java-класс, соответствующий этому типу данных
+     * @throws java.lang.NullPointerException если хотя бы один из параметров не задан
      */
-    private final DataValueType<V> valueType;
-
-    public DataObjectParameterImpl(String name, V value, DataValueType<V> valueType) {
+    public AbstractDataValueType(String name, Class<T> javaClass) {
         Objects.requireNonNull(name);
-        Objects.requireNonNull(value);
-        Objects.requireNonNull(valueType);
-
-        if (StringUtils.isEmpty(name)) {
-            throw new IllegalArgumentException("Name cannot be empty");
-        }
+        Objects.requireNonNull(javaClass);
 
         this.name = name;
-        this.value = value;
-        this.valueType = valueType;
+        this.javaClass = javaClass;
     }
 
     @Override
@@ -63,18 +59,13 @@ class DataObjectParameterImpl<V> implements DataObjectParameter<V> {
     }
 
     @Override
-    public V value() {
-        return value;
-    }
-
-    @Override
-    public DataValueType<V> valueType() {
-        return valueType;
+    public Class<T> javaClass() {
+        return javaClass;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, value);
+        return Objects.hash(name, javaClass.getName());
     }
 
     @Override
@@ -83,16 +74,16 @@ class DataObjectParameterImpl<V> implements DataObjectParameter<V> {
             return true;
         }
 
-        if (obj == null || !(obj instanceof DataObjectParameter)) {
+        if (obj == null || !(obj instanceof AbstractDataValueType)) {
             return false;
         }
 
-        DataObjectParameterImpl other = (DataObjectParameterImpl) obj;
-        return (name.equals(other.name) && value.equals(other.value) && valueType.equals(other.valueType));
+        AbstractDataValueType other = (AbstractDataValueType) obj;
+        return (name.equals(other.name) && javaClass.equals(other.javaClass));
     }
 
     @Override
     public String toString() {
-        return String.join(":", name, value.toString(), valueType.name());
+        return String.join(":", name, javaClass.getName());
     }
 }

@@ -19,31 +19,27 @@
 package ru.spbftu.igorbotian.phdapp.common.pdu;
 
 import ru.spbftu.igorbotian.phdapp.common.DataException;
-import ru.spbftu.igorbotian.phdapp.common.DataFactory;
-import ru.spbftu.igorbotian.phdapp.common.DataObjectParameter;
+import ru.spbftu.igorbotian.phdapp.common.DataValueType;
+import ru.spbftu.igorbotian.phdapp.input.DataValueTypeAdapterRegistry;
 
 /**
  * POJO-версия класса, предназначенная для использования в механизме сериализации
  *
- * @see ru.spbftu.igorbotian.phdapp.common.DataObjectParameter
+ * @see ru.spbftu.igorbotian.phdapp.common.DataValueType
  */
-public final class DataObjectParameterPDU<T> {
+public final class DataValueTypePDU<T> {
 
     public String name;
-    public T value;
-    public DataValueTypePDU<T> valueType;
 
-    public static <T> DataObjectParameterPDU<T> toPDU(DataObjectParameter<T> param) {
-        DataObjectParameterPDU<T> pdu = new DataObjectParameterPDU<>();
-
-        pdu.name = param.name();
-        pdu.value = param.value();
-        pdu.valueType = DataValueTypePDU.toPDU(param.valueType());
-
+    public static <T> DataValueTypePDU<T> toPDU(DataValueType<T> type) {
+        DataValueTypePDU<T> pdu = new DataValueTypePDU<>();
+        pdu.name = type.name();
         return pdu;
     }
 
-    public DataObjectParameter<T> toObject() throws DataException {
-        return DataFactory.newObjectParameter(name, value, valueType.toObject());
+    @SuppressWarnings("unchecked")
+    public DataValueType<T> toObject() throws DataException {
+        // TODO в данном месте приведение типов небезопасно
+        return (DataValueType<T>) DataValueTypeAdapterRegistry.INSTANCE.getTypeAdapterNamedAs(name).targetType();
     }
 }

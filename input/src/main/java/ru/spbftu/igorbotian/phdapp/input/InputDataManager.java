@@ -35,7 +35,7 @@ public interface InputDataManager {
      * @return множество названий наборов исходных данных
      * @throws IOException в случае проблемы получения данного множества
      */
-    public Set<String> listIds() throws IOException;
+    Set<String> listIds() throws IOException;
 
     /**
      * Получение набора исходных данных по названию
@@ -46,7 +46,7 @@ public interface InputDataManager {
      * @throws IOException                    в случае проблемы получения набора
      * @throws DataException                  в случае проблемы формирования данного набора (проблемы его десериализации)
      */
-    public TrainingData getById(String id) throws IOException, DataException;
+    TrainingData getById(String id) throws IOException, DataException;
 
     /**
      * Сохранение заданного набора исходных данных (сериализация)
@@ -55,6 +55,7 @@ public interface InputDataManager {
      * @param data набор исходных данных
      * @throws java.lang.NullPointerException если хотя бы один из параметров не задан
      * @throws IOException                    в случае проблем сериализации
+     * @throws ru.spbftu.igorbotian.phdapp.common.DataException в случае проблем сериализации
      */
-    public void save(String id, TrainingData data) throws IOException;
+    void save(String id, TrainingData data) throws IOException, DataException;
 }

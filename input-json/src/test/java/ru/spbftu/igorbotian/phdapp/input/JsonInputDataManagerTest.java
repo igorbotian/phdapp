@@ -57,9 +57,9 @@ public class JsonInputDataManagerTest {
                 DataFactory.newClass("firstClass"),
                 DataFactory.newClass("secondClass")
         ));
-        Set<DataObjectParameter> params = new HashSet<>(Arrays.asList(
-                DataFactory.newObjectParameter("firstParam", "firstValue"),
-                DataFactory.newObjectParameter("secondParam", "secondValue")
+        Set<DataObjectParameter<?>> params = new HashSet<>(Arrays.asList(
+                DataFactory.newObjectParameter("firstParam", "firstValue", BasicDataValueTypes.STRING),
+                DataFactory.newObjectParameter("secondParam", "secondValue", BasicDataValueTypes.STRING)
         ));
         Set<DataObject> testingSet = new HashSet<>(Arrays.asList(
                 DataFactory.newObject("firstObject", params),

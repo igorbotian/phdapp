@@ -111,8 +111,8 @@ public abstract class AbstractDataTest {
      *
      * @return объект класса
      */
-    protected static DataObjectParameter randomObjectParameter() {
-        return randomObjectParameter(randomString());
+    protected static DataObjectParameter<String> randomObjectParameter() {
+        return randomStringObjectParameter(randomString());
     }
 
     /**
@@ -122,9 +122,9 @@ public abstract class AbstractDataTest {
      * @return объект класса
      * @throws java.lang.NullPointerException если название не задано
      */
-    protected static DataObjectParameter randomObjectParameter(String name) {
+    protected static DataObjectParameter<String> randomStringObjectParameter(String name) {
         Objects.requireNonNull(name);
-        return DataFactory.newObjectParameter(name, randomString());
+        return DataFactory.newObjectParameter(name, randomString(), BasicDataValueTypes.STRING);
     }
 
     /**
@@ -134,7 +134,7 @@ public abstract class AbstractDataTest {
      * @return множество объектов
      * @throws java.lang.IllegalArgumentException если количество имеет отрицательное значение
      */
-    protected static Set<DataObjectParameter> randomObjectParameters(int count) {
+    protected static Set<DataObjectParameter<?>> randomStringObjectParameters(int count) {
         return newSet(count, AbstractDataTest::randomObjectParameter);
     }
 
@@ -145,9 +145,9 @@ public abstract class AbstractDataTest {
      * @return множество объектов; их количество равно количеству названий параметров
      * @throws java.lang.NullPointerException если названия параметров не заданы
      */
-    protected static Set<DataObjectParameter> randomObjectParameters(Set<String> names) {
+    protected static Set<DataObjectParameter<?>> randomStringObjectParameters(Set<String> names) {
         Objects.requireNonNull(names);
-        return names.stream().map(AbstractDataTest::randomObjectParameter).collect(Collectors.toSet());
+        return names.stream().map(AbstractDataTest::randomStringObjectParameter).collect(Collectors.toSet());
     }
 
     /**
@@ -159,7 +159,7 @@ public abstract class AbstractDataTest {
      */
     protected static DataObject randomObject(Set<String> paramNames) {
         Objects.requireNonNull(paramNames);
-        return DataFactory.newObject(randomString(), randomObjectParameters(paramNames));
+        return DataFactory.newObject(randomString(), randomStringObjectParameters(paramNames));
     }
 
     /**
@@ -205,7 +205,7 @@ public abstract class AbstractDataTest {
 
         return DataFactory.newTrainingObject(
                 randomString(),
-                randomObjectParameters(paramNames),
+                randomStringObjectParameters(paramNames),
                 DataFactory.newClass(className)
         );
     }

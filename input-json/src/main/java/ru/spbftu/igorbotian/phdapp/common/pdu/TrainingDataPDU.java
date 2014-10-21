@@ -54,10 +54,14 @@ public class TrainingDataPDU {
         this.classes.forEach(clazz -> classes.add(clazz.toObject()));
 
         Set<DataObject> testingSet = new LinkedHashSet<>();
-        this.testingSet.forEach(obj -> testingSet.add(obj.toObject()));
+        for(DataObjectPDU pdu : this.testingSet) {
+            testingSet.add(pdu.toObject());
+        }
 
         Set<TrainingDataObject> trainingSet = new LinkedHashSet<>();
-        this.trainingSet.forEach(obj -> trainingSet.add(obj.toObject()));
+        for(TrainingDataObjectPDU pdu : this.trainingSet) {
+            trainingSet.add(pdu.toObject());
+        }
 
         return DataFactory.newTrainingData(classes, testingSet, trainingSet);
     }

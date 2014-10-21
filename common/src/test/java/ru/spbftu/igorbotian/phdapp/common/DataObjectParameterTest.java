@@ -28,21 +28,23 @@ import org.junit.Test;
  */
 public class DataObjectParameterTest extends BaseDataTest<DataObjectParameter> {
 
-    private final DataObjectParameter obj = DataFactory.newObjectParameter("obj", "value");
-    private final DataObjectParameter differentObj = DataFactory.newObjectParameter("differentObj", "anotherValue");
-    private final DataObjectParameter objWithSameNameAndDifferentValue = DataFactory.newObjectParameter("obj", "anotherValue");
-    private final DataObjectParameter similarObj = DataFactory.newObjectParameter("obj", "value");
+    private final DataObjectParameter obj = DataFactory.newObjectParameter("obj", "value", BasicDataValueTypes.STRING);
+    private final DataObjectParameter differentObj =
+            DataFactory.newObjectParameter("differentObj", "anotherValue", BasicDataValueTypes.STRING);
+    private final DataObjectParameter objWithSameNameAndDifferentValue =
+            DataFactory.newObjectParameter("obj", "anotherValue", BasicDataValueTypes.STRING);
+    private final DataObjectParameter similarObj = DataFactory.newObjectParameter("obj", "value", BasicDataValueTypes.STRING);
 
     @Test
     public void testName() {
         String paramName = "test";
-        Assert.assertEquals(paramName, DataFactory.newObjectParameter(paramName, "anyValue").name());
+        Assert.assertEquals(paramName, DataFactory.newObjectParameter(paramName, "anyValue", BasicDataValueTypes.STRING).name());
     }
 
     @Test
     public void testValue() {
         String paramValue = "test";
-        Assert.assertEquals(paramValue, DataFactory.newObjectParameter("anyParam", paramValue).value());
+        Assert.assertEquals(paramValue, DataFactory.newObjectParameter("anyParam", paramValue, BasicDataValueTypes.STRING).value());
     }
 
     @Test
