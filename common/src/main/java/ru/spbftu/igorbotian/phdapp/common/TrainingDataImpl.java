@@ -49,7 +49,7 @@ class TrainingDataImpl extends DataImpl implements TrainingData {
             }
         }
 
-        if (objectsHaveDifferentParams(trainingSet)) {
+        if (!objectsHaveSameParameters(trainingSet)) {
             throw new DataException("Elements of training set should not have different set of parameters");
         }
     }

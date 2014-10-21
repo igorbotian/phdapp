@@ -18,11 +18,7 @@
 
 package ru.spbftu.igorbotian.phdapp.common;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.*;
 
 /**
  * @see ru.spbftu.igorbotian.phdapp.common.Data
@@ -57,39 +53,61 @@ class DataImpl implements Data {
         this.classes = Collections.unmodifiableSet(classes);
         this.objects = Collections.unmodifiableSet(objects);
 
-        if (objectsHaveDifferentParams(objects)) {
+        if (!objectsHaveSameParameters(objects)) {
             throw new DataException("Objects should not have different set of parameters");
         }
     }
 
     /**
-     * Проверка на то, отличается ли хотя бы один объект множеством определяемых его параметров от других или нет
+     * Проверка того, что все объекты имеют одинаковый набор параметров (включая их тип)
      *
-     * @param objects множество объектов
-     * @return <code>true</code>, если есть хотя бы один объект, отличающийся от других множеством своих параметров;
-     * <code>false</code>, если все объекты характеризуются одинаковым набором параметров
+     * @param objects проверяемое множество объектов
+     * @return <code>true</code>, если все объекты имеют одинаковый набор параметров; иначе <code>false</code>
      */
-    protected boolean objectsHaveDifferentParams(Set<? extends DataObject> objects) {
+    protected boolean objectsHaveSameParameters(Set<? extends DataObject> objects) {
         Objects.requireNonNull(objects);
 
         if (objects.isEmpty()) {
-            return false;
+            return true;
         }
 
         Iterator<? extends DataObject> it = objects.iterator();
-        Set<String> primerParamNames =
-                it.next().parameters().stream().map(DataObjectParameter::name).collect(Collectors.toSet());
+        Map<String, DataValueType<?>> referentParamsMap = paramsMapOf(it.next());
 
         while (it.hasNext()) {
-            Set<String> paramNames =
-                    it.next().parameters().stream().map(DataObjectParameter::name).collect(Collectors.toSet());
+            Map<String, DataValueType<?>> paramsMap = paramsMapOf(it.next());
 
-            if (primerParamNames.size() != paramNames.size() || !primerParamNames.containsAll(paramNames)) {
-                return true;
+            if (paramsMap.size() != referentParamsMap.size()) {
+                return false;
+            }
+
+            for (String paramName : paramsMap.keySet()) {
+                if (!referentParamsMap.containsKey(paramName)) {
+                    return false;
+                }
+
+                if (!Objects.equals(paramsMap.get(paramName), referentParamsMap.get(paramName))) {
+                    return false;
+                }
             }
         }
 
-        return false;
+        return true;
+    }
+
+    /*
+     * Возвращает ассоциативный массив с именами типов параметров и соответствующих им типов данных
+     */
+    private Map<String, DataValueType<?>> paramsMapOf(DataObject obj) {
+        assert (obj != null);
+
+        Map<String, DataValueType<?>> paramsMap = new HashMap<>();
+
+        for (DataObjectParameter param : obj.parameters()) {
+            paramsMap.put(param.name(), param.valueType());
+        }
+
+        return paramsMap;
     }
 
     @Override
