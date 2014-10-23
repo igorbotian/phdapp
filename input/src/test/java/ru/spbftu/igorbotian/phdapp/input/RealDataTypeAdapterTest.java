@@ -27,8 +27,8 @@ import java.io.IOException;
 /**
  * Модульные тесты для класса <code>RealDataTypeAdapter</code>
  *
- * @see RealDataTypeAdapter
- * @see DataTypeAdapterTest
+ * @see ru.spbftu.igorbotian.phdapp.input.RealDataTypeAdapter
+ * @see ru.spbftu.igorbotian.phdapp.input.DataTypeAdapterTest
  */
 public class RealDataTypeAdapterTest extends DataTypeAdapterTest<Double> {
 

@@ -45,6 +45,7 @@ public enum DataTypeAdapterRegistry {
         registerTypeAdapter(new IntegerDataTypeAdapter());
         registerTypeAdapter(new RealDataTypeAdapter());
         registerTypeAdapter(new StringDataTypeAdapter());
+        registerTypeAdapter(new BoolDataTypeAdapter());
     }
 
     /**

@@ -28,8 +28,8 @@ import java.util.UUID;
 /**
  * Модульные тесты для класса <code>StringDataTypeAdapter</code>
  *
- * @see StringDataTypeAdapter
- * @see DataTypeAdapterTest
+ * @see ru.spbftu.igorbotian.phdapp.input.StringDataTypeAdapter
+ * @see ru.spbftu.igorbotian.phdapp.input.DataTypeAdapterTest
  */
 public class StringDataTypeAdapterTest extends DataTypeAdapterTest<String> {
 

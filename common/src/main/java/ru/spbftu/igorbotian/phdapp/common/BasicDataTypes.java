@@ -41,11 +41,16 @@ public final class BasicDataTypes {
     public static final DataType<java.lang.String> STRING = new String();
 
     /**
+     * Булев тип данных
+     */
+    public static final DataType<java.lang.Boolean> BOOL = new Bool();
+
+    /**
      * Класс целочисленного типа данных
      */
-    private static final class Integer extends AbstractDataType<java.lang.Integer> {
+    private static class Integer extends AbstractDataType<java.lang.Integer> {
 
-        private Integer() {
+        public Integer() {
             super("integer", java.lang.Integer.class);
         }
     }
@@ -53,9 +58,9 @@ public final class BasicDataTypes {
     /**
      * Класс строкового типа данных
      */
-    private static final class String extends AbstractDataType<java.lang.String> {
+    private static class String extends AbstractDataType<java.lang.String> {
 
-        private String() {
+        public String() {
             super("string", java.lang.String.class);
         }
     }
@@ -63,10 +68,20 @@ public final class BasicDataTypes {
     /**
      * Класс вещественного типа данных
      */
-    private static final class Real extends AbstractDataType<Double> {
+    private static class Real extends AbstractDataType<Double> {
 
         private Real() {
             super("real", java.lang.Double.class);
+        }
+    }
+
+    /**
+     * Класс булева типа данных
+     */
+    private static class Bool extends AbstractDataType<Boolean> {
+
+        public Bool() {
+            super("bool", java.lang.Boolean.class);
         }
     }
 }

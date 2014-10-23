@@ -19,19 +19,39 @@
 package ru.spbftu.igorbotian.phdapp.input;
 
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import ru.spbftu.igorbotian.phdapp.common.DataException;
 
 import java.io.IOException;
 
 /**
- * Базовый класс для модульных тестов для класса <code>DataTypeAdapter</code>
+ * Модульные тесты для класса <code>RealDataValueTypeAdapter</code>
  *
- * @param <T> тип значения параметра объекта исходных данных
- * @see ru.spbftu.igorbotian.phdapp.input.DataTypeAdapter
+ * @see ru.spbftu.igorbotian.phdapp.input.BoolDataTypeAdapter
+ * @see ru.spbftu.igorbotian.phdapp.input.DataTypeAdapterTest
  */
-public abstract class DataTypeAdapterTest<T> {
+public class BoolDataTypeAdapterTest extends DataTypeAdapterTest<Boolean> {
 
-    protected void testSerialization(T testValue, DataTypeAdapter<T> adapter) throws IOException, DataException {
-        Assert.assertEquals(testValue, adapter.fromString(adapter.toString(testValue)));
+    private DataTypeAdapter<Boolean> adapter;
+
+    @Before
+    public void setUp() {
+        adapter = new BoolDataTypeAdapter();
+    }
+
+    @Test
+    public void testTrue() throws IOException, DataException {
+        testSerialization(true, adapter);
+    }
+
+    @Test
+    public void testFalse() throws IOException, DataException {
+        testSerialization(false, adapter);
+    }
+
+    @Test
+    public void testNonBoolean() throws IOException, DataException {
+        Assert.assertEquals(false, adapter.fromString("non-boolean"));
     }
 }
