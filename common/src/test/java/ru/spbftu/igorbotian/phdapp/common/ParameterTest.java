@@ -22,18 +22,18 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Модульные тесты для класса <code>DataObjectParameter</code>
+ * Модульные тесты для класса <code>Parameter</code>
  *
- * @see ru.spbftu.igorbotian.phdapp.common.DataObjectParameter
+ * @see ru.spbftu.igorbotian.phdapp.common.Parameter
  */
-public class DataObjectParameterTest extends BaseDataTest<DataObjectParameter> {
+public class ParameterTest extends BaseDataTest<Parameter> {
 
-    private final DataObjectParameter obj = DataFactory.newObjectParameter("obj", "value", BasicDataValueTypes.STRING);
-    private final DataObjectParameter differentObj =
+    private final Parameter obj = DataFactory.newObjectParameter("obj", "value", BasicDataValueTypes.STRING);
+    private final Parameter differentObj =
             DataFactory.newObjectParameter("differentObj", "anotherValue", BasicDataValueTypes.STRING);
-    private final DataObjectParameter objWithSameNameAndDifferentValue =
+    private final Parameter objWithSameNameAndDifferentValue =
             DataFactory.newObjectParameter("obj", "anotherValue", BasicDataValueTypes.STRING);
-    private final DataObjectParameter similarObj = DataFactory.newObjectParameter("obj", "value", BasicDataValueTypes.STRING);
+    private final Parameter similarObj = DataFactory.newObjectParameter("obj", "value", BasicDataValueTypes.STRING);
 
     @Test
     public void testName() {

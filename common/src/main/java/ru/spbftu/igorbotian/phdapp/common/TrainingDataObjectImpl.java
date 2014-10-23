@@ -32,7 +32,7 @@ class TrainingDataObjectImpl extends DataObjectImpl implements TrainingDataObjec
      */
     private final DataClass realClass;
 
-    public TrainingDataObjectImpl(String id, Set<DataObjectParameter<?>> params, DataClass realClass) {
+    public TrainingDataObjectImpl(String id, Set<Parameter<?>> params, DataClass realClass) {
 
         super(id, params);
 

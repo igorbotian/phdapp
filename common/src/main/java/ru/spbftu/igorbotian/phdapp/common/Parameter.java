@@ -26,7 +26,7 @@ package ru.spbftu.igorbotian.phdapp.common;
  * @param <T> тип значения параметра
  * @see ru.spbftu.igorbotian.phdapp.common.DataObject
  */
-public interface DataObjectParameter<T> {
+public interface Parameter<T> {
 
     /**
      * Получение названия параметра

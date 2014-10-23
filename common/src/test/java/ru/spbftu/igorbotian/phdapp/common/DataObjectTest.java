@@ -22,7 +22,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,7 +32,7 @@ import java.util.Set;
  */
 public class DataObjectTest extends BaseDataTest<DataObject> {
 
-    private Set<DataObjectParameter<?>> setOfParams;
+    private Set<Parameter<?>> setOfParams;
 
     private DataObject obj;
     private DataObject differentObj;
@@ -43,7 +42,7 @@ public class DataObjectTest extends BaseDataTest<DataObject> {
     @Before
     public void setUp() {
         setOfParams = randomStringObjectParameters(2);
-        Set<DataObjectParameter<?>> anotherSetOfParams = randomStringObjectParameters(2);
+        Set<Parameter<?>> anotherSetOfParams = randomStringObjectParameters(2);
 
         obj = DataFactory.newObject("obj", setOfParams);
         differentObj = DataFactory.newObject("differentObj", anotherSetOfParams);
@@ -59,7 +58,7 @@ public class DataObjectTest extends BaseDataTest<DataObject> {
 
     @Test
     public void testParams() {
-        Set<DataObjectParameter<?>> setOfParams = randomStringObjectParameters(2);
+        Set<Parameter<?>> setOfParams = randomStringObjectParameters(2);
         DataObject obj = DataFactory.newObject(randomString(), setOfParams);
 
         Assert.assertEquals(setOfParams.size(), obj.parameters().size());
@@ -68,14 +67,14 @@ public class DataObjectTest extends BaseDataTest<DataObject> {
 
     @Test
     public void testParamsWithDifferentTypes() {
-        Set<DataObjectParameter<?>> setOfParams = new HashSet<>();
+        Set<Parameter<?>> setOfParams = new HashSet<>();
         setOfParams.add(DataFactory.newObjectParameter(randomString(), 1, BasicDataValueTypes.INTEGER));
         setOfParams.add(DataFactory.newObjectParameter(randomString(), 1.0, BasicDataValueTypes.REAL));
         setOfParams.add(DataFactory.newObjectParameter(randomString(), randomString(), BasicDataValueTypes.STRING));
 
         DataObject obj = DataFactory.newObject(randomString(), setOfParams);
 
-        for(DataObjectParameter param : setOfParams) {
+        for(Parameter param : setOfParams) {
             Assert.assertTrue(obj.parameters().contains(param));
         }
     }

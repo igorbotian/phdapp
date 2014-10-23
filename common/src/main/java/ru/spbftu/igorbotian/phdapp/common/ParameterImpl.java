@@ -23,10 +23,10 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.Objects;
 
 /**
- * @see ru.spbftu.igorbotian.phdapp.common.DataObjectParameter
+ * @see Parameter
  * @see ru.spbftu.igorbotian.phdapp.common.DataFactory
  */
-class DataObjectParameterImpl<V> implements DataObjectParameter<V> {
+class ParameterImpl<V> implements Parameter<V> {
 
     /**
      * Название (строковый идентификатор) объекта
@@ -43,7 +43,7 @@ class DataObjectParameterImpl<V> implements DataObjectParameter<V> {
      */
     private final DataValueType<V> valueType;
 
-    public DataObjectParameterImpl(String name, V value, DataValueType<V> valueType) {
+    public ParameterImpl(String name, V value, DataValueType<V> valueType) {
         Objects.requireNonNull(name);
         Objects.requireNonNull(value);
         Objects.requireNonNull(valueType);
@@ -83,11 +83,11 @@ class DataObjectParameterImpl<V> implements DataObjectParameter<V> {
             return true;
         }
 
-        if (obj == null || !(obj instanceof DataObjectParameter)) {
+        if (obj == null || !(obj instanceof Parameter)) {
             return false;
         }
 
-        DataObjectParameterImpl other = (DataObjectParameterImpl) obj;
+        ParameterImpl other = (ParameterImpl) obj;
         return (name.equals(other.name) && value.equals(other.value) && valueType.equals(other.valueType));
     }
 

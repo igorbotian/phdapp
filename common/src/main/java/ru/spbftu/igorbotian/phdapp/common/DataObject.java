@@ -26,7 +26,7 @@ import java.util.Set;
  * Класс является потобезопасным, а его объекты - неизменяемыми.
  *
  * @see ru.spbftu.igorbotian.phdapp.common.Data
- * @see ru.spbftu.igorbotian.phdapp.common.DataObjectParameter
+ * @see Parameter
  */
 public interface DataObject {
 
@@ -42,5 +42,5 @@ public interface DataObject {
      *
      * @return непустое неизменяемое множество параметров
      */
-    Set<DataObjectParameter<?>> parameters();
+    Set<Parameter<?>> parameters();
 }

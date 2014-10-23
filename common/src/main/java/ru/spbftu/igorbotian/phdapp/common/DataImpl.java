@@ -103,7 +103,7 @@ class DataImpl implements Data {
 
         Map<String, DataValueType<?>> paramsMap = new HashMap<>();
 
-        for (DataObjectParameter param : obj.parameters()) {
+        for (Parameter param : obj.parameters()) {
             paramsMap.put(param.name(), param.valueType());
         }
 

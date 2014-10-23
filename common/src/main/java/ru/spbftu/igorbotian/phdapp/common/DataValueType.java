@@ -22,7 +22,7 @@ package ru.spbftu.igorbotian.phdapp.common;
  * Тип данных (значения параметров объектов набора исходных данных)
  *
  * @param <T> соответствующий Java-класс
- * @see ru.spbftu.igorbotian.phdapp.common.DataObjectParameter
+ * @see Parameter
  */
 public interface DataValueType<T> {
 

@@ -107,45 +107,45 @@ public abstract class AbstractDataTest {
     }
 
     /**
-     * Создание объекта класса <code>DataObjectParameter</code> со случайным значением параметров
+     * Создание объекта класса <code>Parameter</code> со случайным значением параметров
      *
      * @return объект класса
      */
-    protected static DataObjectParameter<String> randomObjectParameter() {
+    protected static Parameter<String> randomObjectParameter() {
         return randomStringObjectParameter(randomString());
     }
 
     /**
-     * Получение объекта класса <code>DataObjectParameter</code> со случайным значением
+     * Получение объекта класса <code>Parameter</code> со случайным значением
      *
      * @param name название параметра (непустое)
      * @return объект класса
      * @throws java.lang.NullPointerException если название не задано
      */
-    protected static DataObjectParameter<String> randomStringObjectParameter(String name) {
+    protected static Parameter<String> randomStringObjectParameter(String name) {
         Objects.requireNonNull(name);
         return DataFactory.newObjectParameter(name, randomString(), BasicDataValueTypes.STRING);
     }
 
     /**
-     * Создание множества объектов класса <code>DataObjectParameter</code> со случайным значениями параметров
+     * Создание множества объектов класса <code>Parameter</code> со случайным значениями параметров
      *
      * @param count количество объектов в множестве
      * @return множество объектов
      * @throws java.lang.IllegalArgumentException если количество имеет отрицательное значение
      */
-    protected static Set<DataObjectParameter<?>> randomStringObjectParameters(int count) {
+    protected static Set<Parameter<?>> randomStringObjectParameters(int count) {
         return newSet(count, AbstractDataTest::randomObjectParameter);
     }
 
     /**
-     * Создание множества объектов класса <code>DataObjectParameter</code> со случайным значениями
+     * Создание множества объектов класса <code>Parameter</code> со случайным значениями
      *
      * @param names названия параметров, для которых будут созданы объекты со случайным значением
      * @return множество объектов; их количество равно количеству названий параметров
      * @throws java.lang.NullPointerException если названия параметров не заданы
      */
-    protected static Set<DataObjectParameter<?>> randomStringObjectParameters(Set<String> names) {
+    protected static Set<Parameter<?>> randomStringObjectParameters(Set<String> names) {
         Objects.requireNonNull(names);
         return names.stream().map(AbstractDataTest::randomStringObjectParameter).collect(Collectors.toSet());
     }
@@ -163,7 +163,7 @@ public abstract class AbstractDataTest {
     }
 
     /**
-     * Создание множества объектов класса <code>DataObjectParameter</code> со случайным значениями
+     * Создание множества объектов класса <code>Parameter</code> со случайным значениями
      *
      * @param count      количество объектов в множестве
      * @param paramNames названия параметров, для которых будут созданы объекты со случайным значением
@@ -177,7 +177,7 @@ public abstract class AbstractDataTest {
     }
 
     /**
-     * Создание множества объектов класса <code>DataObjectParameter</code> со случайным значениями параметров
+     * Создание множества объектов класса <code>Parameter</code> со случайным значениями параметров
      *
      * @param count          количество объектов в множестве
      * @param numberOfParams количество параметров, которые будут иметь случайные названия и параметры

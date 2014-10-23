@@ -38,9 +38,9 @@ class DataObjectImpl implements DataObject {
     /**
      * Набор параметров объекта, которыми он характеризуется
      */
-    private final Set<DataObjectParameter<?>> parameters;
+    private final Set<Parameter<?>> parameters;
 
-    public DataObjectImpl(String id, Set<DataObjectParameter<?>> params) {
+    public DataObjectImpl(String id, Set<Parameter<?>> params) {
         Objects.requireNonNull(id);
         Objects.requireNonNull(params);
 
@@ -62,7 +62,7 @@ class DataObjectImpl implements DataObject {
     }
 
     @Override
-    public Set<DataObjectParameter<?>> parameters() {
+    public Set<Parameter<?>> parameters() {
         return parameters;
     }
 
