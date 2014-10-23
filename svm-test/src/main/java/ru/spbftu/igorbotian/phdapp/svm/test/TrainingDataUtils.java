@@ -21,6 +21,7 @@ package ru.spbftu.igorbotian.phdapp.svm.test;
 import ru.spbftu.igorbotian.phdapp.common.*;
 
 import java.util.*;
+import java.util.function.Function;
 
 /**
  * Класс, который предоставляет проводить различные операции над наборами исходных данных, предназначенных
@@ -58,5 +59,51 @@ public final class TrainingDataUtils {
         Set<? extends DataObject> testingSet = new HashSet<>(objects.subList(sizeOfTrainingSet, objects.size()));
 
         return DataFactory.newTrainingData(data.classes(), testingSet, trainingSet);
+    }
+
+    /**
+     * Размывание обучающей выборки по заданному алгоритму
+     *
+     * @param data         набор исходных данных, содержащий исходную обучающую выборку
+     * @param power        во сколько раз увеличится размер результирующей обучающей выборки
+     * @param blurFunction алгоритм, по которому будет размыт каждый объект исходной обучающей выборки
+     * @return набор исходных данных, отличающийся от исходного новой обучающей выборкой
+     * @throws DataException                      в случае проблем формирования нового набора исходных данных
+     * @throws java.lang.NullPointerException     если набор исходны данных или алгоритм размытия не заданы
+     * @throws java.lang.IllegalArgumentException если степень размытия имеет неположительное значение
+     */
+    public static TrainingData blur(TrainingData data, int power,
+                                    Function<TrainingDataObject, TrainingDataObject> blurFunction)
+            throws DataException {
+
+        Objects.requireNonNull(data);
+        Objects.requireNonNull(blurFunction);
+
+        if (power <= 0) {
+            throw new IllegalArgumentException("Power should have a positive value");
+        }
+
+        Set<TrainingDataObject> blurredTrainingSet = new HashSet<>();
+
+        for (TrainingDataObject obj : data.trainingSet()) {
+            blurredTrainingSet.addAll(blur(obj, power, blurFunction));
+        }
+
+        return DataFactory.newTrainingData(data.classes(), data.testingSet(), blurredTrainingSet);
+    }
+
+    private static Set<? extends TrainingDataObject> blur(TrainingDataObject obj, int power,
+                                                          Function<TrainingDataObject, TrainingDataObject> blurFunction) {
+        assert (obj != null);
+        assert (power > 0);
+        assert (blurFunction != null);
+
+        Set<TrainingDataObject> result = new HashSet<>();
+
+        for (int i = 0; i < power; i++) {
+            result.add(blurFunction.apply(obj));
+        }
+
+        return result;
     }
 }

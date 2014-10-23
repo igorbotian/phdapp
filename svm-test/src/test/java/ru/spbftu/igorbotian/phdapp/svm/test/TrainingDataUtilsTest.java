@@ -22,10 +22,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import ru.spbftu.igorbotian.phdapp.common.*;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Function;
 
 /**
  * Модульные тесты для класса <code>TrainingDataUtils</code>
@@ -46,6 +44,8 @@ public class TrainingDataUtilsTest {
             DataFactory.newTrainingObject("secondObj", params, classes.iterator().next()),
             DataFactory.newTrainingObject("thirdObj", params, classes.iterator().next())
     )));
+    private final Function<TrainingDataObject, TrainingDataObject> blurFunction =
+            obj -> DataFactory.newTrainingObject(UUID.randomUUID().toString(), obj.parameters(), obj.realClass());
 
     @Test
     public void testShuffle() throws DataException {
@@ -78,5 +78,21 @@ public class TrainingDataUtilsTest {
     @Test(expected = IllegalArgumentException.class)
     public void testShuffleWithTrainingSetRatioGreaterThanMaximum() throws DataException{
         TrainingDataUtils.shuffle(DataFactory.newTrainingData(classes, testingSet, trainingSet), 2.0f);
+    }
+
+    @Test
+    public void testBlur() throws DataException {
+        int power = 5;
+        TrainingData blurredData = TrainingDataUtils.blur(DataFactory.newTrainingData(classes, testingSet, trainingSet),
+                power, blurFunction);
+
+        Assert.assertEquals(5 * trainingSet.size(), blurredData.trainingSet().size());
+        Assert.assertEquals(classes, blurredData.classes());
+        Assert.assertEquals(testingSet, blurredData.testingSet());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testBlurWithNonPositivePower() throws DataException {
+        TrainingDataUtils.blur(DataFactory.newTrainingData(classes, testingSet, trainingSet), -1, blurFunction);
     }
 }
