@@ -68,9 +68,9 @@ public final class TrainingDataUtils {
      * @param power        во сколько раз увеличится размер результирующей обучающей выборки
      * @param blurFunction алгоритм, по которому будет размыт каждый объект исходной обучающей выборки
      * @return набор исходных данных, отличающийся от исходного новой обучающей выборкой
-     * @throws DataException                      в случае проблем формирования нового набора исходных данных
-     * @throws java.lang.NullPointerException     если набор исходны данных или алгоритм размытия не заданы
-     * @throws java.lang.IllegalArgumentException если степень размытия имеет неположительное значение
+     * @throws ru.spbftu.igorbotian.phdapp.common.DataException в случае проблем формирования нового набора исходных данных
+     * @throws java.lang.NullPointerException                   если набор исходны данных или алгоритм размытия не заданы
+     * @throws java.lang.IllegalArgumentException               если степень размытия имеет неположительное значение
      */
     public static TrainingData blur(TrainingData data, int power,
                                     Function<TrainingDataObject, TrainingDataObject> blurFunction)
