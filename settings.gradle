@@ -1,2 +1,2 @@
-include 'common', 'conf', 'conf-properties', 'input', 'input-json', 'ioc', 'locale', 'locale-java-i18n', 'log-log4j', 'main', 'utils'
+include 'common', 'conf', 'conf-properties', 'input', 'input-json', 'ioc', 'locale', 'locale-java-i18n', 'log-log4j', 'main', 'svm-test', 'utils'
 rootProject.name = phdAppName

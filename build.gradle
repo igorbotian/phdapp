@@ -149,6 +149,19 @@ project(':main') {
     }
 }
 
+project(':svm-test') {
+    description 'Testing facilities for the new SVM classification mechanism'
+
+    dependencies {
+        compile(
+                project(':common'),
+                project(':conf')
+        )
+
+        testCompile junit
+    }
+}
+
 project(':utils') {
     description 'An utilitarian module'
 
