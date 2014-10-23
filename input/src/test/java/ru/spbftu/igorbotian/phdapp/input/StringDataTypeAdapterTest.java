@@ -18,31 +18,35 @@
 
 package ru.spbftu.igorbotian.phdapp.input;
 
-import ru.spbftu.igorbotian.phdapp.common.BasicDataValueTypes;
+import org.junit.Before;
+import org.junit.Test;
 import ru.spbftu.igorbotian.phdapp.common.DataException;
-import ru.spbftu.igorbotian.phdapp.common.DataValueType;
 
-import java.util.Objects;
+import java.io.IOException;
+import java.util.UUID;
 
 /**
- * Адаптер для серилазиции и десериализации объектов строкового типа в и из строкового представления
+ * Модульные тесты для класса <code>StringDataTypeAdapter</code>
  *
- * @see ru.spbftu.igorbotian.phdapp.input.DataValueTypeAdapter
+ * @see StringDataTypeAdapter
+ * @see DataTypeAdapterTest
  */
-public class StringDataValueTypeAdapter implements DataValueTypeAdapter<String> {
+public class StringDataTypeAdapterTest extends DataTypeAdapterTest<String> {
 
-    @Override
-    public DataValueType<String> targetType() {
-        return BasicDataValueTypes.STRING;
+    private DataTypeAdapter<String> adapter;
+
+    @Before
+    public void setUp() {
+        adapter = new StringDataTypeAdapter();
     }
 
-    @Override
-    public String toString(String value) {
-        return Objects.requireNonNull(value);
+    @Test
+    public void testNonEmptySerialization() throws IOException, DataException {
+        testSerialization(UUID.randomUUID().toString(), adapter);
     }
 
-    @Override
-    public String fromString(String str) throws DataException {
-        return Objects.requireNonNull(str);
+    @Test
+    public void testEmptyStringSerialization() throws IOException, DataException {
+        testSerialization("", adapter);
     }
 }

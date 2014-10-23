@@ -75,9 +75,9 @@ public class DataTest extends BaseDataTest<Data> {
     public void testObjectsWithDifferentParams() throws DataException {
         String paramName = randomString();
         Set<Parameter<?>> firstSetOfParams = Collections.singleton(
-                DataFactory.newObjectParameter(paramName, 1.0, BasicDataValueTypes.REAL));
+                DataFactory.newObjectParameter(paramName, 1.0, BasicDataTypes.REAL));
         Set<Parameter<?>> secondSetOfParams = Collections.singleton(
-                DataFactory.newObjectParameter(paramName, randomString(), BasicDataValueTypes.STRING));
+                DataFactory.newObjectParameter(paramName, randomString(), BasicDataTypes.STRING));
 
         Set<DataObject> objects = new HashSet<>();
         objects.add(DataFactory.newObject(randomString(), firstSetOfParams));

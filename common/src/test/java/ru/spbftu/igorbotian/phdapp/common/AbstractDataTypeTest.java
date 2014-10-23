@@ -22,29 +22,29 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Базовый тест для класса <code>DataValueType</code>
+ * Базовый тест для класса <code>DataType</code>
  *
- * @see ru.spbftu.igorbotian.phdapp.common.DataValueType
+ * @see DataType
  */
-public class AbstractDataValueTypeTest {
+public class AbstractDataTypeTest {
 
     @Test
     public void testName() {
         String name = "dataTypeName";
-        DataValueType<Object> dataValueType = new TestDataValueType<>(name, Object.class);
-        Assert.assertEquals(name, dataValueType.name());
+        DataType<Object> dataType = new TestDataType<>(name, Object.class);
+        Assert.assertEquals(name, dataType.name());
     }
 
     @Test
     public void testJavaClass() {
         Class<Integer> javaClass = Integer.class;
-        DataValueType<Integer> dataValueType = new TestDataValueType<>("anyTypeName", javaClass);
-        Assert.assertEquals(javaClass, dataValueType.javaClass());
+        DataType<Integer> dataType = new TestDataType<>("anyTypeName", javaClass);
+        Assert.assertEquals(javaClass, dataType.javaClass());
     }
 
-    private static class TestDataValueType<T> extends AbstractDataValueType<T> {
+    private static class TestDataType<T> extends AbstractDataType<T> {
 
-        private TestDataValueType(String name, Class<T> javaClass) {
+        private TestDataType(String name, Class<T> javaClass) {
             super(name, javaClass);
         }
     }

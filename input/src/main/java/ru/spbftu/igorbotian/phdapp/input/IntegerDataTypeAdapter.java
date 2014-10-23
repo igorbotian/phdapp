@@ -18,22 +18,22 @@
 
 package ru.spbftu.igorbotian.phdapp.input;
 
-import ru.spbftu.igorbotian.phdapp.common.BasicDataValueTypes;
+import ru.spbftu.igorbotian.phdapp.common.BasicDataTypes;
 import ru.spbftu.igorbotian.phdapp.common.DataException;
-import ru.spbftu.igorbotian.phdapp.common.DataValueType;
+import ru.spbftu.igorbotian.phdapp.common.DataType;
 
 import java.util.Objects;
 
 /**
  * Адаптер для серилазиции и десериализации целых чисел в и из строкового представления
  *
- * @see ru.spbftu.igorbotian.phdapp.input.DataValueTypeAdapter
+ * @see DataTypeAdapter
  */
-public class IntegerDataValueTypeAdapter implements DataValueTypeAdapter<Integer> {
+public class IntegerDataTypeAdapter implements DataTypeAdapter<Integer> {
 
     @Override
-    public DataValueType<Integer> targetType() {
-        return BasicDataValueTypes.INTEGER;
+    public DataType<Integer> targetType() {
+        return BasicDataTypes.INTEGER;
     }
 
     @Override

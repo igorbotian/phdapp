@@ -47,5 +47,5 @@ public interface Parameter<T> {
      *
      * @return Класс значения параметра
      */
-    DataValueType<T> valueType();
+    DataType<T> valueType();
 }

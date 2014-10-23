@@ -19,21 +19,21 @@
 package ru.spbftu.igorbotian.phdapp.input;
 
 import ru.spbftu.igorbotian.phdapp.common.DataException;
-import ru.spbftu.igorbotian.phdapp.common.DataValueType;
+import ru.spbftu.igorbotian.phdapp.common.DataType;
 
 /**
  * Адаптер для серилазиции и десериализации объектов заданного типа в и из строкового представления
  *
  * @param <T> тип сериализуемых объектов
  */
-public interface DataValueTypeAdapter<T> {
+public interface DataTypeAdapter<T> {
 
     /**
      * Получение типа данных, с которым работает адаптер
      *
-     * @return объект типа <code>DataValueType</code>
+     * @return объект типа <code>DataType</code>
      */
-    DataValueType<T> targetType();
+    DataType<T> targetType();
 
     /**
      * Получение заданного объекта заданного в строковом представлении

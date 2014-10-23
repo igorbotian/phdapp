@@ -18,35 +18,31 @@
 
 package ru.spbftu.igorbotian.phdapp.input;
 
-import ru.spbftu.igorbotian.phdapp.common.BasicDataValueTypes;
+import ru.spbftu.igorbotian.phdapp.common.BasicDataTypes;
 import ru.spbftu.igorbotian.phdapp.common.DataException;
-import ru.spbftu.igorbotian.phdapp.common.DataValueType;
+import ru.spbftu.igorbotian.phdapp.common.DataType;
 
 import java.util.Objects;
 
 /**
- * Адаптер для серилазиции и десериализации вещественных чисел в и из строкового представления
+ * Адаптер для серилазиции и десериализации объектов строкового типа в и из строкового представления
  *
- * @see ru.spbftu.igorbotian.phdapp.input.DataValueTypeAdapter
+ * @see DataTypeAdapter
  */
-public class RealDataValueTypeAdapter implements DataValueTypeAdapter<Double> {
+public class StringDataTypeAdapter implements DataTypeAdapter<String> {
 
     @Override
-    public DataValueType<Double> targetType() {
-        return BasicDataValueTypes.REAL;
+    public DataType<String> targetType() {
+        return BasicDataTypes.STRING;
     }
 
     @Override
-    public String toString(Double value) {
-        return Double.toString(Objects.requireNonNull(value));
+    public String toString(String value) {
+        return Objects.requireNonNull(value);
     }
 
     @Override
-    public Double fromString(String str) throws DataException {
-        try {
-            return Double.parseDouble(Objects.requireNonNull(str));
-        } catch (NumberFormatException e) {
-            throw new DataException("Failed to parse a double from a given string: " + str, e);
-        }
+    public String fromString(String str) throws DataException {
+        return Objects.requireNonNull(str);
     }
 }

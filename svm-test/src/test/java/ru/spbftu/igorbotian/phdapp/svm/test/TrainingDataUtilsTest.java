@@ -34,7 +34,7 @@ public class TrainingDataUtilsTest {
 
     private final Set<? extends DataClass> classes = DataFactory.newClasses("firstClass", "secondClass");
     private final Set<Parameter<?>> params = Collections.singleton(
-            DataFactory.newObjectParameter("param", "value", BasicDataValueTypes.STRING));
+            DataFactory.newObjectParameter("param", "value", BasicDataTypes.STRING));
     private final Set<? extends DataObject> testingSet = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
             DataFactory.newObject("firstObj", params),
             DataFactory.newObject("secondObj", params)

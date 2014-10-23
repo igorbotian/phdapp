@@ -16,30 +16,37 @@
  * @author Igor Botian <igor.botian@gmail.com>
  */
 
-package ru.spbftu.igorbotian.phdapp.common.pdu;
+package ru.spbftu.igorbotian.phdapp.input;
 
+import ru.spbftu.igorbotian.phdapp.common.BasicDataTypes;
 import ru.spbftu.igorbotian.phdapp.common.DataException;
 import ru.spbftu.igorbotian.phdapp.common.DataType;
-import ru.spbftu.igorbotian.phdapp.input.DataTypeAdapterRegistry;
+
+import java.util.Objects;
 
 /**
- * POJO-версия класса, предназначенная для использования в механизме сериализации
+ * Адаптер для серилазиции и десериализации вещественных чисел в и из строкового представления
  *
- * @see ru.spbftu.igorbotian.phdapp.common.DataType
+ * @see DataTypeAdapter
  */
-public final class DataValueTypePDU<T> {
+public class RealDataTypeAdapter implements DataTypeAdapter<Double> {
 
-    public String name;
-
-    public static <T> DataValueTypePDU<T> toPDU(DataType<T> type) {
-        DataValueTypePDU<T> pdu = new DataValueTypePDU<>();
-        pdu.name = type.name();
-        return pdu;
+    @Override
+    public DataType<Double> targetType() {
+        return BasicDataTypes.REAL;
     }
 
-    @SuppressWarnings("unchecked")
-    public DataType<T> toObject() throws DataException {
-        // TODO в данном месте приведение типов небезопасно
-        return (DataType<T>) DataTypeAdapterRegistry.INSTANCE.getTypeAdapterNamedAs(name).targetType();
+    @Override
+    public String toString(Double value) {
+        return Double.toString(Objects.requireNonNull(value));
+    }
+
+    @Override
+    public Double fromString(String str) throws DataException {
+        try {
+            return Double.parseDouble(Objects.requireNonNull(str));
+        } catch (NumberFormatException e) {
+            throw new DataException("Failed to parse a double from a given string: " + str, e);
+        }
     }
 }

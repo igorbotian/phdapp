@@ -26,10 +26,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Реестр адаптеров сериализации для заданных типов данных
- * @see ru.spbftu.igorbotian.phdapp.common.DataValueType
- * @see ru.spbftu.igorbotian.phdapp.input.DataValueTypeAdapter
+ * @see ru.spbftu.igorbotian.phdapp.common.DataType
+ * @see DataTypeAdapter
  */
-public enum DataValueTypeAdapterRegistry {
+public enum DataTypeAdapterRegistry {
 
     /**
      * Объект для доступа к реестру
@@ -39,12 +39,12 @@ public enum DataValueTypeAdapterRegistry {
     /**
      * Контейнер для хранения связок "тип - адаптер сериализации/десериализации"
      */
-    private final Map<String, DataValueTypeAdapter<?>> typeAdapters = new ConcurrentHashMap<>();
+    private final Map<String, DataTypeAdapter<?>> typeAdapters = new ConcurrentHashMap<>();
 
-    private DataValueTypeAdapterRegistry() {
-        registerTypeAdapter(new IntegerDataValueTypeAdapter());
-        registerTypeAdapter(new RealDataValueTypeAdapter());
-        registerTypeAdapter(new StringDataValueTypeAdapter());
+    private DataTypeAdapterRegistry() {
+        registerTypeAdapter(new IntegerDataTypeAdapter());
+        registerTypeAdapter(new RealDataTypeAdapter());
+        registerTypeAdapter(new StringDataTypeAdapter());
     }
 
     /**
@@ -54,7 +54,7 @@ public enum DataValueTypeAdapterRegistry {
      * @param <T>     тип, для сериализации объектов которого предназначен данный адаптер
      * @throws java.lang.NullPointerException если адаптер не задан
      */
-    public final <T> void registerTypeAdapter(DataValueTypeAdapter<T> adapter) {
+    public final <T> void registerTypeAdapter(DataTypeAdapter<T> adapter) {
         typeAdapters.put(Objects.requireNonNull(adapter).targetType().name(), adapter);
     }
 
@@ -66,7 +66,7 @@ public enum DataValueTypeAdapterRegistry {
      * @throws java.lang.NullPointerException                   если тип данных не задан
      * @throws ru.spbftu.igorbotian.phdapp.common.DataException если адаптера для заданного типа данных не зарегистрировано
      */
-    public final DataValueTypeAdapter<?> getTypeAdapterNamedAs(String name) throws DataException {
+    public final DataTypeAdapter<?> getTypeAdapterNamedAs(String name) throws DataException {
         return typeAdapters.get(Objects.requireNonNull(name));
     }
 }

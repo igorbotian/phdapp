@@ -41,9 +41,9 @@ class ParameterImpl<V> implements Parameter<V> {
     /**
      * Класс значения параметра
      */
-    private final DataValueType<V> valueType;
+    private final DataType<V> valueType;
 
-    public ParameterImpl(String name, V value, DataValueType<V> valueType) {
+    public ParameterImpl(String name, V value, DataType<V> valueType) {
         Objects.requireNonNull(name);
         Objects.requireNonNull(value);
         Objects.requireNonNull(valueType);
@@ -68,7 +68,7 @@ class ParameterImpl<V> implements Parameter<V> {
     }
 
     @Override
-    public DataValueType<V> valueType() {
+    public DataType<V> valueType() {
         return valueType;
     }
 

@@ -68,9 +68,9 @@ public class DataObjectTest extends BaseDataTest<DataObject> {
     @Test
     public void testParamsWithDifferentTypes() {
         Set<Parameter<?>> setOfParams = new HashSet<>();
-        setOfParams.add(DataFactory.newObjectParameter(randomString(), 1, BasicDataValueTypes.INTEGER));
-        setOfParams.add(DataFactory.newObjectParameter(randomString(), 1.0, BasicDataValueTypes.REAL));
-        setOfParams.add(DataFactory.newObjectParameter(randomString(), randomString(), BasicDataValueTypes.STRING));
+        setOfParams.add(DataFactory.newObjectParameter(randomString(), 1, BasicDataTypes.INTEGER));
+        setOfParams.add(DataFactory.newObjectParameter(randomString(), 1.0, BasicDataTypes.REAL));
+        setOfParams.add(DataFactory.newObjectParameter(randomString(), randomString(), BasicDataTypes.STRING));
 
         DataObject obj = DataFactory.newObject(randomString(), setOfParams);
 

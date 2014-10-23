@@ -22,42 +22,40 @@ import org.junit.Before;
 import org.junit.Test;
 import ru.spbftu.igorbotian.phdapp.common.DataException;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 /**
- * Модульные тесты для класса <code>RealDataValueTypeAdapter</code>
+ * Модульные тесты для класса <code>IntegerDataTypeAdapter</code>
  *
- * @see ru.spbftu.igorbotian.phdapp.input.RealDataValueTypeAdapter
- * @see ru.spbftu.igorbotian.phdapp.input.DataValueTypeAdapterTest
+ * @see IntegerDataTypeAdapter
+ * @see DataTypeAdapterTest
  */
-public class RealDataValueTypeAdapterTest extends DataValueTypeAdapterTest<Double> {
+public class IntegerDataTypeAdapterTest extends DataTypeAdapterTest<Integer> {
 
-    private DataValueTypeAdapter<Double> adapter;
+    private DataTypeAdapter<Integer> adapter;
 
     @Before
     public void setUp() {
-        adapter = new RealDataValueTypeAdapter();
+        adapter = new IntegerDataTypeAdapter();
     }
 
     @Test
     public void testPositiveValueSerialization() throws IOException, DataException {
-        testSerialization(5.0, adapter);
+        testSerialization(5, adapter);
     }
 
     @Test
     public void testZeroSerialization() throws IOException, DataException {
-        testSerialization(0.0, adapter);
+        testSerialization(0, adapter);
     }
 
     @Test
     public void testNegativeValueSerialization() throws IOException, DataException {
-        testSerialization(-5.0, adapter);
+        testSerialization(-5, adapter);
     }
 
     @Test(expected = DataException.class)
     public void testNonIntegerDeserialization() throws IOException, DataException {
-        adapter.fromString("non-double");
+        adapter.fromString("non-integer");
     }
 }

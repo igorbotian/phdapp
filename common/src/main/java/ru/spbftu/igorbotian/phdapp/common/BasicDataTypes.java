@@ -21,29 +21,29 @@ package ru.spbftu.igorbotian.phdapp.common;
 /**
  * Набор базовых типов данных (значения параметра объекта набора исходных данных)
  *
- * @see ru.spbftu.igorbotian.phdapp.common.DataValueType
+ * @see DataType
  */
-public final class BasicDataValueTypes {
+public final class BasicDataTypes {
 
     /**
      * Целочисленный тип данных
      */
-    public static final DataValueType<java.lang.Integer> INTEGER = new Integer();
+    public static final DataType<java.lang.Integer> INTEGER = new Integer();
 
     /**
      * Вещественный тип данных
      */
-    public static final DataValueType<java.lang.Double> REAL = new Real();
+    public static final DataType<Double> REAL = new Real();
 
     /**
      * Строковый тип данных
      */
-    public static final DataValueType<java.lang.String> STRING = new String();
+    public static final DataType<java.lang.String> STRING = new String();
 
     /**
      * Класс целочисленного типа данных
      */
-    private static final class Integer extends AbstractDataValueType<java.lang.Integer> {
+    private static final class Integer extends AbstractDataType<java.lang.Integer> {
 
         private Integer() {
             super("integer", java.lang.Integer.class);
@@ -53,7 +53,7 @@ public final class BasicDataValueTypes {
     /**
      * Класс строкового типа данных
      */
-    private static final class String extends AbstractDataValueType<java.lang.String> {
+    private static final class String extends AbstractDataType<java.lang.String> {
 
         private String() {
             super("string", java.lang.String.class);
@@ -63,7 +63,7 @@ public final class BasicDataValueTypes {
     /**
      * Класс вещественного типа данных
      */
-    private static final class Real extends AbstractDataValueType<Double> {
+    private static final class Real extends AbstractDataType<Double> {
 
         private Real() {
             super("real", java.lang.Double.class);

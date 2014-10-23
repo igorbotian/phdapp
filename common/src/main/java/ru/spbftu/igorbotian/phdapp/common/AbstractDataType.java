@@ -21,12 +21,12 @@ package ru.spbftu.igorbotian.phdapp.common;
 import java.util.Objects;
 
 /**
- * Каркас для создания типов данных <code>DataValueType</code>
+ * Каркас для создания типов данных <code>DataType</code>
  *
  * @param <T> Java-класс, соответствующий типу данных
- * @see ru.spbftu.igorbotian.phdapp.common.DataValueType
+ * @see DataType
  */
-public abstract class AbstractDataValueType<T> implements DataValueType<T> {
+public abstract class AbstractDataType<T> implements DataType<T> {
 
     /**
      * Идентификатор типа данных
@@ -45,7 +45,7 @@ public abstract class AbstractDataValueType<T> implements DataValueType<T> {
      * @param javaClass Java-класс, соответствующий этому типу данных
      * @throws java.lang.NullPointerException если хотя бы один из параметров не задан
      */
-    public AbstractDataValueType(String name, Class<T> javaClass) {
+    public AbstractDataType(String name, Class<T> javaClass) {
         Objects.requireNonNull(name);
         Objects.requireNonNull(javaClass);
 
@@ -74,11 +74,11 @@ public abstract class AbstractDataValueType<T> implements DataValueType<T> {
             return true;
         }
 
-        if (obj == null || !(obj instanceof AbstractDataValueType)) {
+        if (obj == null || !(obj instanceof AbstractDataType)) {
             return false;
         }
 
-        AbstractDataValueType other = (AbstractDataValueType) obj;
+        AbstractDataType other = (AbstractDataType) obj;
         return (name.equals(other.name) && javaClass.equals(other.javaClass));
     }
 

@@ -72,7 +72,7 @@ public final class DataFactory {
      * @throws java.lang.NullPointerException     если хотя бы один из параметров не задан
      * @see Parameter
      */
-    public static <V> Parameter<V> newObjectParameter(String name, V value, DataValueType<V> valueType) {
+    public static <V> Parameter<V> newObjectParameter(String name, V value, DataType<V> valueType) {
         return new ParameterImpl<>(name, value, valueType);
     }
 

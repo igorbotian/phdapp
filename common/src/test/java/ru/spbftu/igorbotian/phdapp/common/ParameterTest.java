@@ -28,29 +28,29 @@ import org.junit.Test;
  */
 public class ParameterTest extends BaseDataTest<Parameter> {
 
-    private final Parameter obj = DataFactory.newObjectParameter("obj", "value", BasicDataValueTypes.STRING);
+    private final Parameter obj = DataFactory.newObjectParameter("obj", "value", BasicDataTypes.STRING);
     private final Parameter differentObj =
-            DataFactory.newObjectParameter("differentObj", "anotherValue", BasicDataValueTypes.STRING);
+            DataFactory.newObjectParameter("differentObj", "anotherValue", BasicDataTypes.STRING);
     private final Parameter objWithSameNameAndDifferentValue =
-            DataFactory.newObjectParameter("obj", "anotherValue", BasicDataValueTypes.STRING);
-    private final Parameter similarObj = DataFactory.newObjectParameter("obj", "value", BasicDataValueTypes.STRING);
+            DataFactory.newObjectParameter("obj", "anotherValue", BasicDataTypes.STRING);
+    private final Parameter similarObj = DataFactory.newObjectParameter("obj", "value", BasicDataTypes.STRING);
 
     @Test
     public void testName() {
         String paramName = "test";
-        Assert.assertEquals(paramName, DataFactory.newObjectParameter(paramName, "anyValue", BasicDataValueTypes.STRING).name());
+        Assert.assertEquals(paramName, DataFactory.newObjectParameter(paramName, "anyValue", BasicDataTypes.STRING).name());
     }
 
     @Test
     public void testValue() {
         String paramValue = "test";
-        Assert.assertEquals(paramValue, DataFactory.newObjectParameter("anyParam", paramValue, BasicDataValueTypes.STRING).value());
+        Assert.assertEquals(paramValue, DataFactory.newObjectParameter("anyParam", paramValue, BasicDataTypes.STRING).value());
     }
 
     @Test
     public void testValueType() {
-        DataValueType<String> dataValueType = BasicDataValueTypes.STRING;
-        Assert.assertEquals(dataValueType, DataFactory.newObjectParameter("anyParam", "anyValue", dataValueType).valueType());
+        DataType<String> dataType = BasicDataTypes.STRING;
+        Assert.assertEquals(dataType, DataFactory.newObjectParameter("anyParam", "anyValue", dataType).valueType());
     }
 
     @Test

@@ -16,27 +16,22 @@
  * @author Igor Botian <igor.botian@gmail.com>
  */
 
-package ru.spbftu.igorbotian.phdapp.common;
+package ru.spbftu.igorbotian.phdapp.input;
+
+import org.junit.Assert;
+import ru.spbftu.igorbotian.phdapp.common.DataException;
+
+import java.io.IOException;
 
 /**
- * Тип данных (значения параметров объектов набора исходных данных)
+ * Базовый класс для модульных тестов для класса <code>DataTypeAdapter</code>
  *
- * @param <T> соответствующий Java-класс
- * @see Parameter
+ * @param <T> тип значения параметра объекта исходных данных
+ * @see DataTypeAdapter
  */
-public interface DataValueType<T> {
+public abstract class DataTypeAdapterTest<T> {
 
-    /**
-     * Получение идентификатора типа данных
-     *
-     * @return строковое представление идентификатора типа данных
-     */
-    public String name();
-
-    /**
-     * Получение Java-класса, соответствующего данному типу данных
-     *
-     * @return Java-класс
-     */
-    public Class<T> javaClass();
+    protected void testSerialization(T testValue, DataTypeAdapter<T> adapter) throws IOException, DataException {
+        Assert.assertEquals(testValue, adapter.fromString(adapter.toString(testValue)));
+    }
 }

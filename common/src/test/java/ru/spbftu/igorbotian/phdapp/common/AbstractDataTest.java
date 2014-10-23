@@ -124,7 +124,7 @@ public abstract class AbstractDataTest {
      */
     protected static Parameter<String> randomStringObjectParameter(String name) {
         Objects.requireNonNull(name);
-        return DataFactory.newObjectParameter(name, randomString(), BasicDataValueTypes.STRING);
+        return DataFactory.newObjectParameter(name, randomString(), BasicDataTypes.STRING);
     }
 
     /**

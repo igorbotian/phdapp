@@ -72,10 +72,10 @@ class DataImpl implements Data {
         }
 
         Iterator<? extends DataObject> it = objects.iterator();
-        Map<String, DataValueType<?>> referentParamsMap = paramsMapOf(it.next());
+        Map<String, DataType<?>> referentParamsMap = paramsMapOf(it.next());
 
         while (it.hasNext()) {
-            Map<String, DataValueType<?>> paramsMap = paramsMapOf(it.next());
+            Map<String, DataType<?>> paramsMap = paramsMapOf(it.next());
 
             if (paramsMap.size() != referentParamsMap.size()) {
                 return false;
@@ -98,10 +98,10 @@ class DataImpl implements Data {
     /*
      * Возвращает ассоциативный массив с именами типов параметров и соответствующих им типов данных
      */
-    private Map<String, DataValueType<?>> paramsMapOf(DataObject obj) {
+    private Map<String, DataType<?>> paramsMapOf(DataObject obj) {
         assert (obj != null);
 
-        Map<String, DataValueType<?>> paramsMap = new HashMap<>();
+        Map<String, DataType<?>> paramsMap = new HashMap<>();
 
         for (Parameter param : obj.parameters()) {
             paramsMap.put(param.name(), param.valueType());
