@@ -54,7 +54,7 @@ public class TrainingDataBuilderTest extends AbstractDataTest {
         Set<String> paramNames = randomStrings(2);
 
         Set<DataObject> testingSet = randomObjects(2, paramNames);
-        Set<TrainingDataObject> trainingSet = randomTrainingObjects(2, paramNames, classNames);
+        Set<ClassifiedDataObject> trainingSet = randomTrainingObjects(2, paramNames, classNames);
 
         data = DataFactory.newTrainingData(DataFactory.newClasses(classNames), testingSet, trainingSet);
         dataWitoutTrainingSet =

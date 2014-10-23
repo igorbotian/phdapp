@@ -26,18 +26,18 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Модульные тесты для класса <code>TrainingDataObject</code>
+ * Модульные тесты для класса <code>ClassifiedDataObject</code>
  *
- * @see ru.spbftu.igorbotian.phdapp.common.TrainingDataObject
+ * @see ClassifiedDataObject
  */
-public class TrainingDataObjectTest extends BaseDataTest<TrainingDataObject> {
+public class ClassifiedDataObjectTest extends BaseDataTest<ClassifiedDataObject> {
 
     private DataClass realClass;
     private Set<Parameter<?>> setOfParams;
 
-    private TrainingDataObject obj;
-    private TrainingDataObject differentObj;
-    private TrainingDataObject similarObj;
+    private ClassifiedDataObject obj;
+    private ClassifiedDataObject differentObj;
+    private ClassifiedDataObject similarObj;
 
     @Before
     public void setUp() {
@@ -47,14 +47,14 @@ public class TrainingDataObjectTest extends BaseDataTest<TrainingDataObject> {
         DataClass anotherRealClass = randomClass();
         Set<Parameter<?>> anotherSetOfParams = randomStringObjectParameters(3);
 
-        obj = DataFactory.newTrainingObject("obj", setOfParams, realClass);
-        differentObj = DataFactory.newTrainingObject("differentObj", anotherSetOfParams, anotherRealClass);
-        similarObj = DataFactory.newTrainingObject("obj", new HashSet<>(setOfParams), realClass);
+        obj = DataFactory.newClassifiedObject("obj", setOfParams, realClass);
+        differentObj = DataFactory.newClassifiedObject("differentObj", anotherSetOfParams, anotherRealClass);
+        similarObj = DataFactory.newClassifiedObject("obj", new HashSet<>(setOfParams), realClass);
     }
 
     @Test
     public void testRealClass() {
-        Assert.assertEquals(realClass, DataFactory.newTrainingObject("name", setOfParams, realClass).realClass());
+        Assert.assertEquals(realClass, DataFactory.newClassifiedObject("name", setOfParams, realClass).realClass());
     }
 
     @Test

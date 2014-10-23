@@ -31,10 +31,10 @@ class TrainingDataImpl extends DataImpl implements TrainingData {
     /**
      * Обучающая выборка (множество объектов; информация о реальном классе классификации известа для каждого из них)
      */
-    private final Set<? extends TrainingDataObject> trainingSet;
+    private final Set<? extends ClassifiedDataObject> trainingSet;
 
     public TrainingDataImpl(Set<? extends DataClass> classes, Set<? extends DataObject> testingSet,
-                            Set<? extends TrainingDataObject> trainingSet) throws DataException {
+                            Set<? extends ClassifiedDataObject> trainingSet) throws DataException {
         super(classes, testingSet);
 
         Objects.requireNonNull(trainingSet);
@@ -43,7 +43,7 @@ class TrainingDataImpl extends DataImpl implements TrainingData {
 
         // проверка на наличие объекта в обучающей выборке, который соответствует классу, отличному от тех,
         // которые будут использованы при классификации
-        for (TrainingDataObject obj : trainingSet) {
+        for (ClassifiedDataObject obj : trainingSet) {
             if (!classes().contains(obj.realClass())) {
                 throw new DataException("Object has a real class not taken into account on testing: " + obj);
             }
@@ -60,7 +60,7 @@ class TrainingDataImpl extends DataImpl implements TrainingData {
     }
 
     @Override
-    public Set<? extends TrainingDataObject> trainingSet() {
+    public Set<? extends ClassifiedDataObject> trainingSet() {
         return trainingSet;
     }
 

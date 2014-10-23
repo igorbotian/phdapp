@@ -21,12 +21,12 @@ package ru.spbftu.igorbotian.phdapp.common;
 /**
  * Элемент обучающей выборки.
  * По своей сути является тем же исходым объектом, но для него известен реальный класс классификации,
- * которому он соответствует
+ * которому он соответствует.
  *
  * @see ru.spbftu.igorbotian.phdapp.common.DataClass
  * @see ru.spbftu.igorbotian.phdapp.common.DataObject
  */
-public interface TrainingDataObject extends DataObject {
+public interface ClassifiedDataObject extends DataObject {
 
     /**
      * Получение реального класса классификации, которому соответствует объект

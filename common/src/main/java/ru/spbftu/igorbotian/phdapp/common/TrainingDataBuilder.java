@@ -29,14 +29,14 @@ import java.util.Set;
  *
  * @see ru.spbftu.igorbotian.phdapp.common.DataClass
  * @see ru.spbftu.igorbotian.phdapp.common.DataObject
- * @see ru.spbftu.igorbotian.phdapp.common.TrainingDataObject
+ * @see ClassifiedDataObject
  */
 public class TrainingDataBuilder extends DataBuilder {
 
     /**
      * Обучающая выборка, объекты которой содержат информацию о реальных классах классификации, которым они соответствуют
      */
-    private Set<TrainingDataObject> trainingSet;
+    private Set<ClassifiedDataObject> trainingSet;
 
     /**
      * Добавление нового элемента в обучающую выборку
@@ -44,7 +44,7 @@ public class TrainingDataBuilder extends DataBuilder {
      * @param data новый элемент обучающей выборки
      * @throws java.lang.NullPointerException если объект не задан
      */
-    public void addTrainingObject(TrainingDataObject data) {
+    public void addTrainingObject(ClassifiedDataObject data) {
         Objects.requireNonNull(data);
 
         if (trainingSet == null) {

@@ -72,7 +72,7 @@ public final class DataFactory {
      * @throws java.lang.NullPointerException     если хотя бы один из параметров не задан
      * @see Parameter
      */
-    public static <V> Parameter<V> newObjectParameter(String name, V value, DataType<V> valueType) {
+    public static <V> Parameter<V> newParameter(String name, V value, DataType<V> valueType) {
         return new ParameterImpl<>(name, value, valueType);
     }
 
@@ -91,16 +91,16 @@ public final class DataFactory {
     }
 
     /**
-     * Создание объекта типа <code>TrainingDataObject</code>
+     * Создание объекта типа <code>ClassifiedDataObject</code>
      *
      * @param id        строковое представление идентификатора объекта (не может быть <code>null</code> или пустым)
      * @param params    множество параметров, которыми характеризуется объект (непустое)
      * @param realClass реальный класса классификации, которому соответствует объект
      * @throws java.lang.NullPointerException если хотя бы один из параметров не задан
-     * @see ru.spbftu.igorbotian.phdapp.common.TrainingDataObject
+     * @see ru.spbftu.igorbotian.phdapp.common.ClassifiedDataObject
      */
-    public static TrainingDataObject newTrainingObject(String id, Set<Parameter<?>> params, DataClass realClass) {
-        return new TrainingDataObjectImpl(id, params, realClass);
+    public static ClassifiedDataObject newClassifiedObject(String id, Set<Parameter<?>> params, DataClass realClass) {
+        return new ClassifiedDataObjectImpl(id, params, realClass);
     }
 
     /**
@@ -129,7 +129,7 @@ public final class DataFactory {
      * @see ru.spbftu.igorbotian.phdapp.common.TrainingData
      */
     public static TrainingData newTrainingData(Set<? extends DataClass> classes, Set<? extends DataObject> testingSet,
-                                               Set<? extends TrainingDataObject> trainingSet) throws DataException {
+                                               Set<? extends ClassifiedDataObject> trainingSet) throws DataException {
         return new TrainingDataImpl(classes, testingSet, trainingSet);
     }
 }

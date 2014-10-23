@@ -124,7 +124,7 @@ public abstract class AbstractDataTest {
      */
     protected static Parameter<String> randomStringObjectParameter(String name) {
         Objects.requireNonNull(name);
-        return DataFactory.newObjectParameter(name, randomString(), BasicDataTypes.STRING);
+        return DataFactory.newParameter(name, randomString(), BasicDataTypes.STRING);
     }
 
     /**
@@ -192,18 +192,18 @@ public abstract class AbstractDataTest {
     }
 
     /**
-     * Создание объекта класса <code>TrainingDataObject</code> со случайными значениями параметров
+     * Создание объекта класса <code>ClassifiedDataObject</code> со случайными значениями параметров
      *
      * @param className  реальный класс объекта
      * @param paramNames названия параметров
      * @return объект класса
      * @throws java.lang.NullPointerException если название класса или множество параметров не задано
      */
-    protected static TrainingDataObject randomTrainingObject(String className, Set<String> paramNames) {
+    protected static ClassifiedDataObject randomTrainingObject(String className, Set<String> paramNames) {
         Objects.requireNonNull(className);
         Objects.requireNonNull(paramNames);
 
-        return DataFactory.newTrainingObject(
+        return DataFactory.newClassifiedObject(
                 randomString(),
                 randomStringObjectParameters(paramNames),
                 DataFactory.newClass(className)
@@ -211,7 +211,7 @@ public abstract class AbstractDataTest {
     }
 
     /**
-     * Создание множества объектов класса <code>TrainingDataObject</code> соу случайными значениями параметров
+     * Создание множества объектов класса <code>ClassifiedDataObject</code> соу случайными значениями параметров
      *
      * @param count              количество объектов в множестве
      * @param paramNames         названия параметров
@@ -220,12 +220,12 @@ public abstract class AbstractDataTest {
      * @throws java.lang.IllegalArgumentException если количество объектов имеет отрицательное значение
      * @throws java.lang.NullPointerException     если названия параметров или названия реальных классов не задано
      */
-    protected static Set<TrainingDataObject> randomTrainingObjects(int count, Set<String> paramNames,
+    protected static Set<ClassifiedDataObject> randomTrainingObjects(int count, Set<String> paramNames,
                                                                    Set<String> possibleClassNames) {
         Objects.requireNonNull(paramNames);
         Objects.requireNonNull(possibleClassNames);
 
-        Set<TrainingDataObject> objects = new HashSet<>();
+        Set<ClassifiedDataObject> objects = new HashSet<>();
         List<String> listOfPossibleClasses = possibleClassNames.stream().collect(Collectors.toList());
 
         for (int i = 0; i < count; i++) {

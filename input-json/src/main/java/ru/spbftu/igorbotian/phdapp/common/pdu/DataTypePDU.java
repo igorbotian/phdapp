@@ -27,12 +27,12 @@ import ru.spbftu.igorbotian.phdapp.input.DataTypeAdapterRegistry;
  *
  * @see ru.spbftu.igorbotian.phdapp.common.DataType
  */
-public final class DataValueTypePDU<T> {
+public final class DataTypePDU<T> {
 
     public String name;
 
-    public static <T> DataValueTypePDU<T> toPDU(DataType<T> type) {
-        DataValueTypePDU<T> pdu = new DataValueTypePDU<>();
+    public static <T> DataTypePDU<T> toPDU(DataType<T> type) {
+        DataTypePDU<T> pdu = new DataTypePDU<>();
         pdu.name = type.name();
         return pdu;
     }

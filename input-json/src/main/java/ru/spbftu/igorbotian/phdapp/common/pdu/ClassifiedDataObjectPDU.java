@@ -18,10 +18,10 @@
 
 package ru.spbftu.igorbotian.phdapp.common.pdu;
 
+import ru.spbftu.igorbotian.phdapp.common.ClassifiedDataObject;
 import ru.spbftu.igorbotian.phdapp.common.DataException;
 import ru.spbftu.igorbotian.phdapp.common.DataFactory;
 import ru.spbftu.igorbotian.phdapp.common.Parameter;
-import ru.spbftu.igorbotian.phdapp.common.TrainingDataObject;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -29,31 +29,31 @@ import java.util.Set;
 /**
  * POJO-версия класса, предназначенная для использования в механизме сериализации
  *
- * @see ru.spbftu.igorbotian.phdapp.common.TrainingDataObject
+ * @see ru.spbftu.igorbotian.phdapp.common.ClassifiedDataObject
  */
-public final class TrainingDataObjectPDU {
+public final class ClassifiedDataObjectPDU {
 
     public String id;
-    public Set<DataObjectParameterPDU> params;
+    public Set<ParameterPDU> params;
     public DataClassPDU realClass;
 
-    public static TrainingDataObjectPDU toPDU(TrainingDataObject obj) {
-        TrainingDataObjectPDU pdu = new TrainingDataObjectPDU();
+    public static ClassifiedDataObjectPDU toPDU(ClassifiedDataObject obj) {
+        ClassifiedDataObjectPDU pdu = new ClassifiedDataObjectPDU();
 
         pdu.id = obj.id();
         pdu.params = new LinkedHashSet<>();
-        obj.parameters().forEach(param -> pdu.params.add(DataObjectParameterPDU.toPDU(param)));
+        obj.parameters().forEach(param -> pdu.params.add(ParameterPDU.toPDU(param)));
         pdu.realClass = DataClassPDU.toPDU(obj.realClass());
 
         return pdu;
     }
 
-    public TrainingDataObject toObject() throws DataException {
+    public ClassifiedDataObject toObject() throws DataException {
         Set<Parameter<?>> params = new LinkedHashSet<>();
 
-        for(DataObjectParameterPDU param : this.params) {
+        for(ParameterPDU param : this.params) {
             params.add(param.toObject());
         }
-        return DataFactory.newTrainingObject(id, params, realClass.toObject());
+        return DataFactory.newClassifiedObject(id, params, realClass.toObject());
     }
 }

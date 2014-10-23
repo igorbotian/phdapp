@@ -33,7 +33,7 @@ public class TrainingDataTest extends BaseDataTest<TrainingData> {
 
     private Set<DataClass> setOfClasses;
     private Set<DataObject> testingSet;
-    private Set<TrainingDataObject> trainingSet;
+    private Set<ClassifiedDataObject> trainingSet;
 
     private TrainingData obj;
     private TrainingData differentObj;
@@ -54,7 +54,7 @@ public class TrainingDataTest extends BaseDataTest<TrainingData> {
 
         Set<String> anotherParamNames = randomStrings(2);
         Set<DataObject> anotherTestingSet = randomObjects(2, paramNames);
-        Set<TrainingDataObject> anotherTrainingSet =
+        Set<ClassifiedDataObject> anotherTrainingSet =
                 randomTrainingObjects(2, anotherParamNames, anotherSetOfClassNames);
 
         obj = DataFactory.newTrainingData(setOfClasses, testingSet, trainingSet);

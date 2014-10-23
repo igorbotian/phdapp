@@ -34,14 +34,14 @@ import java.util.Set;
 public final class DataObjectPDU {
 
     public String id;
-    public Set<DataObjectParameterPDU<?>> params;
+    public Set<ParameterPDU<?>> params;
 
     public static DataObjectPDU toPDU(DataObject obj) {
         DataObjectPDU pdu = new DataObjectPDU();
 
         pdu.id = obj.id();
         pdu.params = new LinkedHashSet<>();
-        obj.parameters().forEach(param -> pdu.params.add(DataObjectParameterPDU.toPDU(param)));
+        obj.parameters().forEach(param -> pdu.params.add(ParameterPDU.toPDU(param)));
 
         return pdu;
     }
@@ -49,7 +49,7 @@ public final class DataObjectPDU {
     public DataObject toObject() throws DataException {
         Set<Parameter<?>> params = new LinkedHashSet<>();
 
-        for(DataObjectParameterPDU param : this.params) {
+        for(ParameterPDU param : this.params) {
             params.add(param.toObject());
         }
 

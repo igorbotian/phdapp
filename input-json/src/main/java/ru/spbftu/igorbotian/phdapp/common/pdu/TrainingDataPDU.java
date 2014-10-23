@@ -32,7 +32,7 @@ public class TrainingDataPDU {
 
     public Set<DataClassPDU> classes;
     public Set<DataObjectPDU> testingSet;
-    public Set<TrainingDataObjectPDU> trainingSet;
+    public Set<ClassifiedDataObjectPDU> trainingSet;
 
     public static TrainingDataPDU toPDU(TrainingData data) {
         TrainingDataPDU pdu = new TrainingDataPDU();
@@ -44,7 +44,7 @@ public class TrainingDataPDU {
         data.testingSet().forEach(obj -> pdu.testingSet.add(DataObjectPDU.toPDU(obj)));
 
         pdu.trainingSet = new LinkedHashSet<>();
-        data.trainingSet().forEach(obj -> pdu.trainingSet.add(TrainingDataObjectPDU.toPDU(obj)));
+        data.trainingSet().forEach(obj -> pdu.trainingSet.add(ClassifiedDataObjectPDU.toPDU(obj)));
 
         return pdu;
     }
@@ -58,8 +58,8 @@ public class TrainingDataPDU {
             testingSet.add(pdu.toObject());
         }
 
-        Set<TrainingDataObject> trainingSet = new LinkedHashSet<>();
-        for(TrainingDataObjectPDU pdu : this.trainingSet) {
+        Set<ClassifiedDataObject> trainingSet = new LinkedHashSet<>();
+        for(ClassifiedDataObjectPDU pdu : this.trainingSet) {
             trainingSet.add(pdu.toObject());
         }
 

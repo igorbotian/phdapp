@@ -25,14 +25,14 @@ import java.util.Set;
  * @see ru.spbftu.igorbotian.phdapp.common.TrainingData
  * @see ru.spbftu.igorbotian.phdapp.common.DataFactory
  */
-class TrainingDataObjectImpl extends DataObjectImpl implements TrainingDataObject {
+class ClassifiedDataObjectImpl extends DataObjectImpl implements ClassifiedDataObject {
 
     /**
      * Реальный класс классификации, которому соответствует объект
      */
     private final DataClass realClass;
 
-    public TrainingDataObjectImpl(String id, Set<Parameter<?>> params, DataClass realClass) {
+    public ClassifiedDataObjectImpl(String id, Set<Parameter<?>> params, DataClass realClass) {
 
         super(id, params);
 
@@ -56,11 +56,11 @@ class TrainingDataObjectImpl extends DataObjectImpl implements TrainingDataObjec
             return true;
         }
 
-        if (obj == null || !(obj instanceof TrainingDataObject)) {
+        if (obj == null || !(obj instanceof ClassifiedDataObject)) {
             return false;
         }
 
-        TrainingDataObjectImpl other = (TrainingDataObjectImpl) obj;
+        ClassifiedDataObjectImpl other = (ClassifiedDataObjectImpl) obj;
         return super.equals(other) && realClass.equals(other.realClass);
     }
 

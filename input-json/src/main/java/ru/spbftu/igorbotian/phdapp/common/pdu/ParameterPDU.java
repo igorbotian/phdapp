@@ -27,23 +27,23 @@ import ru.spbftu.igorbotian.phdapp.common.Parameter;
  *
  * @see ru.spbftu.igorbotian.phdapp.common.Parameter
  */
-public final class DataObjectParameterPDU<T> {
+public final class ParameterPDU<T> {
 
     public String name;
     public T value;
-    public DataValueTypePDU<T> valueType;
+    public DataTypePDU<T> valueType;
 
-    public static <T> DataObjectParameterPDU<T> toPDU(Parameter<T> param) {
-        DataObjectParameterPDU<T> pdu = new DataObjectParameterPDU<>();
+    public static <T> ParameterPDU<T> toPDU(Parameter<T> param) {
+        ParameterPDU<T> pdu = new ParameterPDU<>();
 
         pdu.name = param.name();
         pdu.value = param.value();
-        pdu.valueType = DataValueTypePDU.toPDU(param.valueType());
+        pdu.valueType = DataTypePDU.toPDU(param.valueType());
 
         return pdu;
     }
 
     public Parameter<T> toObject() throws DataException {
-        return DataFactory.newObjectParameter(name, value, valueType.toObject());
+        return DataFactory.newParameter(name, value, valueType.toObject());
     }
 }

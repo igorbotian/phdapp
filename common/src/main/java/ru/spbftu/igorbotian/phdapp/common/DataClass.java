@@ -23,7 +23,7 @@ package ru.spbftu.igorbotian.phdapp.common;
  * Класс является потокобезопасным, а его объекты - неизменяемыми.
  *
  * @see ru.spbftu.igorbotian.phdapp.common.DataObject
- * @see ru.spbftu.igorbotian.phdapp.common.TrainingDataObject
+ * @see ClassifiedDataObject
  */
 public interface DataClass {
 

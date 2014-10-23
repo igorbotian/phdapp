@@ -34,18 +34,18 @@ public class TrainingDataUtilsTest {
 
     private final Set<? extends DataClass> classes = DataFactory.newClasses("firstClass", "secondClass");
     private final Set<Parameter<?>> params = Collections.singleton(
-            DataFactory.newObjectParameter("param", "value", BasicDataTypes.STRING));
+            DataFactory.newParameter("param", "value", BasicDataTypes.STRING));
     private final Set<? extends DataObject> testingSet = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
             DataFactory.newObject("firstObj", params),
             DataFactory.newObject("secondObj", params)
     )));
-    private final Set<? extends TrainingDataObject> trainingSet = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
-            DataFactory.newTrainingObject("firstObj", params, classes.iterator().next()),
-            DataFactory.newTrainingObject("secondObj", params, classes.iterator().next()),
-            DataFactory.newTrainingObject("thirdObj", params, classes.iterator().next())
+    private final Set<? extends ClassifiedDataObject> trainingSet = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
+            DataFactory.newClassifiedObject("firstObj", params, classes.iterator().next()),
+            DataFactory.newClassifiedObject("secondObj", params, classes.iterator().next()),
+            DataFactory.newClassifiedObject("thirdObj", params, classes.iterator().next())
     )));
-    private final Function<TrainingDataObject, TrainingDataObject> blurFunction =
-            obj -> DataFactory.newTrainingObject(UUID.randomUUID().toString(), obj.parameters(), obj.realClass());
+    private final Function<ClassifiedDataObject, ClassifiedDataObject> blurFunction =
+            obj -> DataFactory.newClassifiedObject(UUID.randomUUID().toString(), obj.parameters(), obj.realClass());
 
     @Test
     public void testShuffle() throws DataException {
@@ -55,7 +55,7 @@ public class TrainingDataUtilsTest {
         TrainingData shuffledData = TrainingDataUtils.shuffle(data, ratio);
         Assert.assertEquals(expectedTrainingSetSize, shuffledData.trainingSet().size());
 
-        Set<? extends TrainingDataObject> resultTrainingSet = new HashSet<>(shuffledData.trainingSet());
+        Set<? extends ClassifiedDataObject> resultTrainingSet = new HashSet<>(shuffledData.trainingSet());
         resultTrainingSet.removeAll(trainingSet);
         Assert.assertEquals(0, resultTrainingSet.size());
     }

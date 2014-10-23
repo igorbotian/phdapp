@@ -45,5 +45,5 @@ public interface TrainingData extends Data {
      *
      * @return непустое неизменяемое множество объектов, для которых известны реальные классы классификации
      */
-    Set<? extends TrainingDataObject> trainingSet();
+    Set<? extends ClassifiedDataObject> trainingSet();
 }

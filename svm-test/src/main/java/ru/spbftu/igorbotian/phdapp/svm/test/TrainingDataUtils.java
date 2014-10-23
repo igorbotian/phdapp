@@ -51,11 +51,11 @@ public final class TrainingDataUtils {
                     + trainingSetRatio);
         }
 
-        List<? extends TrainingDataObject> objects = new ArrayList<>(Objects.requireNonNull(data).trainingSet());
+        List<? extends ClassifiedDataObject> objects = new ArrayList<>(Objects.requireNonNull(data).trainingSet());
         Collections.shuffle(objects);
 
         int sizeOfTrainingSet = (int) Math.ceil(trainingSetRatio * objects.size());
-        Set<? extends TrainingDataObject> trainingSet = new HashSet<>(objects.subList(0, sizeOfTrainingSet));
+        Set<? extends ClassifiedDataObject> trainingSet = new HashSet<>(objects.subList(0, sizeOfTrainingSet));
         Set<? extends DataObject> testingSet = new HashSet<>(objects.subList(sizeOfTrainingSet, objects.size()));
 
         return DataFactory.newTrainingData(data.classes(), testingSet, trainingSet);
@@ -73,7 +73,7 @@ public final class TrainingDataUtils {
      * @throws java.lang.IllegalArgumentException               если степень размытия имеет неположительное значение
      */
     public static TrainingData blur(TrainingData data, int power,
-                                    Function<TrainingDataObject, TrainingDataObject> blurFunction)
+                                    Function<ClassifiedDataObject, ClassifiedDataObject> blurFunction)
             throws DataException {
 
         Objects.requireNonNull(data);
@@ -83,22 +83,22 @@ public final class TrainingDataUtils {
             throw new IllegalArgumentException("Power should have a positive value");
         }
 
-        Set<TrainingDataObject> blurredTrainingSet = new HashSet<>();
+        Set<ClassifiedDataObject> blurredTrainingSet = new HashSet<>();
 
-        for (TrainingDataObject obj : data.trainingSet()) {
+        for (ClassifiedDataObject obj : data.trainingSet()) {
             blurredTrainingSet.addAll(blur(obj, power, blurFunction));
         }
 
         return DataFactory.newTrainingData(data.classes(), data.testingSet(), blurredTrainingSet);
     }
 
-    private static Set<? extends TrainingDataObject> blur(TrainingDataObject obj, int power,
-                                                          Function<TrainingDataObject, TrainingDataObject> blurFunction) {
+    private static Set<? extends ClassifiedDataObject> blur(ClassifiedDataObject obj, int power,
+                                                          Function<ClassifiedDataObject, ClassifiedDataObject> blurFunction) {
         assert (obj != null);
         assert (power > 0);
         assert (blurFunction != null);
 
-        Set<TrainingDataObject> result = new HashSet<>();
+        Set<ClassifiedDataObject> result = new HashSet<>();
 
         for (int i = 0; i < power; i++) {
             result.add(blurFunction.apply(obj));
