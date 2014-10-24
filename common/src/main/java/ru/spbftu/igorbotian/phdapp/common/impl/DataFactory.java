@@ -80,32 +80,32 @@ public final class DataFactory {
     }
 
     /**
-     * Создание объекта типа <code>UnclassifiedDataObject</code>
+     * Создание объекта типа <code>UnclassifiedObject</code>
      *
      * @param id     строковое представление идентификатора объекта (не может быть <code>null</code> или пустым)
      * @param params множество параметров, которыми характеризуется объект (непустое)
-     * @return объект типа <code>UnclassifiedDataObject</code> с заданными параметрами
+     * @return объект типа <code>UnclassifiedObject</code> с заданными параметрами
      * @throws java.lang.NullPointerException     если множества параметров равно <code>null</code>
      * @throws java.lang.IllegalArgumentException если идентификатор объекта пустой или множество параметров
      *                                            не содержит ни одного элемента
-     * @see ru.spbftu.igorbotian.phdapp.common.UnclassifiedDataObject
+     * @see ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject
      */
-    public static UnclassifiedDataObject newObject(String id, Set<Parameter<?>> params) {
-        return new UnclassifiedDataObjectImpl(id, params);
+    public static UnclassifiedObject newUnclassifiedObject(String id, Set<Parameter<?>> params) {
+        return new UnclassifiedObjectImpl(id, params);
     }
 
     /**
-     * Создание объекта типа <code>ClassifiedDataObject</code>
+     * Создание объекта типа <code>ClassifiedObject</code>
      *
      * @param id        строковое представление идентификатора объекта (не может быть <code>null</code> или пустым)
      * @param params    множество параметров, которыми характеризуется объект (непустое)
      * @param realClass реальный класса классификации, которому соответствует объект
-     * @return объект типа <code>ClassifiedDataObject</code> с заданными параметрами
+     * @return объект типа <code>ClassifiedObject</code> с заданными параметрами
      * @throws java.lang.NullPointerException если хотя бы один из параметров не задан
-     * @see ru.spbftu.igorbotian.phdapp.common.ClassifiedDataObject
+     * @see ru.spbftu.igorbotian.phdapp.common.ClassifiedObject
      */
-    public static ClassifiedDataObject newClassifiedObject(String id, Set<Parameter<?>> params, DataClass realClass) {
-        return new ClassifiedDataObjectImpl(id, params, realClass);
+    public static ClassifiedObject newClassifiedObject(String id, Set<Parameter<?>> params, DataClass realClass) {
+        return new ClassifiedObjectImpl(id, params, realClass);
     }
 
     /**
@@ -123,7 +123,7 @@ public final class DataFactory {
      * @see ru.spbftu.igorbotian.phdapp.common.UnclassifiedData
      */
     public static UnclassifiedData newUnclassifiedData(Set<? extends DataClass> classes,
-                                                       Set<? extends UnclassifiedDataObject> objects) throws DataException {
+                                                       Set<? extends UnclassifiedObject> objects) throws DataException {
         return new UnclassifiedDataImpl(classes, objects);
     }
 
@@ -142,7 +142,7 @@ public final class DataFactory {
      * @see ru.spbftu.igorbotian.phdapp.common.ClassifiedData
      */
     public static ClassifiedData newClassifiedData(Set<? extends DataClass> classes,
-                                                   Set<? extends ClassifiedDataObject> objects) throws DataException {
+                                                   Set<? extends ClassifiedObject> objects) throws DataException {
         return new ClassifiedDataImpl(classes, objects);
     }
 }

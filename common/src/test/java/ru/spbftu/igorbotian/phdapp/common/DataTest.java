@@ -35,7 +35,7 @@ import java.util.Set;
 public class DataTest extends BaseDataTest<UnclassifiedData> {
 
     private Set<DataClass> setOfClasses;
-    private Set<UnclassifiedDataObject> setOfObjects;
+    private Set<UnclassifiedObject> setOfObjects;
 
     private UnclassifiedData obj;
     private UnclassifiedData differentObj;
@@ -48,7 +48,7 @@ public class DataTest extends BaseDataTest<UnclassifiedData> {
         setOfObjects = randomObjects(2, 1);
 
         Set<DataClass> anotherSetOfClasses = randomClasses(2);
-        Set<UnclassifiedDataObject> anotherSetOfObjects = randomObjects(2, 1);
+        Set<UnclassifiedObject> anotherSetOfObjects = randomObjects(2, 1);
 
         obj = DataFactory.newUnclassifiedData(setOfClasses, setOfObjects);
         differentObj = DataFactory.newUnclassifiedData(anotherSetOfClasses, anotherSetOfObjects);
@@ -80,9 +80,9 @@ public class DataTest extends BaseDataTest<UnclassifiedData> {
         Set<Parameter<?>> secondSetOfParams = Collections.singleton(
                 DataFactory.newParameter(paramName, randomString(), BasicDataTypes.STRING));
 
-        Set<UnclassifiedDataObject> objects = new HashSet<>();
-        objects.add(DataFactory.newObject(randomString(), firstSetOfParams));
-        objects.add(DataFactory.newObject(randomString(), secondSetOfParams));
+        Set<UnclassifiedObject> objects = new HashSet<>();
+        objects.add(DataFactory.newUnclassifiedObject(randomString(), firstSetOfParams));
+        objects.add(DataFactory.newUnclassifiedObject(randomString(), secondSetOfParams));
 
         DataFactory.newUnclassifiedData(randomClasses(2), objects);
     }

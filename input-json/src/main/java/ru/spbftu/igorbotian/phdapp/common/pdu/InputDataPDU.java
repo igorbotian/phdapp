@@ -32,8 +32,8 @@ import java.util.Set;
 public class InputDataPDU {
 
     public Set<DataClassPDU> classes;
-    public Set<DataObjectPDU> testingSet;
-    public Set<ClassifiedDataObjectPDU> trainingSet;
+    public Set<UnclassifiedObjectPDU> testingSet;
+    public Set<ClassifiedObjectPDU> trainingSet;
 
     public static InputDataPDU toPDU(InputData data) {
         InputDataPDU pdu = new InputDataPDU();
@@ -42,10 +42,10 @@ public class InputDataPDU {
         data.classes().forEach(clazz -> pdu.classes.add(DataClassPDU.toPDU(clazz)));
 
         pdu.testingSet = new LinkedHashSet<>();
-        data.testingSet().forEach(obj -> pdu.testingSet.add(DataObjectPDU.toPDU(obj)));
+        data.testingSet().forEach(obj -> pdu.testingSet.add(UnclassifiedObjectPDU.toPDU(obj)));
 
         pdu.trainingSet = new LinkedHashSet<>();
-        data.trainingSet().forEach(obj -> pdu.trainingSet.add(ClassifiedDataObjectPDU.toPDU(obj)));
+        data.trainingSet().forEach(obj -> pdu.trainingSet.add(ClassifiedObjectPDU.toPDU(obj)));
 
         return pdu;
     }
@@ -54,13 +54,13 @@ public class InputDataPDU {
         Set<DataClass> classes = new LinkedHashSet<>();
         this.classes.forEach(clazz -> classes.add(clazz.toObject()));
 
-        Set<UnclassifiedDataObject> testingSet = new LinkedHashSet<>();
-        for (DataObjectPDU pdu : this.testingSet) {
+        Set<UnclassifiedObject> testingSet = new LinkedHashSet<>();
+        for (UnclassifiedObjectPDU pdu : this.testingSet) {
             testingSet.add(pdu.toObject());
         }
 
-        Set<ClassifiedDataObject> trainingSet = new LinkedHashSet<>();
-        for (ClassifiedDataObjectPDU pdu : this.trainingSet) {
+        Set<ClassifiedObject> trainingSet = new LinkedHashSet<>();
+        for (ClassifiedObjectPDU pdu : this.trainingSet) {
             trainingSet.add(pdu.toObject());
         }
 

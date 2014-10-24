@@ -19,7 +19,7 @@
 package ru.spbftu.igorbotian.phdapp.common.impl;
 
 import org.apache.commons.lang3.StringUtils;
-import ru.spbftu.igorbotian.phdapp.common.UnclassifiedDataObject;
+import ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject;
 import ru.spbftu.igorbotian.phdapp.common.Parameter;
 
 import java.util.Collections;
@@ -30,7 +30,7 @@ import java.util.Set;
  * @see ru.spbftu.igorbotian.phdapp.common.UnclassifiedData
  * @see DataFactory
  */
-class UnclassifiedDataObjectImpl implements UnclassifiedDataObject {
+class UnclassifiedObjectImpl implements UnclassifiedObject {
 
     /**
      * Идентификатор объекта (необходим для быстрого различения одного объекта от другого)
@@ -42,7 +42,7 @@ class UnclassifiedDataObjectImpl implements UnclassifiedDataObject {
      */
     private final Set<Parameter<?>> parameters;
 
-    public UnclassifiedDataObjectImpl(String id, Set<Parameter<?>> params) {
+    public UnclassifiedObjectImpl(String id, Set<Parameter<?>> params) {
         Objects.requireNonNull(id);
         Objects.requireNonNull(params);
 
@@ -79,11 +79,11 @@ class UnclassifiedDataObjectImpl implements UnclassifiedDataObject {
             return true;
         }
 
-        if (obj == null || !(obj instanceof UnclassifiedDataObject)) {
+        if (obj == null || !(obj instanceof UnclassifiedObject)) {
             return false;
         }
 
-        UnclassifiedDataObjectImpl other = (UnclassifiedDataObjectImpl) obj;
+        UnclassifiedObjectImpl other = (UnclassifiedObjectImpl) obj;
         return id.equals(other.id)
                 && parameters.size() == other.parameters.size()
                 && parameters.containsAll(other.parameters);

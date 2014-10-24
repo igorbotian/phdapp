@@ -19,7 +19,7 @@
 package ru.spbftu.igorbotian.phdapp.common.impl;
 
 import ru.spbftu.igorbotian.phdapp.common.ClassifiedData;
-import ru.spbftu.igorbotian.phdapp.common.ClassifiedDataObject;
+import ru.spbftu.igorbotian.phdapp.common.ClassifiedObject;
 import ru.spbftu.igorbotian.phdapp.common.DataClass;
 import ru.spbftu.igorbotian.phdapp.common.DataException;
 
@@ -31,7 +31,7 @@ import java.util.Set;
  */
 class ClassifiedDataImpl extends UnclassifiedDataImpl implements ClassifiedData {
 
-    ClassifiedDataImpl(Set<? extends DataClass> classes, Set<? extends ClassifiedDataObject> objects)
+    ClassifiedDataImpl(Set<? extends DataClass> classes, Set<? extends ClassifiedObject> objects)
             throws DataException {
 
         super(classes, objects);
@@ -40,8 +40,8 @@ class ClassifiedDataImpl extends UnclassifiedDataImpl implements ClassifiedData 
     }
 
     private void checkNoForeignClasses(Set<? extends DataClass> classes,
-                                       Set<? extends ClassifiedDataObject> trainingSet) {
-        for (ClassifiedDataObject obj : trainingSet) {
+                                       Set<? extends ClassifiedObject> trainingSet) {
+        for (ClassifiedObject obj : trainingSet) {
             if (!classes.contains(obj.realClass())) {
                 throw new IllegalArgumentException("A classified object has undefined class: " + obj.realClass().name());
             }
@@ -50,7 +50,7 @@ class ClassifiedDataImpl extends UnclassifiedDataImpl implements ClassifiedData 
 
     @Override
     @SuppressWarnings("unchecked") // check is made by means of the constructor
-    public Set<? extends ClassifiedDataObject> objects() {
-        return (Set<? extends ClassifiedDataObject>) super.objects();
+    public Set<? extends ClassifiedObject> objects() {
+        return (Set<? extends ClassifiedObject>) super.objects();
     }
 }

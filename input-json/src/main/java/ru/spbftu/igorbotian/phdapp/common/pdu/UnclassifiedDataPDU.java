@@ -18,10 +18,8 @@
 
 package ru.spbftu.igorbotian.phdapp.common.pdu;
 
-import ru.spbftu.igorbotian.phdapp.common.ClassifiedDataObject;
-import ru.spbftu.igorbotian.phdapp.common.DataException;
+import ru.spbftu.igorbotian.phdapp.common.*;
 import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
-import ru.spbftu.igorbotian.phdapp.common.Parameter;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -29,31 +27,34 @@ import java.util.Set;
 /**
  * POJO-версия класса, предназначенная для использования в механизме сериализации
  *
- * @see ru.spbftu.igorbotian.phdapp.common.ClassifiedDataObject
+ * @see ru.spbftu.igorbotian.phdapp.common.UnclassifiedData
  */
-public final class ClassifiedDataObjectPDU {
+public final class UnclassifiedDataPDU {
 
-    public String id;
-    public Set<ParameterPDU> params;
-    public DataClassPDU realClass;
+    public Set<DataClassPDU> classes;
+    public Set<UnclassifiedObjectPDU> objects;
 
-    public static ClassifiedDataObjectPDU toPDU(ClassifiedDataObject obj) {
-        ClassifiedDataObjectPDU pdu = new ClassifiedDataObjectPDU();
+    public static UnclassifiedDataPDU toPDU(UnclassifiedData data) {
+        UnclassifiedDataPDU pdu = new UnclassifiedDataPDU();
 
-        pdu.id = obj.id();
-        pdu.params = new LinkedHashSet<>();
-        obj.parameters().forEach(param -> pdu.params.add(ParameterPDU.toPDU(param)));
-        pdu.realClass = DataClassPDU.toPDU(obj.realClass());
+        pdu.classes = new LinkedHashSet<>();
+        data.classes().forEach(clazz -> pdu.classes.add(DataClassPDU.toPDU(clazz)));
+
+        pdu.objects = new LinkedHashSet<>();
+        data.objects().forEach(obj -> pdu.objects.add(UnclassifiedObjectPDU.toPDU(obj)));
 
         return pdu;
     }
 
-    public ClassifiedDataObject toObject() throws DataException {
-        Set<Parameter<?>> params = new LinkedHashSet<>();
+    public UnclassifiedData toObject() throws DataException {
+        Set<DataClass> classes = new LinkedHashSet<>();
+        this.classes.forEach(clazz -> classes.add(clazz.toObject()));
 
-        for(ParameterPDU param : this.params) {
-            params.add(param.toObject());
+        Set<UnclassifiedObject> objects = new LinkedHashSet<>();
+        for(UnclassifiedObjectPDU pdu : this.objects) {
+            objects.add(pdu.toObject());
         }
-        return DataFactory.newClassifiedObject(id, params, realClass.toObject());
+
+        return DataFactory.newUnclassifiedData(classes, objects);
     }
 }

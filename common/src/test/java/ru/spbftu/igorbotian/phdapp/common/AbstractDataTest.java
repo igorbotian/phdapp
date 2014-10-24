@@ -18,7 +18,6 @@
 
 package ru.spbftu.igorbotian.phdapp.common;
 
-import org.apache.commons.lang3.RandomUtils;
 import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
 
 import java.util.*;
@@ -152,15 +151,15 @@ public abstract class AbstractDataTest {
     }
 
     /**
-     * Создание объекта класса <code>UnclassifiedDataObject</code> со случайными идентификатором и значениями параметров
+     * Создание объекта класса <code>UnclassifiedObject</code> со случайными идентификатором и значениями параметров
      *
      * @param paramNames названия параметров
      * @return объект класса; имеет случайные идентификатор и значения параметров
      * @throws java.lang.NullPointerException если названия параметров не заданы
      */
-    protected static UnclassifiedDataObject randomObject(Set<String> paramNames) {
+    protected static UnclassifiedObject randomObject(Set<String> paramNames) {
         Objects.requireNonNull(paramNames);
-        return DataFactory.newObject(randomString(), randomStringObjectParameters(paramNames));
+        return DataFactory.newUnclassifiedObject(randomString(), randomStringObjectParameters(paramNames));
     }
 
     /**
@@ -172,7 +171,7 @@ public abstract class AbstractDataTest {
      * @throws java.lang.IllegalArgumentException если количество имеет отрицательное значение
      * @throws java.lang.NullPointerException     если названия параметров не заданы
      */
-    protected static Set<UnclassifiedDataObject> randomObjects(int count, Set<String> paramNames) {
+    protected static Set<UnclassifiedObject> randomObjects(int count, Set<String> paramNames) {
         Objects.requireNonNull(paramNames);
         return newSet(count, AbstractDataTest::randomObject, paramNames);
     }
@@ -185,7 +184,7 @@ public abstract class AbstractDataTest {
      * @return множество объектов
      * @throws java.lang.IllegalArgumentException если количество объектов или параметров имеет отрицательное значение
      */
-    protected static Set<UnclassifiedDataObject> randomObjects(int count, int numberOfParams) {
+    protected static Set<UnclassifiedObject> randomObjects(int count, int numberOfParams) {
         return randomObjects(
                 count,
                 randomStrings(numberOfParams)

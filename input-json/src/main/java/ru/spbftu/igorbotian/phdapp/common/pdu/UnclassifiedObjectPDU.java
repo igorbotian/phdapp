@@ -18,8 +18,10 @@
 
 package ru.spbftu.igorbotian.phdapp.common.pdu;
 
-import ru.spbftu.igorbotian.phdapp.common.*;
+import ru.spbftu.igorbotian.phdapp.common.DataException;
+import ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject;
 import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
+import ru.spbftu.igorbotian.phdapp.common.Parameter;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -27,34 +29,30 @@ import java.util.Set;
 /**
  * POJO-версия класса, предназначенная для использования в механизме сериализации
  *
- * @see ru.spbftu.igorbotian.phdapp.common.UnclassifiedData
+ * @see ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject
  */
-public final class DataPDU {
+public final class UnclassifiedObjectPDU {
 
-    public Set<DataClassPDU> classes;
-    public Set<DataObjectPDU> objects;
+    public String id;
+    public Set<ParameterPDU<?>> params;
 
-    public static DataPDU toPDU(UnclassifiedData data) {
-        DataPDU pdu = new DataPDU();
+    public static UnclassifiedObjectPDU toPDU(UnclassifiedObject obj) {
+        UnclassifiedObjectPDU pdu = new UnclassifiedObjectPDU();
 
-        pdu.classes = new LinkedHashSet<>();
-        data.classes().forEach(clazz -> pdu.classes.add(DataClassPDU.toPDU(clazz)));
-
-        pdu.objects = new LinkedHashSet<>();
-        data.objects().forEach(obj -> pdu.objects.add(DataObjectPDU.toPDU(obj)));
+        pdu.id = obj.id();
+        pdu.params = new LinkedHashSet<>();
+        obj.parameters().forEach(param -> pdu.params.add(ParameterPDU.toPDU(param)));
 
         return pdu;
     }
 
-    public UnclassifiedData toObject() throws DataException {
-        Set<DataClass> classes = new LinkedHashSet<>();
-        this.classes.forEach(clazz -> classes.add(clazz.toObject()));
+    public UnclassifiedObject toObject() throws DataException {
+        Set<Parameter<?>> params = new LinkedHashSet<>();
 
-        Set<UnclassifiedDataObject> objects = new LinkedHashSet<>();
-        for(DataObjectPDU pdu : this.objects) {
-            objects.add(pdu.toObject());
+        for(ParameterPDU param : this.params) {
+            params.add(param.toObject());
         }
 
-        return DataFactory.newUnclassifiedData(classes, objects);
+        return DataFactory.newUnclassifiedObject(id, params);
     }
 }

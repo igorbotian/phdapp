@@ -22,8 +22,8 @@ package ru.spbftu.igorbotian.phdapp.common;
  * Класс, которому соответствует классифцируемый или ранжируемый объект.
  * Класс является потокобезопасным, а его объекты - неизменяемыми.
  *
- * @see UnclassifiedDataObject
- * @see ClassifiedDataObject
+ * @see UnclassifiedObject
+ * @see ClassifiedObject
  */
 public interface DataClass {
 

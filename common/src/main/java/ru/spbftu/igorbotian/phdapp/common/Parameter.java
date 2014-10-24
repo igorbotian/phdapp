@@ -23,7 +23,7 @@ package ru.spbftu.igorbotian.phdapp.common;
  * Параметр характеризуется названием и значением.
  *
  * @param <T> тип значения параметра
- * @see UnclassifiedDataObject
+ * @see UnclassifiedObject
  */
 public interface Parameter<T> {
 

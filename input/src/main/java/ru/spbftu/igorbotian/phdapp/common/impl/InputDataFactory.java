@@ -48,8 +48,8 @@ public final class InputDataFactory {
      * @see ru.spbftu.igorbotian.phdapp.common.InputData
      */
     public static InputData newData(Set<? extends DataClass> classes,
-                                    Set<? extends ClassifiedDataObject> trainingSet,
-                                    Set<? extends UnclassifiedDataObject> objects) throws DataException {
+                                    Set<? extends ClassifiedObject> trainingSet,
+                                    Set<? extends UnclassifiedObject> objects) throws DataException {
         return new InputDataImpl(classes, trainingSet, objects);
     }
 }

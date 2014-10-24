@@ -18,7 +18,7 @@
 
 package ru.spbftu.igorbotian.phdapp.common.impl;
 
-import ru.spbftu.igorbotian.phdapp.common.ClassifiedDataObject;
+import ru.spbftu.igorbotian.phdapp.common.ClassifiedObject;
 import ru.spbftu.igorbotian.phdapp.common.DataClass;
 import ru.spbftu.igorbotian.phdapp.common.Parameter;
 
@@ -29,14 +29,14 @@ import java.util.Set;
  * @see ru.spbftu.igorbotian.phdapp.common.ClassifiedData
  * @see DataFactory
  */
-class ClassifiedDataObjectImpl extends UnclassifiedDataObjectImpl implements ClassifiedDataObject {
+class ClassifiedObjectImpl extends UnclassifiedObjectImpl implements ClassifiedObject {
 
     /**
      * Реальный класс классификации, которому соответствует объект
      */
     private final DataClass realClass;
 
-    public ClassifiedDataObjectImpl(String id, Set<Parameter<?>> params, DataClass realClass) {
+    public ClassifiedObjectImpl(String id, Set<Parameter<?>> params, DataClass realClass) {
 
         super(id, params);
 
@@ -60,11 +60,11 @@ class ClassifiedDataObjectImpl extends UnclassifiedDataObjectImpl implements Cla
             return true;
         }
 
-        if (obj == null || !(obj instanceof ClassifiedDataObject)) {
+        if (obj == null || !(obj instanceof ClassifiedObject)) {
             return false;
         }
 
-        ClassifiedDataObjectImpl other = (ClassifiedDataObjectImpl) obj;
+        ClassifiedObjectImpl other = (ClassifiedObjectImpl) obj;
         return super.equals(other) && realClass.equals(other.realClass);
     }
 

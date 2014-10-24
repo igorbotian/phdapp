@@ -26,7 +26,7 @@ import java.util.Set;
  * @see UnclassifiedData
  * @see ru.spbftu.igorbotian.phdapp.common.Parameter
  */
-public interface UnclassifiedDataObject {
+public interface UnclassifiedObject {
 
     /**
      * Получение идентификатора объекта

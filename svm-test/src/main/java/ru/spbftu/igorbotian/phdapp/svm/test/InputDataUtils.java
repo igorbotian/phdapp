@@ -53,12 +53,12 @@ public final class InputDataUtils {
                     + trainingSetRatio);
         }
 
-        List<? extends ClassifiedDataObject> objects = new ArrayList<>(Objects.requireNonNull(data).objects());
+        List<? extends ClassifiedObject> objects = new ArrayList<>(Objects.requireNonNull(data).objects());
         Collections.shuffle(objects);
 
         int sizeOfTrainingSet = (int) Math.ceil(trainingSetRatio * objects.size());
-        Set<? extends ClassifiedDataObject> trainingSet = new HashSet<>(objects.subList(0, sizeOfTrainingSet));
-        Set<? extends UnclassifiedDataObject> testingSet = new HashSet<>(objects.subList(sizeOfTrainingSet, objects.size()));
+        Set<? extends ClassifiedObject> trainingSet = new HashSet<>(objects.subList(0, sizeOfTrainingSet));
+        Set<? extends UnclassifiedObject> testingSet = new HashSet<>(objects.subList(sizeOfTrainingSet, objects.size()));
 
         return InputDataFactory.newData(data.classes(), trainingSet, testingSet);
     }
@@ -74,8 +74,8 @@ public final class InputDataUtils {
      * @throws java.lang.NullPointerException                   если набор исходных данных или алгоритм размытия не заданы
      * @throws java.lang.IllegalArgumentException               если степень размытия имеет неположительное значение
      */
-    public static UnclassifiedData blur(UnclassifiedData data, int power, Function<UnclassifiedDataObject,
-            UnclassifiedDataObject> blurFunction) throws DataException {
+    public static UnclassifiedData blur(UnclassifiedData data, int power, Function<UnclassifiedObject,
+            UnclassifiedObject> blurFunction) throws DataException {
         Objects.requireNonNull(data);
         Objects.requireNonNull(blurFunction);
 
@@ -83,22 +83,22 @@ public final class InputDataUtils {
             throw new IllegalArgumentException("Power should have a positive value");
         }
 
-        Set<UnclassifiedDataObject> blurredTrainingSet = new HashSet<>();
+        Set<UnclassifiedObject> blurredTrainingSet = new HashSet<>();
 
-        for (UnclassifiedDataObject obj : data.objects()) {
+        for (UnclassifiedObject obj : data.objects()) {
             blurredTrainingSet.addAll(blur(obj, power, blurFunction));
         }
 
         return DataFactory.newUnclassifiedData(data.classes(), blurredTrainingSet);
     }
 
-    private static Set<UnclassifiedDataObject> blur(UnclassifiedDataObject obj, int power,
-                                                    Function<UnclassifiedDataObject, UnclassifiedDataObject> blurFunction) {
+    private static Set<UnclassifiedObject> blur(UnclassifiedObject obj, int power,
+                                                    Function<UnclassifiedObject, UnclassifiedObject> blurFunction) {
         assert (obj != null);
         assert (power > 0);
         assert (blurFunction != null);
 
-        Set<UnclassifiedDataObject> result = new HashSet<>();
+        Set<UnclassifiedObject> result = new HashSet<>();
 
         for (int i = 0; i < power; i++) {
             result.add(blurFunction.apply(obj));

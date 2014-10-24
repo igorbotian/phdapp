@@ -27,18 +27,18 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Модульные тесты для класса <code>ClassifiedDataObject</code>
+ * Модульные тесты для класса <code>ClassifiedObject</code>
  *
- * @see ClassifiedDataObject
+ * @see ClassifiedObject
  */
-public class ClassifiedDataObjectTest extends BaseDataTest<ClassifiedDataObject> {
+public class ClassifiedObjectTest extends BaseDataTest<ClassifiedObject> {
 
     private DataClass realClass;
     private Set<Parameter<?>> setOfParams;
 
-    private ClassifiedDataObject obj;
-    private ClassifiedDataObject differentObj;
-    private ClassifiedDataObject similarObj;
+    private ClassifiedObject obj;
+    private ClassifiedObject differentObj;
+    private ClassifiedObject similarObj;
 
     @Before
     public void setUp() {

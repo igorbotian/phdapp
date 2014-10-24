@@ -36,9 +36,9 @@ class UnclassifiedDataImpl implements UnclassifiedData {
     /**
      * Множество объектов, предназначенных для классификации или выполнения какого-либо другого действия над ними
      */
-    private final Set<? extends UnclassifiedDataObject> objects;
+    private final Set<? extends UnclassifiedObject> objects;
 
-    public UnclassifiedDataImpl(Set<? extends DataClass> classes, Set<? extends UnclassifiedDataObject> objects) throws DataException {
+    public UnclassifiedDataImpl(Set<? extends DataClass> classes, Set<? extends UnclassifiedObject> objects) throws DataException {
         Objects.requireNonNull(classes);
         Objects.requireNonNull(objects);
 
@@ -65,14 +65,14 @@ class UnclassifiedDataImpl implements UnclassifiedData {
      * @param objects проверяемое множество объектов
      * @return <code>true</code>, если все объекты имеют одинаковый набор параметров; иначе <code>false</code>
      */
-    protected boolean objectsHaveSameParameters(Set<? extends UnclassifiedDataObject> objects) {
+    protected boolean objectsHaveSameParameters(Set<? extends UnclassifiedObject> objects) {
         Objects.requireNonNull(objects);
 
         if (objects.isEmpty()) {
             return true;
         }
 
-        Iterator<? extends UnclassifiedDataObject> it = objects.iterator();
+        Iterator<? extends UnclassifiedObject> it = objects.iterator();
         Map<String, DataType<?>> referentParamsMap = paramsMapOf(it.next());
 
         while (it.hasNext()) {
@@ -99,7 +99,7 @@ class UnclassifiedDataImpl implements UnclassifiedData {
     /*
      * Возвращает ассоциативный массив с именами типов параметров и соответствующих им типов данных
      */
-    private Map<String, DataType<?>> paramsMapOf(UnclassifiedDataObject obj) {
+    private Map<String, DataType<?>> paramsMapOf(UnclassifiedObject obj) {
         assert (obj != null);
 
         Map<String, DataType<?>> paramsMap = new HashMap<>();
@@ -117,7 +117,7 @@ class UnclassifiedDataImpl implements UnclassifiedData {
     }
 
     @Override
-    public Set<? extends UnclassifiedDataObject> objects() {
+    public Set<? extends UnclassifiedObject> objects() {
         return objects;
     }
 

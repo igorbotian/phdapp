@@ -26,7 +26,7 @@ import java.util.Set;
  * которым соответствуют объекты.
  *
  * @see ru.spbftu.igorbotian.phdapp.common.DataClass
- * @see ru.spbftu.igorbotian.phdapp.common.ClassifiedDataObject
+ * @see ClassifiedObject
  */
 public interface ClassifiedData extends UnclassifiedData {
 
@@ -35,5 +35,5 @@ public interface ClassifiedData extends UnclassifiedData {
      *
      * @return непустое неизменяемое множество объектов, для которых известны реальные классы классификации
      */
-    Set<? extends ClassifiedDataObject> objects();
+    Set<? extends ClassifiedObject> objects();
 }

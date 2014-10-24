@@ -32,14 +32,14 @@ class InputDataImpl implements InputData {
     private final UnclassifiedData testingSet;
     private final ClassifiedData trainingSet;
 
-    public InputDataImpl(Set<? extends DataClass> classes, Set<? extends ClassifiedDataObject> trainingSet,
-                         Set<? extends UnclassifiedDataObject> testingSet) throws DataException {
+    public InputDataImpl(Set<? extends DataClass> classes, Set<? extends ClassifiedObject> trainingSet,
+                         Set<? extends UnclassifiedObject> testingSet) throws DataException {
         this.trainingSet = DataFactory.newClassifiedData(classes, Objects.requireNonNull(trainingSet));
         this.testingSet = DataFactory.newUnclassifiedData(classes, Objects.requireNonNull(testingSet));
     }
 
     @Override
-    public Set<? extends UnclassifiedDataObject> testingSet() {
+    public Set<? extends UnclassifiedObject> testingSet() {
         return testingSet.objects();
     }
 
@@ -48,7 +48,7 @@ class InputDataImpl implements InputData {
         return testingSet.classes();
     }
 
-    public Set<? extends ClassifiedDataObject> trainingSet() {
+    public Set<? extends ClassifiedObject> trainingSet() {
         return trainingSet.objects();
     }
 

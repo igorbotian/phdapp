@@ -24,8 +24,8 @@ import java.util.Set;
  * Набор исходных данных, состоящий из обучающей и тестирующей выборки
  *
  * @see ru.spbftu.igorbotian.phdapp.common.DataClass
- * @see UnclassifiedDataObject
- * @see ru.spbftu.igorbotian.phdapp.common.ClassifiedDataObject
+ * @see UnclassifiedObject
+ * @see ClassifiedObject
  */
 public interface InputData {
 
@@ -41,12 +41,12 @@ public interface InputData {
      *
      * @return непустое неизменяемое множество объектов
      */
-    public Set<? extends ClassifiedDataObject> trainingSet();
+    public Set<? extends ClassifiedObject> trainingSet();
 
     /**
      * Получение тестирующей выборки
      *
      * @return непустое неизменяемое множество объектов
      */
-    public Set<? extends UnclassifiedDataObject> testingSet();
+    public Set<? extends UnclassifiedObject> testingSet();
 }
