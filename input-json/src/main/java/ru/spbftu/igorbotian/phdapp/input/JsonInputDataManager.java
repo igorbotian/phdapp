@@ -22,8 +22,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.inject.Singleton;
 import ru.spbftu.igorbotian.phdapp.common.DataException;
-import ru.spbftu.igorbotian.phdapp.common.TrainingData;
-import ru.spbftu.igorbotian.phdapp.common.pdu.TrainingDataPDU;
+import ru.spbftu.igorbotian.phdapp.common.InputData;
+import ru.spbftu.igorbotian.phdapp.common.pdu.InputDataPDU;
 import ru.spbftu.igorbotian.phdapp.conf.ConfigFolderPath;
 import ru.spbftu.igorbotian.phdapp.conf.Configuration;
 
@@ -60,22 +60,22 @@ class JsonInputDataManager extends FileBasedInputDataManager {
     }
 
     @Override
-    protected TrainingData deserialize(InputStream stream) throws IOException, DataException {
+    protected InputData deserialize(InputStream stream) throws IOException, DataException {
         Objects.requireNonNull(stream);
 
         try {
             return gson.fromJson(
-                    new InputStreamReader(stream, StandardCharsets.UTF_8), TrainingDataPDU.class).toObject();
+                    new InputStreamReader(stream, StandardCharsets.UTF_8), InputDataPDU.class).toObject();
         } catch (JsonSyntaxException e) {
             throw new DataException("Failed to deserialize input data", e);
         }
     }
 
     @Override
-    protected void serialize(TrainingData data, OutputStream stream) throws IOException {
+    protected void serialize(InputData data, OutputStream stream) throws IOException {
         Objects.requireNonNull(data);
         Objects.requireNonNull(stream);
 
-        stream.write(gson.toJson(TrainingDataPDU.toPDU(data)).getBytes(StandardCharsets.UTF_8));
+        stream.write(gson.toJson(InputDataPDU.toPDU(data)).getBytes(StandardCharsets.UTF_8));
     }
 }

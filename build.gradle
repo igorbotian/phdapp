@@ -155,7 +155,8 @@ project(':svm-test') {
     dependencies {
         compile(
                 project(':common'),
-                project(':conf')
+                project(':conf'),
+                project(':input')
         )
 
         testCompile junit

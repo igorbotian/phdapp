@@ -19,6 +19,7 @@
 package ru.spbftu.igorbotian.phdapp.common.pdu;
 
 import ru.spbftu.igorbotian.phdapp.common.*;
+import ru.spbftu.igorbotian.phdapp.common.impl.InputDataFactory;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -26,16 +27,16 @@ import java.util.Set;
 /**
  * POJO-версия класса, предназначенная для использования в механизме сериализации
  *
- * @see ru.spbftu.igorbotian.phdapp.common.TrainingData
+ * @see ru.spbftu.igorbotian.phdapp.common.ClassifiedData
  */
-public class TrainingDataPDU {
+public class InputDataPDU {
 
     public Set<DataClassPDU> classes;
     public Set<DataObjectPDU> testingSet;
     public Set<ClassifiedDataObjectPDU> trainingSet;
 
-    public static TrainingDataPDU toPDU(TrainingData data) {
-        TrainingDataPDU pdu = new TrainingDataPDU();
+    public static InputDataPDU toPDU(InputData data) {
+        InputDataPDU pdu = new InputDataPDU();
 
         pdu.classes = new LinkedHashSet<>();
         data.classes().forEach(clazz -> pdu.classes.add(DataClassPDU.toPDU(clazz)));
@@ -49,20 +50,20 @@ public class TrainingDataPDU {
         return pdu;
     }
 
-    public TrainingData toObject() throws DataException {
+    public InputData toObject() throws DataException {
         Set<DataClass> classes = new LinkedHashSet<>();
         this.classes.forEach(clazz -> classes.add(clazz.toObject()));
 
-        Set<DataObject> testingSet = new LinkedHashSet<>();
-        for(DataObjectPDU pdu : this.testingSet) {
+        Set<UnclassifiedDataObject> testingSet = new LinkedHashSet<>();
+        for (DataObjectPDU pdu : this.testingSet) {
             testingSet.add(pdu.toObject());
         }
 
         Set<ClassifiedDataObject> trainingSet = new LinkedHashSet<>();
-        for(ClassifiedDataObjectPDU pdu : this.trainingSet) {
+        for (ClassifiedDataObjectPDU pdu : this.trainingSet) {
             trainingSet.add(pdu.toObject());
         }
 
-        return DataFactory.newTrainingData(classes, testingSet, trainingSet);
+        return InputDataFactory.newData(classes, trainingSet, testingSet);
     }
 }

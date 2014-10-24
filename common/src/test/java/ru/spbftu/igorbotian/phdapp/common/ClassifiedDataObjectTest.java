@@ -21,6 +21,7 @@ package ru.spbftu.igorbotian.phdapp.common;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
 
 import java.util.HashSet;
 import java.util.Set;

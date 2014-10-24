@@ -19,8 +19,8 @@
 package ru.spbftu.igorbotian.phdapp.common.pdu;
 
 import ru.spbftu.igorbotian.phdapp.common.DataException;
-import ru.spbftu.igorbotian.phdapp.common.DataFactory;
-import ru.spbftu.igorbotian.phdapp.common.DataObject;
+import ru.spbftu.igorbotian.phdapp.common.UnclassifiedDataObject;
+import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
 import ru.spbftu.igorbotian.phdapp.common.Parameter;
 
 import java.util.LinkedHashSet;
@@ -29,14 +29,14 @@ import java.util.Set;
 /**
  * POJO-версия класса, предназначенная для использования в механизме сериализации
  *
- * @see ru.spbftu.igorbotian.phdapp.common.DataObject
+ * @see ru.spbftu.igorbotian.phdapp.common.UnclassifiedDataObject
  */
 public final class DataObjectPDU {
 
     public String id;
     public Set<ParameterPDU<?>> params;
 
-    public static DataObjectPDU toPDU(DataObject obj) {
+    public static DataObjectPDU toPDU(UnclassifiedDataObject obj) {
         DataObjectPDU pdu = new DataObjectPDU();
 
         pdu.id = obj.id();
@@ -46,7 +46,7 @@ public final class DataObjectPDU {
         return pdu;
     }
 
-    public DataObject toObject() throws DataException {
+    public UnclassifiedDataObject toObject() throws DataException {
         Set<Parameter<?>> params = new LinkedHashSet<>();
 
         for(ParameterPDU param : this.params) {

@@ -16,16 +16,20 @@
  * @author Igor Botian <igor.botian@gmail.com>
  */
 
-package ru.spbftu.igorbotian.phdapp.common;
+package ru.spbftu.igorbotian.phdapp.common.impl;
+
+import ru.spbftu.igorbotian.phdapp.common.ClassifiedDataObject;
+import ru.spbftu.igorbotian.phdapp.common.DataClass;
+import ru.spbftu.igorbotian.phdapp.common.Parameter;
 
 import java.util.Objects;
 import java.util.Set;
 
 /**
- * @see ru.spbftu.igorbotian.phdapp.common.TrainingData
- * @see ru.spbftu.igorbotian.phdapp.common.DataFactory
+ * @see ru.spbftu.igorbotian.phdapp.common.ClassifiedData
+ * @see DataFactory
  */
-class ClassifiedDataObjectImpl extends DataObjectImpl implements ClassifiedDataObject {
+class ClassifiedDataObjectImpl extends UnclassifiedDataObjectImpl implements ClassifiedDataObject {
 
     /**
      * Реальный класс классификации, которому соответствует объект

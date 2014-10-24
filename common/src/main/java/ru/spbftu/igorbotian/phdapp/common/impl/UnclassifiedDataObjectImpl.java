@@ -16,19 +16,21 @@
  * @author Igor Botian <igor.botian@gmail.com>
  */
 
-package ru.spbftu.igorbotian.phdapp.common;
+package ru.spbftu.igorbotian.phdapp.common.impl;
 
 import org.apache.commons.lang3.StringUtils;
+import ru.spbftu.igorbotian.phdapp.common.UnclassifiedDataObject;
+import ru.spbftu.igorbotian.phdapp.common.Parameter;
 
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 
 /**
- * @see ru.spbftu.igorbotian.phdapp.common.Data
- * @see ru.spbftu.igorbotian.phdapp.common.DataFactory
+ * @see ru.spbftu.igorbotian.phdapp.common.UnclassifiedData
+ * @see DataFactory
  */
-class DataObjectImpl implements DataObject {
+class UnclassifiedDataObjectImpl implements UnclassifiedDataObject {
 
     /**
      * Идентификатор объекта (необходим для быстрого различения одного объекта от другого)
@@ -40,7 +42,7 @@ class DataObjectImpl implements DataObject {
      */
     private final Set<Parameter<?>> parameters;
 
-    public DataObjectImpl(String id, Set<Parameter<?>> params) {
+    public UnclassifiedDataObjectImpl(String id, Set<Parameter<?>> params) {
         Objects.requireNonNull(id);
         Objects.requireNonNull(params);
 
@@ -77,11 +79,11 @@ class DataObjectImpl implements DataObject {
             return true;
         }
 
-        if (obj == null || !(obj instanceof DataObject)) {
+        if (obj == null || !(obj instanceof UnclassifiedDataObject)) {
             return false;
         }
 
-        DataObjectImpl other = (DataObjectImpl) obj;
+        UnclassifiedDataObjectImpl other = (UnclassifiedDataObjectImpl) obj;
         return id.equals(other.id)
                 && parameters.size() == other.parameters.size()
                 && parameters.containsAll(other.parameters);

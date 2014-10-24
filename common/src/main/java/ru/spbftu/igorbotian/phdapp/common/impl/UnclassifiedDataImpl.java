@@ -16,15 +16,17 @@
  * @author Igor Botian <igor.botian@gmail.com>
  */
 
-package ru.spbftu.igorbotian.phdapp.common;
+package ru.spbftu.igorbotian.phdapp.common.impl;
+
+import ru.spbftu.igorbotian.phdapp.common.*;
 
 import java.util.*;
 
 /**
- * @see ru.spbftu.igorbotian.phdapp.common.Data
- * @see ru.spbftu.igorbotian.phdapp.common.DataFactory
+ * @see ru.spbftu.igorbotian.phdapp.common.UnclassifiedData
+ * @see ru.spbftu.igorbotian.phdapp.common.impl.DataFactory
  */
-class DataImpl implements Data {
+class UnclassifiedDataImpl implements UnclassifiedData {
 
     /**
      * Классы классификации
@@ -34,11 +36,9 @@ class DataImpl implements Data {
     /**
      * Множество объектов, предназначенных для классификации или выполнения какого-либо другого действия над ними
      */
-    private final Set<? extends DataObject> objects;
+    private final Set<? extends UnclassifiedDataObject> objects;
 
-    public DataImpl(Set<? extends DataClass> classes, Set<? extends DataObject> objects)
-            throws DataException {
-
+    public UnclassifiedDataImpl(Set<? extends DataClass> classes, Set<? extends UnclassifiedDataObject> objects) throws DataException {
         Objects.requireNonNull(classes);
         Objects.requireNonNull(objects);
 
@@ -50,12 +50,13 @@ class DataImpl implements Data {
             throw new DataException("At least one object should be presented");
         }
 
-        this.classes = Collections.unmodifiableSet(classes);
         this.objects = Collections.unmodifiableSet(objects);
 
         if (!objectsHaveSameParameters(objects)) {
             throw new DataException("Objects should not have different set of parameters");
         }
+
+        this.classes = Collections.unmodifiableSet(classes);
     }
 
     /**
@@ -64,14 +65,14 @@ class DataImpl implements Data {
      * @param objects проверяемое множество объектов
      * @return <code>true</code>, если все объекты имеют одинаковый набор параметров; иначе <code>false</code>
      */
-    protected boolean objectsHaveSameParameters(Set<? extends DataObject> objects) {
+    protected boolean objectsHaveSameParameters(Set<? extends UnclassifiedDataObject> objects) {
         Objects.requireNonNull(objects);
 
         if (objects.isEmpty()) {
             return true;
         }
 
-        Iterator<? extends DataObject> it = objects.iterator();
+        Iterator<? extends UnclassifiedDataObject> it = objects.iterator();
         Map<String, DataType<?>> referentParamsMap = paramsMapOf(it.next());
 
         while (it.hasNext()) {
@@ -98,7 +99,7 @@ class DataImpl implements Data {
     /*
      * Возвращает ассоциативный массив с именами типов параметров и соответствующих им типов данных
      */
-    private Map<String, DataType<?>> paramsMapOf(DataObject obj) {
+    private Map<String, DataType<?>> paramsMapOf(UnclassifiedDataObject obj) {
         assert (obj != null);
 
         Map<String, DataType<?>> paramsMap = new HashMap<>();
@@ -116,13 +117,13 @@ class DataImpl implements Data {
     }
 
     @Override
-    public Set<? extends DataObject> objects() {
+    public Set<? extends UnclassifiedDataObject> objects() {
         return objects;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(objects, classes);
+        return Objects.hash(classes, objects);
     }
 
     @Override
@@ -131,13 +132,13 @@ class DataImpl implements Data {
             return true;
         }
 
-        if (obj == null || !(obj instanceof Data)) {
+        if (obj == null || !(obj instanceof UnclassifiedDataImpl)) {
             return false;
         }
 
-        DataImpl other = (DataImpl) obj;
-        return classes.size() == other.classes.size()
-                && classes.containsAll(other.classes)
+        UnclassifiedDataImpl other = (UnclassifiedDataImpl) obj;
+        return (classes.size() == other.classes.size()
+                && classes.containsAll(other.classes))
                 && objects.size() == other.objects.size()
                 && objects.containsAll(other.objects);
     }

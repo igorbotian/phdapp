@@ -19,6 +19,7 @@
 package ru.spbftu.igorbotian.phdapp.common;
 
 import org.apache.commons.lang3.RandomUtils;
+import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
 
 import java.util.*;
 import java.util.function.Function;
@@ -151,13 +152,13 @@ public abstract class AbstractDataTest {
     }
 
     /**
-     * Создание объекта класса <code>DataObject</code> со случайными идентификатором и значениями параметров
+     * Создание объекта класса <code>UnclassifiedDataObject</code> со случайными идентификатором и значениями параметров
      *
      * @param paramNames названия параметров
      * @return объект класса; имеет случайные идентификатор и значения параметров
      * @throws java.lang.NullPointerException если названия параметров не заданы
      */
-    protected static DataObject randomObject(Set<String> paramNames) {
+    protected static UnclassifiedDataObject randomObject(Set<String> paramNames) {
         Objects.requireNonNull(paramNames);
         return DataFactory.newObject(randomString(), randomStringObjectParameters(paramNames));
     }
@@ -171,7 +172,7 @@ public abstract class AbstractDataTest {
      * @throws java.lang.IllegalArgumentException если количество имеет отрицательное значение
      * @throws java.lang.NullPointerException     если названия параметров не заданы
      */
-    protected static Set<DataObject> randomObjects(int count, Set<String> paramNames) {
+    protected static Set<UnclassifiedDataObject> randomObjects(int count, Set<String> paramNames) {
         Objects.requireNonNull(paramNames);
         return newSet(count, AbstractDataTest::randomObject, paramNames);
     }
@@ -184,55 +185,10 @@ public abstract class AbstractDataTest {
      * @return множество объектов
      * @throws java.lang.IllegalArgumentException если количество объектов или параметров имеет отрицательное значение
      */
-    protected static Set<DataObject> randomObjects(int count, int numberOfParams) {
+    protected static Set<UnclassifiedDataObject> randomObjects(int count, int numberOfParams) {
         return randomObjects(
                 count,
                 randomStrings(numberOfParams)
         );
-    }
-
-    /**
-     * Создание объекта класса <code>ClassifiedDataObject</code> со случайными значениями параметров
-     *
-     * @param className  реальный класс объекта
-     * @param paramNames названия параметров
-     * @return объект класса
-     * @throws java.lang.NullPointerException если название класса или множество параметров не задано
-     */
-    protected static ClassifiedDataObject randomTrainingObject(String className, Set<String> paramNames) {
-        Objects.requireNonNull(className);
-        Objects.requireNonNull(paramNames);
-
-        return DataFactory.newClassifiedObject(
-                randomString(),
-                randomStringObjectParameters(paramNames),
-                DataFactory.newClass(className)
-        );
-    }
-
-    /**
-     * Создание множества объектов класса <code>ClassifiedDataObject</code> соу случайными значениями параметров
-     *
-     * @param count              количество объектов в множестве
-     * @param paramNames         названия параметров
-     * @param possibleClassNames названия реальных классов, которые могут иметь созданные объекты
-     * @return множество объектов
-     * @throws java.lang.IllegalArgumentException если количество объектов имеет отрицательное значение
-     * @throws java.lang.NullPointerException     если названия параметров или названия реальных классов не задано
-     */
-    protected static Set<ClassifiedDataObject> randomTrainingObjects(int count, Set<String> paramNames,
-                                                                   Set<String> possibleClassNames) {
-        Objects.requireNonNull(paramNames);
-        Objects.requireNonNull(possibleClassNames);
-
-        Set<ClassifiedDataObject> objects = new HashSet<>();
-        List<String> listOfPossibleClasses = possibleClassNames.stream().collect(Collectors.toList());
-
-        for (int i = 0; i < count; i++) {
-            String className = listOfPossibleClasses.get(RandomUtils.nextInt(0, possibleClassNames.size()));
-            objects.add(randomTrainingObject(className, paramNames));
-        }
-
-        return objects;
     }
 }

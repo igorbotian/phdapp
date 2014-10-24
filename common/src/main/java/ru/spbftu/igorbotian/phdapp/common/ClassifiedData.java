@@ -24,26 +24,16 @@ import java.util.Set;
  * Исходные данные, предназначенные для обучения классификатора или какого-либо другого механизма для работы с ними.
  * Характеризуются наличием обучающей выборки, содержащей информацию о реальных классах классификации,
  * которым соответствуют объекты.
- * Класс является потокобезопасными, а его объекты - неизменяемыми.
  *
- * @see ru.spbftu.igorbotian.phdapp.common.Data
  * @see ru.spbftu.igorbotian.phdapp.common.DataClass
- * @see ru.spbftu.igorbotian.phdapp.common.DataObject
- * @see ru.spbftu.igorbotian.phdapp.common.TrainingDataBuilder
+ * @see ru.spbftu.igorbotian.phdapp.common.ClassifiedDataObject
  */
-public interface TrainingData extends Data {
-
-    /**
-     * Получение тестирующей выборки
-     *
-     * @return непустое неизменяемое множество объектов
-     */
-    public Set<? extends DataObject> testingSet();
+public interface ClassifiedData extends UnclassifiedData {
 
     /**
      * Получение обучающей выборки
      *
      * @return непустое неизменяемое множество объектов, для которых известны реальные классы классификации
      */
-    Set<? extends ClassifiedDataObject> trainingSet();
+    Set<? extends ClassifiedDataObject> objects();
 }

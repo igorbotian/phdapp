@@ -21,25 +21,26 @@ package ru.spbftu.igorbotian.phdapp.common;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Модульные тесты для класса <code>Data</code>
+ * Модульные тесты для класса <code>UnclassifiedData</code>
  *
- * @see ru.spbftu.igorbotian.phdapp.common.Data
+ * @see UnclassifiedData
  */
-public class DataTest extends BaseDataTest<Data> {
+public class DataTest extends BaseDataTest<UnclassifiedData> {
 
     private Set<DataClass> setOfClasses;
-    private Set<DataObject> setOfObjects;
+    private Set<UnclassifiedDataObject> setOfObjects;
 
-    private Data obj;
-    private Data differentObj;
-    private Data objWithSameClassesAndDifferentObjects;
-    private Data similarObj;
+    private UnclassifiedData obj;
+    private UnclassifiedData differentObj;
+    private UnclassifiedData objWithSameClassesAndDifferentObjects;
+    private UnclassifiedData similarObj;
 
     @Before
     public void setUp() throws DataException {
@@ -47,17 +48,17 @@ public class DataTest extends BaseDataTest<Data> {
         setOfObjects = randomObjects(2, 1);
 
         Set<DataClass> anotherSetOfClasses = randomClasses(2);
-        Set<DataObject> anotherSetOfObjects = randomObjects(2, 1);
+        Set<UnclassifiedDataObject> anotherSetOfObjects = randomObjects(2, 1);
 
-        obj = DataFactory.newData(setOfClasses, setOfObjects);
-        differentObj = DataFactory.newData(anotherSetOfClasses, anotherSetOfObjects);
-        objWithSameClassesAndDifferentObjects = DataFactory.newData(setOfClasses, anotherSetOfObjects);
-        similarObj = DataFactory.newData(setOfClasses, setOfObjects);
+        obj = DataFactory.newUnclassifiedData(setOfClasses, setOfObjects);
+        differentObj = DataFactory.newUnclassifiedData(anotherSetOfClasses, anotherSetOfObjects);
+        objWithSameClassesAndDifferentObjects = DataFactory.newUnclassifiedData(setOfClasses, anotherSetOfObjects);
+        similarObj = DataFactory.newUnclassifiedData(setOfClasses, setOfObjects);
     }
 
     @Test
     public void testClasses() throws DataException {
-        Data data = DataFactory.newData(setOfClasses, setOfObjects);
+        UnclassifiedData data = DataFactory.newUnclassifiedData(setOfClasses, setOfObjects);
 
         Assert.assertEquals(setOfClasses.size(), data.classes().size());
         Assert.assertTrue(setOfClasses.containsAll(data.classes()));
@@ -65,7 +66,7 @@ public class DataTest extends BaseDataTest<Data> {
 
     @Test
     public void testObjects() throws DataException {
-        Data data = DataFactory.newData(setOfClasses, setOfObjects);
+        UnclassifiedData data = DataFactory.newUnclassifiedData(setOfClasses, setOfObjects);
 
         Assert.assertEquals(setOfObjects.size(), data.objects().size());
         Assert.assertTrue(setOfObjects.containsAll(data.objects()));
@@ -79,11 +80,11 @@ public class DataTest extends BaseDataTest<Data> {
         Set<Parameter<?>> secondSetOfParams = Collections.singleton(
                 DataFactory.newParameter(paramName, randomString(), BasicDataTypes.STRING));
 
-        Set<DataObject> objects = new HashSet<>();
+        Set<UnclassifiedDataObject> objects = new HashSet<>();
         objects.add(DataFactory.newObject(randomString(), firstSetOfParams));
         objects.add(DataFactory.newObject(randomString(), secondSetOfParams));
 
-        DataFactory.newData(randomClasses(2), objects);
+        DataFactory.newUnclassifiedData(randomClasses(2), objects);
     }
 
     @Test

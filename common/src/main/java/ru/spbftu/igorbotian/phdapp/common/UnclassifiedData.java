@@ -1,11 +1,15 @@
+package ru.spbftu.igorbotian.phdapp.common;
+
+import java.util.Set;
+
 /**
  * Copyright (c) 2014 Igor Botian
- *
+ * <p>
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the Free
  * Software Foundation; either version 2 of the License, or (at your option)
  * any later version.
- *
+ * <p>
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
  * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
@@ -16,21 +20,14 @@
  * @author Igor Botian <igor.botian@gmail.com>
  */
 
-package ru.spbftu.igorbotian.phdapp.common;
-
-import java.util.Set;
-
 /**
- * Набор для для классификации или выполнения какого-либо другого действия.
+ * Базовый набор для классификации или выполнения какого-либо другого действия.
  * Состоит из набора классов классификации и множества объектов, которые необходимо классифицировать.
- * Класс является потокобезопасным, а его объекты - неизменяемыми.
  *
  * @see ru.spbftu.igorbotian.phdapp.common.DataClass
- * @see ru.spbftu.igorbotian.phdapp.common.DataObject
- * @see ru.spbftu.igorbotian.phdapp.common.TrainingData
- * @see ru.spbftu.igorbotian.phdapp.common.TrainingDataBuilder
+ * @see UnclassifiedDataObject
  */
-public interface Data {
+public interface UnclassifiedData {
 
     /**
      * Получение набора классов классификации
@@ -44,5 +41,5 @@ public interface Data {
      *
      * @return непустое неизменяемое множество объектов
      */
-    Set<? extends DataObject> objects();
+    Set<? extends UnclassifiedDataObject> objects();
 }

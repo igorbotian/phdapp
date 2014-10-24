@@ -20,7 +20,7 @@ package ru.spbftu.igorbotian.phdapp.input;
 
 import org.apache.commons.lang3.StringUtils;
 import ru.spbftu.igorbotian.phdapp.common.DataException;
-import ru.spbftu.igorbotian.phdapp.common.TrainingData;
+import ru.spbftu.igorbotian.phdapp.common.InputData;
 import ru.spbftu.igorbotian.phdapp.conf.ConfigFolderPath;
 import ru.spbftu.igorbotian.phdapp.conf.Configuration;
 import ru.spbftu.igorbotian.phdapp.utils.ShutdownHook;
@@ -151,7 +151,7 @@ public abstract class FileBasedInputDataManager implements InputDataManager, Shu
     }
 
     @Override
-    public TrainingData getById(String id) throws IOException, DataException {
+    public InputData getById(String id) throws IOException, DataException {
         Path targetFile = dataFolder.resolve(id + "." + fileExtension);
 
         if (!Files.exists(targetFile)) {
@@ -163,7 +163,7 @@ public abstract class FileBasedInputDataManager implements InputDataManager, Shu
     }
 
     @Override
-    public void save(String id, TrainingData data) throws IOException, DataException {
+    public void save(String id, InputData data) throws IOException, DataException {
         Path targetFile = dataFolder.resolve(id + "." + fileExtension);
 
         if (!Files.exists(dataFolder)) {
@@ -182,7 +182,7 @@ public abstract class FileBasedInputDataManager implements InputDataManager, Shu
      * @throws ru.spbftu.igorbotian.phdapp.common.DataException если из данных, хранящихся в файле, невозможно сформировать набор исходных данных
      * @throws java.lang.NullPointerException                   если файловый поток не задан
      */
-    protected abstract TrainingData deserialize(InputStream stream) throws IOException, DataException;
+    protected abstract InputData deserialize(InputStream stream) throws IOException, DataException;
 
     /**
      * Сериализация заданного набора исходных данных в файл
@@ -193,5 +193,5 @@ public abstract class FileBasedInputDataManager implements InputDataManager, Shu
      * @throws ru.spbftu.igorbotian.phdapp.common.DataException в случае проблемы формирования сериализованного представления набора исходных данных
      * @throws java.lang.NullPointerException                   если хотя бы один из параметров не задан
      */
-    protected abstract void serialize(TrainingData data, OutputStream stream) throws IOException, DataException;
+    protected abstract void serialize(InputData data, OutputStream stream) throws IOException, DataException;
 }

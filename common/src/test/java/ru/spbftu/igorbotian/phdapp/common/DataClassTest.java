@@ -20,6 +20,7 @@ package ru.spbftu.igorbotian.phdapp.common;
 
 import org.junit.Assert;
 import org.junit.Test;
+import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
 
 /**
  * Модульные тесты для класса <code>DataClass</code>

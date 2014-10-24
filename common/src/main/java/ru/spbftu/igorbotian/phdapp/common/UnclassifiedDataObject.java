@@ -23,12 +23,10 @@ import java.util.Set;
 /**
  * Объект, предназначенный для классификации или проведения какого-либо другого дейстсвия.
  * Каждый объект характеризуется идентификатором и набором параметров.
- * Класс является потобезопасным, а его объекты - неизменяемыми.
- *
- * @see ru.spbftu.igorbotian.phdapp.common.Data
- * @see Parameter
+ * @see UnclassifiedData
+ * @see ru.spbftu.igorbotian.phdapp.common.Parameter
  */
-public interface DataObject {
+public interface UnclassifiedDataObject {
 
     /**
      * Получение идентификатора объекта

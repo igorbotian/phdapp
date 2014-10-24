@@ -21,10 +21,9 @@ package ru.spbftu.igorbotian.phdapp.common;
 /**
  * Параметр объекта, подлежащего класссификации или другому действию.
  * Параметр характеризуется названием и значением.
- * Класс является потокобезопасным, а его объекты - неизменяемыми.
  *
  * @param <T> тип значения параметра
- * @see ru.spbftu.igorbotian.phdapp.common.DataObject
+ * @see UnclassifiedDataObject
  */
 public interface Parameter<T> {
 

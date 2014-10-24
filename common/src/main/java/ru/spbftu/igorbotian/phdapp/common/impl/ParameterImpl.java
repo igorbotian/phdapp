@@ -16,15 +16,17 @@
  * @author Igor Botian <igor.botian@gmail.com>
  */
 
-package ru.spbftu.igorbotian.phdapp.common;
+package ru.spbftu.igorbotian.phdapp.common.impl;
 
 import org.apache.commons.lang3.StringUtils;
+import ru.spbftu.igorbotian.phdapp.common.DataType;
+import ru.spbftu.igorbotian.phdapp.common.Parameter;
 
 import java.util.Objects;
 
 /**
- * @see Parameter
- * @see ru.spbftu.igorbotian.phdapp.common.DataFactory
+ * @see ru.spbftu.igorbotian.phdapp.common.Parameter
+ * @see DataFactory
  */
 class ParameterImpl<V> implements Parameter<V> {
 

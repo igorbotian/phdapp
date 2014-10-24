@@ -24,9 +24,9 @@ package ru.spbftu.igorbotian.phdapp.common;
  * которому он соответствует.
  *
  * @see ru.spbftu.igorbotian.phdapp.common.DataClass
- * @see ru.spbftu.igorbotian.phdapp.common.DataObject
+ * @see UnclassifiedDataObject
  */
-public interface ClassifiedDataObject extends DataObject {
+public interface ClassifiedDataObject extends UnclassifiedDataObject {
 
     /**
      * Получение реального класса классификации, которому соответствует объект

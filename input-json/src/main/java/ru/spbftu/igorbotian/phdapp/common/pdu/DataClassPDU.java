@@ -19,7 +19,7 @@
 package ru.spbftu.igorbotian.phdapp.common.pdu;
 
 import ru.spbftu.igorbotian.phdapp.common.DataClass;
-import ru.spbftu.igorbotian.phdapp.common.DataFactory;
+import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
 
 /**
  * POJO-версия класса, предназначенная для использования в механизме сериализации

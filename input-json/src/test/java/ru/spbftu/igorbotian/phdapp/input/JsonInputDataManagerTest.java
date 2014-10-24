@@ -23,6 +23,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import ru.spbftu.igorbotian.phdapp.common.*;
+import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
+import ru.spbftu.igorbotian.phdapp.common.impl.InputDataFactory;
 import ru.spbftu.igorbotian.phdapp.conf.Configuration;
 
 import java.io.ByteArrayInputStream;
@@ -47,7 +49,7 @@ public class JsonInputDataManagerTest {
     /**
      * Тестовый набор исходных данных
      */
-    private TrainingData data;
+    private InputData data;
 
     @Before
     public void setUp() throws DataException {
@@ -61,7 +63,7 @@ public class JsonInputDataManagerTest {
                 DataFactory.newParameter("firstParam", "firstValue", BasicDataTypes.STRING),
                 DataFactory.newParameter("secondParam", "secondValue", BasicDataTypes.STRING)
         ));
-        Set<DataObject> testingSet = new HashSet<>(Arrays.asList(
+        Set<UnclassifiedDataObject> testingSet = new HashSet<>(Arrays.asList(
                 DataFactory.newObject("firstObject", params),
                 DataFactory.newObject("secondObject", params)
         ));
@@ -70,7 +72,7 @@ public class JsonInputDataManagerTest {
                 DataFactory.newClassifiedObject("fourthObject", params, classes.iterator().next())
         ));
 
-        data = DataFactory.newTrainingData(classes, testingSet, trainingSet);
+        data = InputDataFactory.newData(classes, trainingSet, testingSet);
     }
 
     private Configuration mockConfigWithNoProperties() {

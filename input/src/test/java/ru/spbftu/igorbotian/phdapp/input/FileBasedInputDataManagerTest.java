@@ -22,7 +22,7 @@ import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Test;
 import ru.spbftu.igorbotian.phdapp.common.DataException;
-import ru.spbftu.igorbotian.phdapp.common.TrainingData;
+import ru.spbftu.igorbotian.phdapp.common.InputData;
 import ru.spbftu.igorbotian.phdapp.conf.Configuration;
 
 import java.io.IOException;
@@ -130,12 +130,12 @@ public class FileBasedInputDataManagerTest {
         }
 
         @Override
-        protected TrainingData deserialize(InputStream stream) throws IOException, DataException {
+        protected InputData deserialize(InputStream stream) throws IOException, DataException {
             return null;
         }
 
         @Override
-        protected void serialize(TrainingData data, OutputStream stream) throws IOException, DataException {
+        protected void serialize(InputData data, OutputStream stream) throws IOException, DataException {
             // nothing
         }
     }

@@ -16,15 +16,16 @@
  * @author Igor Botian <igor.botian@gmail.com>
  */
 
-package ru.spbftu.igorbotian.phdapp.common;
+package ru.spbftu.igorbotian.phdapp.common.impl;
 
 import org.apache.commons.lang3.StringUtils;
+import ru.spbftu.igorbotian.phdapp.common.DataClass;
 
 import java.util.Objects;
 
 /**
  * @see ru.spbftu.igorbotian.phdapp.common.DataClass
- * @see ru.spbftu.igorbotian.phdapp.common.DataFactory
+ * @see DataFactory
  */
 class DataClassImpl implements DataClass {
 

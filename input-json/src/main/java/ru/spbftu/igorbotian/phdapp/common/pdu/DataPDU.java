@@ -19,6 +19,7 @@
 package ru.spbftu.igorbotian.phdapp.common.pdu;
 
 import ru.spbftu.igorbotian.phdapp.common.*;
+import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -26,14 +27,14 @@ import java.util.Set;
 /**
  * POJO-версия класса, предназначенная для использования в механизме сериализации
  *
- * @see ru.spbftu.igorbotian.phdapp.common.Data
+ * @see ru.spbftu.igorbotian.phdapp.common.UnclassifiedData
  */
 public final class DataPDU {
 
     public Set<DataClassPDU> classes;
     public Set<DataObjectPDU> objects;
 
-    public static DataPDU toPDU(Data data) {
+    public static DataPDU toPDU(UnclassifiedData data) {
         DataPDU pdu = new DataPDU();
 
         pdu.classes = new LinkedHashSet<>();
@@ -45,15 +46,15 @@ public final class DataPDU {
         return pdu;
     }
 
-    public Data toObject() throws DataException {
+    public UnclassifiedData toObject() throws DataException {
         Set<DataClass> classes = new LinkedHashSet<>();
         this.classes.forEach(clazz -> classes.add(clazz.toObject()));
 
-        Set<DataObject> objects = new LinkedHashSet<>();
+        Set<UnclassifiedDataObject> objects = new LinkedHashSet<>();
         for(DataObjectPDU pdu : this.objects) {
             objects.add(pdu.toObject());
         }
 
-        return DataFactory.newData(classes, objects);
+        return DataFactory.newUnclassifiedData(classes, objects);
     }
 }

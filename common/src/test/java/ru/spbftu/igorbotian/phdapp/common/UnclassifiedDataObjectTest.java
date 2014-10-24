@@ -21,23 +21,24 @@ package ru.spbftu.igorbotian.phdapp.common;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
 
 import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Модульные тесты для класса <code>DataObject</code>
+ * Модульные тесты для класса <code>UnclassifiedDataObject</code>
  *
- * @see ru.spbftu.igorbotian.phdapp.common.DataObject
+ * @see ru.spbftu.igorbotian.phdapp.common.UnclassifiedDataObject
  */
-public class DataObjectTest extends BaseDataTest<DataObject> {
+public class UnclassifiedDataObjectTest extends BaseDataTest<UnclassifiedDataObject> {
 
     private Set<Parameter<?>> setOfParams;
 
-    private DataObject obj;
-    private DataObject differentObj;
-    private DataObject objWithSameNameAndDifferentParams;
-    private DataObject similarObj;
+    private UnclassifiedDataObject obj;
+    private UnclassifiedDataObject differentObj;
+    private UnclassifiedDataObject objWithSameNameAndDifferentParams;
+    private UnclassifiedDataObject similarObj;
 
     @Before
     public void setUp() {
@@ -59,7 +60,7 @@ public class DataObjectTest extends BaseDataTest<DataObject> {
     @Test
     public void testParams() {
         Set<Parameter<?>> setOfParams = randomStringObjectParameters(2);
-        DataObject obj = DataFactory.newObject(randomString(), setOfParams);
+        UnclassifiedDataObject obj = DataFactory.newObject(randomString(), setOfParams);
 
         Assert.assertEquals(setOfParams.size(), obj.parameters().size());
         Assert.assertTrue(setOfParams.containsAll(obj.parameters()));
@@ -72,7 +73,7 @@ public class DataObjectTest extends BaseDataTest<DataObject> {
         setOfParams.add(DataFactory.newParameter(randomString(), 1.0, BasicDataTypes.REAL));
         setOfParams.add(DataFactory.newParameter(randomString(), randomString(), BasicDataTypes.STRING));
 
-        DataObject obj = DataFactory.newObject(randomString(), setOfParams);
+        UnclassifiedDataObject obj = DataFactory.newObject(randomString(), setOfParams);
 
         for(Parameter param : setOfParams) {
             Assert.assertTrue(obj.parameters().contains(param));

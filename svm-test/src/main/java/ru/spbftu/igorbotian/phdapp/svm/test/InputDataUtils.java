@@ -19,63 +19,63 @@
 package ru.spbftu.igorbotian.phdapp.svm.test;
 
 import ru.spbftu.igorbotian.phdapp.common.*;
+import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
+import ru.spbftu.igorbotian.phdapp.common.impl.InputDataFactory;
 
 import java.util.*;
 import java.util.function.Function;
 
 /**
- * Класс, который предоставляет проводить различные операции над наборами исходных данных, предназначенных
- * для обучения классификатора, в целях проверки корректности его работы
+ * Класс, который предоставляет проводить различные операции над наборами исходных данных
  *
- * @see ru.spbftu.igorbotian.phdapp.common.TrainingData
+ * @see ru.spbftu.igorbotian.phdapp.common.UnclassifiedData
+ * @see ru.spbftu.igorbotian.phdapp.common.ClassifiedData
  */
-public final class TrainingDataUtils {
+public final class InputDataUtils {
 
     /**
-     * Формирует новый набор исходных данных, предназначенный для обучения классификатора, на основе заданного.
-     * При этом тестирующая и обучающая выборка формируется случайным образом из тестирующей выборки заданного набора.
+     * Формирует новый набор исходных данных, тестирующая и обучающая выборка которого формируется случайным образом
+     * из заданного набора классифицированных данных.
      *
-     * @param data             исходный набор исходных данных для обучения классификатора
+     * @param data             набор классифицированных данных
      * @param trainingSetRatio процентное соотношение из исходного количества объектов,
      *                         которое будет составлять формируемая обучающая выборка (0.0;1.0)
      * @return новый набор исходных данных
      * @throws ru.spbftu.igorbotian.phdapp.common.DataException если
      *                                                          в случае проблемы формирования нового набора исходных данных
-     * @throws java.lang.NullPointerException                   если набор исходных данных не задан
+     * @throws java.lang.NullPointerException                   если набор классифицированных данных не задан
      * @throws java.lang.IllegalArgumentException               если процентное соотношение объектов обучающей выборки
      *                                                          не в диапазоне (0.0;1.0)
      */
-    public static TrainingData shuffle(TrainingData data, float trainingSetRatio) throws DataException {
+    public static InputData shuffle(ClassifiedData data, float trainingSetRatio) throws DataException {
         if (trainingSetRatio <= 0.0f || trainingSetRatio >= 1.0f) {
             throw new IllegalArgumentException("Training set ratio should be in range of (0.0.;1.0.): "
                     + trainingSetRatio);
         }
 
-        List<? extends ClassifiedDataObject> objects = new ArrayList<>(Objects.requireNonNull(data).trainingSet());
+        List<? extends ClassifiedDataObject> objects = new ArrayList<>(Objects.requireNonNull(data).objects());
         Collections.shuffle(objects);
 
         int sizeOfTrainingSet = (int) Math.ceil(trainingSetRatio * objects.size());
         Set<? extends ClassifiedDataObject> trainingSet = new HashSet<>(objects.subList(0, sizeOfTrainingSet));
-        Set<? extends DataObject> testingSet = new HashSet<>(objects.subList(sizeOfTrainingSet, objects.size()));
+        Set<? extends UnclassifiedDataObject> testingSet = new HashSet<>(objects.subList(sizeOfTrainingSet, objects.size()));
 
-        return DataFactory.newTrainingData(data.classes(), testingSet, trainingSet);
+        return InputDataFactory.newData(data.classes(), trainingSet, testingSet);
     }
 
     /**
-     * Размывание обучающей выборки по заданному алгоритму
+     * Размывание объектов набоора исходных данных по заданному алгоритму
      *
-     * @param data         набор исходных данных, содержащий исходную обучающую выборку
-     * @param power        во сколько раз увеличится размер результирующей обучающей выборки
+     * @param data         набор исходных данных
+     * @param power        во сколько раз увеличится размер результирующего набора исходных данных
      * @param blurFunction алгоритм, по которому будет размыт каждый объект исходной обучающей выборки
-     * @return набор исходных данных, отличающийся от исходного новой обучающей выборкой
+     * @return новый набор исходных данных, отличающийся от исходного количеством объектов
      * @throws ru.spbftu.igorbotian.phdapp.common.DataException в случае проблем формирования нового набора исходных данных
-     * @throws java.lang.NullPointerException                   если набор исходны данных или алгоритм размытия не заданы
+     * @throws java.lang.NullPointerException                   если набор исходных данных или алгоритм размытия не заданы
      * @throws java.lang.IllegalArgumentException               если степень размытия имеет неположительное значение
      */
-    public static TrainingData blur(TrainingData data, int power,
-                                    Function<ClassifiedDataObject, ClassifiedDataObject> blurFunction)
-            throws DataException {
-
+    public static UnclassifiedData blur(UnclassifiedData data, int power, Function<UnclassifiedDataObject,
+            UnclassifiedDataObject> blurFunction) throws DataException {
         Objects.requireNonNull(data);
         Objects.requireNonNull(blurFunction);
 
@@ -83,22 +83,22 @@ public final class TrainingDataUtils {
             throw new IllegalArgumentException("Power should have a positive value");
         }
 
-        Set<ClassifiedDataObject> blurredTrainingSet = new HashSet<>();
+        Set<UnclassifiedDataObject> blurredTrainingSet = new HashSet<>();
 
-        for (ClassifiedDataObject obj : data.trainingSet()) {
+        for (UnclassifiedDataObject obj : data.objects()) {
             blurredTrainingSet.addAll(blur(obj, power, blurFunction));
         }
 
-        return DataFactory.newTrainingData(data.classes(), data.testingSet(), blurredTrainingSet);
+        return DataFactory.newUnclassifiedData(data.classes(), blurredTrainingSet);
     }
 
-    private static Set<? extends ClassifiedDataObject> blur(ClassifiedDataObject obj, int power,
-                                                          Function<ClassifiedDataObject, ClassifiedDataObject> blurFunction) {
+    private static Set<UnclassifiedDataObject> blur(UnclassifiedDataObject obj, int power,
+                                                    Function<UnclassifiedDataObject, UnclassifiedDataObject> blurFunction) {
         assert (obj != null);
         assert (power > 0);
         assert (blurFunction != null);
 
-        Set<ClassifiedDataObject> result = new HashSet<>();
+        Set<UnclassifiedDataObject> result = new HashSet<>();
 
         for (int i = 0; i < power; i++) {
             result.add(blurFunction.apply(obj));
