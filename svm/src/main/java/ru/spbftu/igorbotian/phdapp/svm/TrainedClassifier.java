@@ -33,6 +33,7 @@ public interface TrainedClassifier extends Classifier {
      * Добавление элемента в обучающую выборку
      *
      * @param obj элемент, который будет помещён в обучающую выборку
+     * @throws java.lang.NullPointerException если элемент не задан
      */
     public void train(ClassifiedObject obj);
 
@@ -40,6 +41,7 @@ public interface TrainedClassifier extends Classifier {
      * Добавление элементов в обучающую выборку
      *
      * @param objects элементы, которые будут помещены в обучающую выборку
+     * @throws java.lang.NullPointerException если добавляемое множество элементов не задано
      */
-    public void train(Set<? extends ClassificationException> objects);
+    public void train(Set<? extends ClassifiedObject> objects);
 }
