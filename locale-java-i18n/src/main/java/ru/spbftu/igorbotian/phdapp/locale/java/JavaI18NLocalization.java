@@ -60,6 +60,8 @@ class JavaI18NLocalization implements Localization {
     }
 
     private ResourceBundle initTranslations() {
+        LOGGER.debug("Loading translations for locale: " + Locale.getDefault().toString());
+
         try {
             return ResourceBundle.getBundle(LABELS_BUNDLE_NAME, Locale.getDefault());
         } catch (Exception e) {
@@ -78,9 +80,11 @@ class JavaI18NLocalization implements Localization {
         }
 
         if (labels == null) {
+            LOGGER.warn("Requesting translation for non-localized label: " + label);
             return label;
         }
 
+        LOGGER.debug("Requesting translation for label: " + label);
         return getBundledLabel(label);
     }
 

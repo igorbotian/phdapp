@@ -93,6 +93,7 @@ class PropertiesBasedConfiguration implements Configuration, ShutdownHook {
         }
 
         CONF_FILE = configFolder.resolve(CONF_FILE_NAME);
+        LOGGER.info("Path to configuration file: " + CONF_FILE.toAbsolutePath().toString());
 
         try {
             load();
@@ -102,16 +103,22 @@ class PropertiesBasedConfiguration implements Configuration, ShutdownHook {
     }
 
     private void load() throws IOException {
+        LOGGER.debug("Loading configuration");
+
         if (Files.exists(CONF_FILE)) {
             config.load(Files.newBufferedReader(CONF_FILE));
+            LOGGER.debug("Configuration successfully loaded");
         } else {
             LOGGER.info("No configuration found. All settings are set to default");
         }
     }
 
     private void store() throws IOException {
+        LOGGER.debug("Storing configuration");
+
         if (configChanged()) {
             config.store(Files.newBufferedWriter(CONF_FILE), "PhD application configuration");
+            LOGGER.debug("Configuration successfully stored");
         }
     }
 
@@ -140,6 +147,8 @@ class PropertiesBasedConfiguration implements Configuration, ShutdownHook {
             fireConfigChanged();
         }
 
+        LOGGER.debug(String.format("Setting new configuration setting: name = '%s', value = '%s'",
+                param, value.toString()));
         config.setProperty(param, value.toString());
     }
 
@@ -152,12 +161,20 @@ class PropertiesBasedConfiguration implements Configuration, ShutdownHook {
             throw new IllegalArgumentException("Parameter cannot be empty");
         }
 
+        LOGGER.debug(String.format("Requesting value of configuration setting '%s'", param));
         String value = config.getProperty(param);
+
+        if(value == null) {
+            LOGGER.warn("Trying to read non-initialized configuration setting: " + param);
+        }
+
         return (value == null) ? null : parser.apply(value);
     }
 
     @Override
     public void onExit() {
+        LOGGER.debug("Storing configuration");
+
         try {
             store();
             LOGGER.debug("Configuration stored");
