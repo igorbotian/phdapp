@@ -16,7 +16,7 @@
  * @author Igor Botian <igor.botian@gmail.com>
  */
 
-package ru.spbftu.igorbotian.phdapp.svm.test;
+package ru.spbftu.igorbotian.phdapp.svm.analytics;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -29,7 +29,7 @@ import java.util.function.Function;
 /**
  * Модульные тесты для класса <code>InputDataUtils</code>
  *
- * @see ru.spbftu.igorbotian.phdapp.svm.test.InputDataUtils
+ * @see ru.spbftu.igorbotian.phdapp.svm.analytics.InputDataUtils
  */
 public class InputDataUtilsTest {
 

@@ -161,8 +161,8 @@ project(':svm') {
     }
 }
 
-project(':svm-test') {
-    description 'Testing facilities for the new SVM classification mechanism'
+project(':svm-analytics') {
+    description 'Analytics of the new SVM classification mechanism'
 
     dependencies {
         compile(
