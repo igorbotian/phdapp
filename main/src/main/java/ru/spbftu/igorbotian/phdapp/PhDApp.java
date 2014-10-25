@@ -85,8 +85,9 @@ public class PhDApp {
         Logger logger = Logger.getLogger(PhDApp.class);
 
         try {
+            logger.debug("Initializing application modules");
             start();
-            logger.info("Application successfully initialized");
+            logger.info("Application modules successfully initialized");
         } catch (Throwable e) {
             e.printStackTrace();
             logger.fatal("Unhandled exception caught. Exiting application", e);

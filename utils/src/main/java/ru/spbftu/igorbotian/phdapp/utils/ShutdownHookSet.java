@@ -48,5 +48,6 @@ class ShutdownHookSet implements ShutdownHooks {
     public void triggerAll() {
         LOGGER.info("Executing pre-exit actions");
         hooks.forEach(ShutdownHook::onExit);
+        LOGGER.debug("All pre-exit actions executed");
     }
 }
