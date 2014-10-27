@@ -144,6 +144,8 @@ project(':main') {
                 project(':input-json'),
                 project(':locale-java-i18n'),
                 project(':log-log4j'),
+                project(':svm'),
+                project(':svm-analytics'),
                 project(':utils')
         )
     }
@@ -168,7 +170,8 @@ project(':svm-analytics') {
         compile(
                 project(':common'),
                 project(':conf'),
-                project(':input')
+                project(':input'),
+                project(':svm')
         )
 
         testCompile junit
