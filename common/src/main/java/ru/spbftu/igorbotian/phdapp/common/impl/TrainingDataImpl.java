@@ -18,36 +18,36 @@
 
 package ru.spbftu.igorbotian.phdapp.common.impl;
 
-import ru.spbftu.igorbotian.phdapp.common.ClassifiedData;
-import ru.spbftu.igorbotian.phdapp.common.ClassifiedObject;
 import ru.spbftu.igorbotian.phdapp.common.DataClass;
 import ru.spbftu.igorbotian.phdapp.common.DataException;
+import ru.spbftu.igorbotian.phdapp.common.TrainingData;
+import ru.spbftu.igorbotian.phdapp.common.TrainingObject;
 
 import java.util.Set;
 
 /**
- * @see ru.spbftu.igorbotian.phdapp.common.ClassifiedData
+ * @see ru.spbftu.igorbotian.phdapp.common.TrainingData
  * @see ru.spbftu.igorbotian.phdapp.common.impl.DataFactory
  */
-class ClassifiedDataImpl extends UnclassifiedDataImpl implements ClassifiedData {
+class TrainingDataImpl extends UnclassifiedDataImpl implements TrainingData {
 
-    ClassifiedDataImpl(Set<? extends DataClass> classes, Set<? extends ClassifiedObject> objects) throws DataException {
+    TrainingDataImpl(Set<? extends DataClass> classes, Set<? extends TrainingObject> objects) throws DataException {
         super(classes, objects);
         checkNoForeignClasses(classes, objects);
     }
 
     private void checkNoForeignClasses(Set<? extends DataClass> classes,
-                                       Set<? extends ClassifiedObject> trainingSet) {
-        for (ClassifiedObject obj : trainingSet) {
-            if (!classes.contains(obj.dataClass())) {
-                throw new IllegalArgumentException("A classified object has undefined class: " + obj.dataClass().name());
+                                       Set<? extends TrainingObject> trainingSet) {
+        for (TrainingObject obj : trainingSet) {
+            if (!classes.contains(obj.realClass())) {
+                throw new IllegalArgumentException("A training object has undefined class: " + obj.realClass().name());
             }
         }
     }
 
     @Override
     @SuppressWarnings("unchecked") // check is made by means of the constructor
-    public Set<? extends ClassifiedObject> objects() {
-        return (Set<? extends ClassifiedObject>) super.objects();
+    public Set<? extends TrainingObject> objects() {
+        return (Set<? extends TrainingObject>) super.objects();
     }
 }

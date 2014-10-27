@@ -30,11 +30,11 @@ import java.util.Set;
 class InputDataImpl implements InputData {
 
     private final UnclassifiedData testingSet;
-    private final ClassifiedData trainingSet;
+    private final TrainingData trainingSet;
 
-    public InputDataImpl(Set<? extends DataClass> classes, Set<? extends ClassifiedObject> trainingSet,
+    public InputDataImpl(Set<? extends DataClass> classes, Set<? extends TrainingObject> trainingSet,
                          Set<? extends UnclassifiedObject> testingSet) throws DataException {
-        this.trainingSet = DataFactory.newClassifiedData(classes, Objects.requireNonNull(trainingSet));
+        this.trainingSet = DataFactory.newTrainingData(classes, Objects.requireNonNull(trainingSet));
         this.testingSet = DataFactory.newUnclassifiedData(classes, Objects.requireNonNull(testingSet));
     }
 
@@ -48,7 +48,7 @@ class InputDataImpl implements InputData {
         return testingSet.classes();
     }
 
-    public Set<? extends ClassifiedObject> trainingSet() {
+    public Set<? extends TrainingObject> trainingSet() {
         return trainingSet.objects();
     }
 

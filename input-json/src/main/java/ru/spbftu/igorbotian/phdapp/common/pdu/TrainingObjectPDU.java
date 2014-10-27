@@ -18,10 +18,10 @@
 
 package ru.spbftu.igorbotian.phdapp.common.pdu;
 
-import ru.spbftu.igorbotian.phdapp.common.ClassifiedObject;
 import ru.spbftu.igorbotian.phdapp.common.DataException;
-import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
 import ru.spbftu.igorbotian.phdapp.common.Parameter;
+import ru.spbftu.igorbotian.phdapp.common.TrainingObject;
+import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -29,16 +29,16 @@ import java.util.Set;
 /**
  * POJO-версия класса, предназначенная для использования в механизме сериализации
  *
- * @see ru.spbftu.igorbotian.phdapp.common.ClassifiedObject
+ * @see ru.spbftu.igorbotian.phdapp.common.TrainingObject
  */
-public final class ClassifiedObjectPDU {
+public final class TrainingObjectPDU {
 
     public String id;
     public Set<ParameterPDU> params;
     public DataClassPDU realClass;
 
-    public static ClassifiedObjectPDU toPDU(ClassifiedObject obj) {
-        ClassifiedObjectPDU pdu = new ClassifiedObjectPDU();
+    public static TrainingObjectPDU toPDU(TrainingObject obj) {
+        TrainingObjectPDU pdu = new TrainingObjectPDU();
 
         pdu.id = obj.id();
         pdu.params = new LinkedHashSet<>();
@@ -48,12 +48,12 @@ public final class ClassifiedObjectPDU {
         return pdu;
     }
 
-    public ClassifiedObject toObject() throws DataException {
+    public TrainingObject toObject() throws DataException {
         Set<Parameter<?>> params = new LinkedHashSet<>();
 
-        for(ParameterPDU param : this.params) {
+        for (ParameterPDU param : this.params) {
             params.add(param.toObject());
         }
-        return DataFactory.newClassifiedObject(id, params, realClass.toObject());
+        return DataFactory.newTrainingObject(id, params, realClass.toObject());
     }
 }

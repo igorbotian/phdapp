@@ -40,10 +40,10 @@ public class InputDataUtilsTest {
             DataFactory.newUnclassifiedObject("firstObj", params),
             DataFactory.newUnclassifiedObject("secondObj", params)
     )));
-    private final Set<? extends ClassifiedObject> trainingSet = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
-            DataFactory.newClassifiedObject("firstObj", params, classes.iterator().next()),
-            DataFactory.newClassifiedObject("secondObj", params, classes.iterator().next()),
-            DataFactory.newClassifiedObject("thirdObj", params, classes.iterator().next())
+    private final Set<? extends TrainingObject> trainingSet = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
+            DataFactory.newTrainingObject("firstObj", params, classes.iterator().next()),
+            DataFactory.newTrainingObject("secondObj", params, classes.iterator().next()),
+            DataFactory.newTrainingObject("thirdObj", params, classes.iterator().next())
     )));
     private final Function<UnclassifiedObject, UnclassifiedObject> blurFunction =
             obj -> DataFactory.newUnclassifiedObject(UUID.randomUUID().toString(), obj.parameters());
@@ -52,33 +52,33 @@ public class InputDataUtilsTest {
     public void testShuffle() throws DataException {
         int expectedTrainingSetSize = 1;
         float ratio = (float) expectedTrainingSetSize / trainingSet.size();
-        ClassifiedData data = DataFactory.newClassifiedData(classes, trainingSet);
+        TrainingData data = DataFactory.newTrainingData(classes, trainingSet);
         InputData shuffledData = InputDataUtils.shuffle(data, ratio);
         Assert.assertEquals(expectedTrainingSetSize, shuffledData.trainingSet().size());
 
-        Set<? extends ClassifiedObject> resultTrainingSet = new HashSet<>(shuffledData.trainingSet());
+        Set<? extends TrainingObject> resultTrainingSet = new HashSet<>(shuffledData.trainingSet());
         resultTrainingSet.removeAll(trainingSet);
         Assert.assertEquals(0, resultTrainingSet.size());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testShuffleWithTrainingSetRatioLessThanMinimum() throws DataException {
-        InputDataUtils.shuffle(DataFactory.newClassifiedData(classes, trainingSet), -1.0f);
+        InputDataUtils.shuffle(DataFactory.newTrainingData(classes, trainingSet), -1.0f);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testShuffleTrainingSetRatioLowerBound() throws DataException {
-        InputDataUtils.shuffle(DataFactory.newClassifiedData(classes, trainingSet), 0.0f);
+        InputDataUtils.shuffle(DataFactory.newTrainingData(classes, trainingSet), 0.0f);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testShuffleTrainingSetRatioUpperBound() throws DataException {
-        InputDataUtils.shuffle(DataFactory.newClassifiedData(classes, trainingSet), 1.0f);
+        InputDataUtils.shuffle(DataFactory.newTrainingData(classes, trainingSet), 1.0f);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testShuffleWithTrainingSetRatioGreaterThanMaximum() throws DataException {
-        InputDataUtils.shuffle(DataFactory.newClassifiedData(classes, trainingSet), 2.0f);
+        InputDataUtils.shuffle(DataFactory.newTrainingData(classes, trainingSet), 2.0f);
     }
 
     @Test

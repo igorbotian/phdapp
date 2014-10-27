@@ -21,8 +21,9 @@ package ru.spbftu.igorbotian.phdapp.common;
 /**
  * Исключение, генерируемое в случае некорректного формирования набора исходных данных
  *
- * @see UnclassifiedData
+ * @see ru.spbftu.igorbotian.phdapp.common.UnclassifiedData
  * @see ru.spbftu.igorbotian.phdapp.common.ClassifiedData
+ * @see ru.spbftu.igorbotian.phdapp.common.TrainingData
  */
 public class DataException extends Exception {
 

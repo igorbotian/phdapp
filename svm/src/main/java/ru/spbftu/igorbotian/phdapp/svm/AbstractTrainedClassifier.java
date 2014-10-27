@@ -19,8 +19,8 @@
 package ru.spbftu.igorbotian.phdapp.svm;
 
 import ru.spbftu.igorbotian.phdapp.common.ClassifiedData;
-import ru.spbftu.igorbotian.phdapp.common.ClassifiedObject;
 import ru.spbftu.igorbotian.phdapp.common.Parameter;
+import ru.spbftu.igorbotian.phdapp.common.TrainingObject;
 import ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject;
 
 import java.util.Collections;
@@ -35,15 +35,15 @@ import java.util.Set;
  */
 public abstract class AbstractTrainedClassifier implements TrainedClassifier {
 
-    private final Set<ClassifiedObject> trainingSet = new HashSet<>();
+    private final Set<TrainingObject> trainingSet = new HashSet<>();
 
     @Override
-    public void train(ClassifiedObject obj) {
+    public void train(TrainingObject obj) {
         trainingSet.add(Objects.requireNonNull(obj));
     }
 
     @Override
-    public void train(Set<? extends ClassifiedObject> objects) {
+    public void train(Set<? extends TrainingObject> objects) {
         trainingSet.addAll(Objects.requireNonNull(objects));
     }
 
@@ -65,7 +65,7 @@ public abstract class AbstractTrainedClassifier implements TrainedClassifier {
      * @throws ru.spbftu.igorbotian.phdapp.svm.ClassificationException в случае ошбики, возникшей в процессе классификации
      * @throws java.lang.NullPointerException                          если не задан хотя бы один из параметров
      */
-    protected abstract ClassifiedData classify(Set<? extends ClassifiedObject> trainingSet,
+    protected abstract ClassifiedData classify(Set<? extends TrainingObject> trainingSet,
                                                Set<? extends UnclassifiedObject> data,
                                                Set<? extends Parameter> params)
             throws ClassificationException;

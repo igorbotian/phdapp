@@ -41,7 +41,7 @@ public interface InputData {
      *
      * @return непустое неизменяемое множество объектов
      */
-    public Set<? extends ClassifiedObject> trainingSet();
+    public Set<? extends TrainingObject> trainingSet();
 
     /**
      * Получение тестирующей выборки

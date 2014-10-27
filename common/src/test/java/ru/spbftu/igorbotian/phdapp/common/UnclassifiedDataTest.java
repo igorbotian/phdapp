@@ -30,9 +30,9 @@ import java.util.Set;
 /**
  * Модульные тесты для класса <code>UnclassifiedData</code>
  *
- * @see UnclassifiedData
+ * @see ru.spbftu.igorbotian.phdapp.common.UnclassifiedData
  */
-public class DataTest extends BaseDataTest<UnclassifiedData> {
+public class UnclassifiedDataTest extends BaseDataTest<UnclassifiedData> {
 
     private Set<DataClass> setOfClasses;
     private Set<UnclassifiedObject> setOfObjects;

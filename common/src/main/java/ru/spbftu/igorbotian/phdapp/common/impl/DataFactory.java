@@ -99,13 +99,27 @@ public final class DataFactory {
      *
      * @param id        строковое представление идентификатора объекта (не может быть <code>null</code> или пустым)
      * @param params    множество параметров, которыми характеризуется объект (непустое)
-     * @param realClass реальный класса классификации, которому соответствует объект
+     * @param dataClass класс, которому соответствует объект и который получен в результате классификации
      * @return объект типа <code>ClassifiedObject</code> с заданными параметрами
      * @throws java.lang.NullPointerException если хотя бы один из параметров не задан
      * @see ru.spbftu.igorbotian.phdapp.common.ClassifiedObject
      */
-    public static ClassifiedObject newClassifiedObject(String id, Set<Parameter<?>> params, DataClass realClass) {
-        return new ClassifiedObjectImpl(id, params, realClass);
+    public static ClassifiedObject newClassifiedObject(String id, Set<Parameter<?>> params, DataClass dataClass) {
+        return new ClassifiedObjectImpl(id, params, dataClass);
+    }
+
+    /**
+     * Создание объекта типа <code>ClassifiedObject</code>
+     *
+     * @param id        строковое представление идентификатора объекта (не может быть <code>null</code> или пустым)
+     * @param params    множество параметров, которыми характеризуется объект (непустое)
+     * @param realClass реальный класса классификации, которому соответствует объект
+     * @return объект типа <code>TrainingObject</code> с заданными параметрами
+     * @throws java.lang.NullPointerException если хотя бы один из параметров не задан
+     * @see ru.spbftu.igorbotian.phdapp.common.TrainingObject
+     */
+    public static TrainingObject newTrainingObject(String id, Set<Parameter<?>> params, DataClass realClass) {
+        return new TrainingObjectImpl(id, params, realClass);
     }
 
     /**
@@ -144,5 +158,24 @@ public final class DataFactory {
     public static ClassifiedData newClassifiedData(Set<? extends DataClass> classes,
                                                    Set<? extends ClassifiedObject> objects) throws DataException {
         return new ClassifiedDataImpl(classes, objects);
+    }
+
+    /**
+     * Создание объекта типа <code>TrainingData</code>
+     *
+     * @param classes непустой набор классов классификации размером не меньше двух
+     * @param objects непустое множество классифицированных объектов
+     * @return объект типа <code>TrainingData</code> с заданными параметрами
+     * @throws ru.spbftu.igorbotian.phdapp.common.DataException если набор классов содержит меньше,
+     *                                                          чем минимально необходимое, количество элементов;
+     *                                                          если множество объектов является пустым;
+     *                                                          если множество объектов имеет хотя бы один объект,
+     *                                                          отличающийся от других множеством определяюмых его параметров
+     * @throws java.lang.NullPointerException                   если множество классов или множество объектов равно <code>null</code>
+     * @see ru.spbftu.igorbotian.phdapp.common.TrainingData
+     */
+    public static TrainingData newTrainingData(Set<? extends DataClass> classes,
+                                               Set<? extends TrainingObject> objects) throws DataException {
+        return new TrainingDataImpl(classes, objects);
     }
 }

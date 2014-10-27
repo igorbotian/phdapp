@@ -18,7 +18,7 @@
 
 package ru.spbftu.igorbotian.phdapp.svm;
 
-import ru.spbftu.igorbotian.phdapp.common.ClassifiedObject;
+import ru.spbftu.igorbotian.phdapp.common.TrainingObject;
 
 import java.util.Set;
 
@@ -35,7 +35,7 @@ public interface TrainedClassifier extends Classifier {
      * @param obj элемент, который будет помещён в обучающую выборку
      * @throws java.lang.NullPointerException если элемент не задан
      */
-    public void train(ClassifiedObject obj);
+    public void train(TrainingObject obj);
 
     /**
      * Добавление элементов в обучающую выборку
@@ -43,5 +43,5 @@ public interface TrainedClassifier extends Classifier {
      * @param objects элементы, которые будут помещены в обучающую выборку
      * @throws java.lang.NullPointerException если добавляемое множество элементов не задано
      */
-    public void train(Set<? extends ClassifiedObject> objects);
+    public void train(Set<? extends TrainingObject> objects);
 }

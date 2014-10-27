@@ -18,40 +18,40 @@
 
 package ru.spbftu.igorbotian.phdapp.common.impl;
 
-import ru.spbftu.igorbotian.phdapp.common.ClassifiedObject;
 import ru.spbftu.igorbotian.phdapp.common.DataClass;
 import ru.spbftu.igorbotian.phdapp.common.Parameter;
+import ru.spbftu.igorbotian.phdapp.common.TrainingObject;
 
 import java.util.Objects;
 import java.util.Set;
 
 /**
- * @see ru.spbftu.igorbotian.phdapp.common.ClassifiedData
+ * @see ru.spbftu.igorbotian.phdapp.common.TrainingObject
  * @see ru.spbftu.igorbotian.phdapp.common.impl.DataFactory
  */
-class ClassifiedObjectImpl extends UnclassifiedObjectImpl implements ClassifiedObject {
+public class TrainingObjectImpl extends UnclassifiedObjectImpl implements TrainingObject {
 
     /**
-     * Класс, которому соответствует объекту и который получен в результате классификации
+     * Реальный класс классификации, которому соответствует объект
      */
-    private final DataClass dataClass;
+    private final DataClass realClass;
 
-    public ClassifiedObjectImpl(String id, Set<Parameter<?>> params, DataClass dataClass) {
+    public TrainingObjectImpl(String id, Set<Parameter<?>> params, DataClass realClass) {
 
         super(id, params);
 
-        Objects.requireNonNull(dataClass);
-        this.dataClass = dataClass;
+        Objects.requireNonNull(realClass);
+        this.realClass = realClass;
     }
 
     @Override
-    public DataClass dataClass() {
-        return dataClass;
+    public DataClass realClass() {
+        return realClass;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), dataClass);
+        return Objects.hash(super.hashCode(), realClass);
     }
 
     @Override
@@ -60,16 +60,16 @@ class ClassifiedObjectImpl extends UnclassifiedObjectImpl implements ClassifiedO
             return true;
         }
 
-        if (obj == null || !(obj instanceof ClassifiedObject)) {
+        if (obj == null || !(obj instanceof TrainingObjectImpl)) {
             return false;
         }
 
-        ClassifiedObjectImpl other = (ClassifiedObjectImpl) obj;
-        return super.equals(other) && dataClass.equals(other.dataClass);
+        TrainingObjectImpl other = (TrainingObjectImpl) obj;
+        return super.equals(other) && realClass.equals(other.realClass);
     }
 
     @Override
     public String toString() {
-        return String.join(":", super.toString(), dataClass.toString());
+        return String.join(":", super.toString(), realClass.toString());
     }
 }

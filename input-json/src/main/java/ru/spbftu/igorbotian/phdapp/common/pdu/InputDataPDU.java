@@ -27,13 +27,13 @@ import java.util.Set;
 /**
  * POJO-версия класса, предназначенная для использования в механизме сериализации
  *
- * @see ru.spbftu.igorbotian.phdapp.common.ClassifiedData
+ * @see ru.spbftu.igorbotian.phdapp.common.TrainingData
  */
 public class InputDataPDU {
 
     public Set<DataClassPDU> classes;
     public Set<UnclassifiedObjectPDU> testingSet;
-    public Set<ClassifiedObjectPDU> trainingSet;
+    public Set<TrainingObjectPDU> trainingSet;
 
     public static InputDataPDU toPDU(InputData data) {
         InputDataPDU pdu = new InputDataPDU();
@@ -45,7 +45,7 @@ public class InputDataPDU {
         data.testingSet().forEach(obj -> pdu.testingSet.add(UnclassifiedObjectPDU.toPDU(obj)));
 
         pdu.trainingSet = new LinkedHashSet<>();
-        data.trainingSet().forEach(obj -> pdu.trainingSet.add(ClassifiedObjectPDU.toPDU(obj)));
+        data.trainingSet().forEach(obj -> pdu.trainingSet.add(TrainingObjectPDU.toPDU(obj)));
 
         return pdu;
     }
@@ -59,8 +59,8 @@ public class InputDataPDU {
             testingSet.add(pdu.toObject());
         }
 
-        Set<ClassifiedObject> trainingSet = new LinkedHashSet<>();
-        for (ClassifiedObjectPDU pdu : this.trainingSet) {
+        Set<TrainingObject> trainingSet = new LinkedHashSet<>();
+        for (TrainingObjectPDU pdu : this.trainingSet) {
             trainingSet.add(pdu.toObject());
         }
 

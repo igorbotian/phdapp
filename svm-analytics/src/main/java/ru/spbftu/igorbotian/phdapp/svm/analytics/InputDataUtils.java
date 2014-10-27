@@ -29,7 +29,7 @@ import java.util.function.Function;
  * Класс, который предоставляет проводить различные операции над наборами исходных данных
  *
  * @see ru.spbftu.igorbotian.phdapp.common.UnclassifiedData
- * @see ru.spbftu.igorbotian.phdapp.common.ClassifiedData
+ * @see ru.spbftu.igorbotian.phdapp.common.TrainingData
  */
 public final class InputDataUtils {
 
@@ -47,17 +47,17 @@ public final class InputDataUtils {
      * @throws java.lang.IllegalArgumentException               если процентное соотношение объектов обучающей выборки
      *                                                          не в диапазоне (0.0;1.0)
      */
-    public static InputData shuffle(ClassifiedData data, float trainingSetRatio) throws DataException {
+    public static InputData shuffle(TrainingData data, float trainingSetRatio) throws DataException {
         if (trainingSetRatio <= 0.0f || trainingSetRatio >= 1.0f) {
             throw new IllegalArgumentException("Training set ratio should be in range of (0.0.;1.0.): "
                     + trainingSetRatio);
         }
 
-        List<? extends ClassifiedObject> objects = new ArrayList<>(Objects.requireNonNull(data).objects());
+        List<? extends TrainingObject> objects = new ArrayList<>(Objects.requireNonNull(data).objects());
         Collections.shuffle(objects);
 
         int sizeOfTrainingSet = (int) Math.ceil(trainingSetRatio * objects.size());
-        Set<? extends ClassifiedObject> trainingSet = new HashSet<>(objects.subList(0, sizeOfTrainingSet));
+        Set<? extends TrainingObject> trainingSet = new HashSet<>(objects.subList(0, sizeOfTrainingSet));
         Set<? extends UnclassifiedObject> testingSet = new HashSet<>(objects.subList(sizeOfTrainingSet, objects.size()));
 
         return InputDataFactory.newData(data.classes(), trainingSet, testingSet);

@@ -21,18 +21,19 @@ package ru.spbftu.igorbotian.phdapp.common;
 import java.util.Set;
 
 /**
- * Результат классификации.
- * Набор исходных данных, для каждого элемента которого задан соответствующий класс, полученный в ходе классификации
+ * Исходные данные, предназначенные для обучения классификатора или какого-либо другого механизма для работы с ними.
+ * Характеризуются наличием обучающей выборки, содержащей информацию о реальных классах классификации,
+ * которым соответствуют объекты.
  *
  * @see ru.spbftu.igorbotian.phdapp.common.DataClass
- * @see ru.spbftu.igorbotian.phdapp.common.ClassifiedObject
+ * @see ru.spbftu.igorbotian.phdapp.common.TrainingObject
  */
-public interface ClassifiedData extends UnclassifiedData {
+public interface TrainingData extends UnclassifiedData {
 
     /**
-     * Получение множества классифицированных объектов
+     * Получение обучающей выборки
      *
-     * @return непустое неизменяемое множество объектов, для которых получены классы в ходе классификации
+     * @return непустое неизменяемое множество объектов, для которых известны реальные классы классификации
      */
-    Set<? extends ClassifiedObject> objects();
+    Set<? extends TrainingObject> objects();
 }

@@ -27,35 +27,35 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Модульные тесты для класса <code>ClassifiedObject</code>
+ * Модульные тесты для класса <code>TrainingObject</code>
  *
- * @see ru.spbftu.igorbotian.phdapp.common.ClassifiedObject
+ * @see ru.spbftu.igorbotian.phdapp.common.TrainingObject
  */
-public class ClassifiedObjectTest extends BaseDataTest<ClassifiedObject> {
+public class TrainingObjectTest extends BaseDataTest<TrainingObject> {
 
-    private DataClass dataClass;
+    private DataClass realClass;
     private Set<Parameter<?>> setOfParams;
 
-    private ClassifiedObject obj;
-    private ClassifiedObject differentObj;
-    private ClassifiedObject similarObj;
+    private TrainingObject obj;
+    private TrainingObject differentObj;
+    private TrainingObject similarObj;
 
     @Before
     public void setUp() {
-        dataClass = randomClass();
+        realClass = randomClass();
         setOfParams = randomStringObjectParameters(2);
 
         DataClass anotherRealClass = randomClass();
         Set<Parameter<?>> anotherSetOfParams = randomStringObjectParameters(3);
 
-        obj = DataFactory.newClassifiedObject("obj", setOfParams, dataClass);
-        differentObj = DataFactory.newClassifiedObject("differentObj", anotherSetOfParams, anotherRealClass);
-        similarObj = DataFactory.newClassifiedObject("obj", new HashSet<>(setOfParams), dataClass);
+        obj = DataFactory.newTrainingObject("obj", setOfParams, realClass);
+        differentObj = DataFactory.newTrainingObject("differentObj", anotherSetOfParams, anotherRealClass);
+        similarObj = DataFactory.newTrainingObject("obj", new HashSet<>(setOfParams), realClass);
     }
 
     @Test
-    public void testDataClass() {
-        Assert.assertEquals(dataClass, DataFactory.newClassifiedObject("name", setOfParams, dataClass).dataClass());
+    public void testRealClass() {
+        Assert.assertEquals(realClass, DataFactory.newTrainingObject("name", setOfParams, realClass).realClass());
     }
 
     @Test

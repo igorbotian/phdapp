@@ -19,19 +19,17 @@
 package ru.spbftu.igorbotian.phdapp.common;
 
 /**
- * Элемент обучающей выборки.
- * По своей сути является тем же исходым объектом, но для него известен реальный класс классификации,
- * которому он соответствует.
+ * Классифицированный объект из набора исходных данных
  *
  * @see ru.spbftu.igorbotian.phdapp.common.DataClass
- * @see UnclassifiedObject
+ * @see ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject
  */
 public interface ClassifiedObject extends UnclassifiedObject {
 
     /**
-     * Получение реального класса классификации, которому соответствует объект
+     * Получение класса объекта, полученного в ходе классификации
      *
-     * @return реальный класса классификации
+     * @return полученный класс
      */
-    DataClass realClass();
+    DataClass dataClass();
 }
