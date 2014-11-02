@@ -30,11 +30,11 @@ import java.util.Set;
 import java.util.UUID;
 
 /**
- * Модульные тесты для класса <code>ClassifierAnalyzer</code>
+ * Модульные тесты для класса <code>PointwiseClassifierAnalyzer</code>
  *
- * @see ru.spbftu.igorbotian.phdapp.svm.analytics.ClassifierAnalyzer
+ * @see PointwiseClassifierAnalyzer
  */
-public class ClassifierAnalyzerTest {
+public class PointwisePointwiseClassifierAnalyzerTest {
 
     private final float delta = 0.001f;
 
@@ -63,11 +63,11 @@ public class ClassifierAnalyzerTest {
         Set<DataClass> classes = toSet(firstObjClass, secondObjClass);
 
         // один объект относится к первому классу, два ко второму
-        TrainingData trainingData = DataFactory.newTrainingData(
+        PointwiseTrainingSet pointwiseTrainingSet = DataFactory.newPointwiseTrainingSet(
                 classes, toSet(
-                        DataFactory.newTrainingObject(firstObjId, firstObjParams, firstObjClass),
-                        DataFactory.newTrainingObject(secondObjId, secondObjParams, secondObjClass),
-                        DataFactory.newTrainingObject(thirdObjId, thirdObjParams, secondObjClass /* корректный */)
+                        DataFactory.newPointwiseTrainingObject(firstObjId, firstObjParams, firstObjClass),
+                        DataFactory.newPointwiseTrainingObject(secondObjId, secondObjParams, secondObjClass),
+                        DataFactory.newPointwiseTrainingObject(thirdObjId, thirdObjParams, secondObjClass /* корректный */)
                 )
         );
 
@@ -90,7 +90,7 @@ public class ClassifierAnalyzerTest {
         recall = (/* первый класс */ calculateRecall(2, 1) + /* второй класс */ calculateRecall(1, 1))
                 / classes.size();
 
-        report = new ClassifierAnalyzerImpl().analyze(classifiedData, trainingData);
+        report = new PointwiseClassifierAnalyzerImpl().analyze(classifiedData, pointwiseTrainingSet);
     }
 
     private float calculateAccuracy(int numberOfObjects,

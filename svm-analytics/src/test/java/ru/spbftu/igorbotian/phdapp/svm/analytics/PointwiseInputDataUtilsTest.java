@@ -31,7 +31,7 @@ import java.util.function.Function;
  *
  * @see ru.spbftu.igorbotian.phdapp.svm.analytics.InputDataUtils
  */
-public class InputDataUtilsTest {
+public class PointwiseInputDataUtilsTest {
 
     private final Set<? extends DataClass> classes = DataFactory.newClasses("firstClass", "secondClass");
     private final Set<Parameter<?>> params = Collections.singleton(
@@ -40,10 +40,10 @@ public class InputDataUtilsTest {
             DataFactory.newUnclassifiedObject("firstObj", params),
             DataFactory.newUnclassifiedObject("secondObj", params)
     )));
-    private final Set<? extends TrainingObject> trainingSet = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
-            DataFactory.newTrainingObject("firstObj", params, classes.iterator().next()),
-            DataFactory.newTrainingObject("secondObj", params, classes.iterator().next()),
-            DataFactory.newTrainingObject("thirdObj", params, classes.iterator().next())
+    private final Set<? extends PointwiseTrainingObject> trainingSet = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
+            DataFactory.newPointwiseTrainingObject("firstObj", params, classes.iterator().next()),
+            DataFactory.newPointwiseTrainingObject("secondObj", params, classes.iterator().next()),
+            DataFactory.newPointwiseTrainingObject("thirdObj", params, classes.iterator().next())
     )));
     private final Function<UnclassifiedObject, UnclassifiedObject> blurFunction =
             obj -> DataFactory.newUnclassifiedObject(UUID.randomUUID().toString(), obj.parameters());
@@ -52,33 +52,33 @@ public class InputDataUtilsTest {
     public void testShuffle() throws DataException {
         int expectedTrainingSetSize = 1;
         float ratio = (float) expectedTrainingSetSize / trainingSet.size();
-        TrainingData data = DataFactory.newTrainingData(classes, trainingSet);
-        InputData shuffledData = InputDataUtils.shuffle(data, ratio);
+        PointwiseTrainingSet data = DataFactory.newPointwiseTrainingSet(classes, trainingSet);
+        PointwiseInputData shuffledData = InputDataUtils.shuffle(data, ratio);
         Assert.assertEquals(expectedTrainingSetSize, shuffledData.trainingSet().size());
 
-        Set<? extends TrainingObject> resultTrainingSet = new HashSet<>(shuffledData.trainingSet());
+        Set<? extends PointwiseTrainingObject> resultTrainingSet = new HashSet<>(shuffledData.trainingSet());
         resultTrainingSet.removeAll(trainingSet);
         Assert.assertEquals(0, resultTrainingSet.size());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testShuffleWithTrainingSetRatioLessThanMinimum() throws DataException {
-        InputDataUtils.shuffle(DataFactory.newTrainingData(classes, trainingSet), -1.0f);
+        InputDataUtils.shuffle(DataFactory.newPointwiseTrainingSet(classes, trainingSet), -1.0f);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testShuffleTrainingSetRatioLowerBound() throws DataException {
-        InputDataUtils.shuffle(DataFactory.newTrainingData(classes, trainingSet), 0.0f);
+        InputDataUtils.shuffle(DataFactory.newPointwiseTrainingSet(classes, trainingSet), 0.0f);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testShuffleTrainingSetRatioUpperBound() throws DataException {
-        InputDataUtils.shuffle(DataFactory.newTrainingData(classes, trainingSet), 1.0f);
+        InputDataUtils.shuffle(DataFactory.newPointwiseTrainingSet(classes, trainingSet), 1.0f);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testShuffleWithTrainingSetRatioGreaterThanMaximum() throws DataException {
-        InputDataUtils.shuffle(DataFactory.newTrainingData(classes, trainingSet), 2.0f);
+        InputDataUtils.shuffle(DataFactory.newPointwiseTrainingSet(classes, trainingSet), 2.0f);
     }
 
     @Test

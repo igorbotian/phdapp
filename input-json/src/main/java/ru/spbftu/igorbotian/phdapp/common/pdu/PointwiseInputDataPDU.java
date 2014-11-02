@@ -27,16 +27,16 @@ import java.util.Set;
 /**
  * POJO-версия класса, предназначенная для использования в механизме сериализации
  *
- * @see ru.spbftu.igorbotian.phdapp.common.TrainingData
+ * @see ru.spbftu.igorbotian.phdapp.common.PointwiseTrainingSet
  */
-public class InputDataPDU {
+public class PointwiseInputDataPDU {
 
     public Set<DataClassPDU> classes;
     public Set<UnclassifiedObjectPDU> testingSet;
     public Set<TrainingObjectPDU> trainingSet;
 
-    public static InputDataPDU toPDU(InputData data) {
-        InputDataPDU pdu = new InputDataPDU();
+    public static PointwiseInputDataPDU toPDU(PointwiseInputData data) {
+        PointwiseInputDataPDU pdu = new PointwiseInputDataPDU();
 
         pdu.classes = new LinkedHashSet<>();
         data.classes().forEach(clazz -> pdu.classes.add(DataClassPDU.toPDU(clazz)));
@@ -50,7 +50,7 @@ public class InputDataPDU {
         return pdu;
     }
 
-    public InputData toObject() throws DataException {
+    public PointwiseInputData toObject() throws DataException {
         Set<DataClass> classes = new LinkedHashSet<>();
         this.classes.forEach(clazz -> classes.add(clazz.toObject()));
 
@@ -59,11 +59,11 @@ public class InputDataPDU {
             testingSet.add(pdu.toObject());
         }
 
-        Set<TrainingObject> trainingSet = new LinkedHashSet<>();
+        Set<PointwiseTrainingObject> trainingSet = new LinkedHashSet<>();
         for (TrainingObjectPDU pdu : this.trainingSet) {
             trainingSet.add(pdu.toObject());
         }
 
-        return InputDataFactory.newData(classes, trainingSet, testingSet);
+        return InputDataFactory.newPointwiseData(classes, trainingSet, testingSet);
     }
 }

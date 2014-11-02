@@ -26,7 +26,7 @@ package ru.spbftu.igorbotian.phdapp.common;
  * @see ru.spbftu.igorbotian.phdapp.common.DataClass
  * @see ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject
  */
-public interface TrainingObject extends UnclassifiedObject {
+public interface PointwiseTrainingObject extends UnclassifiedObject {
 
     /**
      * Получение реального класса классификации, которому соответствует объект

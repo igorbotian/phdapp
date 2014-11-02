@@ -114,12 +114,12 @@ public final class DataFactory {
      * @param id        строковое представление идентификатора объекта (не может быть <code>null</code> или пустым)
      * @param params    множество параметров, которыми характеризуется объект (непустое)
      * @param realClass реальный класса классификации, которому соответствует объект
-     * @return объект типа <code>TrainingObject</code> с заданными параметрами
+     * @return объект типа <code>PointwiseTrainingObject</code> с заданными параметрами
      * @throws java.lang.NullPointerException если хотя бы один из параметров не задан
-     * @see ru.spbftu.igorbotian.phdapp.common.TrainingObject
+     * @see ru.spbftu.igorbotian.phdapp.common.PointwiseTrainingObject
      */
-    public static TrainingObject newTrainingObject(String id, Set<Parameter<?>> params, DataClass realClass) {
-        return new TrainingObjectImpl(id, params, realClass);
+    public static PointwiseTrainingObject newPointwiseTrainingObject(String id, Set<Parameter<?>> params, DataClass realClass) {
+        return new PointwiseTrainingObjectImpl(id, params, realClass);
     }
 
     /**
@@ -161,21 +161,21 @@ public final class DataFactory {
     }
 
     /**
-     * Создание объекта типа <code>TrainingData</code>
+     * Создание объекта типа <code>PointwiseTrainingSet</code>
      *
      * @param classes непустой набор классов классификации размером не меньше двух
      * @param objects непустое множество классифицированных объектов
-     * @return объект типа <code>TrainingData</code> с заданными параметрами
+     * @return объект типа <code>PointwiseTrainingSet</code> с заданными параметрами
      * @throws ru.spbftu.igorbotian.phdapp.common.DataException если набор классов содержит меньше,
      *                                                          чем минимально необходимое, количество элементов;
      *                                                          если множество объектов является пустым;
      *                                                          если множество объектов имеет хотя бы один объект,
      *                                                          отличающийся от других множеством определяюмых его параметров
      * @throws java.lang.NullPointerException                   если множество классов или множество объектов равно <code>null</code>
-     * @see ru.spbftu.igorbotian.phdapp.common.TrainingData
+     * @see ru.spbftu.igorbotian.phdapp.common.PointwiseTrainingSet
      */
-    public static TrainingData newTrainingData(Set<? extends DataClass> classes,
-                                               Set<? extends TrainingObject> objects) throws DataException {
-        return new TrainingDataImpl(classes, objects);
+    public static PointwiseTrainingSet newPointwiseTrainingSet(Set<? extends DataClass> classes,
+                                                               Set<? extends PointwiseTrainingObject> objects) throws DataException {
+        return new PointwiseTrainingSetImpl(classes, objects);
     }
 }

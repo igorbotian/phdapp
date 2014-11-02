@@ -23,7 +23,7 @@ package ru.spbftu.igorbotian.phdapp.common;
  *
  * @see ru.spbftu.igorbotian.phdapp.common.UnclassifiedData
  * @see ru.spbftu.igorbotian.phdapp.common.ClassifiedData
- * @see ru.spbftu.igorbotian.phdapp.common.TrainingData
+ * @see ru.spbftu.igorbotian.phdapp.common.PointwiseTrainingSet
  */
 public class DataException extends Exception {
 

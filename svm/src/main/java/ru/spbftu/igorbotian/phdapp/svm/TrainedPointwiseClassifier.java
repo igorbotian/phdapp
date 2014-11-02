@@ -18,16 +18,16 @@
 
 package ru.spbftu.igorbotian.phdapp.svm;
 
-import ru.spbftu.igorbotian.phdapp.common.TrainingObject;
+import ru.spbftu.igorbotian.phdapp.common.PointwiseTrainingObject;
 
 import java.util.Set;
 
 /**
  * Обучаемый классификатор объектов
  *
- * @see ru.spbftu.igorbotian.phdapp.svm.Classifier
+ * @see PointwiseClassifier
  */
-public interface TrainedClassifier extends Classifier {
+public interface TrainedPointwiseClassifier extends PointwiseClassifier {
 
     /**
      * Добавление элемента в обучающую выборку
@@ -35,7 +35,7 @@ public interface TrainedClassifier extends Classifier {
      * @param obj элемент, который будет помещён в обучающую выборку
      * @throws java.lang.NullPointerException если элемент не задан
      */
-    public void train(TrainingObject obj);
+    public void train(PointwiseTrainingObject obj);
 
     /**
      * Добавление элементов в обучающую выборку
@@ -43,5 +43,5 @@ public interface TrainedClassifier extends Classifier {
      * @param objects элементы, которые будут помещены в обучающую выборку
      * @throws java.lang.NullPointerException если добавляемое множество элементов не задано
      */
-    public void train(Set<? extends TrainingObject> objects);
+    public void train(Set<? extends PointwiseTrainingObject> objects);
 }

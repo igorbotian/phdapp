@@ -25,13 +25,13 @@ import ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject;
 import java.util.Set;
 
 /**
- * Классификатор объектов
+ * Классификатор объектов, обучение которого основано на использовании поточечного подхода
  *
  * @see ru.spbftu.igorbotian.phdapp.common.UnclassifiedData
  * @see ru.spbftu.igorbotian.phdapp.common.ClassifiedData
  * @see ru.spbftu.igorbotian.phdapp.common.Parameter
  */
-public interface Classifier {
+public interface PointwiseClassifier {
 
     /**
      * Классификация заданных объектов с учётом указанных параметров классификации

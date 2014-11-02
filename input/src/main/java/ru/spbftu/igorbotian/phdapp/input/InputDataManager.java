@@ -20,6 +20,7 @@ package ru.spbftu.igorbotian.phdapp.input;
 
 import ru.spbftu.igorbotian.phdapp.common.DataException;
 import ru.spbftu.igorbotian.phdapp.common.InputData;
+import ru.spbftu.igorbotian.phdapp.common.PointwiseInputData;
 
 import java.io.IOException;
 import java.util.Set;
@@ -46,7 +47,7 @@ public interface InputDataManager {
      * @throws java.io.IOException                              в случае проблемы получения набора
      * @throws ru.spbftu.igorbotian.phdapp.common.DataException в случае проблемы формирования данного набора (проблемы его десериализации)
      */
-    InputData getById(String id) throws IOException, DataException;
+    PointwiseInputData getById(String id) throws IOException, DataException;
 
     /**
      * Сохранение заданного набора исходных данных (сериализация)
@@ -57,5 +58,5 @@ public interface InputDataManager {
      * @throws IOException                                      в случае проблем сериализации
      * @throws ru.spbftu.igorbotian.phdapp.common.DataException в случае проблем сериализации
      */
-    void save(String id, InputData data) throws IOException, DataException;
+    void save(String id, PointwiseInputData data) throws IOException, DataException;
 }

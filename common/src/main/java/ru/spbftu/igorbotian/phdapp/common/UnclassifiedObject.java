@@ -23,7 +23,7 @@ import java.util.Set;
 /**
  * Объект, предназначенный для классификации или проведения какого-либо другого дейстсвия.
  * Каждый объект характеризуется идентификатором и набором параметров.
- * @see UnclassifiedData
+ * @see ru.spbftu.igorbotian.phdapp.common.UnclassifiedData
  * @see ru.spbftu.igorbotian.phdapp.common.Parameter
  */
 public interface UnclassifiedObject {

@@ -23,14 +23,14 @@ import ru.spbftu.igorbotian.phdapp.ioc.PhDAppModule;
 /**
  * Модуль получения аналитической информации по результатам работы классификатора исходных данных
  *
- * @see ru.spbftu.igorbotian.phdapp.svm.Classifier
- * @see ru.spbftu.igorbotian.phdapp.svm.analytics.ClassifierAnalyzer
+ * @see ru.spbftu.igorbotian.phdapp.svm.PointwiseClassifier
+ * @see ru.spbftu.igorbotian.phdapp.svm.analytics.PointwiseClassifierAnalyzer
  * @see ru.spbftu.igorbotian.phdapp.svm.analytics.Report
  */
 public class SvmAnalyticsModule extends PhDAppModule {
 
     @Override
     protected void configure() {
-        bind(ClassifierAnalyzer.class, ClassifierAnalyzerImpl.class);
+        bind(PointwiseClassifierAnalyzer.class, PointwiseClassifierAnalyzerImpl.class);
     }
 }

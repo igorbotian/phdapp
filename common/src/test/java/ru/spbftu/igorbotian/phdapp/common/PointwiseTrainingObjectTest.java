@@ -27,18 +27,18 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Модульные тесты для класса <code>TrainingObject</code>
+ * Модульные тесты для класса <code>PointwiseTrainingObject</code>
  *
- * @see ru.spbftu.igorbotian.phdapp.common.TrainingObject
+ * @see PointwiseTrainingObject
  */
-public class TrainingObjectTest extends BaseDataTest<TrainingObject> {
+public class PointwiseTrainingObjectTest extends BaseDataTest<PointwiseTrainingObject> {
 
     private DataClass realClass;
     private Set<Parameter<?>> setOfParams;
 
-    private TrainingObject obj;
-    private TrainingObject differentObj;
-    private TrainingObject similarObj;
+    private PointwiseTrainingObject obj;
+    private PointwiseTrainingObject differentObj;
+    private PointwiseTrainingObject similarObj;
 
     @Before
     public void setUp() {
@@ -48,14 +48,14 @@ public class TrainingObjectTest extends BaseDataTest<TrainingObject> {
         DataClass anotherRealClass = randomClass();
         Set<Parameter<?>> anotherSetOfParams = randomStringObjectParameters(3);
 
-        obj = DataFactory.newTrainingObject("obj", setOfParams, realClass);
-        differentObj = DataFactory.newTrainingObject("differentObj", anotherSetOfParams, anotherRealClass);
-        similarObj = DataFactory.newTrainingObject("obj", new HashSet<>(setOfParams), realClass);
+        obj = DataFactory.newPointwiseTrainingObject("obj", setOfParams, realClass);
+        differentObj = DataFactory.newPointwiseTrainingObject("differentObj", anotherSetOfParams, anotherRealClass);
+        similarObj = DataFactory.newPointwiseTrainingObject("obj", new HashSet<>(setOfParams), realClass);
     }
 
     @Test
     public void testRealClass() {
-        Assert.assertEquals(realClass, DataFactory.newTrainingObject("name", setOfParams, realClass).realClass());
+        Assert.assertEquals(realClass, DataFactory.newPointwiseTrainingObject("name", setOfParams, realClass).realClass());
     }
 
     @Test

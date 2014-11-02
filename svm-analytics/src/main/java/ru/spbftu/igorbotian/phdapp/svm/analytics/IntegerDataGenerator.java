@@ -29,7 +29,7 @@ import java.util.function.Function;
  *
  * @see ru.spbftu.igorbotian.phdapp.common.UnclassifiedData
  * @see ru.spbftu.igorbotian.phdapp.common.ClassifiedData
- * @see ru.spbftu.igorbotian.phdapp.common.TrainingData
+ * @see ru.spbftu.igorbotian.phdapp.common.PointwiseTrainingSet
  */
 public final class IntegerDataGenerator {
 
@@ -89,7 +89,7 @@ public final class IntegerDataGenerator {
      * @throws java.lang.IllegalArgumentException               если количество генерируемых объектов имеет отрицательное значение;
      *                                                          если ни одного параметра не задано
      */
-    public static TrainingData generateTrainingData(int size, Map<String, Range<Integer>> paramValueRange,
+    public static PointwiseTrainingSet generateTrainingData(int size, Map<String, Range<Integer>> paramValueRange,
                                                    Function<Set<Parameter<?>>, DataClass> classIdentifier)
             throws DataException {
 
@@ -103,16 +103,16 @@ public final class IntegerDataGenerator {
             throw new IllegalArgumentException("Map of parameter value ranges cannot be empty");
         }
 
-        Set<TrainingObject> objects = new HashSet<>();
+        Set<PointwiseTrainingObject> objects = new HashSet<>();
         Set<DataClass> classes = new HashSet<>();
 
         for (int i = 0; i < size; i++) {
-            TrainingObject obj = nextTrainingObject(paramValueRange, classIdentifier);
+            PointwiseTrainingObject obj = nextTrainingObject(paramValueRange, classIdentifier);
             objects.add(obj);
             classes.add(obj.realClass());
         }
 
-        return DataFactory.newTrainingData(classes, objects);
+        return DataFactory.newPointwiseTrainingSet(classes, objects);
     }
 
     private static UnclassifiedObject nextClassifiedObject(Map<String, Range<Integer>> paramValueRange) {
@@ -120,11 +120,11 @@ public final class IntegerDataGenerator {
         return DataFactory.newUnclassifiedObject(generateObjectId(params), params);
     }
 
-    private static TrainingObject nextTrainingObject(Map<String, Range<Integer>> paramValueRange,
+    private static PointwiseTrainingObject nextTrainingObject(Map<String, Range<Integer>> paramValueRange,
                                                      Function<Set<Parameter<?>>, DataClass> classIdentifier) {
         Set<Parameter<?>> params = generateParams(paramValueRange);
         DataClass realClass = classIdentifier.apply(params);
-        return DataFactory.newTrainingObject(generateObjectId(params), params, realClass);
+        return DataFactory.newPointwiseTrainingObject(generateObjectId(params), params, realClass);
     }
 
     private static Set<Parameter<?>> generateParams(Map<String, Range<Integer>> paramValueRange) {

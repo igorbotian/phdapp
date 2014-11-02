@@ -20,23 +20,23 @@ package ru.spbftu.igorbotian.phdapp.common.impl;
 
 import ru.spbftu.igorbotian.phdapp.common.DataClass;
 import ru.spbftu.igorbotian.phdapp.common.Parameter;
-import ru.spbftu.igorbotian.phdapp.common.TrainingObject;
+import ru.spbftu.igorbotian.phdapp.common.PointwiseTrainingObject;
 
 import java.util.Objects;
 import java.util.Set;
 
 /**
- * @see ru.spbftu.igorbotian.phdapp.common.TrainingObject
+ * @see ru.spbftu.igorbotian.phdapp.common.PointwiseTrainingObject
  * @see ru.spbftu.igorbotian.phdapp.common.impl.DataFactory
  */
-public class TrainingObjectImpl extends UnclassifiedObjectImpl implements TrainingObject {
+public class PointwiseTrainingObjectImpl extends UnclassifiedObjectImpl implements PointwiseTrainingObject {
 
     /**
      * Реальный класс классификации, которому соответствует объект
      */
     private final DataClass realClass;
 
-    public TrainingObjectImpl(String id, Set<Parameter<?>> params, DataClass realClass) {
+    public PointwiseTrainingObjectImpl(String id, Set<Parameter<?>> params, DataClass realClass) {
 
         super(id, params);
 
@@ -60,11 +60,11 @@ public class TrainingObjectImpl extends UnclassifiedObjectImpl implements Traini
             return true;
         }
 
-        if (obj == null || !(obj instanceof TrainingObjectImpl)) {
+        if (obj == null || !(obj instanceof PointwiseTrainingObjectImpl)) {
             return false;
         }
 
-        TrainingObjectImpl other = (TrainingObjectImpl) obj;
+        PointwiseTrainingObjectImpl other = (PointwiseTrainingObjectImpl) obj;
         return super.equals(other) && realClass.equals(other.realClass);
     }
 

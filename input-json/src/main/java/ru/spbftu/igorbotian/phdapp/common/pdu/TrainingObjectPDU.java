@@ -20,7 +20,7 @@ package ru.spbftu.igorbotian.phdapp.common.pdu;
 
 import ru.spbftu.igorbotian.phdapp.common.DataException;
 import ru.spbftu.igorbotian.phdapp.common.Parameter;
-import ru.spbftu.igorbotian.phdapp.common.TrainingObject;
+import ru.spbftu.igorbotian.phdapp.common.PointwiseTrainingObject;
 import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
 
 import java.util.LinkedHashSet;
@@ -29,7 +29,7 @@ import java.util.Set;
 /**
  * POJO-версия класса, предназначенная для использования в механизме сериализации
  *
- * @see ru.spbftu.igorbotian.phdapp.common.TrainingObject
+ * @see ru.spbftu.igorbotian.phdapp.common.PointwiseTrainingObject
  */
 public final class TrainingObjectPDU {
 
@@ -37,7 +37,7 @@ public final class TrainingObjectPDU {
     public Set<ParameterPDU> params;
     public DataClassPDU realClass;
 
-    public static TrainingObjectPDU toPDU(TrainingObject obj) {
+    public static TrainingObjectPDU toPDU(PointwiseTrainingObject obj) {
         TrainingObjectPDU pdu = new TrainingObjectPDU();
 
         pdu.id = obj.id();
@@ -48,12 +48,12 @@ public final class TrainingObjectPDU {
         return pdu;
     }
 
-    public TrainingObject toObject() throws DataException {
+    public PointwiseTrainingObject toObject() throws DataException {
         Set<Parameter<?>> params = new LinkedHashSet<>();
 
         for (ParameterPDU param : this.params) {
             params.add(param.toObject());
         }
-        return DataFactory.newTrainingObject(id, params, realClass.toObject());
+        return DataFactory.newPointwiseTrainingObject(id, params, realClass.toObject());
     }
 }

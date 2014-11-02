@@ -20,25 +20,25 @@ package ru.spbftu.igorbotian.phdapp.common.impl;
 
 import ru.spbftu.igorbotian.phdapp.common.DataClass;
 import ru.spbftu.igorbotian.phdapp.common.DataException;
-import ru.spbftu.igorbotian.phdapp.common.TrainingData;
-import ru.spbftu.igorbotian.phdapp.common.TrainingObject;
+import ru.spbftu.igorbotian.phdapp.common.PointwiseTrainingObject;
+import ru.spbftu.igorbotian.phdapp.common.PointwiseTrainingSet;
 
 import java.util.Set;
 
 /**
- * @see ru.spbftu.igorbotian.phdapp.common.TrainingData
+ * @see ru.spbftu.igorbotian.phdapp.common.PointwiseTrainingSet
  * @see ru.spbftu.igorbotian.phdapp.common.impl.DataFactory
  */
-class TrainingDataImpl extends UnclassifiedDataImpl implements TrainingData {
+class PointwiseTrainingSetImpl extends UnclassifiedDataImpl implements PointwiseTrainingSet {
 
-    TrainingDataImpl(Set<? extends DataClass> classes, Set<? extends TrainingObject> objects) throws DataException {
+    PointwiseTrainingSetImpl(Set<? extends DataClass> classes, Set<? extends PointwiseTrainingObject> objects) throws DataException {
         super(classes, objects);
         checkNoForeignClasses(classes, objects);
     }
 
     private void checkNoForeignClasses(Set<? extends DataClass> classes,
-                                       Set<? extends TrainingObject> trainingSet) {
-        for (TrainingObject obj : trainingSet) {
+                                       Set<? extends PointwiseTrainingObject> trainingSet) {
+        for (PointwiseTrainingObject obj : trainingSet) {
             if (!classes.contains(obj.realClass())) {
                 throw new IllegalArgumentException("A training object has undefined class: " + obj.realClass().name());
             }
@@ -47,7 +47,7 @@ class TrainingDataImpl extends UnclassifiedDataImpl implements TrainingData {
 
     @Override
     @SuppressWarnings("unchecked") // check is made by means of the constructor
-    public Set<? extends TrainingObject> objects() {
-        return (Set<? extends TrainingObject>) super.objects();
+    public Set<? extends PointwiseTrainingObject> objects() {
+        return (Set<? extends PointwiseTrainingObject>) super.objects();
     }
 }

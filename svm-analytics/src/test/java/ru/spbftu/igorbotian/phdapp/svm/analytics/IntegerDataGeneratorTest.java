@@ -78,17 +78,17 @@ public class IntegerDataGeneratorTest {
     @Test
     public void testGenerateTrainingData() throws DataException {
         int anySize = 5;
-        Range<Integer> range = new Range<>(-10, 10, Integer::compare);
+        Range<Integer> range = new Range<>(-1000, 1000, Integer::compare);
         Map<String, Range<Integer>> paramValueRange = new HashMap<>();
         paramValueRange.put("firstParam", range);
         paramValueRange.put("secondParam", range);
 
-        TrainingData data = IntegerDataGenerator.generateTrainingData(anySize, paramValueRange,
+        PointwiseTrainingSet data = IntegerDataGenerator.generateTrainingData(anySize, paramValueRange,
                 IntegerDataGeneratorTest::classIdentifier);
 
         Assert.assertEquals(anySize, data.objects().size());
 
-        for (TrainingObject obj : data.objects()) {
+        for (PointwiseTrainingObject obj : data.objects()) {
             Assert.assertEquals(paramValueRange.keySet().size(), obj.parameters().size());
             Assert.assertEquals(classIdentifier(obj.parameters()), obj.realClass());
 

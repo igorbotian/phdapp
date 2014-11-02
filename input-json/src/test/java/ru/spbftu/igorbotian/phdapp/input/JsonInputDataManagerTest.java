@@ -49,7 +49,7 @@ public class JsonInputDataManagerTest {
     /**
      * Тестовый набор исходных данных
      */
-    private InputData data;
+    private PointwiseInputData data;
 
     @Before
     public void setUp() throws DataException {
@@ -67,12 +67,12 @@ public class JsonInputDataManagerTest {
                 DataFactory.newUnclassifiedObject("firstObject", params),
                 DataFactory.newUnclassifiedObject("secondObject", params)
         ));
-        Set<TrainingObject> trainingSet = new HashSet<>(Arrays.asList(
-                DataFactory.newTrainingObject("thirdObject", params, classes.iterator().next()),
-                DataFactory.newTrainingObject("fourthObject", params, classes.iterator().next())
+        Set<PointwiseTrainingObject> trainingSet = new HashSet<>(Arrays.asList(
+                DataFactory.newPointwiseTrainingObject("thirdObject", params, classes.iterator().next()),
+                DataFactory.newPointwiseTrainingObject("fourthObject", params, classes.iterator().next())
         ));
 
-        data = InputDataFactory.newData(classes, trainingSet, testingSet);
+        data = InputDataFactory.newPointwiseData(classes, trainingSet, testingSet);
     }
 
     private Configuration mockConfigWithNoProperties() {

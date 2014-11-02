@@ -25,7 +25,7 @@ import java.util.Set;
  * Состоит из набора классов классификации и множества объектов, которые необходимо классифицировать.
  *
  * @see ru.spbftu.igorbotian.phdapp.common.DataClass
- * @see UnclassifiedObject
+ * @see ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject
  */
 public interface UnclassifiedData {
 

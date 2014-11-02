@@ -26,17 +26,17 @@ import java.util.*;
 /**
  * Реализация анализитора корректности работы классификатора, основывающийся на результатах его работы
  *
- * @see ru.spbftu.igorbotian.phdapp.svm.Classifier
+ * @see ru.spbftu.igorbotian.phdapp.svm.PointwiseClassifier
  */
 @Singleton
-final class ClassifierAnalyzerImpl implements ClassifierAnalyzer {
+final class PointwiseClassifierAnalyzerImpl implements PointwiseClassifierAnalyzer {
 
-    ClassifierAnalyzerImpl() {
+    PointwiseClassifierAnalyzerImpl() {
         //
     }
 
     @Override
-    public Report analyze(ClassifiedData classifiedData, TrainingData realData) {
+    public Report analyze(ClassifiedData classifiedData, PointwiseTrainingSet realData) {
         Objects.requireNonNull(classifiedData);
         Objects.requireNonNull(realData);
 
@@ -52,7 +52,7 @@ final class ClassifierAnalyzerImpl implements ClassifierAnalyzer {
             statistics.put(clazz, new DataClassStatistics());
         }
 
-        for (TrainingObject obj : realData.objects()) {
+        for (PointwiseTrainingObject obj : realData.objects()) {
             DataClass realClass = obj.realClass();
             DataClass givenClass = getGivenClassFor(obj, givenClasses);
 
@@ -71,7 +71,7 @@ final class ClassifierAnalyzerImpl implements ClassifierAnalyzer {
         return composeReport(classifiedData.classes().size(), statistics.values());
     }
 
-    private static DataClass getGivenClassFor(TrainingObject realObj, Set<? extends ClassifiedObject> givenClasses) {
+    private static DataClass getGivenClassFor(PointwiseTrainingObject realObj, Set<? extends ClassifiedObject> givenClasses) {
         assert realObj != null;
         assert givenClasses != null;
 

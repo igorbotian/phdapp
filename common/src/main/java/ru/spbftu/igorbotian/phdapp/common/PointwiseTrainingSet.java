@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2014 Igor Botian
  *
  * This program is free software: you can redistribute it and/or modify it
@@ -21,25 +21,19 @@ package ru.spbftu.igorbotian.phdapp.common;
 import java.util.Set;
 
 /**
- * Набор исходных данных, состоящий из обучающей и тестирующей выборки для классификатора
+ * Исходные данные, предназначенные для обучения поточечного классификатора или какого-либо другого механизма для работы с ними.
+ * Характеризуются наличием обучающей выборки, содержащей информацию о реальных классах классификации,
+ * которым соответствуют объекты.
  *
  * @see ru.spbftu.igorbotian.phdapp.common.DataClass
- * @see ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject
- * @see ru.spbftu.igorbotian.phdapp.common.ClassifiedObject
+ * @see ru.spbftu.igorbotian.phdapp.common.PointwiseTrainingObject
  */
-public interface InputData {
+public interface PointwiseTrainingSet extends UnclassifiedData {
 
     /**
-     * Получение набора классов классификации
+     * Получение обучающей выборки
      *
-     * @return непустое неизменяемое множество классов классификации
+     * @return непустое неизменяемое множество объектов, для которых известны реальные классы классификации
      */
-    Set<? extends DataClass> classes();
-
-    /**
-     * Получение тестирующей выборки
-     *
-     * @return непустое неизменяемое множество объектов
-     */
-    public Set<? extends UnclassifiedObject> testingSet();
+    Set<? extends PointwiseTrainingObject> objects();
 }

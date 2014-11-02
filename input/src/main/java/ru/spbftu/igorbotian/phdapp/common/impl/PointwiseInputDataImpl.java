@@ -24,17 +24,17 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * @see ru.spbftu.igorbotian.phdapp.common.InputData
+ * @see ru.spbftu.igorbotian.phdapp.common.PointwiseInputData
  * @see ru.spbftu.igorbotian.phdapp.common.impl.InputDataFactory
  */
-class InputDataImpl implements InputData {
+class PointwiseInputDataImpl implements PointwiseInputData {
 
     private final UnclassifiedData testingSet;
-    private final TrainingData trainingSet;
+    private final PointwiseTrainingSet trainingSet;
 
-    public InputDataImpl(Set<? extends DataClass> classes, Set<? extends TrainingObject> trainingSet,
-                         Set<? extends UnclassifiedObject> testingSet) throws DataException {
-        this.trainingSet = DataFactory.newTrainingData(classes, Objects.requireNonNull(trainingSet));
+    public PointwiseInputDataImpl(Set<? extends DataClass> classes, Set<? extends PointwiseTrainingObject> trainingSet,
+                                  Set<? extends UnclassifiedObject> testingSet) throws DataException {
+        this.trainingSet = DataFactory.newPointwiseTrainingSet(classes, Objects.requireNonNull(trainingSet));
         this.testingSet = DataFactory.newUnclassifiedData(classes, Objects.requireNonNull(testingSet));
     }
 
@@ -48,7 +48,7 @@ class InputDataImpl implements InputData {
         return testingSet.classes();
     }
 
-    public Set<? extends TrainingObject> trainingSet() {
+    public Set<? extends PointwiseTrainingObject> trainingSet() {
         return trainingSet.objects();
     }
 
@@ -63,11 +63,11 @@ class InputDataImpl implements InputData {
             return true;
         }
 
-        if (obj == null || !(obj instanceof InputDataImpl)) {
+        if (obj == null || !(obj instanceof PointwiseInputDataImpl)) {
             return false;
         }
 
-        InputDataImpl other = (InputDataImpl) obj;
+        PointwiseInputDataImpl other = (PointwiseInputDataImpl) obj;
         return testingSet.equals(other.testingSet)
                 && trainingSet.equals(other.trainingSet);
     }
