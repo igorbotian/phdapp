@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2014 Igor Botian
  *
  * This program is free software: you can redistribute it and/or modify it
@@ -22,19 +22,18 @@ import java.util.Set;
 
 /**
  * Набор исходных данных, состоящий из обучающей и тестирующей выборки для классификатора, обучение которого основывается
- * на поточечном подходе
+ * на попарном подходе
  *
  * @see ru.spbftu.igorbotian.phdapp.common.DataClass
  * @see ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject
  * @see ru.spbftu.igorbotian.phdapp.common.ClassifiedObject
- * @see ru.spbftu.igorbotian.phdapp.common.PointwiseTrainingObject
+ * @see ru.spbftu.igorbotian.phdapp.common.PairwiseTrainingObject
  */
-public interface PointwiseInputData extends InputData {
+public interface PairwiseInputData extends InputData {
 
     /**
      * Получение обучающей выборки
-     *
      * @return непустое неизменяемое множество объектов
      */
-    public Set<? extends PointwiseTrainingObject> trainingSet();
+    Set<? extends PairwiseTrainingObject> trainingSet();
 }

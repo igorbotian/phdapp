@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2014 Igor Botian
  *
  * This program is free software: you can redistribute it and/or modify it
@@ -24,28 +24,30 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * @see ru.spbftu.igorbotian.phdapp.common.impl.AbstractInputDataImpl
- * @see ru.spbftu.igorbotian.phdapp.common.PointwiseInputData
- * @see ru.spbftu.igorbotian.phdapp.common.impl.InputDataFactory
+ * @see ru.spbftu.igorbotian.phdapp.common.InputData
  */
-class PointwiseInputDataImpl extends AbstractInputDataImpl implements PointwiseInputData {
+public abstract class AbstractInputDataImpl implements InputData {
 
-    private final PointwiseTrainingSet trainingSet;
+    private final UnclassifiedData testingSet;
 
-    public PointwiseInputDataImpl(Set<? extends DataClass> classes, Set<? extends PointwiseTrainingObject> trainingSet,
-                                  Set<? extends UnclassifiedObject> testingSet) throws DataException {
-
-        super(classes, testingSet);
-        this.trainingSet = DataFactory.newPointwiseTrainingSet(classes, Objects.requireNonNull(trainingSet));
+    public AbstractInputDataImpl(Set<? extends DataClass> classes, Set<? extends UnclassifiedObject> testingSet)
+            throws DataException {
+        this.testingSet = DataFactory.newUnclassifiedData(classes, Objects.requireNonNull(testingSet));
     }
 
-    public Set<? extends PointwiseTrainingObject> trainingSet() {
-        return trainingSet.objects();
+    @Override
+    public Set<? extends UnclassifiedObject> testingSet() {
+        return testingSet.objects();
+    }
+
+    @Override
+    public Set<? extends DataClass> classes() {
+        return testingSet.classes();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), trainingSet);
+        return Objects.hashCode(testingSet);
     }
 
     @Override
@@ -54,16 +56,16 @@ class PointwiseInputDataImpl extends AbstractInputDataImpl implements PointwiseI
             return true;
         }
 
-        if (obj == null || !(obj instanceof PointwiseInputDataImpl)) {
+        if (obj == null || !(obj instanceof AbstractInputDataImpl)) {
             return false;
         }
 
-        PointwiseInputDataImpl other = (PointwiseInputDataImpl) obj;
-        return super.equals(other) && trainingSet.equals(other.trainingSet);
+        AbstractInputDataImpl other = (AbstractInputDataImpl) obj;
+        return testingSet.equals(other.testingSet);
     }
 
     @Override
     public String toString() {
-        return String.join(";", super.toString(), trainingSet.toString());
+        return testingSet.toString();
     }
 }

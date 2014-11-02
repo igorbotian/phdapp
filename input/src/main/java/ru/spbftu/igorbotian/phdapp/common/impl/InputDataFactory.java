@@ -26,6 +26,7 @@ import java.util.Set;
  * Фабрика объектов наборов исходных данных
  *
  * @see ru.spbftu.igorbotian.phdapp.common.PointwiseInputData
+ * @see ru.spbftu.igorbotian.phdapp.common.PairwiseInputData
  */
 public final class InputDataFactory {
 
@@ -40,8 +41,7 @@ public final class InputDataFactory {
      * @param trainingSet обучающая выборка (классифицированные объекты)
      * @param objects     множество объектов, подлежащих классификации
      * @return объект типа <code>PointwiseInputData</code>
-     * @throws DataException если набор классов содержит меньше,
-     *                       чем минимально необходимое, количество элементов;
+     * @throws DataException если набор классов содержит меньше, чем минимально необходимое, количество элементов;
      *                       если множество объектов является пустым;
      *                       если множество объектов имеет хотя бы один объект,
      *                       отличающийся от других множеством определяюмых его параметров
@@ -51,5 +51,21 @@ public final class InputDataFactory {
                                                       Set<? extends PointwiseTrainingObject> trainingSet,
                                                       Set<? extends UnclassifiedObject> objects) throws DataException {
         return new PointwiseInputDataImpl(classes, trainingSet, objects);
+    }
+
+    /**
+     * Создание объекта типа <code>PairwiseInputData</code>
+     *
+     * @param classes     набор классов, которые будут участвовать в классификации объектов (не меньше двух)
+     * @param trainingSet обучающая выборка (множество пар предпочтений)
+     * @param objects     множество объектов, подлежащих классификации
+     * @return объект типа <code>PairwiseInputData</code>
+     * @throws DataException если набор классов содержит меньше, чем минимально необходимое, количество элементов
+     * @see ru.spbftu.igorbotian.phdapp.common.PairwiseInputData
+     */
+    public static PairwiseInputData newPairwiseData(Set<? extends DataClass> classes,
+                                                      Set<? extends PairwiseTrainingObject> trainingSet,
+                                                      Set<? extends UnclassifiedObject> objects) throws DataException {
+        return new PairwiseInputDataImpl(classes, trainingSet, objects);
     }
 }

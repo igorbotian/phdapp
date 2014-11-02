@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2014 Igor Botian
  *
  * This program is free software: you can redistribute it and/or modify it
@@ -24,22 +24,24 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * @see ru.spbftu.igorbotian.phdapp.common.impl.AbstractInputDataImpl
- * @see ru.spbftu.igorbotian.phdapp.common.PointwiseInputData
+ * @see ru.spbftu.igorbotian.phdapp.common.PairwiseInputData
  * @see ru.spbftu.igorbotian.phdapp.common.impl.InputDataFactory
  */
-class PointwiseInputDataImpl extends AbstractInputDataImpl implements PointwiseInputData {
+public class PairwiseInputDataImpl extends AbstractInputDataImpl implements PairwiseInputData {
 
-    private final PointwiseTrainingSet trainingSet;
+    private final PairwiseTrainingSet trainingSet;
 
-    public PointwiseInputDataImpl(Set<? extends DataClass> classes, Set<? extends PointwiseTrainingObject> trainingSet,
-                                  Set<? extends UnclassifiedObject> testingSet) throws DataException {
+    public PairwiseInputDataImpl(Set<? extends DataClass> classes, Set<? extends PairwiseTrainingObject> trainingSet,
+                                 Set<? extends UnclassifiedObject> testingSet)
+            throws DataException {
 
         super(classes, testingSet);
-        this.trainingSet = DataFactory.newPointwiseTrainingSet(classes, Objects.requireNonNull(trainingSet));
+
+        this.trainingSet = DataFactory.newPairwiseTrainingSet(trainingSet);
     }
 
-    public Set<? extends PointwiseTrainingObject> trainingSet() {
+    @Override
+    public Set<? extends PairwiseTrainingObject> trainingSet() {
         return trainingSet.objects();
     }
 
@@ -58,7 +60,7 @@ class PointwiseInputDataImpl extends AbstractInputDataImpl implements PointwiseI
             return false;
         }
 
-        PointwiseInputDataImpl other = (PointwiseInputDataImpl) obj;
+        PairwiseInputDataImpl other = (PairwiseInputDataImpl) obj;
         return super.equals(other) && trainingSet.equals(other.trainingSet);
     }
 

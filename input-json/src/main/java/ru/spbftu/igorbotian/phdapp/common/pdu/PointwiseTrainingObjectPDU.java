@@ -31,14 +31,14 @@ import java.util.Set;
  *
  * @see ru.spbftu.igorbotian.phdapp.common.PointwiseTrainingObject
  */
-public final class TrainingObjectPDU {
+public final class PointwiseTrainingObjectPDU {
 
     public String id;
     public Set<ParameterPDU> params;
     public DataClassPDU realClass;
 
-    public static TrainingObjectPDU toPDU(PointwiseTrainingObject obj) {
-        TrainingObjectPDU pdu = new TrainingObjectPDU();
+    public static PointwiseTrainingObjectPDU toPDU(PointwiseTrainingObject obj) {
+        PointwiseTrainingObjectPDU pdu = new PointwiseTrainingObjectPDU();
 
         pdu.id = obj.id();
         pdu.params = new LinkedHashSet<>();
@@ -54,6 +54,7 @@ public final class TrainingObjectPDU {
         for (ParameterPDU param : this.params) {
             params.add(param.toObject());
         }
+
         return DataFactory.newPointwiseTrainingObject(id, params, realClass.toObject());
     }
 }

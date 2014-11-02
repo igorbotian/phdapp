@@ -123,6 +123,19 @@ public final class DataFactory {
     }
 
     /**
+     * Создание объекта типа <code>PairwiseTrainingObject</code>
+     * @param preferable набор исходных объектов, который предпочтителен другого набора
+     * @param inferior набор исходных объектов, над которым другой набор имеет предпочтение
+     * @return объект типа <code>PairwiseTrainingObject</code> с заданными параметрами
+     * @throws java.lang.NullPointerException если хотя бы один из параметров не задан
+     * @throws java.lang.IllegalArgumentException если хотя бы один объект из одного набора также содержится и во втором
+     */
+    public static PairwiseTrainingObject newPairwiseTrainingObject(Set<? extends UnclassifiedObject> preferable,
+                                                                   Set<? extends UnclassifiedObject> inferior) {
+        return new PairwiseTrainingObjectImpl(preferable, inferior);
+    }
+
+    /**
      * Создание объекта типа <code>UnclassifiedData</code>
      *
      * @param classes непустой набор классов классификации размером не меньше двух
@@ -177,5 +190,15 @@ public final class DataFactory {
     public static PointwiseTrainingSet newPointwiseTrainingSet(Set<? extends DataClass> classes,
                                                                Set<? extends PointwiseTrainingObject> objects) throws DataException {
         return new PointwiseTrainingSetImpl(classes, objects);
+    }
+
+    /**
+     * Создание объекта типа <code>PairwiseTrainingSet</code>
+     * @param objects элементы обучающей выборки
+     * @return объект типа <code>PairwiseTrainingSet</code> с заданными параметрами
+     * @throws java.lang.NullPointerException если множество элементов обучающей выборки не задано
+     */
+    public static PairwiseTrainingSet newPairwiseTrainingSet(Set<? extends PairwiseTrainingObject> objects) {
+        return new PairwiseTrainingSetImpl(objects);
     }
 }

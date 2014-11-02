@@ -34,17 +34,17 @@ import java.util.Set;
  */
 public class IntegerDataGeneratorTest {
 
-    private static final DataClass ALL_PARAMS_POSITIVE_CLASS = () -> "ALL_PARAMS_POSITIVE";
-    private static final DataClass NOT_ALL_PARAMS_POSITIVE_CLASS = () -> "NOT_ALL_PARAMS_POSITIVE";
+    private static final DataClass FIRST_PARAM_ODD_CLASS = () -> "FIRST_PARAM_IS_ODD";
+    private static final DataClass FIRST_PARAM_EVEN_CLASS = () -> "FIRST_PARAM_IS_EVEN";
 
     private static DataClass classIdentifier(Set<Parameter<?>> params) {
         for (Parameter<?> param : params) {
-            if ((Integer) param.value() <= 0) {
-                return NOT_ALL_PARAMS_POSITIVE_CLASS;
+            if ((Integer) param.value() % 2 == 0) {
+                return FIRST_PARAM_EVEN_CLASS;
             }
         }
 
-        return ALL_PARAMS_POSITIVE_CLASS;
+        return FIRST_PARAM_ODD_CLASS;
     }
 
     @Test
@@ -77,8 +77,8 @@ public class IntegerDataGeneratorTest {
 
     @Test
     public void testGenerateTrainingData() throws DataException {
-        int anySize = 5;
-        Range<Integer> range = new Range<>(-1000, 1000, Integer::compare);
+        int anySize = 50;
+        Range<Integer> range = new Range<>(0, 100, Integer::compare);
         Map<String, Range<Integer>> paramValueRange = new HashMap<>();
         paramValueRange.put("firstParam", range);
         paramValueRange.put("secondParam", range);

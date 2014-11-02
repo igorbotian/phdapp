@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2014 Igor Botian
  *
  * This program is free software: you can redistribute it and/or modify it
@@ -27,16 +27,16 @@ import java.util.Set;
 /**
  * POJO-версия класса, предназначенная для использования в механизме сериализации
  *
- * @see ru.spbftu.igorbotian.phdapp.common.PointwiseTrainingSet
+ * @see ru.spbftu.igorbotian.phdapp.common.PairwiseTrainingSet
  */
-public class PointwiseInputDataPDU {
+public class PairwiseInputDataPDU {
 
     public Set<DataClassPDU> classes;
     public Set<UnclassifiedObjectPDU> testingSet;
-    public Set<PointwiseTrainingObjectPDU> trainingSet;
+    public Set<PairwiseTrainingObjectPDU> trainingSet;
 
-    public static PointwiseInputDataPDU toPDU(PointwiseInputData data) {
-        PointwiseInputDataPDU pdu = new PointwiseInputDataPDU();
+    public static PairwiseInputDataPDU toPDU(PairwiseInputData data) {
+        PairwiseInputDataPDU pdu = new PairwiseInputDataPDU();
 
         pdu.classes = new LinkedHashSet<>();
         data.classes().forEach(clazz -> pdu.classes.add(DataClassPDU.toPDU(clazz)));
@@ -45,12 +45,12 @@ public class PointwiseInputDataPDU {
         data.testingSet().forEach(obj -> pdu.testingSet.add(UnclassifiedObjectPDU.toPDU(obj)));
 
         pdu.trainingSet = new LinkedHashSet<>();
-        data.trainingSet().forEach(obj -> pdu.trainingSet.add(PointwiseTrainingObjectPDU.toPDU(obj)));
+        data.trainingSet().forEach(obj -> pdu.trainingSet.add(PairwiseTrainingObjectPDU.toPDU(obj)));
 
         return pdu;
     }
 
-    public PointwiseInputData toObject() throws DataException {
+    public PairwiseInputData toObject() throws DataException {
         Set<DataClass> classes = new LinkedHashSet<>();
         this.classes.forEach(clazz -> classes.add(clazz.toObject()));
 
@@ -59,11 +59,11 @@ public class PointwiseInputDataPDU {
             testingSet.add(pdu.toObject());
         }
 
-        Set<PointwiseTrainingObject> trainingSet = new LinkedHashSet<>();
-        for (PointwiseTrainingObjectPDU pdu : this.trainingSet) {
+        Set<PairwiseTrainingObject> trainingSet = new LinkedHashSet<>();
+        for (PairwiseTrainingObjectPDU pdu : this.trainingSet) {
             trainingSet.add(pdu.toObject());
         }
 
-        return InputDataFactory.newPointwiseData(classes, trainingSet, testingSet);
+        return InputDataFactory.newPairwiseData(classes, trainingSet, testingSet);
     }
 }
