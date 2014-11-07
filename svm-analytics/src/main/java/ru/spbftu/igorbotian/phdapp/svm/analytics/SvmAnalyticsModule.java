@@ -32,5 +32,6 @@ public class SvmAnalyticsModule extends PhDAppModule {
     @Override
     protected void configure() {
         bind(PointwiseClassifierAnalyzer.class, PointwiseClassifierAnalyzerImpl.class);
+        bind(SampleGenerator.class, SampleGeneratorImpl.class);
     }
 }

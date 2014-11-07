@@ -18,6 +18,11 @@
 
 package ru.spbftu.igorbotian.phdapp.svm.analytics.math;
 
+import ru.spbftu.igorbotian.phdapp.common.Point;
+import ru.spbftu.igorbotian.phdapp.common.PolarPoint;
+
+import java.util.Objects;
+
 /**
  * Вспомогательный класс, который предоставляет возможность проводить различные математические операции
  */
@@ -25,6 +30,70 @@ public final class MathUtils {
 
     private MathUtils() {
         //
+    }
+
+    /**
+     * Перевод Декартовых координат заданной точки в полярные координаты
+     *
+     * @param point точка, заданная в Декартовых координатах
+     * @return заданная точка в полярных координатах
+     * @throws java.lang.NullPointerException если точка не задана
+     */
+    public static PolarPoint toPolar(Point point) {
+        Objects.requireNonNull(point);
+
+        double x = point.x();
+        double y = point.y();
+        double r = Math.sqrt(x * x + y * y);
+        double phi;
+
+        if (x > 0 && y >= 0) {
+            phi = Math.atan(y / x);
+        } else if (x > 0 && y < 0) {
+            phi = Math.atan(y / x) + 2 * Math.PI;
+        } else if (x < 0) {
+            phi = Math.atan(y / x) + Math.PI;
+        } else if (x == 0 && y > 0) {
+            phi = Math.PI / 2;
+        } else if (x == 0 && y < 0) {
+            phi = 3 * Math.PI / 2;
+        } else { // x == 0 && y == 0
+            r = 0;
+            phi = 0;
+        }
+
+        return new PolarPoint(r, phi);
+    }
+
+    /**
+     * Перевод полярных координат заданной точки в Декартовы координаты
+     *
+     * @param point точка, заданная в полярных координатах
+     * @return данная точка, заданная в полярных координатах
+     * @throws java.lang.NullPointerException если точка не задана
+     */
+    public static Point toDecart(PolarPoint point) {
+        Objects.requireNonNull(point);
+
+        double r = point.r();
+        double phi = point.phi();
+
+        return new Point(r * Math.cos(phi), r * Math.sin(phi), point.dataClass());
+    }
+
+    /**
+     * Вычисление расстояния между двумя точками, заданными в Декартовых координатах
+     *
+     * @param a первая точка
+     * @param b вторая точка
+     * @return положительное вещественное число
+     * @throws java.lang.NullPointerException если хотя бы одна из точек не задана
+     */
+    public static double distance(Point a, Point b) {
+        Objects.requireNonNull(a);
+        Objects.requireNonNull(b);
+
+        return Math.sqrt(Math.pow(Math.abs(b.x() - a.x()), 2.0) + Math.pow(Math.abs(b.y() - a.y()), 2.0));
     }
 
     /**

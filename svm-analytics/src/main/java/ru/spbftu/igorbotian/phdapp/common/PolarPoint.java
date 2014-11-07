@@ -136,15 +136,6 @@ public class PolarPoint implements ClassifiedObject {
         return new PolarPoint(r, phi + radians, dataClass);
     }
 
-    /**
-     * Перевод полярных координат данной точки в Декартовы координаты
-     *
-     * @return данная точка, заданная в Декартовых координатах
-     */
-    public Point toDecart() {
-        return new Point(r * Math.cos(phi), r * Math.sin(phi), dataClass);
-    }
-
     @Override
     public Set<Parameter<?>> parameters() {
         return params;

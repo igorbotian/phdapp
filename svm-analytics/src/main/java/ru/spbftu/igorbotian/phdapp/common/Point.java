@@ -125,33 +125,6 @@ public class Point implements ClassifiedObject {
         return new Point(x + dx, y + dy, dataClass);
     }
 
-    /**
-     * Перевод Декартовых координат данной точки в полярные координаты
-     *
-     * @return данная точка, заданная в полярных координатах
-     */
-    public PolarPoint toPolar() {
-        double r = Math.sqrt(x * x + y * y);
-        double phi;
-
-        if (x > 0 && y >= 0) {
-            phi = Math.atan(y / x);
-        } else if (x > 0 && y < 0) {
-            phi = Math.atan(y / x) + 2 * Math.PI;
-        } else if (x < 0) {
-            phi = Math.atan(y / x) + Math.PI;
-        } else if (x == 0 && y > 0) {
-            phi = Math.PI / 2;
-        } else if (x == 0 && y < 0) {
-            phi = 3 * Math.PI / 2;
-        } else { // x == 0 && y == 0
-            r = 0;
-            phi = 0;
-        }
-
-        return new PolarPoint(r, phi);
-    }
-
     @Override
     public DataClass dataClass() {
         return dataClass;

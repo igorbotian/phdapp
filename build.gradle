@@ -174,7 +174,10 @@ project(':svm-analytics') {
                 project(':svm')
         )
 
-        testCompile junit
+        testCompile(
+                junit,
+                project(':common').sourceSets.test.output
+        )
     }
 }
 

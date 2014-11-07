@@ -23,6 +23,7 @@ import org.junit.Test;
 
 /**
  * Модульные тесты для класса <code>PolarPoint</code>
+ *
  * @see ru.spbftu.igorbotian.phdapp.common.PolarPoint
  */
 public class PolarPointTest extends BaseDataTest<PolarPoint> {
@@ -49,26 +50,6 @@ public class PolarPointTest extends BaseDataTest<PolarPoint> {
     @Test
     public void testRotate() {
         Assert.assertEquals(new PolarPoint(r, Math.PI), new PolarPoint(r, Math.PI / 2).rotate(Math.PI / 2));
-    }
-
-    @Test
-    public void testToDecart() {
-        double c = Math.sqrt(2) / 2; // значение каждой из Декартовых координат, при которых полярный радиус до точки = 1.0
-
-        assertPointsEqual(new Point(0.0, 0.0), new PolarPoint(0.0, 0.0).toDecart());
-        assertPointsEqual(new Point(1.0, 0.0), new PolarPoint(1.0, 0.0).toDecart());
-        assertPointsEqual(new Point(c, c), new PolarPoint(1.0, Math.PI / 4).toDecart());
-        assertPointsEqual(new Point(0.0, 1.0), new PolarPoint(1.0, Math.PI / 2).toDecart());
-        assertPointsEqual(new Point(-c, c), new PolarPoint(1.0, 3 * Math.PI / 4).toDecart());
-        assertPointsEqual(new Point(-1.0, 0.0), new PolarPoint(1.0, Math.PI).toDecart());
-        assertPointsEqual(new Point(-c, -c), new PolarPoint(1.0, 5 * Math.PI / 4).toDecart());
-        assertPointsEqual(new Point(0.0, -1.0), new PolarPoint(1.0, 3 * Math.PI / 2).toDecart());
-        assertPointsEqual(new Point(c, -c), new PolarPoint(1.0, 7 * Math.PI / 4).toDecart());
-    }
-
-    private void assertPointsEqual(Point a, Point b) {
-        Assert.assertEquals(a.x(), b.x(), delta);
-        Assert.assertEquals(a.y(), b.y(), delta);
     }
 
     @Test

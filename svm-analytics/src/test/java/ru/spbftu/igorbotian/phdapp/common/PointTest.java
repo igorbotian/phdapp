@@ -55,25 +55,6 @@ public class PointTest extends BaseDataTest<Point> {
     }
 
     @Test
-    public void testToPolar() {
-        double c = Math.sqrt(2) / 2; // значение каждой из Декартовых координат, при которых полярный радиус до точки = 1.0
-
-        assertPointsEqual(new PolarPoint(1.0, 0.0), new Point(1.0, 0.0).toPolar());
-        assertPointsEqual(new PolarPoint(1.0, Math.PI / 4), new Point(c, c).toPolar());
-        assertPointsEqual(new PolarPoint(1.0, Math.PI / 2), new Point(0.0, 1.0).toPolar());
-        assertPointsEqual(new PolarPoint(1.0, 3 * Math.PI / 4), new Point(-c, c).toPolar());
-        assertPointsEqual(new PolarPoint(1.0, Math.PI), new Point(-1.0, 0.0).toPolar());
-        assertPointsEqual(new PolarPoint(1.0, 5 * Math.PI / 4), new Point(-c, -c).toPolar());
-        assertPointsEqual(new PolarPoint(1.0, 3 * Math.PI / 2), new Point(0.0, -1.0).toPolar());
-        assertPointsEqual(new PolarPoint(1.0, 7 * Math.PI / 4), new Point(c, -c).toPolar());
-    }
-
-    private void assertPointsEqual(PolarPoint a, PolarPoint b) {
-        Assert.assertEquals(a.r(), b.r(), delta);
-        Assert.assertEquals(a.phi(), b.phi(), delta);
-    }
-
-    @Test
     public void testHashCode() {
         super.testHashCode(obj, differentObj, similarObj);
     }
