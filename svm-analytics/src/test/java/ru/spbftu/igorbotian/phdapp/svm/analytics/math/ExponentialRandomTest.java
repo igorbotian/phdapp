@@ -35,13 +35,19 @@ public class ExponentialRandomTest {
     @Test
     public void testRandomness() {
         int sampleCount = 10;
-        int max = NUMBERS_COUNTS[NUMBERS_COUNTS.length - 1];
+        double min = 1.0;
+        double max = NUMBERS_COUNTS[NUMBERS_COUNTS.length - 1];
 
         for(int count : NUMBERS_COUNTS) {
-            int[][] samples = new int[10][];
+            double[][] samples = new double[sampleCount][];
 
-            for(int i = 0; i < sampleCount; i++) {
-                samples[i] = ExponentialRandom.nextIntegers(count, 1, max);
+            for(int i = 0; i < samples.length; i++) {
+                samples[i] = new double[count];
+
+                for(int j = 0; j < samples[i].length; j++) {
+                    samples[i][j] = ExponentialRandom.nextDouble(min, max);
+                }
+
                 Arrays.sort(samples[i]);
             }
 
@@ -49,7 +55,7 @@ public class ExponentialRandomTest {
         }
     }
 
-    private void checkArraysAreDifferent(int[][] samples) {
+    private void checkArraysAreDifferent(double[][] samples) {
         for(int i = 0; i < samples.length; i++) {
             for(int j = 0; j < samples.length; j++) {
                 if(i == j) {
@@ -63,18 +69,23 @@ public class ExponentialRandomTest {
 
     @Test
     public void testExponentiality() {
-        int min = 1;
+        double min = 0.0;
 
         for(int i = 0; i < NUMBERS_COUNTS.length; i++) {
             int count = NUMBERS_COUNTS[i];
             int max = (i + 1 <= NUMBERS_COUNTS.length - 1) ? NUMBERS_COUNTS[i + 1] : NUMBERS_COUNTS[i];
+            double[] values = new double[count];
 
-            checkMoreNumbersInLessHalf(ExponentialRandom.nextIntegers(count, min, max), min, max);
+            for(int j = 0; j < values.length; j++) {
+                values[j] = ExponentialRandom.nextDouble(min, max);
+            }
+
+            checkMoreNumbersInTwoThirds(values, min, max);
         }
     }
 
-    private void checkMoreNumbersInLessHalf(int[] randoms, int lowerBound, int upperBound) {
-        int middle = lowerBound + (upperBound - lowerBound) / 2;
+    private void checkMoreNumbersInTwoThirds(double[] randoms, double lowerBound, double upperBound) {
+        double middle = lowerBound + 2 * (upperBound - lowerBound) / 3;
         int i = 0;
 
         Arrays.sort(randoms);
@@ -83,6 +94,6 @@ public class ExponentialRandomTest {
             i++;
         }
 
-        Assert.assertTrue(i > (randoms.length - i - 1 /* середину выкидываем */));
+        Assert.assertTrue(i > (randoms.length - i));
     }
 }
