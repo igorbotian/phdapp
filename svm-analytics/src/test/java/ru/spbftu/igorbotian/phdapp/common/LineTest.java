@@ -54,6 +54,21 @@ public class LineTest extends BaseDataTest<Line> {
     }
 
     @Test
+    public void testX() {
+        Assert.assertEquals(1.0, new Line(-2.0, -2.0, 4.0).x(1.0), delta);
+    }
+
+    @Test
+    public void testY() {
+        Assert.assertEquals(1.0, new Line(-2.0, -2.0, 4.0).x(1.0), delta);
+    }
+
+    @Test
+    public void testAngle() {
+        Assert.assertEquals(- Math.PI / 4, new Line(-2.0, -2.0, 4.0).angle(), delta);
+    }
+
+    @Test
     public void testHashCode() {
         super.testHashCode(obj, differentObj, similarObj);
     }

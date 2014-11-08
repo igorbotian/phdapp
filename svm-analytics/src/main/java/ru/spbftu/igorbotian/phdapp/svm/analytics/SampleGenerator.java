@@ -43,7 +43,7 @@ public interface SampleGenerator {
     /**
      * Класс, соответствующий множеству точек вокруг второй опорной точки
      */
-    public static DataClass SECOND_SET_OF_POINTS = DataFactory.newClass("FirstSetOfObjects");
+    public static DataClass SECOND_SET_OF_POINTS = DataFactory.newClass("SecondSetOfObjects");
 
     /**
      * Регенерация случайно разбросанных точек вокруг опорных точек.

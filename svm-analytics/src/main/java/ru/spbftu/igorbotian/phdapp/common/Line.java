@@ -105,6 +105,32 @@ public class Line {
         return c;
     }
 
+    /**
+     * Вычисление значения параметра <code>Y</code> для заданного значения параметра <code>X</code>
+     * @param x значение параметра <code>X</code>
+     * @return вещественное число
+     */
+    public double y(double x) {
+        return (- c - a * x) / b;
+    }
+
+    /**
+     * Вычисление значения параметра <code>X</code> для заданного значения параметра <code>Y</code>
+     * @param y значение параметра <code>Y</code>
+     * @return вещественное число
+     */
+    public double x(double y) {
+        return (-c - b * y) / a;
+    }
+
+    /**
+     * Получение значения угла, под которым проходит данная прямая по отношению к оси абсцисс
+     * @return вещественное число в диапазоне [-PI/2; PI/2]
+     */
+    public double angle() {
+        return Math.atan(/* k = */ - a / b);
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(a, b, c);

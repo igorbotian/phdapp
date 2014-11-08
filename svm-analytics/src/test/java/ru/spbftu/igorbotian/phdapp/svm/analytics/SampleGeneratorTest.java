@@ -21,10 +21,12 @@ package ru.spbftu.igorbotian.phdapp.svm.analytics;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import ru.spbftu.igorbotian.phdapp.common.Line;
 import ru.spbftu.igorbotian.phdapp.common.Point;
 import ru.spbftu.igorbotian.phdapp.svm.analytics.math.MathUtils;
 
 import java.util.Set;
+import java.util.function.BiFunction;
 
 /**
  * Модульные тесты для класса <code>SampleGenerator</code>
@@ -40,8 +42,18 @@ public class SampleGeneratorTest {
     }
 
     @Test
+    public void testNumberOfPoints() {
+        for (int count : NUMBERS_OF_POINTS) {
+            sampleGenerator.regeneratePoints(count);
+            Assert.assertEquals(count, sampleGenerator.numberOfPoints());
+            Assert.assertEquals(count, sampleGenerator.firstSetOfPoints().size());
+            Assert.assertEquals(count, sampleGenerator.secondSetOfPoints().size());
+        }
+    }
+
+    @Test
     public void testSeparability() {
-        for(int count : NUMBERS_OF_POINTS) {
+        for (int count : NUMBERS_OF_POINTS) {
             sampleGenerator.regeneratePoints(count);
 
             ensurePointsAreCloserToFirstPoint(sampleGenerator.firstSetOfPoints(),
@@ -54,8 +66,8 @@ public class SampleGeneratorTest {
     private void ensurePointsAreCloserToFirstPoint(Set<Point> points, Point firstPoint, Point secondPoint) {
         int i = 0;
 
-        for(Point point : points) {
-            if(firstPoint.equals(nearestSupportingPoint(point, firstPoint, secondPoint))) {
+        for (Point point : points) {
+            if (firstPoint.equals(nearestSupportingPoint(point, firstPoint, secondPoint))) {
                 i++;
             }
         }
@@ -68,5 +80,57 @@ public class SampleGeneratorTest {
         double toSecondSupportingPoint = MathUtils.distance(point, secondSupportingPoint);
 
         return (toFirstSupportingPoint < toSecondSupportingPoint) ? firstSupportingPoint : secondSupportingPoint;
+    }
+
+    @Test
+    public void testSeparatingLine() {
+        for (int count : NUMBERS_OF_POINTS) {
+            sampleGenerator.regeneratePoints(count);
+            ensureLineSeparatesMostOfThePoints(sampleGenerator.firstSetOfPoints(),
+                    sampleGenerator.separatingLine(), SampleGeneratorTest::isLeftOrUnder);
+            ensureLineSeparatesMostOfThePoints(sampleGenerator.secondSetOfPoints(),
+                    sampleGenerator.separatingLine(), SampleGeneratorTest::isRightOrAbove);
+        }
+    }
+
+    private void ensureLineSeparatesMostOfThePoints(Set<Point> points, Line separatingLine,
+                                                    BiFunction<Point, Line, Boolean> checker) {
+        int i = 0;
+
+        for (Point point : points) {
+            if (checker.apply(point, separatingLine)) {
+                i++;
+            }
+        }
+
+        Assert.assertTrue(i > (points.size() - i));
+    }
+
+    private static boolean isLeftOrUnder(Point point, Line line) {
+        double x = line.x(point.y());
+
+        if(point.x() < x) { // левее
+            return true;
+        } else if(point.x() > x) { // правее
+            return false;
+        } else { // горизонтальная линия
+            double y = line.y(point.x());
+
+            return (point.y() <= y); // ниже
+        }
+    }
+
+    private static boolean isRightOrAbove(Point point, Line line) {
+        double x = line.x(point.y());
+
+        if(point.x() > x) { // правее
+            return true;
+        } else if(point.x() < x) { // левее
+            return false;
+        } else { // горизонтальная линия
+            double y = line.y(point.x());
+
+            return (point.y() >= y); // выше
+        }
     }
 }
