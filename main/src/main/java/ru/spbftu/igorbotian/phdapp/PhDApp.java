@@ -28,6 +28,8 @@ import ru.spbftu.igorbotian.phdapp.ioc.PhDAppModule;
 import ru.spbftu.igorbotian.phdapp.locale.java.JavaI18NLocalizationModule;
 import ru.spbftu.igorbotian.phdapp.log.Log4j;
 import ru.spbftu.igorbotian.phdapp.svm.analytics.SvmAnalyticsModule;
+import ru.spbftu.igorbotian.phdapp.ui.UserInterface;
+import ru.spbftu.igorbotian.phdapp.ui.swt.SwtUserInterfaceModule;
 import ru.spbftu.igorbotian.phdapp.utils.ShutdownHooks;
 import ru.spbftu.igorbotian.phdapp.utils.UtilsModule;
 
@@ -60,6 +62,7 @@ public class PhDApp {
             new JsonInputDataManagementModule(CONFIG_FOLDER),
             new JavaI18NLocalizationModule(),
             new SvmAnalyticsModule(),
+            new SwtUserInterfaceModule(),
             new UtilsModule()
     ));
 
@@ -99,6 +102,7 @@ public class PhDApp {
     private static void start() {
         Injector injector = Guice.createInjector(INJECTION_MODULES);
         registerShutdownHooks(injector.getInstance(ShutdownHooks.class));
+        injector.getInstance(UserInterface.class).showMainWindow();
     }
 
     private static void registerShutdownHooks(final ShutdownHooks hooks) {

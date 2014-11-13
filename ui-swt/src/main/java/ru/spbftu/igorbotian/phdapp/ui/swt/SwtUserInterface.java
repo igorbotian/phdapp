@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2014 Igor Botian
  *
  * This program is free software: you can redistribute it and/or modify it
@@ -16,23 +16,30 @@
  * @author Igor Botian <igor.botian@gmail.com>
  */
 
-package ru.spbftu.igorbotian.phdapp.svm.analytics;
+package ru.spbftu.igorbotian.phdapp.ui.swt;
 
-import ru.spbftu.igorbotian.phdapp.ioc.PhDAppModule;
+import com.google.inject.Inject;
+import org.eclipse.swt.widgets.Display;
+import ru.spbftu.igorbotian.phdapp.locale.Localization;
+import ru.spbftu.igorbotian.phdapp.ui.UserInterface;
 
 /**
- * Модуль получения аналитической информации по результатам работы классификатора исходных данных
+ * SWT-реализация пользовательского интерфейса программы
  *
- * @see ru.spbftu.igorbotian.phdapp.svm.PointwiseClassifier
- * @see ru.spbftu.igorbotian.phdapp.svm.analytics.PointwiseClassifierAnalyzer
- * @see ru.spbftu.igorbotian.phdapp.svm.analytics.Report
- * @see ru.spbftu.igorbotian.phdapp.svm.analytics.SampleGenerator
+ * @see ru.spbftu.igorbotian.phdapp.ui.UserInterface
  */
-public class SvmAnalyticsModule extends PhDAppModule {
+public class SwtUserInterface implements UserInterface {
+
+    private final Localization localization;
+
+    @Inject
+    public SwtUserInterface(Localization localization) {
+        this.localization = localization;
+        Display.setAppName(localization.getLabel(MainWindow.WINDOW_TITLE_LABEL));
+    }
 
     @Override
-    protected void configure() {
-        bind(PointwiseClassifierAnalyzer.class, PointwiseClassifierAnalyzerImpl.class);
-        bind(SampleGenerator.class, SampleGeneratorImpl.class);
+    public void showMainWindow() {
+        new MainWindow(new Display(), localization).mainLoop();
     }
 }
