@@ -30,7 +30,7 @@ import java.util.Objects;
 /**
  * Общий класс для окон и диалогов пользовательского интерфейса приложения
  */
-public abstract class PhDAppWindow {
+abstract class PhDAppWindow {
 
     protected final Localization localization;
 

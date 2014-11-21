@@ -21,16 +21,18 @@ package ru.spbftu.igorbotian.phdapp.ui.swt;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.*;
-import org.eclipse.swt.layout.*;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.program.Program;
 import org.eclipse.swt.widgets.*;
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
 
+import java.time.LocalDate;
+
 /**
  * Диалоговое окно "О программе"
  */
-public class AboutDialog extends PhDAppWindow {
+class AboutDialog extends PhDAppWindow {
 
     private static final String DIALOG_TITLE_LABEL = "about";
     private static final String APP_TITLE_LABEL = "appTitle";
@@ -41,9 +43,22 @@ public class AboutDialog extends PhDAppWindow {
 
     private static final String IGOR_BOTIAN_EMAIL = "igor.botian@gmail.com";
     private static final String LEV_UTKIN_EMAIL = "lev.utkin@gmail.com";
-    private static final String JULIA_ZHUK_EMAIL = "julia.zhuk@gmail.com";
+    private static final String JULIA_ZHUK_EMAIL = "zhuk_yua@mail.ru";
 
-    private static final String COPYRIGHT_TEXT = "(c) 2014-2015";
+    private static final String COPYRIGHT_TEXT;
+
+    static {
+        int yearOfInitialRelease = 2014;
+        int currentYear = LocalDate.now().getYear();
+        StringBuilder copyright = new StringBuilder("(c) " + yearOfInitialRelease);
+
+        if(currentYear > yearOfInitialRelease) {
+            copyright.append("-");
+            copyright.append(currentYear);
+        }
+
+        COPYRIGHT_TEXT = copyright.toString();
+    }
 
     private final Shell mainWindow;
     private final Shell aboutDialog;
@@ -175,7 +190,7 @@ public class AboutDialog extends PhDAppWindow {
         gridData = new GridData(SWT.CENTER, SWT.CENTER, false, false);
         okButton.setLayoutData(gridData);
 
-        aboutDialog.setTabList(new Control[] {okButton, igorBotianEmailLink, levUtkinEmailLink, juliaZhukEmailLink});
+        aboutDialog.setTabList(new Control[]{okButton, igorBotianEmailLink, levUtkinEmailLink, juliaZhukEmailLink});
         aboutDialog.pack();
     }
 

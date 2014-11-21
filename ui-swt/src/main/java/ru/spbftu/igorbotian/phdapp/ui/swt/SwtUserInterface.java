@@ -28,7 +28,7 @@ import ru.spbftu.igorbotian.phdapp.ui.UserInterface;
  *
  * @see ru.spbftu.igorbotian.phdapp.ui.UserInterface
  */
-public class SwtUserInterface implements UserInterface {
+class SwtUserInterface implements UserInterface {
 
     private final Localization localization;
 
