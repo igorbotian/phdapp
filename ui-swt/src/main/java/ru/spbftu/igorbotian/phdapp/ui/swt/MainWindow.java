@@ -19,10 +19,8 @@
 package ru.spbftu.igorbotian.phdapp.ui.swt;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
@@ -185,7 +183,7 @@ class MainWindow extends PhDAppWindow {
         gridData.grabExcessHorizontalSpace = true;
         comparisonDescriptionLabel.setLayoutData(gridData);
 
-        mainWindow.setTabList(new Control[] {validationButton, comparisonButton});
+        mainWindow.setTabList(new Control[]{validationButton, comparisonButton});
         mainWindow.pack();
 
         mainWindow.setMinimumSize(mainWindow.getSize().x, mainWindow.getSize().y);
