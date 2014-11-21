@@ -21,6 +21,7 @@ package ru.spbftu.igorbotian.phdapp.ui.swt;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Monitor;
 import org.eclipse.swt.widgets.Shell;
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
@@ -48,6 +49,14 @@ abstract class PhDAppWindow {
         Objects.requireNonNull(label);
 
         return localization.getLabel(label);
+    }
+
+    /**
+     * Задание для заданного текстового виджета роли пояснения к чему-либо
+     */
+    protected Label makeDescription(Label label) {
+        label.setForeground(new Color(label.getDisplay(), 128, 128, 128));
+        return label;
     }
 
     /**
