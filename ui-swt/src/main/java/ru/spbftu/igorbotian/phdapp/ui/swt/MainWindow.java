@@ -23,6 +23,7 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.*;
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
 
@@ -36,16 +37,14 @@ class MainWindow extends PhDAppWindow {
     static final String WINDOW_TITLE_LABEL = "appName";
     static final String WINDOW_ICON = "window_icon.png";
 
-    private static final String VALIDATION_ICON = "validation.png";
-    private static final String COMPARISON_ICON = "comparison.png";
-
-    private static final String VALIDATION_OPERATION_LABEL = "validationOperation";
-    private static final String VALIDATION_DESCRIPTION_LABEL = "validationDescription";
-    private static final String COMPARISON_OPERATION_LABEL = "comparisonOperation";
-    private static final String COMPARISON_DESCRIPTION_LABEL = "comparisonDescription";
-
-    private static final int WINDOW_HEIGHT = 320;
-    private static final int WINDOW_WIDTH = 480;
+    private static final String ACTIONS_LABEL = "actions";
+    private static final String PRECISION_ACTION_LABEL = "calculatePrecision";
+    private static final String AVERAGE_PRECISION_ACTION_LABEL = "calculateAveragePrecision";
+    private static final String SAMPLE_SIZE_ACTION_LABEL = "determinePrecisionDependenceOnSampleSize";
+    private static final String JUDGEMENTS_COUNT_ACTION_LABEL = "determinePrecisionDependenceOnJudgementsCount";
+    private static final String PARAMETERS_ACTION_LABEL = "determinePrecisionDependenceOnParameters";
+    private static final String INTERVAL_JUDGEMENTS_RATIO_ACTION_LABEL = "determinePrecisionDependenceOnIntervalJudgementsRatio";
+    private static final String NEXT_LABEL = "next";
 
     private final Shell mainWindow;
 
@@ -55,17 +54,15 @@ class MainWindow extends PhDAppWindow {
     private Menu helpMenu;
     private MenuItem aboutMenuItem;
 
-    private Label emptyLabel;
+    private Group actionGroup;
+    private Button precisionButton;
+    private Button averagePrecision;
+    private Button sampleSizeButton;
+    private Button judgementsCountButton;
+    private Button parametersButton;
+    private Button intervalJudgementsRatioButton;
 
-    private Label validationIconLabel;
-    private Label validationDescriptionLabel;
-    private Button validationButton;
-
-    private Label comparisonIconLabel;
-    private Label comparisonDescriptionLabel;
-    private Button comparisonButton;
-
-    private AboutDialog aboutDialog;
+    private Button nextButton;
 
     public MainWindow(Display display, Localization localization) {
         super(localization);
@@ -80,8 +77,6 @@ class MainWindow extends PhDAppWindow {
     private void initComponents() {
         mainWindow.setText(getLabel(WINDOW_TITLE_LABEL));
         mainWindow.setImage(imageFromResource(mainWindow.getDisplay(), WINDOW_ICON));
-        mainWindow.setMinimumSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-        mainWindow.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
         //-----------------------------
 
@@ -104,34 +99,35 @@ class MainWindow extends PhDAppWindow {
 
         //-----------------------------
 
-        validationIconLabel = new Label(mainWindow, SWT.ICON);
-        validationIconLabel.setImage(imageFromResource(mainWindow.getDisplay(), VALIDATION_ICON));
+        actionGroup = new Group(mainWindow, SWT.SHADOW_IN);
+        actionGroup.setText(getLabel(ACTIONS_LABEL));
+        actionGroup.setLayout(new RowLayout(SWT.VERTICAL));
 
-        validationButton = new Button(mainWindow, SWT.PUSH);
-        validationButton.setText(localization.getLabel(VALIDATION_OPERATION_LABEL) + "...");
+        precisionButton = new Button(actionGroup, SWT.RADIO);
+        precisionButton.setText(getLabel(PRECISION_ACTION_LABEL));
+        precisionButton.setSelection(true);
 
-        validationDescriptionLabel = makeDescription(new Label(mainWindow, SWT.WRAP | SWT.CENTER));
-        validationDescriptionLabel.setText(localization.getLabel(VALIDATION_DESCRIPTION_LABEL));
-        validationDescriptionLabel.setEnabled(false);
+        averagePrecision = new Button(actionGroup, SWT.RADIO);
+        averagePrecision.setText(getLabel(AVERAGE_PRECISION_ACTION_LABEL));
+
+        sampleSizeButton = new Button(actionGroup, SWT.RADIO);
+        sampleSizeButton.setText(getLabel(SAMPLE_SIZE_ACTION_LABEL));
+
+        judgementsCountButton = new Button(actionGroup, SWT.RADIO);
+        judgementsCountButton.setText(getLabel(JUDGEMENTS_COUNT_ACTION_LABEL));
+
+        parametersButton = new Button(actionGroup, SWT.RADIO);
+        parametersButton.setText(getLabel(PARAMETERS_ACTION_LABEL));
+
+        intervalJudgementsRatioButton = new Button(actionGroup, SWT.RADIO);
+        intervalJudgementsRatioButton.setText(getLabel(INTERVAL_JUDGEMENTS_RATIO_ACTION_LABEL));
+
+        nextButton = new Button(mainWindow, SWT.PUSH);
+        nextButton.setText(getLabel(NEXT_LABEL));
 
         //-----------------------------
 
-        emptyLabel = new Label(mainWindow, SWT.NULL);
-
-        comparisonIconLabel = new Label(mainWindow, SWT.ICON);
-        comparisonIconLabel.setImage(imageFromResource(mainWindow.getDisplay(), COMPARISON_ICON));
-
-        comparisonButton = new Button(mainWindow, SWT.PUSH);
-        comparisonButton.setText(localization.getLabel(COMPARISON_OPERATION_LABEL) + "...");
-        comparisonButton.setEnabled(false);
-
-        comparisonDescriptionLabel = makeDescription(new Label(mainWindow, SWT.WRAP | SWT.CENTER));
-        comparisonDescriptionLabel.setText(localization.getLabel(COMPARISON_DESCRIPTION_LABEL));
-
-        //-----------------------------
-
-        mainWindow.setDefaultButton(validationButton);
-        aboutDialog = new AboutDialog(mainWindow, localization);
+        mainWindow.setDefaultButton(nextButton);
     }
 
     private void initListeners() {
@@ -152,7 +148,7 @@ class MainWindow extends PhDAppWindow {
     }
 
     private void layoutComponents() {
-        int margin = 20;
+        int margin = 5;
         GridLayout layout = new GridLayout(1, false);
         layout.marginBottom = margin;
         layout.marginTop = margin;
@@ -160,30 +156,13 @@ class MainWindow extends PhDAppWindow {
         layout.marginRight = margin;
         mainWindow.setLayout(layout);
 
-        GridData gridData = new GridData(SWT.CENTER, SWT.CENTER, true, false);
-        validationIconLabel.setLayoutData(gridData);
+        GridData gridData = new GridData(SWT.CENTER, SWT.CENTER, true, true);
+        actionGroup.setLayoutData(gridData);
 
-        gridData = new GridData(SWT.CENTER, SWT.CENTER, true, false);
-        validationButton.setLayoutData(gridData);
+        gridData = new GridData(SWT.RIGHT, SWT.BOTTOM, false, false);
+        nextButton.setLayoutData(gridData);
 
-        gridData = new GridData(SWT.CENTER, SWT.CENTER, false, false);
-        gridData.grabExcessHorizontalSpace = true;
-        validationDescriptionLabel.setLayoutData(gridData);
-
-        gridData = new GridData(SWT.CENTER, SWT.CENTER, true, false);
-        emptyLabel.setLayoutData(gridData);
-
-        gridData = new GridData(SWT.CENTER, SWT.CENTER, true, false);
-        comparisonIconLabel.setLayoutData(gridData);
-
-        gridData = new GridData(SWT.CENTER, SWT.CENTER, true, false);
-        comparisonButton.setLayoutData(gridData);
-
-        gridData = new GridData(SWT.CENTER, SWT.CENTER, false, false);
-        gridData.grabExcessHorizontalSpace = true;
-        comparisonDescriptionLabel.setLayoutData(gridData);
-
-        mainWindow.setTabList(new Control[]{validationButton, comparisonButton});
+        mainWindow.setTabList(new Control[]{actionGroup, nextButton});
         mainWindow.pack();
 
         mainWindow.setMinimumSize(mainWindow.getSize().x, mainWindow.getSize().y);
@@ -204,6 +183,7 @@ class MainWindow extends PhDAppWindow {
     }
 
     private void showAboutDialog() {
-        aboutDialog.show();
+        AboutDialog dialog = new AboutDialog(mainWindow, localization);
+        dialog.show();
     }
 }

@@ -128,7 +128,7 @@ class AboutDialog extends PhDAppWindow {
 
             @Override
             public void widgetSelected(SelectionEvent e) {
-                hide();
+                close();
             }
         });
 
@@ -200,8 +200,11 @@ class AboutDialog extends PhDAppWindow {
         aboutDialog.setFocus();
     }
 
-    private void hide() {
-        aboutDialog.setVisible(false);
+    private void close() {
+        if(!aboutDialog.isDisposed()) {
+            aboutDialog.dispose();
+        }
+
         mainWindow.setFocus();
     }
 }
