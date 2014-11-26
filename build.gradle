@@ -150,7 +150,7 @@ project(':main') {
                 project(':log-log4j'),
                 project(':svm'),
                 project(':svm-analytics'),
-                project(':ui-swt'),
+                project(':ui-swing'),
                 project(':utils')
         )
     }
@@ -190,12 +190,11 @@ project(':ui') {
     description 'Abstract user interface entities'
 }
 
-project(':ui-swt') {
-    description 'JavaFX-based user interface'
+project(':ui-swing') {
+    description 'Swing-based user interface'
 
     dependencies {
         compile(
-                swt,
                 project(':ioc'),
                 project(':locale'),
                 project(':ui'),
@@ -226,7 +225,7 @@ dependencies {
 apply plugin: 'application'
 
 mainClassName = phdAppMainClassName
-applicationDefaultJvmArgs = ["-Dphdapp.conf.folder=../conf", "-XstartOnFirstThread"]
+applicationDefaultJvmArgs = ["-Dphdapp.conf.folder=../conf", "-Xdock:name=Classifier"]
 
 startScripts {
     classpath += files('src/dist/lib/conf')
