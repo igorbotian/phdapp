@@ -105,7 +105,7 @@ class AboutDialog extends JDialog {
     }
 
     private void layoutComponents() {
-        int inset = 10;
+        int inset = 20;
         Insets insetsNowhere = new Insets(0, 0, 0, 0);
         Insets insetsEverywhere = new Insets(inset, inset, inset, inset);
         Insets insetsOnTopOnly = new Insets(inset, 0, 0, 0);

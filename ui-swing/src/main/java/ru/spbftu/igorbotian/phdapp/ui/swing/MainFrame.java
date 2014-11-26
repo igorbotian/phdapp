@@ -21,8 +21,6 @@ package ru.spbftu.igorbotian.phdapp.ui.swing;
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.util.Objects;
 
@@ -37,7 +35,6 @@ class MainFrame extends JFrame {
     private static final String QUIT_LABEL = "quit";
     private static final String HELP_LABEL = "help";
     private static final String ABOUT_LABEL = "about";
-    private static final String ACTIONS_LABEL = "actions";
     private static final String PRECISION_ACTION_LABEL = "calculatePrecisionAction";
     private static final String PRECISION_LABEL = "calculatePrecision";
     private static final String AVERAGE_PRECISION_ACTION_LABEL = "calculateAveragePrecisionAction";
@@ -125,7 +122,6 @@ class MainFrame extends JFrame {
 
         JPanel actionsGroupPanel = new JPanel();
         actionsGroupPanel.setLayout(new BoxLayout(actionsGroupPanel, BoxLayout.Y_AXIS));
-        actionsGroupPanel.setBorder(new TitledBorder(localization.getLabel(ACTIONS_LABEL)));
         actionsGroupPanel.add(describe(precisionActionRadioButton, localization.getLabel(PRECISION_LABEL)));
         actionsGroupPanel.add(describe(averagePrecisionActionRadioButton, localization.getLabel(AVERAGE_PRECISION_LABEL)));
         actionsGroupPanel.add(describe(sampleSizeActionRadioButton, localization.getLabel(SAMPLE_SIZE_LABEL)));
@@ -142,12 +138,25 @@ class MainFrame extends JFrame {
         buttonPane.add(Box.createHorizontalGlue());
         buttonPane.add(nextButton);
 
-        int inset = 10;
+        int inset = 20;
         JPanel contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(inset, inset, inset, inset));
-        contentPane.setLayout(new BorderLayout());
-        contentPane.add(actionsPane, BorderLayout.CENTER);
-        contentPane.add(buttonPane, BorderLayout.PAGE_END);
+        contentPane.setLayout(new GridBagLayout());
+
+        GridBagConstraints gbConstraints = new GridBagConstraints();
+        gbConstraints.insets = new Insets(inset, inset, inset, inset);
+        gbConstraints.fill = GridBagConstraints.BOTH;
+        gbConstraints.weightx = 1.0;
+        gbConstraints.weighty = 1.0;
+        gbConstraints.gridx = 1;
+        gbConstraints.gridy = 1;
+        contentPane.add(actionsPane, gbConstraints);
+
+        gbConstraints.fill = GridBagConstraints.NONE;
+        gbConstraints.insets = new Insets(0, inset, inset, inset);
+        gbConstraints.weighty = 0.0;
+        gbConstraints.gridy++;
+        gbConstraints.anchor = GridBagConstraints.EAST;
+        contentPane.add(buttonPane, gbConstraints);
 
         setContentPane(contentPane);
         pack();
