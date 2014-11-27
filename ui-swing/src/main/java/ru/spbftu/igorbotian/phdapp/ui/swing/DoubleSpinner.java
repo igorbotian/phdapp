@@ -18,19 +18,16 @@
 
 package ru.spbftu.igorbotian.phdapp.ui.swing;
 
-import ru.spbftu.igorbotian.phdapp.ioc.PhDAppModule;
-import ru.spbftu.igorbotian.phdapp.ui.UserInterface;
+import javax.swing.*;
 
 /**
- * Модуль пользовательского интерфейса программы на основе библиотеки Swing
+ * Виджет для ввода вещественного числа в заданных пределах, имеющего заданное описание
  *
- * @see ru.spbftu.igorbotian.phdapp.ui.swing.SwingUserInterface
+ * @see ru.spbftu.igorbotian.phdapp.ui.swing.NumberSpinner
  */
-public class SwingUserInterfaceModule extends PhDAppModule {
+public class DoubleSpinner extends NumberSpinner<Double> {
 
-    @Override
-    protected void configure() {
-        bind(UserInterface.class).to(SwingUserInterface.class);
-        bind(ClassifierParamsWidgets.class).to(ClassifierParamsWidgetsImpl.class);
+    protected DoubleSpinner(String description, double value, double min, double max, double stepSize) {
+        super(description, new SpinnerNumberModel(value, min, max, stepSize));
     }
 }

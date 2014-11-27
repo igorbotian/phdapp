@@ -49,7 +49,8 @@ class MainFrame extends JFrame {
     private static final String INTERVAL_JUDGEMENTS_RATIO_ACTION_LABEL = "determinePrecisionDependenceOnIntervalJudgementsRatioAction";
     private static final String NEXT_LABEL = "next";
 
-    private Localization localization;
+    private final Localization localization;
+    private final ClassifierParamsWidgets classifierParamsWidgets;
 
     private JMenuBar menuBar;
 
@@ -68,8 +69,9 @@ class MainFrame extends JFrame {
 
     private JButton nextButton;
 
-    public MainFrame(Localization localization) {
+    public MainFrame(Localization localization, ClassifierParamsWidgets classifierParamsWidgets) {
         this.localization = Objects.requireNonNull(localization);
+        this.classifierParamsWidgets = Objects.requireNonNull(classifierParamsWidgets);
 
         initComponents();
         layoutComponents();
