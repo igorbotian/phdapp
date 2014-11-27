@@ -24,6 +24,7 @@ import ru.spbftu.igorbotian.phdapp.locale.Localization;
 import ru.spbftu.igorbotian.phdapp.ui.UserInterface;
 
 import javax.swing.*;
+import java.util.Objects;
 
 /**
  * Swing-реализация пользовательского интерфейса программа
@@ -34,16 +35,18 @@ class SwingUserInterface implements UserInterface {
 
     private static Logger LOGGER = Logger.getLogger(SwingUserInterface.class);
     private final Localization localization;
+    private final ClassifierParamsWidgets classifierParamsWidgets;
 
     @Inject
-    public SwingUserInterface(Localization localization) {
-        this.localization = localization;
+    public SwingUserInterface(Localization localization, ClassifierParamsWidgets classifierParamsWidgets) {
+        this.localization = Objects.requireNonNull(localization);
+        this.classifierParamsWidgets = Objects.requireNonNull(classifierParamsWidgets);
     }
 
     @Override
     public void showMainWindow() {
         setLookAndFeel();
-        SwingUtilities.invokeLater(() -> new MainFrame(localization).setVisible(true));
+        SwingUtilities.invokeLater(() -> new MainFrame(localization, classifierParamsWidgets).setVisible(true));
     }
 
     private void setLookAndFeel() {

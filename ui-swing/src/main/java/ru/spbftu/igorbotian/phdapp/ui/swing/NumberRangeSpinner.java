@@ -43,7 +43,7 @@ public abstract class NumberRangeSpinner <T extends Number> extends JPanel {
     }
 
     private void layoutComponents() {
-        setLayout(new FlowLayout(FlowLayout.LEFT));
+        setLayout(new FlowLayout(FlowLayout.LEADING));
         add(label);
         add(minSpinner);
         add(new JLabel("..."));

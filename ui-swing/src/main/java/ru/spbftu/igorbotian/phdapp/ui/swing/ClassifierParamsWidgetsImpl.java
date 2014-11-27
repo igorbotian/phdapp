@@ -19,6 +19,7 @@
 package ru.spbftu.igorbotian.phdapp.ui.swing;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import ru.spbftu.igorbotian.phdapp.conf.Configuration;
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
 import ru.spbftu.igorbotian.phdapp.utils.ShutdownHook;
@@ -30,6 +31,7 @@ import java.util.Objects;
  * Введённые пользователем значения сохраняются по завершению работы программы
  * и задаются по умолчанию при следующей работе приложения.
  */
+@Singleton
 class ClassifierParamsWidgetsImpl implements ClassifierParamsWidgets, ShutdownHook {
 
     /* Идентификаторы параметров (каждый их них используется для получения перевода и значения из конфигурации */
@@ -63,29 +65,29 @@ class ClassifierParamsWidgetsImpl implements ClassifierParamsWidgets, ShutdownHo
     private final double DEFAULT_C_PARAM = 100.0;
     private final double DEFAULT_C_PARAM_MIN = 0.0;
     private final double DEFAULT_C_PARAM_MAX = 200.0;
-    private final double C_PARAM_MIN = Double.MIN_VALUE;
-    private final double C_PARAM_MAX = Double.MAX_VALUE;
+    private final double C_PARAM_MAX = 1000000.0;
+    private final double C_PARAM_MIN = -C_PARAM_MAX;
     private final double C_PARAM_STEP_SIZE = 1.0;
 
     private final double DEFAULT_SIGMA_PARAM = 0.1;
     private final double DEFAULT_SIGMA_PARAM_MIN = 0.001;
     private final double DEFAULT_SIGMA_PARAM_MAX = 0.1;
-    private final double SIGMA_PARAM_MIN = Double.MIN_VALUE;
-    private final double SIGMA_PARAM_MAX = Double.MAX_VALUE;
+    private final double SIGMA_PARAM_MAX = 1000000.0;
+    private final double SIGMA_PARAM_MIN = -SIGMA_PARAM_MAX;
     private final double SIGMA_PARAM_STEP_SIZE = 0.001;
 
     private final int DEFAULT_NUMBER_OF_ITERATIONS = 100;
     private final int DEFAULT_NUMBER_OF_ITERATIONS_MIN = 1;
     private final int DEFAULT_NUMBER_OF_ITERATIONS_MAX = 1000;
     private final int NUMBER_OF_ITERATIONS_MIN = 1;
-    private final int NUMBER_OF_ITERATIONS_MAX = Integer.MAX_VALUE;
+    private final int NUMBER_OF_ITERATIONS_MAX = Short.MAX_VALUE;
     private final int NUMBER_OF_ITERATIONS_STEP_SIZE = 10;
 
     private final int DEFAULT_SAMPLE_SIZE = 1000;
     private final int DEFAULT_SAMPLE_SIZE_MIN = 100;
     private final int DEFAULT_SAMPLE_SIZE_MAX = 10000;
     private final int SAMPLE_SIZE_MIN = 100;
-    private final int SAMPLE_SIZE_MAX = Integer.MAX_VALUE;
+    private final int SAMPLE_SIZE_MAX = Short.MAX_VALUE;
     private final int SAMPLE_SIZE_STEP_SIZE = 100;
 
     private final double DEFAULT_PERCENT_OF_JUDGED_SAMPLE_ITEMS = 30.0;

@@ -40,9 +40,9 @@ public abstract class NumberSpinner<T extends Number> extends JPanel {
     }
 
     private void layoutComponents() {
-        setLayout(new BorderLayout(10, 0));
-        add(label, BorderLayout.LINE_START);
-        add(spinner, BorderLayout.LINE_END);
+        setLayout(new FlowLayout(FlowLayout.LEFT));
+        add(label);
+        add(spinner);
     }
 
     @SuppressWarnings("unchecked")

@@ -19,10 +19,14 @@
 package ru.spbftu.igorbotian.phdapp.ui.swing;
 
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
+import ru.spbftu.igorbotian.phdapp.svm.analytics.Report;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.util.Enumeration;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 /**
  * Главное окно программы
@@ -81,7 +85,7 @@ class MainFrame extends JFrame {
     private void initComponents() {
         setIconImage(new ImageIcon(this.getClass().getResource(WINDOW_ICON_RESOURCE)).getImage());
         setTitle(localization.getLabel(WINDOW_TITLE_LABEL));
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setDefaultLookAndFeelDecorated(true);
 
         menuBar = new JMenuBar();
@@ -111,7 +115,6 @@ class MainFrame extends JFrame {
         actionsGroup.add(intervalJudgementsActionRadioButton);
 
         nextButton = new JButton(localization.getLabel(NEXT_LABEL));
-        nextButton.setEnabled(false);
 
         setJMenuBar(menuBar);
     }
@@ -173,6 +176,7 @@ class MainFrame extends JFrame {
         descriptionLabel.setFont(button.getFont().deriveFont(Font.PLAIN, button.getFont().getSize() - 1));
 
         JPanel pane = new JPanel();
+        pane.setBorder(new EmptyBorder(0, 0, 5, 0));
         pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
         pane.add(button);
         pane.add(descriptionLabel);
@@ -183,5 +187,110 @@ class MainFrame extends JFrame {
     private void initListeners() {
         exitMenuItem.addActionListener(e -> System.exit(0));
         aboutMenuItem.addActionListener(e -> new AboutDialog(MainFrame.this, localization).setVisible(true));
+        nextButton.addActionListener(e -> goToNextPage());
+    }
+
+    private void goToNextPage() {
+        Enumeration<AbstractButton> buttons = actionsGroup.getElements();
+
+        while(buttons.hasMoreElements()) {
+            AbstractButton button = buttons.nextElement();
+
+            if(!button.isSelected()) {
+                continue;
+            }
+
+            if(precisionActionRadioButton == button) {
+                JComponent[] widgets = new JComponent[] {
+                        classifierParamsWidgets.preciseCParamSpinner(),
+                        classifierParamsWidgets.preciseSigmaParamSpinner(),
+                        classifierParamsWidgets.precisePercentOfJudgedSampleItemsSpinner(),
+                        classifierParamsWidgets.preciseSampleSizeSpinner(),
+                        classifierParamsWidgets.precisePreciseIntervalJudgedSampleItemsRatioSpinner()
+                };
+
+                doAction(this::calculatePrecisionOnGivenParams, widgets);
+            } else if(averagePrecisionActionRadioButton == button) {
+                JComponent[] widgets = new JComponent[] {
+                        classifierParamsWidgets.preciseCParamSpinner(),
+                        classifierParamsWidgets.preciseSigmaParamSpinner(),
+                        classifierParamsWidgets.precisePercentOfJudgedSampleItemsSpinner(),
+                        classifierParamsWidgets.preciseSampleSizeSpinner(),
+                        classifierParamsWidgets.precisePreciseIntervalJudgedSampleItemsRatioSpinner()
+                };
+
+                doAction(this::calculateAveragePrecisionOnMultipleIterations, widgets);
+            } else if(sampleSizeActionRadioButton == button) {
+                JComponent[] widgets = new JComponent[] {
+                        classifierParamsWidgets.preciseCParamSpinner(),
+                        classifierParamsWidgets.preciseSigmaParamSpinner(),
+                        classifierParamsWidgets.precisePercentOfJudgedSampleItemsSpinner(),
+                        classifierParamsWidgets.intervalSampleSizeSpinner(),
+                        classifierParamsWidgets.precisePreciseIntervalJudgedSampleItemsRatioSpinner()
+                };
+
+                doAction(this::calculatePrecisionOnDifferentSampleSizes, widgets);
+            } else if(judgementsCountActionRadioButton == button) {
+                JComponent[] widgets = new JComponent[] {
+                        classifierParamsWidgets.preciseSigmaParamSpinner(),
+                        classifierParamsWidgets.preciseSigmaParamSpinner(),
+                        classifierParamsWidgets.intervalPercentOfJudgedSampleItemsSpinner(),
+                        classifierParamsWidgets.preciseSampleSizeSpinner(),
+                        classifierParamsWidgets.precisePreciseIntervalJudgedSampleItemsRatioSpinner()
+                };
+
+                doAction(this::calculatePrecisionOnDifferentNumberOfJudgedSampleItems, widgets);
+            } else if(parametersActionRadioButton == button) {
+                JComponent[] widgets = new JComponent[] {
+                        classifierParamsWidgets.intervalCParamSpinner(),
+                        classifierParamsWidgets.intervalSigmaParamSpinner(),
+                        classifierParamsWidgets.precisePercentOfJudgedSampleItemsSpinner(),
+                        classifierParamsWidgets.preciseSampleSizeSpinner(),
+                        classifierParamsWidgets.precisePreciseIntervalJudgedSampleItemsRatioSpinner()
+                };
+
+                doAction(this::calculatePrecisionOnDifferentParams, widgets);
+            } else if(intervalJudgementsActionRadioButton == button) {
+                JComponent[] widgets = new JComponent[] {
+                        classifierParamsWidgets.preciseSigmaParamSpinner(),
+                        classifierParamsWidgets.preciseSigmaParamSpinner(),
+                        classifierParamsWidgets.precisePercentOfJudgedSampleItemsSpinner(),
+                        classifierParamsWidgets.preciseSampleSizeSpinner(),
+                        classifierParamsWidgets.intervalPreciseIntervalJudgedSampleItemsRatioSpinner()
+                };
+
+                doAction(this::calculatePrecisionOnDifferentPreciseIntervalSampleItemsRatio, widgets);
+            }
+        }
+    }
+
+    private void doAction(Supplier<Report> reportSupplier, JComponent... widgets) {
+        ClassifierParamsFrame nextPage = new ClassifierParamsFrame(localization, this, reportSupplier, widgets);
+        setVisible(false);
+        nextPage.setVisible(true);
+    }
+
+    private Report calculatePrecisionOnGivenParams() {
+        return null; // TODO
+    }
+
+    private Report calculateAveragePrecisionOnMultipleIterations() {
+        return null; // TODO
+    }
+
+    private Report calculatePrecisionOnDifferentSampleSizes() {
+        return null; // TODO
+    }
+
+    private Report calculatePrecisionOnDifferentNumberOfJudgedSampleItems() {
+        return null; // TODO
+    }
+
+    private Report calculatePrecisionOnDifferentParams() {
+        return null; // TODO
+    }
+
+    private Report calculatePrecisionOnDifferentPreciseIntervalSampleItemsRatio() {
+        return null; // TODO
     }
 }
