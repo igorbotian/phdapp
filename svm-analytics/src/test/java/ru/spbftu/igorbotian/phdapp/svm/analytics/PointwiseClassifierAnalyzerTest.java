@@ -23,7 +23,7 @@ import org.junit.Before;
 import org.junit.Test;
 import ru.spbftu.igorbotian.phdapp.common.*;
 import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.report.Report;
+import ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleIterationReport;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -35,7 +35,7 @@ import java.util.UUID;
  *
  * @see PointwiseClassifierAnalyzer
  */
-public class PointwisePointwiseClassifierAnalyzerTest {
+public class PointwiseClassifierAnalyzerTest {
 
     private final float delta = 0.001f;
 
@@ -43,7 +43,7 @@ public class PointwisePointwiseClassifierAnalyzerTest {
     private float precision;
     private float recall;
 
-    private Report report;
+    private SingleIterationReport report;
 
     @Before
     public void setUp() throws DataException {

@@ -20,8 +20,8 @@ package ru.spbftu.igorbotian.phdapp.svm.analytics;
 
 import com.google.inject.Singleton;
 import ru.spbftu.igorbotian.phdapp.common.*;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.report.Report;
 import ru.spbftu.igorbotian.phdapp.svm.analytics.report.Reports;
+import ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleIterationReport;
 
 import java.util.*;
 
@@ -38,7 +38,7 @@ final class PointwiseClassifierAnalyzerImpl implements PointwiseClassifierAnalyz
     }
 
     @Override
-    public Report analyze(ClassifiedData classifiedData, PointwiseTrainingSet realData) {
+    public SingleIterationReport analyze(ClassifiedData classifiedData, PointwiseTrainingSet realData) {
         Objects.requireNonNull(classifiedData);
         Objects.requireNonNull(realData);
 
@@ -86,7 +86,7 @@ final class PointwiseClassifierAnalyzerImpl implements PointwiseClassifierAnalyz
         throw new IllegalStateException("Can't find a given training object in the set of classified objects");
     }
 
-    private static Report composeReport(int numberOfClasses, Collection<DataClassStatistics> statistics) {
+    private static SingleIterationReport composeReport(int numberOfClasses, Collection<DataClassStatistics> statistics) {
         assert numberOfClasses >= 0;
         assert statistics != null;
 
@@ -106,7 +106,7 @@ final class PointwiseClassifierAnalyzerImpl implements PointwiseClassifierAnalyz
 
         // TODO некоторые параметры имеют параметры по умолчанию
         return Reports.newSingleIterationReport(sampleSize, 0.0f, 0.0f, learningSetSize / sampleSize, 1.0f,
-                accuracy, precision, recall);
+                accuracy / numberOfClasses, precision / numberOfClasses, recall / numberOfClasses);
     }
 
     private static float calculateAccuracy(DataClassStatistics classStatistics) {

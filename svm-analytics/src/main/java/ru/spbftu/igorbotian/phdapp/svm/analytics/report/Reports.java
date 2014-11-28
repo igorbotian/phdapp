@@ -73,12 +73,12 @@ public final class Reports {
             }
 
             @Override
-            public float constantCostParameterValue() {
+            public float constantCostParameter() {
                 return checkLimits(constantCostParameter, 0.0f, Float.MAX_VALUE);
             }
 
             @Override
-            public float gaussianKernelParameterValue() {
+            public float gaussianKernelParameter() {
                 return gaussianKernelParameter;
             }
 
@@ -100,7 +100,7 @@ public final class Reports {
     }
 
     private static float checkLimits(float n, float min, float max) {
-        if(min > n || n < max) {
+        if(min > n || n > max) {
             throw new IllegalArgumentException(String.format("A given number (%.5f) should be in range of [%.5f;%.5f]",
                     n, min, max));
         }

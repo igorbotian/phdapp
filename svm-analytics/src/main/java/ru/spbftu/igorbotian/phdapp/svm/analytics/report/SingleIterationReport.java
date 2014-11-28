@@ -17,14 +17,14 @@ public interface SingleIterationReport extends Report {
      *
      * @return вещественное число
      */
-    float constantCostParameterValue();
+    float constantCostParameter();
 
     /**
      * Получение значения параметра Гауссова ядра
      *
      * @return вещественное число
      */
-    float gaussianKernelParameterValue();
+    float gaussianKernelParameter();
 
     /**
      * Получение количества элементов выборки, входящих хотя бы в одно предпочтение
