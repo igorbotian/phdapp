@@ -23,6 +23,7 @@ import org.junit.Before;
 import org.junit.Test;
 import ru.spbftu.igorbotian.phdapp.common.*;
 import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
+import ru.spbftu.igorbotian.phdapp.svm.analytics.report.Report;
 
 import java.util.Arrays;
 import java.util.HashSet;

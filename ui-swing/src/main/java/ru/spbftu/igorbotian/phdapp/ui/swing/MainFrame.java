@@ -19,7 +19,7 @@
 package ru.spbftu.igorbotian.phdapp.ui.swing;
 
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.Report;
+import ru.spbftu.igorbotian.phdapp.svm.analytics.report.Report;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

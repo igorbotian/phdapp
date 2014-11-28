@@ -20,6 +20,7 @@ package ru.spbftu.igorbotian.phdapp.svm.analytics;
 
 import ru.spbftu.igorbotian.phdapp.common.ClassifiedData;
 import ru.spbftu.igorbotian.phdapp.common.PointwiseTrainingSet;
+import ru.spbftu.igorbotian.phdapp.svm.analytics.report.Report;
 
 /**
  * Анализитор корректности работы поточечного классификатора, основывающийся на результатах его работы
@@ -36,7 +37,7 @@ public interface PointwiseClassifierAnalyzer {
      * @param realData       настоящие классы объектов из набора исходных данных, подлежащего классификации
      * @return отчёт о корректности работы классификатора, содержащий множество метрик
      * @throws java.lang.IllegalArgumentException если количество классифицированных и реальных объектов не совпадает
-     * @see ru.spbftu.igorbotian.phdapp.svm.analytics.Report
+     * @see ru.spbftu.igorbotian.phdapp.svm.analytics.report.Report
      */
     Report analyze(ClassifiedData classifiedData, PointwiseTrainingSet realData);
 }

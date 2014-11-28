@@ -20,6 +20,8 @@ package ru.spbftu.igorbotian.phdapp.svm.analytics;
 
 import com.google.inject.Singleton;
 import ru.spbftu.igorbotian.phdapp.common.*;
+import ru.spbftu.igorbotian.phdapp.svm.analytics.report.Report;
+import ru.spbftu.igorbotian.phdapp.svm.analytics.report.Reports;
 
 import java.util.*;
 
@@ -91,18 +93,20 @@ final class PointwiseClassifierAnalyzerImpl implements PointwiseClassifierAnalyz
         float accuracy = 0.0f;
         float precision = 0.0f;
         float recall = 0.0f;
+        int sampleSize = 0;
+        int learningSetSize = 0;
 
         for (DataClassStatistics classStatistics : statistics) {
             accuracy += calculateAccuracy(classStatistics);
             precision += calculatePrecision(classStatistics);
             recall += calculateRecall(classStatistics);
+            sampleSize += classStatistics.realNumberOfObjects;
+            learningSetSize += classStatistics.classifiedNumberOfObjects;
         }
 
-        return ReportBuilder.newReport()
-                .setAccuracy(accuracy / numberOfClasses)
-                .setPrecision(precision / numberOfClasses)
-                .setRecall(recall / numberOfClasses)
-                .build();
+        // TODO некоторые параметры имеют параметры по умолчанию
+        return Reports.newSingleIterationReport(sampleSize, 0.0f, 0.0f, learningSetSize / sampleSize, 1.0f,
+                accuracy, precision, recall);
     }
 
     private static float calculateAccuracy(DataClassStatistics classStatistics) {

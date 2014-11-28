@@ -16,23 +16,14 @@
  * @author Igor Botian <igor.botian@gmail.com>
  */
 
-package ru.spbftu.igorbotian.phdapp.svm.analytics;
-
-import ru.spbftu.igorbotian.phdapp.ioc.PhDAppModule;
+package ru.spbftu.igorbotian.phdapp.svm.analytics.report;
 
 /**
- * Модуль получения аналитической информации по результатам работы классификатора исходных данных
+ * Отчёт, содержащие различные метрики по работе классиификатора
  *
  * @see ru.spbftu.igorbotian.phdapp.svm.PointwiseClassifier
- * @see ru.spbftu.igorbotian.phdapp.svm.analytics.PointwiseClassifierAnalyzer
- * @see ru.spbftu.igorbotian.phdapp.svm.analytics.report.Report
- * @see ru.spbftu.igorbotian.phdapp.svm.analytics.SampleGenerator
  */
-public class SvmAnalyticsModule extends PhDAppModule {
+public interface Report {
 
-    @Override
-    protected void configure() {
-        bind(PointwiseClassifierAnalyzer.class, PointwiseClassifierAnalyzerImpl.class);
-        bind(SampleGenerator.class, SampleGeneratorImpl.class);
-    }
+
 }

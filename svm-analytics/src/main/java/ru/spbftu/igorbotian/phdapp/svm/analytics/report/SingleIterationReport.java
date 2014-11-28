@@ -1,29 +1,46 @@
-/**
- * Copyright (c) 2014 Igor Botian
- *
- * This program is free software: you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by the Free
- * Software Foundation; either version 2 of the License, or (at your option)
- * any later version.
- *
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
- * for more details. You should have received a copy of the GNU General
- * Public License along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
- *
- * @author Igor Botian <igor.botian@gmail.com>
- */
-
-package ru.spbftu.igorbotian.phdapp.svm.analytics;
+package ru.spbftu.igorbotian.phdapp.svm.analytics.report;
 
 /**
- * Отчёт, который содержит различные метрики работы заданного классификатора
- *
- * @see ru.spbftu.igorbotian.phdapp.svm.PointwiseClassifier
+ * Отчёт, содержащий метрики по работе классификатора с заданными параметрами
  */
-public interface Report {
+public interface SingleIterationReport extends Report {
+
+    /**
+     * Получение количества элементов в выборке (уникальные элементы из обучающей и тестирующей выборки)
+     *
+     * @return положительное целое число
+     */
+    int sampleSize();
+
+    /**
+     * Получение значения постоянного параметра "стоимости" <code>С</code>
+     *
+     * @return вещественное число
+     */
+    float constantCostParameterValue();
+
+    /**
+     * Получение значения параметра Гауссова ядра
+     *
+     * @return вещественное число
+     */
+    float gaussianKernelParameterValue();
+
+    /**
+     * Получение количества элементов выборки, входящих хотя бы в одно предпочтение
+     * (имеющих хотя бы одну экспертную оценку), выраженного в процентном соотношении
+     *
+     * @return вещественное число в диапазоне [0.0;1.0]
+     */
+    float judgedSampleItemsRatio();
+
+    /**
+     * Получение процентного соотношения точных/интервальных предпочтений в обучающей выборке.
+     * 0% - обучающая выборка состоит только из точных предпочтений, 100% - только из интервальных предпочтений.
+     *
+     * @return вещественное число в диапазоне [0.0;1.0]
+     */
+    float preciseIntervalSampleItemsRatio();
 
     /**
      * Получение значения метрики <i>Accuracy</i>.
