@@ -22,6 +22,8 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import ru.spbftu.igorbotian.phd.output.csv.CsvOutputDataManagementModule;
+import ru.spbftu.igorbotian.phd.output.summary.SummaryOutputDataManagementModule;
 import ru.spbftu.igorbotian.phdapp.conf.PropertiesBasedConfigurationModule;
 import ru.spbftu.igorbotian.phdapp.input.JsonInputDataManagementModule;
 import ru.spbftu.igorbotian.phdapp.ioc.PhDAppModule;
@@ -62,6 +64,8 @@ public class PhDApp {
             new JsonInputDataManagementModule(CONFIG_FOLDER),
             new JavaI18NLocalizationModule(),
             new SvmAnalyticsModule(),
+            new CsvOutputDataManagementModule(),
+            new SummaryOutputDataManagementModule(),
             new SwingUserInterfaceModule(),
             new UtilsModule()
     ));

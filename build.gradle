@@ -148,11 +148,39 @@ project(':main') {
                 project(':input-json'),
                 project(':locale-java-i18n'),
                 project(':log-log4j'),
+                project(':output-csv'),
+                project(':output-summary'),
                 project(':svm'),
                 project(':svm-analytics'),
                 project(':ui-swing'),
                 project(':utils')
         )
+    }
+}
+
+project(':output-csv') {
+    description 'CSV-based output data management module'
+
+    dependencies {
+        compile(
+                project(':locale'),
+                project(':svm-analytics')
+        )
+
+        testCompile junit
+    }
+}
+
+project(':output-summary') {
+    description 'Summary-based output data management module'
+
+    dependencies {
+        compile(
+                project(':locale'),
+                project(':svm-analytics')
+        )
+
+        testCompile junit
     }
 }
 
