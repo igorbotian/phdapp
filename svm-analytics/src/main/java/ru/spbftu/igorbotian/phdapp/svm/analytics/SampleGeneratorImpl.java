@@ -49,10 +49,11 @@ class SampleGeneratorImpl implements SampleGenerator {
      */
     private static final double dispersionRadius = 1.1 * distanceBetweenSupportingPoints;
 
-    private final Point firstPoint = new Point(distanceBetweenSupportingPoints, distanceBetweenSupportingPoints,
-            FIRST_SET_OF_POINTS);
-    private final Point secondPoint = new Point(2 * distanceBetweenSupportingPoints, 2 * distanceBetweenSupportingPoints,
-            SECOND_SET_OF_POINTS);
+    private final Point firstPoint = new Point(dispersionRadius, dispersionRadius, FIRST_SET_OF_POINTS);
+    private final Point secondPoint = MathUtils.toDecart(new PolarPoint(
+            MathUtils.toPolar(firstPoint).r() + distanceBetweenSupportingPoints,
+            MathUtils.toPolar(firstPoint).phi()
+    ));
     private final Line separatingLine = determineSeparatingLine(firstPoint, secondPoint);
     private int numberOfPoints;
     private Set<Point> firstSet = new HashSet<>();
@@ -117,12 +118,12 @@ class SampleGeneratorImpl implements SampleGenerator {
 
     @Override
     public Range<Double> xCoordinateRange() {
-        return new Range<>(0.0, distanceBetweenSupportingPoints + 2 * dispersionRadius, Double::compare);
+        return new Range<>(0.0, Math.max(firstPoint.x(), secondPoint.x()) + dispersionRadius, Double::compare);
     }
 
     @Override
     public Range<Double> yCoordinateRange() {
-        return new Range<>(0.0, distanceBetweenSupportingPoints + 2 * dispersionRadius, Double::compare);
+        return new Range<>(0.0, Math.max(firstPoint.y(), secondPoint.y()) + dispersionRadius, Double::compare);
     }
 
     @Override
