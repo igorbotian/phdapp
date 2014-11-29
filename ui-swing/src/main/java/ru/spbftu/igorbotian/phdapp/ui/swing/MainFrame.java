@@ -114,7 +114,7 @@ class MainFrame extends JFrame {
         intervalJudgementsActionRadioButton = new JRadioButton(localization.getLabel(INTERVAL_JUDGEMENTS_RATIO_ACTION_LABEL));
         actionsGroup.add(intervalJudgementsActionRadioButton);
 
-        nextButton = new JButton(localization.getLabel(NEXT_LABEL));
+        nextButton = new JButton(localization.getLabel(NEXT_LABEL) + " >");
 
         setJMenuBar(menuBar);
     }
@@ -166,6 +166,7 @@ class MainFrame extends JFrame {
         setContentPane(contentPane);
         pack();
         setLocationRelativeTo(null);
+        setResizable(false);
     }
 
     private JPanel describe(JRadioButton button, String description) {
@@ -206,7 +207,8 @@ class MainFrame extends JFrame {
                         classifierParamsWidgets.preciseSigmaParamSpinner(),
                         classifierParamsWidgets.precisePercentOfJudgedSampleItemsSpinner(),
                         classifierParamsWidgets.preciseSampleSizeSpinner(),
-                        classifierParamsWidgets.precisePreciseIntervalJudgedSampleItemsRatioSpinner()
+                        classifierParamsWidgets.precisePreciseIntervalJudgedSampleItemsRatioSpinner(),
+                        classifierParamsWidgets.sampleViewButton()
                 };
 
                 doAction(this::calculatePrecisionOnGivenParams, widgets);

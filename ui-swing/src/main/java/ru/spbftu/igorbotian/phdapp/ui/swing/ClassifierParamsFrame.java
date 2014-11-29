@@ -60,16 +60,21 @@ public class ClassifierParamsFrame extends JFrame {
         setIconImage(mainFrame.getIconImage());
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-        backButton = new JButton(localization.getLabel(BACK_LABEL));
-        nextButton = new JButton(localization.getLabel(NEXT_LABEL));
+        backButton = new JButton("< " + localization.getLabel(BACK_LABEL));
+        nextButton = new JButton(localization.getLabel(NEXT_LABEL) + " >");
     }
 
     private void layoutComponents(JComponent... classifierParamWidgets) {
         JPanel paramsPanel = new JPanel();
-        paramsPanel.setLayout(new BoxLayout(paramsPanel, BoxLayout.Y_AXIS));
+        paramsPanel.setLayout(new GridBagLayout());
 
+        int gridy = 1;
+        int inset = 0;
         for (JComponent widget : classifierParamWidgets) {
-            paramsPanel.add(widget);
+            GridBagConstraints gbConstraints = new GridBagConstraints(1, gridy, 1, 1, 0.0, 0.0, GridBagConstraints.WEST,
+                    GridBagConstraints.NONE, new Insets(inset, inset, inset, inset), 1, 1);
+            paramsPanel.add(widget, gbConstraints);
+            gridy++;
         }
 
         JPanel buttonPanel = new JPanel();
@@ -79,7 +84,7 @@ public class ClassifierParamsFrame extends JFrame {
         buttonPanel.add(backButton);
         buttonPanel.add(nextButton);
 
-        int inset = 20;
+        inset = 20;
         JPanel contentPane = new JPanel();
         contentPane.setLayout(new BorderLayout());
         contentPane.setBorder(new EmptyBorder(new Insets(inset, inset, inset, inset)));
@@ -89,6 +94,7 @@ public class ClassifierParamsFrame extends JFrame {
         setContentPane(contentPane);
         pack();
         setLocationRelativeTo(null);
+        setResizable(false);
     }
 
     private void initListeners() {
@@ -110,7 +116,6 @@ public class ClassifierParamsFrame extends JFrame {
     }
 
     public void goToNextPage() {
-        setVisible(false);
-        reportSupplier.get(); // TODO
+        goToPreviousPage(); // TODO
     }
 }

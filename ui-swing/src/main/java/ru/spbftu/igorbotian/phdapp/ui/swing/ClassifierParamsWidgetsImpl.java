@@ -24,6 +24,7 @@ import ru.spbftu.igorbotian.phdapp.conf.Configuration;
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
 import ru.spbftu.igorbotian.phdapp.utils.ShutdownHook;
 
+import javax.swing.*;
 import java.util.Objects;
 
 /**
@@ -59,6 +60,8 @@ class ClassifierParamsWidgetsImpl implements ClassifierParamsWidgets, ShutdownHo
     private final String PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_ID = "preciseIntervalJudgedSampleItemsRatio";
     private final String PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_MIN_ID = "preciseIntervalJudgedSampleItemsRatioMin";
     private final String PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_MAX_ID = "preciseIntervalJudgedSampleItemsRatioMax";
+
+    private final String VIEW_SAMPLE_LABEL = "viewSample";
 
     /* Характеристика параметров */
 
@@ -123,6 +126,7 @@ class ClassifierParamsWidgetsImpl implements ClassifierParamsWidgets, ShutdownHo
     private DoubleRangeSpinner intervalPercentOfJudgedSampleItemsSpinner;
     private DoubleSpinner precisePreciseIntervalJudgedSampleItemsRatioSpinner;
     private DoubleRangeSpinner intervalPreciseIntervalJudgedSampleItemsRatioSpinner;
+    private JButton viewSampleButton;
 
     @Inject
     public ClassifierParamsWidgetsImpl(Localization localization, Configuration config) {
@@ -164,6 +168,9 @@ class ClassifierParamsWidgetsImpl implements ClassifierParamsWidgets, ShutdownHo
                 DEFAULT_PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_MIN, DEFAULT_PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_MAX,
                 PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_MIN, PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_MAX,
                 PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_STEP_SIZE);
+
+        viewSampleButton = new JButton(localization.getLabel(VIEW_SAMPLE_LABEL) + "...");
+        viewSampleButton.addActionListener(e -> new SampleDialog(localization).setVisible(true));
 
         loadConfigValues();
     }
@@ -324,5 +331,10 @@ class ClassifierParamsWidgetsImpl implements ClassifierParamsWidgets, ShutdownHo
 
     public DoubleRangeSpinner intervalPreciseIntervalJudgedSampleItemsRatioSpinner() {
         return intervalPreciseIntervalJudgedSampleItemsRatioSpinner;
+    }
+
+    @Override
+    public JButton sampleViewButton() {
+        return viewSampleButton;
     }
 }

@@ -18,6 +18,8 @@
 
 package ru.spbftu.igorbotian.phdapp.ui.swing;
 
+import javax.swing.*;
+
 /**
  * Средство для формирования виджетов для задания параметров классификации.
  * Введённые пользователем значения сохраняются по завершению работы программы
@@ -86,4 +88,9 @@ interface ClassifierParamsWidgets {
      * Заданный диапазон значений процентного соотношения точных/интервальных предпочтений для элементов выборки
      */
     DoubleRangeSpinner intervalPreciseIntervalJudgedSampleItemsRatioSpinner();
+
+    /**
+     * Кнопка для открытия диалогового окна, отображающего сгенерированную для классификатора выборку
+     */
+    JButton sampleViewButton();
 }
