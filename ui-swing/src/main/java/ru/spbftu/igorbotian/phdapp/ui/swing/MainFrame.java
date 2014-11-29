@@ -19,6 +19,7 @@
 package ru.spbftu.igorbotian.phdapp.ui.swing;
 
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
+import ru.spbftu.igorbotian.phdapp.svm.analytics.SampleGenerator;
 import ru.spbftu.igorbotian.phdapp.svm.analytics.report.Report;
 
 import javax.swing.*;
@@ -55,6 +56,7 @@ class MainFrame extends JFrame {
 
     private final Localization localization;
     private final ClassifierParamsWidgets classifierParamsWidgets;
+    private final SampleGenerator sampleGenerator;
 
     private JMenuBar menuBar;
 
@@ -73,9 +75,11 @@ class MainFrame extends JFrame {
 
     private JButton nextButton;
 
-    public MainFrame(Localization localization, ClassifierParamsWidgets classifierParamsWidgets) {
+    public MainFrame(Localization localization, ClassifierParamsWidgets classifierParamsWidgets,
+                     SampleGenerator sampleGenerator) {
         this.localization = Objects.requireNonNull(localization);
         this.classifierParamsWidgets = Objects.requireNonNull(classifierParamsWidgets);
+        this.sampleGenerator = Objects.requireNonNull(sampleGenerator);
 
         initComponents();
         layoutComponents();
@@ -208,7 +212,7 @@ class MainFrame extends JFrame {
                         classifierParamsWidgets.precisePercentOfJudgedSampleItemsSpinner(),
                         classifierParamsWidgets.preciseSampleSizeSpinner(),
                         classifierParamsWidgets.precisePreciseIntervalJudgedSampleItemsRatioSpinner(),
-                        classifierParamsWidgets.sampleViewButton()
+                        classifierParamsWidgets.sampleViewButton(sampleGenerator)
                 };
 
                 doAction(this::calculatePrecisionOnGivenParams, widgets);

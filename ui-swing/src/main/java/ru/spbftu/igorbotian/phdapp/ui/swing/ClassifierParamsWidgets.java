@@ -18,6 +18,8 @@
 
 package ru.spbftu.igorbotian.phdapp.ui.swing;
 
+import ru.spbftu.igorbotian.phdapp.svm.analytics.SampleGenerator;
+
 import javax.swing.*;
 
 /**
@@ -92,5 +94,5 @@ interface ClassifierParamsWidgets {
     /**
      * Кнопка для открытия диалогового окна, отображающего сгенерированную для классификатора выборку
      */
-    JButton sampleViewButton();
+    JButton sampleViewButton(SampleGenerator sampleGenerator);
 }

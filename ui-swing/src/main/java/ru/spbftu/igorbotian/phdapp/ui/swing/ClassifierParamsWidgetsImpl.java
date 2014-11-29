@@ -22,6 +22,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import ru.spbftu.igorbotian.phdapp.conf.Configuration;
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
+import ru.spbftu.igorbotian.phdapp.svm.analytics.SampleGenerator;
 import ru.spbftu.igorbotian.phdapp.utils.ShutdownHook;
 
 import javax.swing.*;
@@ -126,7 +127,6 @@ class ClassifierParamsWidgetsImpl implements ClassifierParamsWidgets, ShutdownHo
     private DoubleRangeSpinner intervalPercentOfJudgedSampleItemsSpinner;
     private DoubleSpinner precisePreciseIntervalJudgedSampleItemsRatioSpinner;
     private DoubleRangeSpinner intervalPreciseIntervalJudgedSampleItemsRatioSpinner;
-    private JButton viewSampleButton;
 
     @Inject
     public ClassifierParamsWidgetsImpl(Localization localization, Configuration config) {
@@ -168,9 +168,6 @@ class ClassifierParamsWidgetsImpl implements ClassifierParamsWidgets, ShutdownHo
                 DEFAULT_PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_MIN, DEFAULT_PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_MAX,
                 PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_MIN, PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_MAX,
                 PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_STEP_SIZE);
-
-        viewSampleButton = new JButton(localization.getLabel(VIEW_SAMPLE_LABEL) + "...");
-        viewSampleButton.addActionListener(e -> new SampleDialog(localization).setVisible(true));
 
         loadConfigValues();
     }
@@ -334,7 +331,11 @@ class ClassifierParamsWidgetsImpl implements ClassifierParamsWidgets, ShutdownHo
     }
 
     @Override
-    public JButton sampleViewButton() {
+    public JButton sampleViewButton(final SampleGenerator sampleGenerator) {
+        Objects.requireNonNull(sampleGenerator);
+
+        JButton viewSampleButton = new JButton(localization.getLabel(VIEW_SAMPLE_LABEL) + "...");
+        viewSampleButton.addActionListener(e -> new SampleDialog(localization, sampleGenerator).setVisible(true));
         return viewSampleButton;
     }
 }

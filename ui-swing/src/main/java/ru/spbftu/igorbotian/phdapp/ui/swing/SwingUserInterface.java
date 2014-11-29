@@ -21,6 +21,7 @@ package ru.spbftu.igorbotian.phdapp.ui.swing;
 import com.google.inject.Inject;
 import org.apache.log4j.Logger;
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
+import ru.spbftu.igorbotian.phdapp.svm.analytics.SampleGenerator;
 import ru.spbftu.igorbotian.phdapp.ui.UserInterface;
 
 import javax.swing.*;
@@ -34,19 +35,25 @@ import java.util.Objects;
 class SwingUserInterface implements UserInterface {
 
     private static Logger LOGGER = Logger.getLogger(SwingUserInterface.class);
+
     private final Localization localization;
     private final ClassifierParamsWidgets classifierParamsWidgets;
+    private final SampleGenerator sampleGenerator;
+
 
     @Inject
-    public SwingUserInterface(Localization localization, ClassifierParamsWidgets classifierParamsWidgets) {
+    public SwingUserInterface(Localization localization, ClassifierParamsWidgets classifierParamsWidgets,
+                              SampleGenerator sampleGenerator) {
         this.localization = Objects.requireNonNull(localization);
         this.classifierParamsWidgets = Objects.requireNonNull(classifierParamsWidgets);
+        this.sampleGenerator = Objects.requireNonNull(sampleGenerator);
     }
 
     @Override
     public void showMainWindow() {
         setLookAndFeel();
-        SwingUtilities.invokeLater(() -> new MainFrame(localization, classifierParamsWidgets).setVisible(true));
+        SwingUtilities.invokeLater(() ->
+                new MainFrame(localization, classifierParamsWidgets, sampleGenerator).setVisible(true));
     }
 
     private void setLookAndFeel() {
