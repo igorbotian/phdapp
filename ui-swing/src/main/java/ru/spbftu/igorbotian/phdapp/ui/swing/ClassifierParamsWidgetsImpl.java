@@ -335,7 +335,13 @@ class ClassifierParamsWidgetsImpl implements ClassifierParamsWidgets, ShutdownHo
         Objects.requireNonNull(sampleGenerator);
 
         JButton viewSampleButton = new JButton(localization.getLabel(VIEW_SAMPLE_LABEL) + "...");
-        viewSampleButton.addActionListener(e -> new SampleDialog(localization, sampleGenerator).setVisible(true));
+        viewSampleButton.addActionListener(e -> {
+            if(sampleGenerator.numberOfPoints() != preciseSampleSizeSpinner().getValue()) {
+                sampleGenerator.regeneratePoints(preciseSampleSizeSpinner.getValue());
+            }
+
+            new SampleDialog(localization, sampleGenerator, this).setVisible(true);
+        });
         return viewSampleButton;
     }
 }

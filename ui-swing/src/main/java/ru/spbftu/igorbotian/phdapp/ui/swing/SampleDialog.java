@@ -23,9 +23,8 @@ import ru.spbftu.igorbotian.phdapp.svm.analytics.SampleGenerator;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Objects;
 
 /**
@@ -39,14 +38,17 @@ public class SampleDialog extends JDialog {
 
     private final Localization localization;
     private final SampleGenerator sampleGenerator;
+    private final ClassifierParamsWidgets paramsWidgets;
 
+    private IntegerSpinner sampleSizeSpinner;
     private SampleCanvas sampleCanvas;
     private JButton regenerateButton;
     private JButton closeButton;
 
-    public SampleDialog(Localization localization, SampleGenerator sampleGenerator) {
+    public SampleDialog(Localization localization, SampleGenerator sampleGenerator, ClassifierParamsWidgets paramsWidgets) {
         this.localization = Objects.requireNonNull(localization);
-        this.sampleGenerator = sampleGenerator;
+        this.sampleGenerator = Objects.requireNonNull(sampleGenerator);
+        this.paramsWidgets = Objects.requireNonNull(paramsWidgets);
 
         initComponents();
         layoutComponents();
@@ -57,8 +59,10 @@ public class SampleDialog extends JDialog {
         setModal(true);
         setTitle(localization.getLabel(SAMPLE_LABEL));
 
+        sampleSizeSpinner = paramsWidgets.preciseSampleSizeSpinner();
         sampleCanvas = new SampleCanvas(sampleGenerator);
         sampleCanvas.setPreferredSize(new Dimension(480, 480));
+        sampleCanvas.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
 
         regenerateButton = new JButton(localization.getLabel(REGENERATE_LABEL));
         closeButton = new JButton(localization.getLabel(CLOSE_LABEL));
@@ -76,8 +80,15 @@ public class SampleDialog extends JDialog {
         contentPane.setBorder(new EmptyBorder(margin, margin, margin, margin));
         contentPane.setLayout(new GridBagLayout());
 
-        GridBagConstraints gbConstraints = new GridBagConstraints(1, 1, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER,
-                GridBagConstraints.BOTH, new Insets(0, 0, 0, 0), 0, 0);
+        GridBagConstraints gbConstraints = new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0, GridBagConstraints.WEST,
+                GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 0), 0, 0);
+        contentPane.add(sampleSizeSpinner, gbConstraints);
+
+        gbConstraints.gridy++;
+        gbConstraints.weightx = 1.0;
+        gbConstraints.weighty = 1.0;
+        gbConstraints.fill = GridBagConstraints.BOTH;
+        gbConstraints.insets = new Insets(0, 0, 0, 0);
         contentPane.add(sampleCanvas, gbConstraints);
 
         gbConstraints.gridy++;
@@ -85,6 +96,7 @@ public class SampleDialog extends JDialog {
         gbConstraints.weightx = 0.0;
         gbConstraints.fill = GridBagConstraints.HORIZONTAL;
         gbConstraints.insets = new Insets(10, 0, 0, 0);
+        gbConstraints.anchor = GridBagConstraints.EAST;
         contentPane.add(buttonPane, gbConstraints);
 
         setContentPane(contentPane);
@@ -97,7 +109,12 @@ public class SampleDialog extends JDialog {
             sampleGenerator.regeneratePoints(sampleGenerator.numberOfPoints());
             sampleCanvas.repaint();
         });
-        
+
+        sampleSizeSpinner.addChangeListener(e -> {
+            sampleGenerator.regeneratePoints(sampleSizeSpinner.getValue());
+            sampleCanvas.repaint();
+        });
+
         closeButton.addActionListener(e -> SampleDialog.this.dispose());
     }
 }

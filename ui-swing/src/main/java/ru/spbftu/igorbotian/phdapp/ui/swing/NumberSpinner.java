@@ -19,6 +19,7 @@
 package ru.spbftu.igorbotian.phdapp.ui.swing;
 
 import javax.swing.*;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.util.Objects;
 
@@ -56,5 +57,9 @@ public abstract class NumberSpinner<T extends Number> extends JPanel {
 
     public String getDescription() {
         return description;
+    }
+
+    public void addChangeListener(ChangeListener listener) {
+        spinner.addChangeListener(listener);
     }
 }

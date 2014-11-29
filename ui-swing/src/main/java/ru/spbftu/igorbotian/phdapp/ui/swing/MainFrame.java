@@ -210,7 +210,6 @@ class MainFrame extends JFrame {
                         classifierParamsWidgets.preciseCParamSpinner(),
                         classifierParamsWidgets.preciseSigmaParamSpinner(),
                         classifierParamsWidgets.precisePercentOfJudgedSampleItemsSpinner(),
-                        classifierParamsWidgets.preciseSampleSizeSpinner(),
                         classifierParamsWidgets.precisePreciseIntervalJudgedSampleItemsRatioSpinner(),
                         classifierParamsWidgets.sampleViewButton(sampleGenerator)
                 };
@@ -218,50 +217,55 @@ class MainFrame extends JFrame {
                 doAction(this::calculatePrecisionOnGivenParams, widgets);
             } else if(averagePrecisionActionRadioButton == button) {
                 JComponent[] widgets = new JComponent[] {
+                        classifierParamsWidgets.preciseSampleSizeSpinner(),
+                        classifierParamsWidgets.preciseNumberOfIterationsSpinner(),
                         classifierParamsWidgets.preciseCParamSpinner(),
                         classifierParamsWidgets.preciseSigmaParamSpinner(),
                         classifierParamsWidgets.precisePercentOfJudgedSampleItemsSpinner(),
-                        classifierParamsWidgets.preciseSampleSizeSpinner(),
                         classifierParamsWidgets.precisePreciseIntervalJudgedSampleItemsRatioSpinner()
                 };
 
                 doAction(this::calculateAveragePrecisionOnMultipleIterations, widgets);
             } else if(sampleSizeActionRadioButton == button) {
                 JComponent[] widgets = new JComponent[] {
+                        classifierParamsWidgets.intervalSampleSizeSpinner(),
+                        classifierParamsWidgets.preciseNumberOfIterationsSpinner(),
                         classifierParamsWidgets.preciseCParamSpinner(),
                         classifierParamsWidgets.preciseSigmaParamSpinner(),
                         classifierParamsWidgets.precisePercentOfJudgedSampleItemsSpinner(),
-                        classifierParamsWidgets.intervalSampleSizeSpinner(),
                         classifierParamsWidgets.precisePreciseIntervalJudgedSampleItemsRatioSpinner()
                 };
 
                 doAction(this::calculatePrecisionOnDifferentSampleSizes, widgets);
             } else if(judgementsCountActionRadioButton == button) {
                 JComponent[] widgets = new JComponent[] {
-                        classifierParamsWidgets.preciseSigmaParamSpinner(),
+                        classifierParamsWidgets.preciseSampleSizeSpinner(),
+                        classifierParamsWidgets.preciseNumberOfIterationsSpinner(),
+                        classifierParamsWidgets.preciseCParamSpinner(),
                         classifierParamsWidgets.preciseSigmaParamSpinner(),
                         classifierParamsWidgets.intervalPercentOfJudgedSampleItemsSpinner(),
-                        classifierParamsWidgets.preciseSampleSizeSpinner(),
                         classifierParamsWidgets.precisePreciseIntervalJudgedSampleItemsRatioSpinner()
                 };
 
                 doAction(this::calculatePrecisionOnDifferentNumberOfJudgedSampleItems, widgets);
             } else if(parametersActionRadioButton == button) {
                 JComponent[] widgets = new JComponent[] {
+                        classifierParamsWidgets.preciseSampleSizeSpinner(),
+                        classifierParamsWidgets.preciseNumberOfIterationsSpinner(),
                         classifierParamsWidgets.intervalCParamSpinner(),
                         classifierParamsWidgets.intervalSigmaParamSpinner(),
                         classifierParamsWidgets.precisePercentOfJudgedSampleItemsSpinner(),
-                        classifierParamsWidgets.preciseSampleSizeSpinner(),
                         classifierParamsWidgets.precisePreciseIntervalJudgedSampleItemsRatioSpinner()
                 };
 
                 doAction(this::calculatePrecisionOnDifferentParams, widgets);
             } else if(intervalJudgementsActionRadioButton == button) {
                 JComponent[] widgets = new JComponent[] {
-                        classifierParamsWidgets.preciseSigmaParamSpinner(),
+                        classifierParamsWidgets.preciseSampleSizeSpinner(),
+                        classifierParamsWidgets.preciseNumberOfIterationsSpinner(),
+                        classifierParamsWidgets.preciseCParamSpinner(),
                         classifierParamsWidgets.preciseSigmaParamSpinner(),
                         classifierParamsWidgets.precisePercentOfJudgedSampleItemsSpinner(),
-                        classifierParamsWidgets.preciseSampleSizeSpinner(),
                         classifierParamsWidgets.intervalPreciseIntervalJudgedSampleItemsRatioSpinner()
                 };
 
