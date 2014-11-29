@@ -24,6 +24,8 @@ import ru.spbftu.igorbotian.phdapp.svm.analytics.SampleGenerator;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Objects;
 
 /**
@@ -32,12 +34,14 @@ import java.util.Objects;
 public class SampleDialog extends JDialog {
 
     private static final String SAMPLE_LABEL = "sample";
+    private static final String REGENERATE_LABEL = "regenerate";
     private static final String CLOSE_LABEL = "close";
 
     private final Localization localization;
     private final SampleGenerator sampleGenerator;
 
     private SampleCanvas sampleCanvas;
+    private JButton regenerateButton;
     private JButton closeButton;
 
     public SampleDialog(Localization localization, SampleGenerator sampleGenerator) {
@@ -56,6 +60,7 @@ public class SampleDialog extends JDialog {
         sampleCanvas = new SampleCanvas(sampleGenerator);
         sampleCanvas.setPreferredSize(new Dimension(480, 480));
 
+        regenerateButton = new JButton(localization.getLabel(REGENERATE_LABEL));
         closeButton = new JButton(localization.getLabel(CLOSE_LABEL));
     }
 
@@ -63,6 +68,7 @@ public class SampleDialog extends JDialog {
         JPanel buttonPane = new JPanel();
         buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.LINE_AXIS));
         buttonPane.add(Box.createHorizontalGlue());
+        buttonPane.add(regenerateButton);
         buttonPane.add(closeButton);
 
         int margin = 20;
@@ -87,6 +93,11 @@ public class SampleDialog extends JDialog {
     }
 
     private void initListeners() {
+        regenerateButton.addActionListener(e -> {
+            sampleGenerator.regeneratePoints(sampleGenerator.numberOfPoints());
+            sampleCanvas.repaint();
+        });
+        
         closeButton.addActionListener(e -> SampleDialog.this.dispose());
     }
 }
