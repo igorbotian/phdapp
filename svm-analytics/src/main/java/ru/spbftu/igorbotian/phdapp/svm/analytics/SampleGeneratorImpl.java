@@ -52,7 +52,8 @@ class SampleGeneratorImpl implements SampleGenerator {
     private final Point firstPoint = new Point(dispersionRadius, dispersionRadius, FIRST_SET_OF_POINTS);
     private final Point secondPoint = MathUtils.toDecart(new PolarPoint(
             MathUtils.toPolar(firstPoint).r() + distanceBetweenSupportingPoints,
-            MathUtils.toPolar(firstPoint).phi()
+            MathUtils.toPolar(firstPoint).phi(),
+            SECOND_SET_OF_POINTS
     ));
     private final Line separatingLine = determineSeparatingLine(firstPoint, secondPoint);
     private int numberOfPoints;
