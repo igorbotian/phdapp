@@ -152,6 +152,8 @@ project(':main') {
                 project(':output-summary'),
                 project(':svm'),
                 project(':svm-analytics'),
+                project(':ui'),
+                project(':ui-common'),
                 project(':ui-swing'),
                 project(':utils')
         )
@@ -218,14 +220,31 @@ project(':ui') {
     description 'Abstract user interface entities'
 }
 
+project(':ui-common') {
+    description 'User interface entities common for all implementations'
+
+    dependencies {
+        compile(
+                project(':common'),
+                project(':ioc'),
+                project(':locale'),
+                project(':output-csv'),
+                project(':output-summary'),
+                project(':svm-analytics'),
+                project(':ui')
+        )
+    }
+}
+
 project(':ui-swing') {
-    description 'Swing-based user interface'
+    description 'Swing-based user interface implementation'
 
     dependencies {
         compile(
                 project(':ioc'),
                 project(':locale'),
                 project(':ui'),
+                project(':ui-common'),
                 project(':svm-analytics')
         )
     }

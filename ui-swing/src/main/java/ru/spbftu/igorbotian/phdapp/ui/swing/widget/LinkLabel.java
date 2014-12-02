@@ -16,7 +16,7 @@
  * @author Igor Botian <igor.botian@gmail.com>
  */
 
-package ru.spbftu.igorbotian.phdapp.ui.swing;
+package ru.spbftu.igorbotian.phdapp.ui.swing.widget;
 
 import org.apache.log4j.Logger;
 

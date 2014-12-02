@@ -18,37 +18,39 @@
 
 package ru.spbftu.igorbotian.phdapp.ui.swing;
 
-import ru.spbftu.igorbotian.phdapp.locale.Localization;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.SampleGenerator;
+import ru.spbftu.igorbotian.phdapp.ui.common.SampleCanvasDirector;
+import ru.spbftu.igorbotian.phdapp.ui.swing.widget.IntegerSpinner;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.util.Objects;
 
 /**
  * Диалоговое окно, в котором отображается расположение элементов выборки для классификатора
  */
-public class SampleDialog extends JDialog {
+public class SampleDialog extends PhDAppDialog {
 
     private static final String SAMPLE_LABEL = "sample";
     private static final String REGENERATE_LABEL = "regenerate";
     private static final String CLOSE_LABEL = "close";
 
-    private final Localization localization;
-    private final SampleGenerator sampleGenerator;
-    private final ClassifierParamsWidgets paramsWidgets;
+    private final SampleCanvasDirector canvasDirector;
 
     private IntegerSpinner sampleSizeSpinner;
     private SampleCanvas sampleCanvas;
     private JButton regenerateButton;
     private JButton closeButton;
 
-    public SampleDialog(Localization localization, SampleGenerator sampleGenerator, ClassifierParamsWidgets paramsWidgets) {
-        this.localization = Objects.requireNonNull(localization);
-        this.sampleGenerator = Objects.requireNonNull(sampleGenerator);
-        this.paramsWidgets = Objects.requireNonNull(paramsWidgets);
+    public SampleDialog(PhDAppFrame owner) {
+        super(owner);
+
+        this.canvasDirector = uiHelper.sampleCanvasDirector();
+        int numberOfPoints = uiHelper.widgets().preciseSampleSizeSpinner().getValue();
+
+        if (canvasDirector.numberOfPoints() != numberOfPoints) {
+            canvasDirector.regeneratePoints(numberOfPoints);
+        }
 
         initComponents();
         layoutComponents();
@@ -57,15 +59,15 @@ public class SampleDialog extends JDialog {
 
     private void initComponents() {
         setModal(true);
-        setTitle(localization.getLabel(SAMPLE_LABEL));
+        setTitle(uiHelper.getLabel(SAMPLE_LABEL));
 
-        sampleSizeSpinner = paramsWidgets.preciseSampleSizeSpinner();
-        sampleCanvas = new SampleCanvas(sampleGenerator);
+        sampleSizeSpinner = uiHelper.widgets().preciseSampleSizeSpinner();
+        sampleCanvas = new SampleCanvas(canvasDirector);
         sampleCanvas.setPreferredSize(new Dimension(480, 480));
         sampleCanvas.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
 
-        regenerateButton = new JButton(localization.getLabel(REGENERATE_LABEL));
-        closeButton = new JButton(localization.getLabel(CLOSE_LABEL));
+        regenerateButton = new JButton(uiHelper.getLabel(REGENERATE_LABEL));
+        closeButton = new JButton(uiHelper.getLabel(CLOSE_LABEL));
     }
 
     private void layoutComponents() {
@@ -101,17 +103,17 @@ public class SampleDialog extends JDialog {
 
         setContentPane(contentPane);
         pack();
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(getOwner());
     }
 
     private void initListeners() {
         regenerateButton.addActionListener(e -> {
-            sampleGenerator.regeneratePoints(sampleGenerator.numberOfPoints());
+            canvasDirector.regeneratePoints(canvasDirector.numberOfPoints());
             sampleCanvas.repaint();
         });
 
         sampleSizeSpinner.addChangeListener(e -> {
-            sampleGenerator.regeneratePoints(sampleSizeSpinner.getValue());
+            canvasDirector.regeneratePoints(sampleSizeSpinner.getValue());
             sampleCanvas.repaint();
         });
 

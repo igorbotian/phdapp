@@ -18,21 +18,18 @@
 
 package ru.spbftu.igorbotian.phdapp.ui.swing;
 
-import ru.spbftu.igorbotian.phdapp.locale.Localization;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.SampleGenerator;
 import ru.spbftu.igorbotian.phdapp.svm.analytics.report.Report;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.Enumeration;
-import java.util.Objects;
 import java.util.function.Supplier;
 
 /**
  * Главное окно программы
  */
-class MainFrame extends JFrame {
+class MainFrame extends PhDAppFrame {
 
     private static final String WINDOW_ICON_RESOURCE = "window_icon.png";
     private static final String WINDOW_TITLE_LABEL = "appName";
@@ -53,10 +50,7 @@ class MainFrame extends JFrame {
     private static final String INTERVAL_JUDGEMENTS_RATIO_LABEL = "determinePrecisionDependenceOnIntervalJudgementsRatio";
     private static final String INTERVAL_JUDGEMENTS_RATIO_ACTION_LABEL = "determinePrecisionDependenceOnIntervalJudgementsRatioAction";
     private static final String NEXT_LABEL = "next";
-
-    private final Localization localization;
-    private final ClassifierParamsWidgets classifierParamsWidgets;
-    private final SampleGenerator sampleGenerator;
+    private static final String VIEW_SAMPLE_LABEL = "viewSample";
 
     private JMenuBar menuBar;
 
@@ -75,11 +69,8 @@ class MainFrame extends JFrame {
 
     private JButton nextButton;
 
-    public MainFrame(Localization localization, ClassifierParamsWidgets classifierParamsWidgets,
-                     SampleGenerator sampleGenerator) {
-        this.localization = Objects.requireNonNull(localization);
-        this.classifierParamsWidgets = Objects.requireNonNull(classifierParamsWidgets);
-        this.sampleGenerator = Objects.requireNonNull(sampleGenerator);
+    public MainFrame(SwingUIHelper uiHelper) {
+        super(uiHelper);
 
         initComponents();
         layoutComponents();
@@ -88,37 +79,37 @@ class MainFrame extends JFrame {
 
     private void initComponents() {
         setIconImage(new ImageIcon(this.getClass().getResource(WINDOW_ICON_RESOURCE)).getImage());
-        setTitle(localization.getLabel(WINDOW_TITLE_LABEL));
+        setTitle(uiHelper.getLabel(WINDOW_TITLE_LABEL));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setDefaultLookAndFeelDecorated(true);
 
         menuBar = new JMenuBar();
-        fileMenu = new JMenu(localization.getLabel(FILE_LABEL));
-        exitMenuItem = new JMenuItem(localization.getLabel(QUIT_LABEL));
-        helpMenu = new JMenu(localization.getLabel(HELP_LABEL));
-        aboutMenuItem = new JMenuItem(localization.getLabel(ABOUT_LABEL));
+        fileMenu = new JMenu(uiHelper.getLabel(FILE_LABEL));
+        exitMenuItem = new JMenuItem(uiHelper.getLabel(QUIT_LABEL));
+        helpMenu = new JMenu(uiHelper.getLabel(HELP_LABEL));
+        aboutMenuItem = new JMenuItem(uiHelper.getLabel(ABOUT_LABEL));
 
         actionsGroup = new ButtonGroup();
-        precisionActionRadioButton = new JRadioButton(localization.getLabel(PRECISION_ACTION_LABEL));
+        precisionActionRadioButton = new JRadioButton(uiHelper.getLabel(PRECISION_ACTION_LABEL));
         actionsGroup.add(precisionActionRadioButton);
         precisionActionRadioButton.setSelected(true);
 
-        averagePrecisionActionRadioButton = new JRadioButton(localization.getLabel(AVERAGE_PRECISION_ACTION_LABEL));
+        averagePrecisionActionRadioButton = new JRadioButton(uiHelper.getLabel(AVERAGE_PRECISION_ACTION_LABEL));
         actionsGroup.add(averagePrecisionActionRadioButton);
 
-        sampleSizeActionRadioButton = new JRadioButton(localization.getLabel(SAMPLE_SIZE_ACTION_LABEL));
+        sampleSizeActionRadioButton = new JRadioButton(uiHelper.getLabel(SAMPLE_SIZE_ACTION_LABEL));
         actionsGroup.add(sampleSizeActionRadioButton);
 
-        judgementsCountActionRadioButton = new JRadioButton(localization.getLabel(JUDGEMENTS_COUNT_ACTION_LABEL));
+        judgementsCountActionRadioButton = new JRadioButton(uiHelper.getLabel(JUDGEMENTS_COUNT_ACTION_LABEL));
         actionsGroup.add(judgementsCountActionRadioButton);
 
-        parametersActionRadioButton = new JRadioButton(localization.getLabel(PARAMETERS_ACTION_LABEL));
+        parametersActionRadioButton = new JRadioButton(uiHelper.getLabel(PARAMETERS_ACTION_LABEL));
         actionsGroup.add(parametersActionRadioButton);
 
-        intervalJudgementsActionRadioButton = new JRadioButton(localization.getLabel(INTERVAL_JUDGEMENTS_RATIO_ACTION_LABEL));
+        intervalJudgementsActionRadioButton = new JRadioButton(uiHelper.getLabel(INTERVAL_JUDGEMENTS_RATIO_ACTION_LABEL));
         actionsGroup.add(intervalJudgementsActionRadioButton);
 
-        nextButton = new JButton(localization.getLabel(NEXT_LABEL) + " >");
+        nextButton = new JButton(uiHelper.getLabel(NEXT_LABEL) + " >");
 
         setJMenuBar(menuBar);
     }
@@ -131,12 +122,12 @@ class MainFrame extends JFrame {
 
         JPanel actionsGroupPanel = new JPanel();
         actionsGroupPanel.setLayout(new BoxLayout(actionsGroupPanel, BoxLayout.Y_AXIS));
-        actionsGroupPanel.add(describe(precisionActionRadioButton, localization.getLabel(PRECISION_LABEL)));
-        actionsGroupPanel.add(describe(averagePrecisionActionRadioButton, localization.getLabel(AVERAGE_PRECISION_LABEL)));
-        actionsGroupPanel.add(describe(sampleSizeActionRadioButton, localization.getLabel(SAMPLE_SIZE_LABEL)));
-        actionsGroupPanel.add(describe(judgementsCountActionRadioButton, localization.getLabel(JUDGEMENTS_COUNT_LABEL)));
-        actionsGroupPanel.add(describe(parametersActionRadioButton, localization.getLabel(PARAMETERS_LABEL)));
-        actionsGroupPanel.add(describe(intervalJudgementsActionRadioButton, localization.getLabel(INTERVAL_JUDGEMENTS_RATIO_LABEL)));
+        actionsGroupPanel.add(describe(precisionActionRadioButton, uiHelper.getLabel(PRECISION_LABEL)));
+        actionsGroupPanel.add(describe(averagePrecisionActionRadioButton, uiHelper.getLabel(AVERAGE_PRECISION_LABEL)));
+        actionsGroupPanel.add(describe(sampleSizeActionRadioButton, uiHelper.getLabel(SAMPLE_SIZE_LABEL)));
+        actionsGroupPanel.add(describe(judgementsCountActionRadioButton, uiHelper.getLabel(JUDGEMENTS_COUNT_LABEL)));
+        actionsGroupPanel.add(describe(parametersActionRadioButton, uiHelper.getLabel(PARAMETERS_LABEL)));
+        actionsGroupPanel.add(describe(intervalJudgementsActionRadioButton, uiHelper.getLabel(INTERVAL_JUDGEMENTS_RATIO_LABEL)));
 
         JPanel actionsPane = new JPanel();
         actionsPane.setLayout(new BoxLayout(actionsPane, BoxLayout.PAGE_AXIS));
@@ -191,82 +182,87 @@ class MainFrame extends JFrame {
 
     private void initListeners() {
         exitMenuItem.addActionListener(e -> System.exit(0));
-        aboutMenuItem.addActionListener(e -> new AboutDialog(MainFrame.this, localization).setVisible(true));
+        aboutMenuItem.addActionListener(e -> new AboutDialog(MainFrame.this).setVisible(true));
         nextButton.addActionListener(e -> goToNextPage());
     }
 
     private void goToNextPage() {
         Enumeration<AbstractButton> buttons = actionsGroup.getElements();
 
-        while(buttons.hasMoreElements()) {
+        while (buttons.hasMoreElements()) {
             AbstractButton button = buttons.nextElement();
 
-            if(!button.isSelected()) {
+            if (!button.isSelected()) {
                 continue;
             }
 
-            if(precisionActionRadioButton == button) {
-                JComponent[] widgets = new JComponent[] {
-                        classifierParamsWidgets.preciseCParamSpinner(),
-                        classifierParamsWidgets.preciseSigmaParamSpinner(),
-                        classifierParamsWidgets.precisePercentOfJudgedSampleItemsSpinner(),
-                        classifierParamsWidgets.precisePreciseIntervalJudgedSampleItemsRatioSpinner(),
-                        classifierParamsWidgets.sampleViewButton(sampleGenerator)
+            if (precisionActionRadioButton == button) {
+                JButton viewSampleButton = new JButton(uiHelper.getLabel(VIEW_SAMPLE_LABEL) + "...");
+                viewSampleButton.addActionListener(e -> {
+                    new SampleDialog(MainFrame.this).setVisible(true);
+                });
+
+                JComponent[] widgets = new JComponent[]{
+                        uiHelper.widgets().preciseCParamSpinner(),
+                        uiHelper.widgets().preciseSigmaParamSpinner(),
+                        uiHelper.widgets().precisePercentOfJudgedSampleItemsSpinner(),
+                        uiHelper.widgets().precisePreciseIntervalJudgedSampleItemsRatioSpinner(),
+                        viewSampleButton
                 };
 
                 doAction(this::calculatePrecisionOnGivenParams, widgets);
-            } else if(averagePrecisionActionRadioButton == button) {
-                JComponent[] widgets = new JComponent[] {
-                        classifierParamsWidgets.preciseSampleSizeSpinner(),
-                        classifierParamsWidgets.preciseNumberOfIterationsSpinner(),
-                        classifierParamsWidgets.preciseCParamSpinner(),
-                        classifierParamsWidgets.preciseSigmaParamSpinner(),
-                        classifierParamsWidgets.precisePercentOfJudgedSampleItemsSpinner(),
-                        classifierParamsWidgets.precisePreciseIntervalJudgedSampleItemsRatioSpinner()
+            } else if (averagePrecisionActionRadioButton == button) {
+                JComponent[] widgets = new JComponent[]{
+                        uiHelper.widgets().preciseSampleSizeSpinner(),
+                        uiHelper.widgets().preciseNumberOfIterationsSpinner(),
+                        uiHelper.widgets().preciseCParamSpinner(),
+                        uiHelper.widgets().preciseSigmaParamSpinner(),
+                        uiHelper.widgets().precisePercentOfJudgedSampleItemsSpinner(),
+                        uiHelper.widgets().precisePreciseIntervalJudgedSampleItemsRatioSpinner()
                 };
 
                 doAction(this::calculateAveragePrecisionOnMultipleIterations, widgets);
-            } else if(sampleSizeActionRadioButton == button) {
-                JComponent[] widgets = new JComponent[] {
-                        classifierParamsWidgets.intervalSampleSizeSpinner(),
-                        classifierParamsWidgets.preciseNumberOfIterationsSpinner(),
-                        classifierParamsWidgets.preciseCParamSpinner(),
-                        classifierParamsWidgets.preciseSigmaParamSpinner(),
-                        classifierParamsWidgets.precisePercentOfJudgedSampleItemsSpinner(),
-                        classifierParamsWidgets.precisePreciseIntervalJudgedSampleItemsRatioSpinner()
+            } else if (sampleSizeActionRadioButton == button) {
+                JComponent[] widgets = new JComponent[]{
+                        uiHelper.widgets().intervalSampleSizeSpinner(),
+                        uiHelper.widgets().preciseNumberOfIterationsSpinner(),
+                        uiHelper.widgets().preciseCParamSpinner(),
+                        uiHelper.widgets().preciseSigmaParamSpinner(),
+                        uiHelper.widgets().precisePercentOfJudgedSampleItemsSpinner(),
+                        uiHelper.widgets().precisePreciseIntervalJudgedSampleItemsRatioSpinner()
                 };
 
                 doAction(this::calculatePrecisionOnDifferentSampleSizes, widgets);
-            } else if(judgementsCountActionRadioButton == button) {
-                JComponent[] widgets = new JComponent[] {
-                        classifierParamsWidgets.preciseSampleSizeSpinner(),
-                        classifierParamsWidgets.preciseNumberOfIterationsSpinner(),
-                        classifierParamsWidgets.preciseCParamSpinner(),
-                        classifierParamsWidgets.preciseSigmaParamSpinner(),
-                        classifierParamsWidgets.intervalPercentOfJudgedSampleItemsSpinner(),
-                        classifierParamsWidgets.precisePreciseIntervalJudgedSampleItemsRatioSpinner()
+            } else if (judgementsCountActionRadioButton == button) {
+                JComponent[] widgets = new JComponent[]{
+                        uiHelper.widgets().preciseSampleSizeSpinner(),
+                        uiHelper.widgets().preciseNumberOfIterationsSpinner(),
+                        uiHelper.widgets().preciseCParamSpinner(),
+                        uiHelper.widgets().preciseSigmaParamSpinner(),
+                        uiHelper.widgets().intervalPercentOfJudgedSampleItemsSpinner(),
+                        uiHelper.widgets().precisePreciseIntervalJudgedSampleItemsRatioSpinner()
                 };
 
                 doAction(this::calculatePrecisionOnDifferentNumberOfJudgedSampleItems, widgets);
-            } else if(parametersActionRadioButton == button) {
-                JComponent[] widgets = new JComponent[] {
-                        classifierParamsWidgets.preciseSampleSizeSpinner(),
-                        classifierParamsWidgets.preciseNumberOfIterationsSpinner(),
-                        classifierParamsWidgets.intervalCParamSpinner(),
-                        classifierParamsWidgets.intervalSigmaParamSpinner(),
-                        classifierParamsWidgets.precisePercentOfJudgedSampleItemsSpinner(),
-                        classifierParamsWidgets.precisePreciseIntervalJudgedSampleItemsRatioSpinner()
+            } else if (parametersActionRadioButton == button) {
+                JComponent[] widgets = new JComponent[]{
+                        uiHelper.widgets().preciseSampleSizeSpinner(),
+                        uiHelper.widgets().preciseNumberOfIterationsSpinner(),
+                        uiHelper.widgets().intervalCParamSpinner(),
+                        uiHelper.widgets().intervalSigmaParamSpinner(),
+                        uiHelper.widgets().precisePercentOfJudgedSampleItemsSpinner(),
+                        uiHelper.widgets().precisePreciseIntervalJudgedSampleItemsRatioSpinner()
                 };
 
                 doAction(this::calculatePrecisionOnDifferentParams, widgets);
-            } else if(intervalJudgementsActionRadioButton == button) {
-                JComponent[] widgets = new JComponent[] {
-                        classifierParamsWidgets.preciseSampleSizeSpinner(),
-                        classifierParamsWidgets.preciseNumberOfIterationsSpinner(),
-                        classifierParamsWidgets.preciseCParamSpinner(),
-                        classifierParamsWidgets.preciseSigmaParamSpinner(),
-                        classifierParamsWidgets.precisePercentOfJudgedSampleItemsSpinner(),
-                        classifierParamsWidgets.intervalPreciseIntervalJudgedSampleItemsRatioSpinner()
+            } else if (intervalJudgementsActionRadioButton == button) {
+                JComponent[] widgets = new JComponent[]{
+                        uiHelper.widgets().preciseSampleSizeSpinner(),
+                        uiHelper.widgets().preciseNumberOfIterationsSpinner(),
+                        uiHelper.widgets().preciseCParamSpinner(),
+                        uiHelper.widgets().preciseSigmaParamSpinner(),
+                        uiHelper.widgets().precisePercentOfJudgedSampleItemsSpinner(),
+                        uiHelper.widgets().intervalPreciseIntervalJudgedSampleItemsRatioSpinner()
                 };
 
                 doAction(this::calculatePrecisionOnDifferentPreciseIntervalSampleItemsRatio, widgets);
@@ -275,7 +271,7 @@ class MainFrame extends JFrame {
     }
 
     private void doAction(Supplier<Report> reportSupplier, JComponent... widgets) {
-        ClassifierParamsFrame nextPage = new ClassifierParamsFrame(localization, this, reportSupplier, widgets);
+        ClassifierParamsFrame nextPage = new ClassifierParamsFrame(uiHelper, this, reportSupplier, widgets);
         setVisible(false);
         nextPage.setVisible(true);
     }

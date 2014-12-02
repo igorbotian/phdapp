@@ -19,7 +19,7 @@
 package ru.spbftu.igorbotian.phdapp.ui.swing;
 
 import ru.spbftu.igorbotian.phdapp.common.Line;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.SampleGenerator;
+import ru.spbftu.igorbotian.phdapp.ui.common.SampleCanvasDirector;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,10 +40,10 @@ public class SampleCanvas extends JPanel {
     private static final int SET_POINT_RADIUS = 5;
     private static final int SUPPORTING_POINT_RADIUS = 7;
 
-    private SampleGenerator sampleGenerator;
+    private SampleCanvasDirector director;
 
-    public SampleCanvas(SampleGenerator sampleGenerator) {
-        this.sampleGenerator = Objects.requireNonNull(sampleGenerator);
+    public SampleCanvas(SampleCanvasDirector director) {
+        this.director = Objects.requireNonNull(director);
         setMinimumSize(new Dimension(320, 320));
     }
 
@@ -62,10 +62,10 @@ public class SampleCanvas extends JPanel {
     }
 
     private void paintSeparatingLine(Graphics g) {
-        Line line = sampleGenerator.separatingLine();
-        double beginX = line.x(sampleGenerator.yCoordinateRange().lowerBound());
+        Line line = director.separatingLine();
+        double beginX = line.x(director.yCoordinateRange().lowerBound());
         double beginY = line.y(beginX);
-        double endX = line.x(sampleGenerator.yCoordinateRange().upperBound());
+        double endX = line.x(director.yCoordinateRange().upperBound());
         double endY = line.y(endX);
 
         g.setColor(SEPARATING_LINE_COLOR);
@@ -73,18 +73,18 @@ public class SampleCanvas extends JPanel {
     }
 
     private void paintFirstSetOfPoints(Graphics g) {
-        paintSetOfPoints(g, sampleGenerator.firstSetOfPoints(), sampleGenerator.firstSupportingPoint(),
+        paintSetOfPoints(g, director.firstSetOfPoints(), director.firstSupportingPoint(),
                 FIRST_SET_OF_POINTS_COLOR);
     }
 
     private void paintSecondSetOfPoints(Graphics g) {
-        paintSetOfPoints(g, sampleGenerator.secondSetOfPoints(), sampleGenerator.secondSupportingPoint(),
+        paintSetOfPoints(g, director.secondSetOfPoints(), director.secondSupportingPoint(),
                 SECOND_SET_OF_POINTS_COLOR);
     }
 
     private void paintSetOfPoints(Graphics g, Set<ru.spbftu.igorbotian.phdapp.common.Point> points,
                                   ru.spbftu.igorbotian.phdapp.common.Point supportingPoint, Color color) {
-        for(ru.spbftu.igorbotian.phdapp.common.Point point : points) {
+        for (ru.spbftu.igorbotian.phdapp.common.Point point : points) {
             paintPoint(g, point, color, SET_POINT_RADIUS);
         }
 
@@ -100,18 +100,18 @@ public class SampleCanvas extends JPanel {
     }
 
     private int toCanvasX(double sampleX) {
-        return (int) translate(sampleX, sampleGenerator.xCoordinateRange().lowerBound(),
-                sampleGenerator.xCoordinateRange().upperBound(), 0.0, getWidth());
+        return (int) translate(sampleX, director.xCoordinateRange().lowerBound(),
+                director.xCoordinateRange().upperBound(), 0.0, getWidth());
     }
 
     private int toCanvasY(double sampleY) {
-        return (int) translate(sampleY, sampleGenerator.yCoordinateRange().lowerBound(),
-                sampleGenerator.yCoordinateRange().upperBound(), 0.0, getHeight());
+        return (int) translate(sampleY, director.yCoordinateRange().lowerBound(),
+                director.yCoordinateRange().upperBound(), 0.0, getHeight());
     }
 
-    private double translate(double fromX, double fromMin, double fromMax, double toMin, double toMax) {
+    private double translate(double from, double fromMin, double fromMax, double toMin, double toMax) {
         double fromLength = Math.abs(fromMax - fromMin);
-        double distanceBetweenFromXAndFromMin = fromX - fromMin;
+        double distanceBetweenFromXAndFromMin = from - fromMin;
         assert (distanceBetweenFromXAndFromMin >= 0.0);
 
         double c = distanceBetweenFromXAndFromMin / fromLength;

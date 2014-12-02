@@ -18,16 +18,14 @@
 
 package ru.spbftu.igorbotian.phdapp.ui.swing;
 
-import javax.swing.*;
+import ru.spbftu.igorbotian.phdapp.ui.common.UIHelper;
 
 /**
- * Виджет для ввода целого числа в заданных пределах, имеющего заданное описание
- *
- * @see ru.spbftu.igorbotian.phdapp.ui.swing.NumberSpinner
+ * Дополнение к <code>UIHelper</code>, содержащее общие элементы пользовательского интерфейса, реализованные с помощью
+ * библиотеки Swing
+ * @see ru.spbftu.igorbotian.phdapp.ui.common.UIHelper
  */
-public class IntegerSpinner extends NumberSpinner<Integer> {
+public interface SwingUIHelper extends UIHelper {
 
-    protected IntegerSpinner(String description, int value, int min, int max, int stepSize) {
-        super(description, new SpinnerNumberModel(value, min, max, stepSize));
-    }
+    ClassifierParamsWidgets widgets();
 }

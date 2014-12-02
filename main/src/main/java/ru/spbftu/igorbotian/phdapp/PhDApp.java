@@ -31,6 +31,7 @@ import ru.spbftu.igorbotian.phdapp.locale.java.JavaI18NLocalizationModule;
 import ru.spbftu.igorbotian.phdapp.log.Log4j;
 import ru.spbftu.igorbotian.phdapp.svm.analytics.SvmAnalyticsModule;
 import ru.spbftu.igorbotian.phdapp.ui.UserInterface;
+import ru.spbftu.igorbotian.phdapp.ui.common.CommonUserInterfaceModule;
 import ru.spbftu.igorbotian.phdapp.ui.swing.SwingUserInterfaceModule;
 import ru.spbftu.igorbotian.phdapp.utils.ShutdownHooks;
 import ru.spbftu.igorbotian.phdapp.utils.UtilsModule;
@@ -66,6 +67,7 @@ public class PhDApp {
             new SvmAnalyticsModule(),
             new CsvOutputDataManagementModule(),
             new SummaryOutputDataManagementModule(),
+            new CommonUserInterfaceModule(),
             new SwingUserInterfaceModule(),
             new UtilsModule()
     ));

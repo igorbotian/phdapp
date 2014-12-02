@@ -18,9 +18,10 @@
 
 package ru.spbftu.igorbotian.phdapp.ui.swing;
 
-import ru.spbftu.igorbotian.phdapp.svm.analytics.SampleGenerator;
-
-import javax.swing.*;
+import ru.spbftu.igorbotian.phdapp.ui.swing.widget.DoubleRangeSpinner;
+import ru.spbftu.igorbotian.phdapp.ui.swing.widget.DoubleSpinner;
+import ru.spbftu.igorbotian.phdapp.ui.swing.widget.IntegerRangeSpinner;
+import ru.spbftu.igorbotian.phdapp.ui.swing.widget.IntegerSpinner;
 
 /**
  * Средство для формирования виджетов для задания параметров классификации.
@@ -55,11 +56,6 @@ interface ClassifierParamsWidgets {
     IntegerSpinner preciseNumberOfIterationsSpinner();
 
     /**
-     * Заданный диапазон значений количества итераций
-     */
-    IntegerRangeSpinner intervalNumberOfIterationsSpinner();
-
-    /**
      * Заданное значение количества элементов в выборке
      */
     IntegerSpinner preciseSampleSizeSpinner();
@@ -73,26 +69,21 @@ interface ClassifierParamsWidgets {
      * Заданное значение количества элементов выборки в процентном отношении,
      * для которых задано хотя бы одно предпочтение
      */
-    DoubleSpinner precisePercentOfJudgedSampleItemsSpinner();
+    IntegerSpinner precisePercentOfJudgedSampleItemsSpinner();
 
     /**
      * Заданный диапазон значений количества элементов выборки в процентном соотношении,
      * для которых задано хотя бы одно предпочтение
      */
-    DoubleRangeSpinner intervalPercentOfJudgedSampleItemsSpinner();
+    IntegerRangeSpinner intervalPercentOfJudgedSampleItemsSpinner();
 
     /**
      * Заданное значение процентного соотношения точных/интервальных предпочтений для элементов выборки
      */
-    DoubleSpinner precisePreciseIntervalJudgedSampleItemsRatioSpinner();
+    IntegerSpinner precisePreciseIntervalJudgedSampleItemsRatioSpinner();
 
     /**
      * Заданный диапазон значений процентного соотношения точных/интервальных предпочтений для элементов выборки
      */
-    DoubleRangeSpinner intervalPreciseIntervalJudgedSampleItemsRatioSpinner();
-
-    /**
-     * Кнопка для открытия диалогового окна, отображающего сгенерированную для классификатора выборку
-     */
-    JButton sampleViewButton(SampleGenerator sampleGenerator);
+    IntegerRangeSpinner intervalPreciseIntervalJudgedSampleItemsRatioSpinner();
 }

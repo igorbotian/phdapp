@@ -16,22 +16,34 @@
  * @author Igor Botian <igor.botian@gmail.com>
  */
 
-package ru.spbftu.igorbotian.phdapp.ui.swing;
+package ru.spbftu.igorbotian.phdapp.ui.common;
 
-import ru.spbftu.igorbotian.phdapp.ioc.PhDAppModule;
-import ru.spbftu.igorbotian.phdapp.ui.UserInterface;
+import ru.spbftu.igorbotian.phdapp.common.Line;
+import ru.spbftu.igorbotian.phdapp.common.Point;
+import ru.spbftu.igorbotian.phdapp.common.Range;
+
+import java.util.Set;
 
 /**
- * Модуль пользовательского интерфейса программы на основе библиотеки Swing
- *
- * @see ru.spbftu.igorbotian.phdapp.ui.swing.SwingUserInterface
+ * Модель компонента, отвечающего за отображение выборки для классификатора
  */
-public class SwingUserInterfaceModule extends PhDAppModule {
+public interface SampleCanvasDirector {
 
-    @Override
-    protected void configure() {
-        bind(SwingUIHelper.class).to(SwingUIHelperImpl.class);
-        bind(ClassifierParamsWidgets.class).to(ClassifierParamsWidgetsImpl.class);
-        bind(UserInterface.class).to(SwingUserInterface.class);
-    }
+    int numberOfPoints();
+
+    Line separatingLine();
+
+    Range<Double> xCoordinateRange();
+
+    Range<Double> yCoordinateRange();
+
+    Point firstSupportingPoint();
+
+    Point secondSupportingPoint();
+
+    Set<Point> firstSetOfPoints();
+
+    Set<Point> secondSetOfPoints();
+
+    void regeneratePoints(int count);
 }

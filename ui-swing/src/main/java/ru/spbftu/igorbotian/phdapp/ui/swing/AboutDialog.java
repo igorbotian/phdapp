@@ -18,18 +18,17 @@
 
 package ru.spbftu.igorbotian.phdapp.ui.swing;
 
-import ru.spbftu.igorbotian.phdapp.locale.Localization;
+import ru.spbftu.igorbotian.phdapp.ui.swing.widget.LinkLabel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.time.LocalDate;
-import java.util.Objects;
 
 /**
  * Диалог "О программе"
  */
-class AboutDialog extends JDialog {
+class AboutDialog extends PhDAppDialog {
 
     private static final String APP_ICON_RESOURCE = "window_icon.png";
     private static final String ABOUT_LABEL = "about";
@@ -58,8 +57,6 @@ class AboutDialog extends JDialog {
         COPYRIGHT_TEXT = copyright.toString();
     }
 
-    private final Localization localization;
-
     private JLabel appIconLabel;
     private JLabel appTitleLabel;
     private JPanel igorBotianEmailLabel;
@@ -68,10 +65,8 @@ class AboutDialog extends JDialog {
     private JLabel copyrightLabel;
     private JButton okButton;
 
-    public AboutDialog(Frame owner, Localization localization) {
-        super(owner, localization.getLabel(ABOUT_LABEL), true);
-
-        this.localization = Objects.requireNonNull(localization);
+    public AboutDialog(PhDAppFrame owner) {
+        super(owner);
 
         initComponents();
         layoutComponents();
@@ -79,13 +74,16 @@ class AboutDialog extends JDialog {
     }
 
     private void initComponents() {
+        setTitle(uiHelper.getLabel(ABOUT_LABEL));
+        setModal(true);
+
         appIconLabel = new JLabel(new ImageIcon(this.getClass().getResource(APP_ICON_RESOURCE)));
-        appTitleLabel = titleLabel(localization.getLabel(APP_TITLE_LABEL));
-        igorBotianEmailLabel = personPanel(localization.getLabel(IGOR_BOTIAN_LABEL), IGOR_BOTIAN_EMAIL);
-        levUtkinEmailLabel = personPanel(localization.getLabel(LEV_UTKIN_LABEL), LEV_UTKIN_EMAIL);
-        juliaZhukEmailLabel = personPanel(localization.getLabel(JULIA_ZHUK_LABEL), JULIA_ZHUK_EMAIL);
+        appTitleLabel = titleLabel(uiHelper.getLabel(APP_TITLE_LABEL));
+        igorBotianEmailLabel = personPanel(uiHelper.getLabel(IGOR_BOTIAN_LABEL), IGOR_BOTIAN_EMAIL);
+        levUtkinEmailLabel = personPanel(uiHelper.getLabel(LEV_UTKIN_LABEL), LEV_UTKIN_EMAIL);
+        juliaZhukEmailLabel = personPanel(uiHelper.getLabel(JULIA_ZHUK_LABEL), JULIA_ZHUK_EMAIL);
         copyrightLabel = new JLabel(COPYRIGHT_TEXT);
-        okButton = new JButton(localization.getLabel(OK_LABEL));
+        okButton = new JButton(uiHelper.getLabel(OK_LABEL));
     }
 
     private JLabel titleLabel(String text) {

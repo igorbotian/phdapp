@@ -18,7 +18,6 @@
 
 package ru.spbftu.igorbotian.phdapp.ui.swing;
 
-import ru.spbftu.igorbotian.phdapp.locale.Localization;
 import ru.spbftu.igorbotian.phdapp.svm.analytics.report.Report;
 
 import javax.swing.*;
@@ -32,21 +31,20 @@ import java.util.function.Supplier;
 /**
  * Диалог задания значений указанных параметров классификации
  */
-public class ClassifierParamsFrame extends JFrame {
+public class ClassifierParamsFrame extends PhDAppFrame {
 
     private static final String BACK_LABEL = "back";
     private static final String NEXT_LABEL = "next";
 
-    private final Localization localization;
-    private final MainFrame mainFrame;
+    private final PhDAppFrame mainFrame;
     private final Supplier<Report> reportSupplier;
     private JButton backButton;
     private JButton nextButton;
 
-    public ClassifierParamsFrame(Localization localization, MainFrame mainFrame, Supplier<Report> reportSupplier,
+    public ClassifierParamsFrame(SwingUIHelper uiHelper, PhDAppFrame mainFrame, Supplier<Report> reportSupplier,
                                  JComponent... paramWidgets) {
+        super(uiHelper);
 
-        this.localization = Objects.requireNonNull(localization);
         this.mainFrame = Objects.requireNonNull(mainFrame);
         this.reportSupplier = Objects.requireNonNull(reportSupplier);
 
@@ -60,8 +58,8 @@ public class ClassifierParamsFrame extends JFrame {
         setIconImage(mainFrame.getIconImage());
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-        backButton = new JButton("< " + localization.getLabel(BACK_LABEL));
-        nextButton = new JButton(localization.getLabel(NEXT_LABEL) + " >");
+        backButton = new JButton("< " + uiHelper.getLabel(BACK_LABEL));
+        nextButton = new JButton(uiHelper.getLabel(NEXT_LABEL) + " >");
     }
 
     private void layoutComponents(JComponent... classifierParamWidgets) {

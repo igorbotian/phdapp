@@ -16,7 +16,7 @@
  * @author Igor Botian <igor.botian@gmail.com>
  */
 
-package ru.spbftu.igorbotian.phdapp.ui.swing;
+package ru.spbftu.igorbotian.phdapp.ui.swing.widget;
 
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
@@ -28,12 +28,10 @@ import java.util.Objects;
  */
 public abstract class NumberSpinner<T extends Number> extends JPanel {
 
-    private String description;
     private JLabel label;
     private JSpinner spinner;
 
     protected NumberSpinner(String description, SpinnerModel spinnerModel) {
-        this.description = Objects.requireNonNull(description);
         this.spinner = new JSpinner(Objects.requireNonNull(spinnerModel));
         this.label = new JLabel(description + ":");
 
@@ -53,10 +51,6 @@ public abstract class NumberSpinner<T extends Number> extends JPanel {
 
     public void setValue(T value) {
         spinner.setValue(value);
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public void addChangeListener(ChangeListener listener) {

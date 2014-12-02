@@ -16,9 +16,10 @@
  * @author Igor Botian <igor.botian@gmail.com>
  */
 
-package ru.spbftu.igorbotian.phdapp.ui.swing;
+package ru.spbftu.igorbotian.phdapp.ui.swing.widget;
 
 import javax.swing.*;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.util.Objects;
 
@@ -27,13 +28,11 @@ import java.util.Objects;
  */
 public abstract class NumberRangeSpinner <T extends Number> extends JPanel {
 
-    private String description;
     private JLabel label;
     private JSpinner minSpinner;
     private JSpinner maxSpinner;
 
     public NumberRangeSpinner(String description, SpinnerModel minSpinnerModel, SpinnerModel maxSpinnerModel) {
-        this.description = Objects.requireNonNull(description);
         this.label = new JLabel(description + ":");
         this.minSpinner = new JSpinner(Objects.requireNonNull(minSpinnerModel));
         this.maxSpinner = new JSpinner(Objects.requireNonNull(maxSpinnerModel));
@@ -72,7 +71,11 @@ public abstract class NumberRangeSpinner <T extends Number> extends JPanel {
         maxSpinner.setValue(value);
     }
 
-    public String getDescription() {
-        return description;
+    public void addMinValueChangeListener(ChangeListener listener) {
+        minSpinner.addChangeListener(listener);
+    }
+
+    public void addMaxValueChangeListener(ChangeListener listener) {
+        maxSpinner.addChangeListener(listener);
     }
 }

@@ -20,13 +20,18 @@ package ru.spbftu.igorbotian.phdapp.ui.swing;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import ru.spbftu.igorbotian.phdapp.conf.Configuration;
-import ru.spbftu.igorbotian.phdapp.locale.Localization;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.SampleGenerator;
-import ru.spbftu.igorbotian.phdapp.utils.ShutdownHook;
+import ru.spbftu.igorbotian.phdapp.common.Range;
+import ru.spbftu.igorbotian.phdapp.ui.common.ClassifierParamsFrameDirector;
+import ru.spbftu.igorbotian.phdapp.ui.common.UIHelper;
+import ru.spbftu.igorbotian.phdapp.ui.swing.widget.DoubleRangeSpinner;
+import ru.spbftu.igorbotian.phdapp.ui.swing.widget.DoubleSpinner;
+import ru.spbftu.igorbotian.phdapp.ui.swing.widget.IntegerRangeSpinner;
+import ru.spbftu.igorbotian.phdapp.ui.swing.widget.IntegerSpinner;
 
-import javax.swing.*;
+import javax.swing.event.ChangeListener;
 import java.util.Objects;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * Вспомогательный класс для формирования виджетов для задания параметров классификации.
@@ -34,276 +39,217 @@ import java.util.Objects;
  * и задаются по умолчанию при следующей работе приложения.
  */
 @Singleton
-class ClassifierParamsWidgetsImpl implements ClassifierParamsWidgets, ShutdownHook {
+class ClassifierParamsWidgetsImpl implements ClassifierParamsWidgets {
 
     /* Идентификаторы параметров (каждый их них используется для получения перевода и значения из конфигурации */
 
-    private final String C_PARAM_ID = "cParameter";
-    private final String C_PARAM_MIN_ID = "cParameterMin";
-    private final String C_PARAM_MAX_ID = "cParameterMax";
-
-    private final String SIGMA_PARAM_ID = "sigmaParameter";
-    private final String SIGMA_PARAM_MIN_ID = "sigmaParameterMin";
-    private final String SIGMA_PARAM_MAX_ID = "sigmaParameterMax";
-
-    private final String NUMBER_OF_ITERATIONS_ID = "numberOfIterations";
-    private final String NUMBER_OF_ITERATIONS_MIN_ID = "numberOfIterationsMin";
-    private final String NUMBER_OF_ITERATIONS_MAX_ID = "numberOfIterationsMax";
-
-    private final String SAMPLE_SIZE_ID = "sampleSize";
-    private final String SAMPLE_SIZE_MIN_ID = "sampleSizeMin";
-    private final String SAMPLE_SIZE_MAX_ID = "sampleSizeMax";
-
-    private final String PERCENT_OF_JUDGED_SAMPLE_ITEMS_ID = "percentOfJudgedSampleItems";
-    private final String PERCENT_OF_JUDGED_SAMPLE_ITEMS_MIN_ID = "percentOfJudgedSampleItemsMin";
-    private final String PERCENT_OF_JUDGED_SAMPLE_ITEMS_MAX_ID = "percentOfJudgedSampleItemsMax";
-
-    private final String PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_ID = "preciseIntervalJudgedSampleItemsRatio";
-    private final String PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_MIN_ID = "preciseIntervalJudgedSampleItemsRatioMin";
-    private final String PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_MAX_ID = "preciseIntervalJudgedSampleItemsRatioMax";
-
-    private final String VIEW_SAMPLE_LABEL = "viewSample";
-
-    /* Характеристика параметров */
-
-    private final double DEFAULT_C_PARAM = 100.0;
-    private final double DEFAULT_C_PARAM_MIN = 0.0;
-    private final double DEFAULT_C_PARAM_MAX = 200.0;
-    private final double C_PARAM_MAX = 1000000.0;
-    private final double C_PARAM_MIN = -C_PARAM_MAX;
-    private final double C_PARAM_STEP_SIZE = 1.0;
-
-    private final double DEFAULT_SIGMA_PARAM = 0.1;
-    private final double DEFAULT_SIGMA_PARAM_MIN = 0.001;
-    private final double DEFAULT_SIGMA_PARAM_MAX = 0.1;
-    private final double SIGMA_PARAM_MAX = 1000000.0;
-    private final double SIGMA_PARAM_MIN = -SIGMA_PARAM_MAX;
-    private final double SIGMA_PARAM_STEP_SIZE = 0.001;
-
-    private final int DEFAULT_NUMBER_OF_ITERATIONS = 100;
-    private final int DEFAULT_NUMBER_OF_ITERATIONS_MIN = 1;
-    private final int DEFAULT_NUMBER_OF_ITERATIONS_MAX = 1000;
-    private final int NUMBER_OF_ITERATIONS_MIN = 1;
-    private final int NUMBER_OF_ITERATIONS_MAX = Short.MAX_VALUE;
-    private final int NUMBER_OF_ITERATIONS_STEP_SIZE = 10;
-
-    private final int DEFAULT_SAMPLE_SIZE = 1000;
-    private final int DEFAULT_SAMPLE_SIZE_MIN = 100;
-    private final int DEFAULT_SAMPLE_SIZE_MAX = 10000;
-    private final int SAMPLE_SIZE_MIN = 100;
-    private final int SAMPLE_SIZE_MAX = Short.MAX_VALUE;
-    private final int SAMPLE_SIZE_STEP_SIZE = 100;
-
-    private final double DEFAULT_PERCENT_OF_JUDGED_SAMPLE_ITEMS = 30.0;
-    private final double DEFAULT_PERCENT_OF_JUDGED_SAMPLE_ITEMS_MIN = 5.0;
-    private final double DEFAULT_PERCENT_OF_JUDGED_SAMPLE_ITEMS_MAX = 100.0;
-    private final double PERCENT_OF_JUDGED_SAMPLE_ITEMS_MIN = 1.0;
-    private final double PERCENT_OF_JUDGED_SAMPLE_ITEMS_MAX = 100.0;
-    private final double PERCENT_OF_JUDGED_SAMPLE_ITEMS_STEP_SIZE = 5.0;
-
-    private final double DEFAULT_PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO = 40.0;
-    private final double DEFAULT_PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_MIN = 0.0;
-    private final double DEFAULT_PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_MAX = 100.0;
-    private final double PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_MIN = 0.0;
-    private final double PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_MAX = 100.0;
-    private final double PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_STEP_SIZE = 5.0;
+    private final String CONSTANT_COST_PARAM_LABEL = "constantCostParameter";
+    private final String GAUSSIAN_KERNEL_PARAM_LABEL = "gaussianKernelParameter";
+    private final String SAMPLES_TO_GENERATE_COUNT_LABEL = "samplesToGenerateCount";
+    private final String SAMPLE_SIZE_LABEL = "sampleSize";
+    private final String LEARNING_TESTING_SETS_SIZE_RATIO_LABEL = "learningTestingSetsSizeRatio";
+    private final String PRECISE_INTERVAL_JUDGEMENTS_RATIO_LABEL = "preciseIntervalJudgementsRatio";
 
     /* Внешние ресурсы */
 
-    private final Localization localization;
-    private final Configuration config;
+    private final UIHelper uiHelper;
 
     /* Виджеты */
 
-    private DoubleSpinner preciseCParamSpinner;
-    private DoubleRangeSpinner intervalCParamSpinner;
-    private DoubleSpinner preciseSigmaParamSpinner;
-    private DoubleRangeSpinner intervalSigmaParamSpinner;
-    private IntegerSpinner preciseNumberOfIterationsSpinner;
-    private IntegerRangeSpinner intervalNumberOfIterationsSpinner;
+    private DoubleSpinner preciseConstantCostParamSpinner;
+    private DoubleRangeSpinner intervalConstantCostParamSpinner;
+    private DoubleSpinner preciseGaussianKernelParamSpinner;
+    private DoubleRangeSpinner intervalGaussianKernelParamSpinner;
+    private IntegerSpinner samplesToGenerateCountSpinner;
     private IntegerSpinner preciseSampleSizeSpinner;
     private IntegerRangeSpinner intervalSampleSizeSpinner;
-    private DoubleSpinner precisePercentOfJudgedSampleItemsSpinner;
-    private DoubleRangeSpinner intervalPercentOfJudgedSampleItemsSpinner;
-    private DoubleSpinner precisePreciseIntervalJudgedSampleItemsRatioSpinner;
-    private DoubleRangeSpinner intervalPreciseIntervalJudgedSampleItemsRatioSpinner;
+    private IntegerSpinner precisePercentOfJudgedSampleItemsSpinner;
+    private IntegerRangeSpinner intervalPercentOfJudgedSampleItemsSpinner;
+    private IntegerSpinner precisePreciseIntervalJudgementsRatioSpinner;
+    private IntegerRangeSpinner intervalPreciseIntervalJudgementsRatioSpinner;
 
     @Inject
-    public ClassifierParamsWidgetsImpl(Localization localization, Configuration config) {
-        this.localization = Objects.requireNonNull(localization);
-        this.config = Objects.requireNonNull(config);
+    public ClassifierParamsWidgetsImpl(UIHelper uiHelper) {
+        this.uiHelper = Objects.requireNonNull(uiHelper);
+        ClassifierParamsFrameDirector director = uiHelper.classifierParamsFrameDirector();
 
-        preciseCParamSpinner = doubleSpinner(C_PARAM_ID, DEFAULT_C_PARAM, C_PARAM_MIN, C_PARAM_MAX, C_PARAM_STEP_SIZE);
-        intervalCParamSpinner = doubleRangeSpinner(C_PARAM_ID, DEFAULT_C_PARAM_MIN, DEFAULT_C_PARAM_MAX, C_PARAM_MIN,
-                C_PARAM_MAX, C_PARAM_STEP_SIZE);
+        preciseConstantCostParamSpinner = preciseDoubleSpinner(
+                CONSTANT_COST_PARAM_LABEL,
+                director::constantCostParameter,
+                director::setConstantCostParameter,
+                director::constantCostParameterMin,
+                director::constantCostParameterMax,
+                director::intervalConstantCostParameterStepSize
+        );
 
-        preciseSigmaParamSpinner = doubleSpinner(SIGMA_PARAM_ID, DEFAULT_SIGMA_PARAM, SIGMA_PARAM_MIN, SIGMA_PARAM_MAX,
-                SIGMA_PARAM_STEP_SIZE);
-        intervalSigmaParamSpinner = doubleRangeSpinner(SIGMA_PARAM_ID, DEFAULT_SIGMA_PARAM_MIN, DEFAULT_SIGMA_PARAM_MAX,
-                SIGMA_PARAM_MIN, SIGMA_PARAM_MAX, SIGMA_PARAM_STEP_SIZE);
+        intervalConstantCostParamSpinner = doubleRangeSpinner(
+                CONSTANT_COST_PARAM_LABEL,
+                director::intervalConstantCostParameter,
+                director::setIntervalConstantCostParameter,
+                director::constantCostParameterMin,
+                director::constantCostParameterMax,
+                director::intervalConstantCostParameterStepSize
+        );
 
-        preciseNumberOfIterationsSpinner = integerSpinner(NUMBER_OF_ITERATIONS_ID, DEFAULT_NUMBER_OF_ITERATIONS,
-                NUMBER_OF_ITERATIONS_MIN, NUMBER_OF_ITERATIONS_MAX, NUMBER_OF_ITERATIONS_STEP_SIZE);
-        intervalNumberOfIterationsSpinner = integerRangeSpinner(NUMBER_OF_ITERATIONS_ID, DEFAULT_NUMBER_OF_ITERATIONS_MIN,
-                DEFAULT_NUMBER_OF_ITERATIONS_MAX, NUMBER_OF_ITERATIONS_MIN, NUMBER_OF_ITERATIONS_MAX,
-                NUMBER_OF_ITERATIONS_STEP_SIZE);
+        preciseGaussianKernelParamSpinner = preciseDoubleSpinner(
+                GAUSSIAN_KERNEL_PARAM_LABEL,
+                director::gaussianKernelParameter,
+                director::setGaussianKernelParameter,
+                director::gaussianKernelParameterMin,
+                director::gaussianKernelParameterMax,
+                director::intervalGaussianKernelParameterStepSize
+        );
 
-        preciseSampleSizeSpinner = integerSpinner(SAMPLE_SIZE_ID, DEFAULT_SAMPLE_SIZE, SAMPLE_SIZE_MIN, SAMPLE_SIZE_MAX,
-                SAMPLE_SIZE_STEP_SIZE);
-        intervalSampleSizeSpinner = integerRangeSpinner(SAMPLE_SIZE_ID, DEFAULT_SAMPLE_SIZE_MIN, DEFAULT_SAMPLE_SIZE_MAX,
-                SAMPLE_SIZE_MIN, SAMPLE_SIZE_MAX, SAMPLE_SIZE_STEP_SIZE);
+        intervalGaussianKernelParamSpinner = doubleRangeSpinner(
+                GAUSSIAN_KERNEL_PARAM_LABEL,
+                director::intervalGaussianKernelParameter,
+                director::setIntervalGaussianKernelParameter,
+                director::gaussianKernelParameterMin,
+                director::gaussianKernelParameterMax,
+                director::intervalGaussianKernelParameterStepSize
+        );
 
-        precisePercentOfJudgedSampleItemsSpinner = doubleSpinner(PERCENT_OF_JUDGED_SAMPLE_ITEMS_ID,
-                DEFAULT_PERCENT_OF_JUDGED_SAMPLE_ITEMS, PERCENT_OF_JUDGED_SAMPLE_ITEMS_MIN,
-                PERCENT_OF_JUDGED_SAMPLE_ITEMS_MAX, PERCENT_OF_JUDGED_SAMPLE_ITEMS_STEP_SIZE);
-        intervalPercentOfJudgedSampleItemsSpinner = doubleRangeSpinner(PERCENT_OF_JUDGED_SAMPLE_ITEMS_ID,
-                DEFAULT_PERCENT_OF_JUDGED_SAMPLE_ITEMS_MIN, DEFAULT_PERCENT_OF_JUDGED_SAMPLE_ITEMS_MAX,
-                PERCENT_OF_JUDGED_SAMPLE_ITEMS_MIN, PERCENT_OF_JUDGED_SAMPLE_ITEMS_MAX,
-                PERCENT_OF_JUDGED_SAMPLE_ITEMS_STEP_SIZE);
+        samplesToGenerateCountSpinner = preciseIntegerSpinner(
+                SAMPLES_TO_GENERATE_COUNT_LABEL,
+                director::samplesToGenerateCount,
+                director::setSamplesToGenerateCount,
+                director::samplesToGenerateCountMin,
+                director::samplesToGenerateCountMax,
+                director::intervalSamplesToGenerateCountStepSize
+        );
 
-        precisePreciseIntervalJudgedSampleItemsRatioSpinner = doubleSpinner(PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_ID,
-                DEFAULT_PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO, PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_MIN,
-                PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_MAX, PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_STEP_SIZE);
-        intervalPreciseIntervalJudgedSampleItemsRatioSpinner = doubleRangeSpinner(PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_ID,
-                DEFAULT_PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_MIN, DEFAULT_PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_MAX,
-                PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_MIN, PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_MAX,
-                PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_STEP_SIZE);
+        preciseSampleSizeSpinner = preciseIntegerSpinner(
+                SAMPLE_SIZE_LABEL,
+                director::sampleSize,
+                director::setSampleSize,
+                director::sampleSizeMin,
+                director::sampleSizeMax,
+                director::intervalSampleSizeStepSize
+        );
 
-        loadConfigValues();
+        intervalSampleSizeSpinner = integerRangeSpinner(
+                SAMPLE_SIZE_LABEL,
+                director::intervalSampleSize,
+                director::setIntervalSampleSize,
+                director::sampleSizeMin,
+                director::sampleSizeMax,
+                director::intervalSampleSizeStepSize
+        );
+
+        precisePercentOfJudgedSampleItemsSpinner = preciseIntegerSpinner(
+                LEARNING_TESTING_SETS_SIZE_RATIO_LABEL,
+                director::learningTrainingSetsSizeRatio,
+                director::setLearningTrainingSetsSizeRatio,
+                director::learningTrainingSetsSizeRatioMin,
+                director::learningTrainingSetsSizeRatioMax,
+                director::intervalLearningTrainingSetsSizeRatioStepSize
+        );
+
+        intervalPercentOfJudgedSampleItemsSpinner = integerRangeSpinner(
+                LEARNING_TESTING_SETS_SIZE_RATIO_LABEL,
+                director::intervalLearningTrainingSetsSizeRatio,
+                director::setIntervalLearningTrainingSetsSizeRatio,
+                director::learningTrainingSetsSizeRatioMin,
+                director::learningTrainingSetsSizeRatioMax,
+                director::intervalLearningTrainingSetsSizeRatioStepSize
+        );
+
+        precisePreciseIntervalJudgementsRatioSpinner = preciseIntegerSpinner(
+                PRECISE_INTERVAL_JUDGEMENTS_RATIO_LABEL,
+                director::preciseIntervalJudgementsRatio,
+                director::setPreciseIntervalJudgementsRatio,
+                director::preciseIntervalJudgementsRatioMin,
+                director::preciseIntervalJudgementsRatioMax,
+                director::intervalPreciseIntervalJudgementsRatioStepSize
+        );
+
+        intervalPreciseIntervalJudgementsRatioSpinner = integerRangeSpinner(
+                PRECISE_INTERVAL_JUDGEMENTS_RATIO_LABEL,
+                director::intervalPreciseIntervalJudgementsRatio,
+                director::setIntervalPreciseIntervalJudgementsRatio,
+                director::preciseIntervalJudgementsRatioMin,
+                director::preciseIntervalJudgementsRatioMax,
+                director::intervalPreciseIntervalJudgementsRatioStepSize
+        );
     }
 
-    private IntegerSpinner integerSpinner(String paramId, int defaultValue, int min, int max, int stepSize) {
-        return new IntegerSpinner(localization.getLabel(paramId), defaultValue, min, max, stepSize);
+    private IntegerSpinner preciseIntegerSpinner(String label, Supplier<Integer> getter, Consumer<Integer> setter,
+                                                 Supplier<Integer> minGetter, Supplier<Integer> maxGetter,
+                                                 Supplier<Integer> stepSizeGetter) {
+
+        IntegerSpinner spinner = new IntegerSpinner(uiHelper.getLabel(label), getter.get(), minGetter.get(),
+                maxGetter.get(), stepSizeGetter.get());
+        spinner.addChangeListener(e -> setter.accept(spinner.getValue()));
+        return spinner;
     }
 
-    private IntegerRangeSpinner integerRangeSpinner(String paramId, int lowerValue, int upperValue,
-                                                    int min, int max, int stepSize) {
-        return new IntegerRangeSpinner(localization.getLabel(paramId), lowerValue, min, max, upperValue, min, max,
-                stepSize);
+    private DoubleSpinner preciseDoubleSpinner(String label, Supplier<Double> getter, Consumer<Double> setter,
+                                               Supplier<Double> minGetter, Supplier<Double> maxGetter,
+                                               Supplier<Double> stepSizeGetter) {
+
+        DoubleSpinner spinner = new DoubleSpinner(uiHelper.getLabel(label), getter.get(), minGetter.get(),
+                maxGetter.get(), stepSizeGetter.get());
+        spinner.addChangeListener(e -> setter.accept(spinner.getValue()));
+        return spinner;
     }
 
-    private DoubleSpinner doubleSpinner(String paramId, double defaultValue, double min, double max, double stepSize) {
-        return new DoubleSpinner(localization.getLabel(paramId), defaultValue, min, max, stepSize);
+    private IntegerRangeSpinner integerRangeSpinner(String label,
+                                                    Supplier<Range<Integer>> boundGetter,
+                                                    Consumer<Range<Integer>> boundSetter,
+                                                    Supplier<Integer> minGetter, Supplier<Integer> maxGetter,
+                                                    Supplier<Integer> stepSizeGetter) {
+
+        IntegerRangeSpinner spinner = new IntegerRangeSpinner(uiHelper.getLabel(label), boundGetter.get().lowerBound(),
+                minGetter.get(), maxGetter.get(), boundGetter.get().upperBound(),
+                minGetter.get(), maxGetter.get(), stepSizeGetter.get());
+        ChangeListener changeListener = (e -> boundSetter.accept(
+                new Range<>(spinner.getMinValue(), spinner.getMaxValue(), Integer::compare))
+        );
+
+        spinner.addMinValueChangeListener(changeListener);
+        spinner.addMinValueChangeListener(changeListener);
+
+        return spinner;
     }
 
-    private DoubleRangeSpinner doubleRangeSpinner(String paramId, double lowerValue, double upperValue,
-                                                  double min, double max, double stepSize) {
-        return new DoubleRangeSpinner(localization.getLabel(paramId), lowerValue, min, max, upperValue, min, max,
-                stepSize);
-    }
+    private DoubleRangeSpinner doubleRangeSpinner(String label,
+                                                  Supplier<Range<Double>> boundGetter,
+                                                  Consumer<Range<Double>> boundSetter,
+                                                  Supplier<Double> minGetter, Supplier<Double> maxGetter,
+                                                  Supplier<Double> stepSizeGetter) {
 
-    private void loadConfigValues() {
-        loadConfigDoubleValue(C_PARAM_ID, preciseCParamSpinner);
-        loadConfigDoubleRangeValue(C_PARAM_MIN_ID, C_PARAM_MAX_ID, intervalCParamSpinner);
+        DoubleRangeSpinner spinner = new DoubleRangeSpinner(uiHelper.getLabel(label), boundGetter.get().lowerBound(),
+                minGetter.get(), maxGetter.get(), boundGetter.get().upperBound(),
+                minGetter.get(), maxGetter.get(), stepSizeGetter.get());
 
-        loadConfigDoubleValue(SIGMA_PARAM_ID, preciseSigmaParamSpinner);
-        loadConfigDoubleRangeValue(SIGMA_PARAM_MIN_ID, SIGMA_PARAM_MAX_ID, intervalSigmaParamSpinner);
+        ChangeListener changeListener = (e -> boundSetter.accept(
+                new Range<>(spinner.getMinValue(), spinner.getMaxValue(), Double::compare))
+        );
 
-        loadConfigIntegerValue(NUMBER_OF_ITERATIONS_ID, preciseNumberOfIterationsSpinner);
-        loadConfigIntegerRangeValue(NUMBER_OF_ITERATIONS_MIN_ID, NUMBER_OF_ITERATIONS_MAX_ID,
-                intervalNumberOfIterationsSpinner);
+        spinner.addMinValueChangeListener(changeListener);
+        spinner.addMinValueChangeListener(changeListener);
 
-        loadConfigIntegerValue(SAMPLE_SIZE_ID, preciseSampleSizeSpinner);
-        loadConfigIntegerRangeValue(SAMPLE_SIZE_MIN_ID, SAMPLE_SIZE_MAX_ID, intervalSampleSizeSpinner);
-
-        loadConfigDoubleValue(PERCENT_OF_JUDGED_SAMPLE_ITEMS_ID, precisePercentOfJudgedSampleItemsSpinner);
-        loadConfigDoubleRangeValue(PERCENT_OF_JUDGED_SAMPLE_ITEMS_MIN_ID, PERCENT_OF_JUDGED_SAMPLE_ITEMS_MAX_ID,
-                intervalPercentOfJudgedSampleItemsSpinner);
-
-        loadConfigDoubleValue(PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_ID,
-                precisePreciseIntervalJudgedSampleItemsRatioSpinner);
-        loadConfigDoubleRangeValue(PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_MIN_ID,
-                PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_MAX_ID, intervalPreciseIntervalJudgedSampleItemsRatioSpinner);
-    }
-
-    private void loadConfigIntegerValue(String param, IntegerSpinner spinner) {
-        if (config.hasSetting(param)) {
-            spinner.setValue(config.getInt(param));
-        }
-    }
-
-    private void loadConfigIntegerRangeValue(String paramMin, String paramMax, IntegerRangeSpinner spinner) {
-        if (config.hasSetting(paramMin)) {
-            spinner.setMinValue(config.getInt(paramMin));
-        }
-
-        if (config.hasSetting(paramMax)) {
-            spinner.setMaxValue(config.getInt(paramMax));
-        }
-    }
-
-    private void loadConfigDoubleValue(String param, DoubleSpinner spinner) {
-        if (config.hasSetting(param)) {
-            spinner.setValue(config.getDouble(param));
-        }
-    }
-
-    private void loadConfigDoubleRangeValue(String paramMin, String paramMax, DoubleRangeSpinner spinner) {
-        if (config.hasSetting(paramMin)) {
-            spinner.setMinValue(config.getDouble(paramMin));
-        }
-
-        if (config.hasSetting(paramMax)) {
-            spinner.setMaxValue(config.getDouble(paramMax));
-        }
-    }
-
-    private void saveConfigValues() {
-        config.setDouble(C_PARAM_ID, preciseCParamSpinner.getValue());
-        config.setDouble(C_PARAM_MIN_ID, intervalCParamSpinner.getMinValue());
-        config.setDouble(C_PARAM_MAX_ID, intervalCParamSpinner.getMaxValue());
-
-        config.setDouble(SIGMA_PARAM_ID, preciseSigmaParamSpinner.getValue());
-        config.setDouble(SIGMA_PARAM_MIN_ID, intervalSigmaParamSpinner.getMinValue());
-        config.setDouble(SIGMA_PARAM_MAX_ID, intervalSigmaParamSpinner.getMaxValue());
-
-        config.setInt(NUMBER_OF_ITERATIONS_ID, preciseNumberOfIterationsSpinner.getValue());
-        config.setInt(NUMBER_OF_ITERATIONS_MIN_ID, intervalNumberOfIterationsSpinner.getMinValue());
-        config.setInt(NUMBER_OF_ITERATIONS_MAX_ID, intervalNumberOfIterationsSpinner.getMaxValue());
-
-        config.setInt(SAMPLE_SIZE_ID, preciseSampleSizeSpinner.getValue());
-        config.setInt(SAMPLE_SIZE_MIN_ID, intervalSampleSizeSpinner.getMinValue());
-        config.setInt(SAMPLE_SIZE_MAX_ID, intervalSampleSizeSpinner.getMaxValue());
-
-        config.setDouble(PERCENT_OF_JUDGED_SAMPLE_ITEMS_ID, precisePercentOfJudgedSampleItemsSpinner.getValue());
-        config.setDouble(PERCENT_OF_JUDGED_SAMPLE_ITEMS_MIN_ID, intervalPercentOfJudgedSampleItemsSpinner.getMinValue());
-        config.setDouble(PERCENT_OF_JUDGED_SAMPLE_ITEMS_MAX_ID, intervalPercentOfJudgedSampleItemsSpinner.getMaxValue());
-
-        config.setDouble(PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_ID,
-                precisePreciseIntervalJudgedSampleItemsRatioSpinner.getValue());
-        config.setDouble(PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_MIN_ID,
-                intervalPreciseIntervalJudgedSampleItemsRatioSpinner.getMinValue());
-        config.setDouble(PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_MAX_ID,
-                intervalPreciseIntervalJudgedSampleItemsRatioSpinner.getMaxValue());
-    }
-
-    @Override
-    public void onExit() {
-        saveConfigValues();
+        return spinner;
     }
 
     public DoubleSpinner preciseCParamSpinner() {
-        return preciseCParamSpinner;
+        return preciseConstantCostParamSpinner;
     }
 
     public DoubleRangeSpinner intervalCParamSpinner() {
-        return intervalCParamSpinner;
+        return intervalConstantCostParamSpinner;
     }
 
     public DoubleSpinner preciseSigmaParamSpinner() {
-        return preciseSigmaParamSpinner;
+        return preciseGaussianKernelParamSpinner;
     }
 
     public DoubleRangeSpinner intervalSigmaParamSpinner() {
-        return intervalSigmaParamSpinner;
+        return intervalGaussianKernelParamSpinner;
     }
 
     public IntegerSpinner preciseNumberOfIterationsSpinner() {
-        return preciseNumberOfIterationsSpinner;
-    }
-
-    public IntegerRangeSpinner intervalNumberOfIterationsSpinner() {
-        return intervalNumberOfIterationsSpinner;
+        return samplesToGenerateCountSpinner;
     }
 
     public IntegerSpinner preciseSampleSizeSpinner() {
@@ -314,34 +260,19 @@ class ClassifierParamsWidgetsImpl implements ClassifierParamsWidgets, ShutdownHo
         return intervalSampleSizeSpinner;
     }
 
-    public DoubleSpinner precisePercentOfJudgedSampleItemsSpinner() {
+    public IntegerSpinner precisePercentOfJudgedSampleItemsSpinner() {
         return precisePercentOfJudgedSampleItemsSpinner;
     }
 
-    public DoubleRangeSpinner intervalPercentOfJudgedSampleItemsSpinner() {
+    public IntegerRangeSpinner intervalPercentOfJudgedSampleItemsSpinner() {
         return intervalPercentOfJudgedSampleItemsSpinner;
     }
 
-    public DoubleSpinner precisePreciseIntervalJudgedSampleItemsRatioSpinner() {
-        return precisePreciseIntervalJudgedSampleItemsRatioSpinner;
+    public IntegerSpinner precisePreciseIntervalJudgedSampleItemsRatioSpinner() {
+        return precisePreciseIntervalJudgementsRatioSpinner;
     }
 
-    public DoubleRangeSpinner intervalPreciseIntervalJudgedSampleItemsRatioSpinner() {
-        return intervalPreciseIntervalJudgedSampleItemsRatioSpinner;
-    }
-
-    @Override
-    public JButton sampleViewButton(final SampleGenerator sampleGenerator) {
-        Objects.requireNonNull(sampleGenerator);
-
-        JButton viewSampleButton = new JButton(localization.getLabel(VIEW_SAMPLE_LABEL) + "...");
-        viewSampleButton.addActionListener(e -> {
-            if(sampleGenerator.numberOfPoints() != preciseSampleSizeSpinner().getValue()) {
-                sampleGenerator.regeneratePoints(preciseSampleSizeSpinner.getValue());
-            }
-
-            new SampleDialog(localization, sampleGenerator, this).setVisible(true);
-        });
-        return viewSampleButton;
+    public IntegerRangeSpinner intervalPreciseIntervalJudgedSampleItemsRatioSpinner() {
+        return intervalPreciseIntervalJudgementsRatioSpinner;
     }
 }

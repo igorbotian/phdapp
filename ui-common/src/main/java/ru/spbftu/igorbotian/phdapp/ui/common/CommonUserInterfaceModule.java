@@ -16,22 +16,17 @@
  * @author Igor Botian <igor.botian@gmail.com>
  */
 
-package ru.spbftu.igorbotian.phdapp.ui.swing;
+package ru.spbftu.igorbotian.phdapp.ui.common;
 
 import ru.spbftu.igorbotian.phdapp.ioc.PhDAppModule;
-import ru.spbftu.igorbotian.phdapp.ui.UserInterface;
 
 /**
- * Модуль пользовательского интерфейса программы на основе библиотеки Swing
- *
- * @see ru.spbftu.igorbotian.phdapp.ui.swing.SwingUserInterface
+ * Модуль абстрактных элементов пользовательского интерфейса
  */
-public class SwingUserInterfaceModule extends PhDAppModule {
+public class CommonUserInterfaceModule extends PhDAppModule {
 
     @Override
     protected void configure() {
-        bind(SwingUIHelper.class).to(SwingUIHelperImpl.class);
-        bind(ClassifierParamsWidgets.class).to(ClassifierParamsWidgetsImpl.class);
-        bind(UserInterface.class).to(SwingUserInterface.class);
+        bind(UIHelper.class).to(UIHelperImpl.class);
     }
 }

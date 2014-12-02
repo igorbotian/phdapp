@@ -16,22 +16,18 @@
  * @author Igor Botian <igor.botian@gmail.com>
  */
 
-package ru.spbftu.igorbotian.phdapp.ui.swing;
+package ru.spbftu.igorbotian.phdapp.ui.swing.widget;
 
-import ru.spbftu.igorbotian.phdapp.ioc.PhDAppModule;
-import ru.spbftu.igorbotian.phdapp.ui.UserInterface;
+import javax.swing.*;
 
 /**
- * Модуль пользовательского интерфейса программы на основе библиотеки Swing
+ * Виджет для ввода целого числа в заданных пределах, имеющего заданное описание
  *
- * @see ru.spbftu.igorbotian.phdapp.ui.swing.SwingUserInterface
+ * @see ru.spbftu.igorbotian.phdapp.ui.swing.widget.NumberSpinner
  */
-public class SwingUserInterfaceModule extends PhDAppModule {
+public class IntegerSpinner extends NumberSpinner<Integer> {
 
-    @Override
-    protected void configure() {
-        bind(SwingUIHelper.class).to(SwingUIHelperImpl.class);
-        bind(ClassifierParamsWidgets.class).to(ClassifierParamsWidgetsImpl.class);
-        bind(UserInterface.class).to(SwingUserInterface.class);
+    public IntegerSpinner(String description, int value, int min, int max, int stepSize) {
+        super(description, new SpinnerNumberModel(value, min, max, stepSize));
     }
 }

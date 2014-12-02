@@ -16,18 +16,18 @@
  * @author Igor Botian <igor.botian@gmail.com>
  */
 
-package ru.spbftu.igorbotian.phdapp.ui.swing;
+package ru.spbftu.igorbotian.phdapp.ui.swing.widget;
 
 import javax.swing.*;
 
 /**
  * Виджет для ввода вещественного числа в заданных пределах, имеющего заданное описание
  *
- * @see ru.spbftu.igorbotian.phdapp.ui.swing.NumberSpinner
+ * @see ru.spbftu.igorbotian.phdapp.ui.swing.widget.NumberSpinner
  */
 public class DoubleSpinner extends NumberSpinner<Double> {
 
-    protected DoubleSpinner(String description, double value, double min, double max, double stepSize) {
+    public DoubleSpinner(String description, double value, double min, double max, double stepSize) {
         super(description, new SpinnerNumberModel(value, min, max, stepSize));
     }
 }

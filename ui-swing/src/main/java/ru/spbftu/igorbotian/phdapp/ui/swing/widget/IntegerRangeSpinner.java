@@ -16,14 +16,14 @@
  * @author Igor Botian <igor.botian@gmail.com>
  */
 
-package ru.spbftu.igorbotian.phdapp.ui.swing;
+package ru.spbftu.igorbotian.phdapp.ui.swing.widget;
 
 import javax.swing.*;
 
 /**
  * Виджет для ввода диапазона целых чисел с заданными пределами, имеющего заданное описание
  *
- * @see ru.spbftu.igorbotian.phdapp.ui.swing.NumberRangeSpinner
+ * @see ru.spbftu.igorbotian.phdapp.ui.swing.widget.NumberRangeSpinner
  */
 public class IntegerRangeSpinner extends NumberRangeSpinner<Integer> {
 

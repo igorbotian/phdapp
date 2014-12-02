@@ -18,20 +18,18 @@
 
 package ru.spbftu.igorbotian.phdapp.ui.swing;
 
-import ru.spbftu.igorbotian.phdapp.ioc.PhDAppModule;
-import ru.spbftu.igorbotian.phdapp.ui.UserInterface;
+import javax.swing.*;
 
 /**
- * Модуль пользовательского интерфейса программы на основе библиотеки Swing
+ * Абстракный диалог приложения
  *
- * @see ru.spbftu.igorbotian.phdapp.ui.swing.SwingUserInterface
+ * @see javax.swing.JDialog
  */
-public class SwingUserInterfaceModule extends PhDAppModule {
+public abstract class PhDAppDialog extends JDialog {
 
-    @Override
-    protected void configure() {
-        bind(SwingUIHelper.class).to(SwingUIHelperImpl.class);
-        bind(ClassifierParamsWidgets.class).to(ClassifierParamsWidgetsImpl.class);
-        bind(UserInterface.class).to(SwingUserInterface.class);
+    protected final SwingUIHelper uiHelper;
+
+    public PhDAppDialog(PhDAppFrame owner) {
+        uiHelper = owner.uiHelper;
     }
 }
