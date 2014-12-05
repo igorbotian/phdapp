@@ -41,7 +41,11 @@ project(':conf') {
     description 'Configuration interface module'
 
     dependencies {
-        compile googleGuice
+        compile(
+                project(':utils'),
+                commonsLang,
+                log4j
+        )
     }
 }
 
@@ -52,7 +56,6 @@ project(':conf-properties') {
         compile(
                 project(':conf'),
                 project(':ioc'),
-                project(':utils'),
                 gson,
                 googleGuice,
                 commonsLang,
@@ -191,7 +194,8 @@ project(':svm') {
 
     dependencies {
         compile(
-                project(':common')
+                project(':common'),
+                project(':conf')
         )
 
         testCompile junit

@@ -22,15 +22,12 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import ru.spbftu.igorbotian.phdapp.utils.ShutdownHook;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Objects;
-import java.util.Properties;
-import java.util.function.Function;
+import java.util.*;
 
 /**
  * Средство управления конфигурацией приложения, хранящейся в файле формата <code>.properties/.conf</code>
@@ -38,13 +35,15 @@ import java.util.function.Function;
  * @see ru.spbftu.igorbotian.phdapp.conf.Configuration
  */
 @Singleton
-class PropertiesBasedConfiguration implements Configuration, ShutdownHook {
+class PropertiesBasedConfiguration extends AbstractConfiguration {
+
+    private final Logger LOGGER = Logger.getLogger(PropertiesBasedConfiguration.class);
 
     /**
      * Название файла конфигурации приложения в формате .properties / .conf
      */
     public static final String CONF_FILE_NAME = "phdapp.conf";
-    private final Logger LOGGER = Logger.getLogger(PropertiesBasedConfiguration.class);
+
     /**
      * Директория для хранения конфигурационных файлов
      */
@@ -54,12 +53,6 @@ class PropertiesBasedConfiguration implements Configuration, ShutdownHook {
      * Контейнер для хранения конфигурационных настроек
      */
     private final Properties config = new Properties();
-
-    /**
-     * Флаг того, что текущая конфигурация изменилась.
-     * В этом случае файл конфигурация физически будет перезаписан.
-     */
-    private boolean configChanged;
 
     /**
      * Конструктор объекта
@@ -94,163 +87,37 @@ class PropertiesBasedConfiguration implements Configuration, ShutdownHook {
 
         CONF_FILE = configFolder.resolve(CONF_FILE_NAME);
         LOGGER.info("Path to configuration file: " + CONF_FILE.toAbsolutePath().toString());
-
-        try {
-            load();
-        } catch (IOException e) {
-            LOGGER.error("Failed to read configuration", e);
-        }
-    }
-
-    private void load() throws IOException {
-        LOGGER.debug("Loading configuration");
-
-        if (Files.exists(CONF_FILE)) {
-            config.load(Files.newBufferedReader(CONF_FILE));
-            LOGGER.debug("Configuration successfully loaded");
-        } else {
-            LOGGER.info("No configuration found. All settings are set to default");
-        }
-    }
-
-    private void store() throws IOException {
-        LOGGER.debug("Storing configuration");
-
-        if (configChanged()) {
-            config.store(Files.newBufferedWriter(CONF_FILE), "PhD application configuration");
-            LOGGER.debug("Configuration successfully stored");
-        }
-    }
-
-    private boolean configChanged() {
-        return configChanged;
-    }
-
-    private void fireConfigChanged() {
-        if (!configChanged) {
-            configChanged = true;
-            LOGGER.debug("Configuration changed");
-        }
-    }
-
-    private void setValue(String param, Object value) {
-        Objects.requireNonNull(param);
-        Objects.requireNonNull(value);
-
-        if (StringUtils.isEmpty(param)) {
-            throw new IllegalArgumentException("Parameter cannot be empty");
-        }
-
-        Object existingValue = config.getProperty(param);
-
-        if (existingValue == null || !existingValue.equals(value)) {
-            fireConfigChanged();
-        }
-
-        LOGGER.debug(String.format("Setting new configuration setting: name = '%s', value = '%s'",
-                param, value.toString()));
-        config.setProperty(param, value.toString());
-    }
-
-    private <T> T getValue(String param, Function<String, T> parser) {
-        assert (parser != null);
-
-        Objects.requireNonNull(param);
-
-        if (StringUtils.isEmpty(param)) {
-            throw new IllegalArgumentException("Parameter cannot be empty");
-        }
-
-        LOGGER.debug(String.format("Requesting value of configuration setting '%s'", param));
-        String value = config.getProperty(param);
-
-        if(value == null) {
-            LOGGER.warn("Trying to read non-initialized configuration setting: " + param);
-        }
-
-        return (value == null) ? null : parser.apply(value);
     }
 
     @Override
-    public void onExit() {
-        LOGGER.debug("Storing configuration");
-
-        try {
-            store();
-            LOGGER.debug("Configuration stored");
-        } catch (IOException e) {
-            LOGGER.error("Failed to store configuration", e);
-        }
+    protected Map<String, String> load() throws IOException {
+        return makeConfigParams(loadPropertiesFromConfigFile());
     }
 
     @Override
-    public boolean hasSetting(String param) {
-        Objects.requireNonNull(param);
-
-        if (StringUtils.isEmpty(param)) {
-            throw new IllegalArgumentException("Param cannot be empty");
-        }
-
-        return config.getProperty(param) != null;
+    protected void store(Map<String, String> configParams) throws IOException {
+        storePropertiesToConfigFile(makeProperties(configParams));
     }
 
-    @Override
-    public Boolean getBoolean(String param) {
-        return getValue(param, Boolean::parseBoolean);
+    private Properties loadPropertiesFromConfigFile() throws IOException {
+        Properties props = new Properties();
+        props.load(Files.newBufferedReader(CONF_FILE));
+        return props;
     }
 
-    @Override
-    public void setBoolean(String param, boolean value) {
-        setValue(param, value);
+    private void storePropertiesToConfigFile(Properties props) throws IOException {
+        props.store(Files.newBufferedWriter(CONF_FILE), "PhD application configuration");
     }
 
-    @Override
-    public Integer getInt(String param) {
-        return getValue(param, Integer::parseInt);
+    private Map<String, String> makeConfigParams(Properties props) {
+        Map<String, String> params = new HashMap<>();
+        props.stringPropertyNames().forEach(param -> params.put(param, props.getProperty(param)));
+        return params;
     }
 
-    @Override
-    public void setInt(String param, int value) {
-        setValue(param, value);
-    }
-
-    @Override
-    public Long getLong(String param) {
-        return getValue(param, Long::parseLong);
-    }
-
-    @Override
-    public void setLong(String param, long value) {
-        setValue(param, value);
-    }
-
-    @Override
-    public Float getFloat(String param) {
-        return getValue(param, Float::parseFloat);
-    }
-
-    @Override
-    public void setFloat(String param, float value) {
-        setValue(param, value);
-    }
-
-    @Override
-    public Double getDouble(String param) {
-        return getValue(param, Double::parseDouble);
-    }
-
-    @Override
-    public void setDouble(String param, double value) {
-        setValue(param, value);
-    }
-
-    @Override
-    public String getString(String param) {
-        return config.getProperty(param);
-    }
-
-    @Override
-    public void setString(String param, String value) {
-        setValue(param, value);
+    private Properties makeProperties(Map<String, String> configParams) {
+        Properties props = new Properties();
+        configParams.forEach(props::put);
+        return props;
     }
 }
