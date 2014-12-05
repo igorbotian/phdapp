@@ -18,7 +18,6 @@
 
 package ru.spbftu.igorbotian.phdapp.input;
 
-import ru.spbftu.igorbotian.phdapp.conf.ConfigFolderPath;
 import ru.spbftu.igorbotian.phdapp.ioc.PhDAppModule;
 import ru.spbftu.igorbotian.phdapp.utils.ShutdownHook;
 
@@ -33,11 +32,6 @@ import java.util.Objects;
 public class JsonInputDataManagementModule extends PhDAppModule {
 
     /**
-     * Директория для хранения конфигурационных файлов
-     */
-    private final Path configFolder;
-
-    /**
      * Конструктор объекта
      *
      * @param configFolder директория для хранения конфигурационных файлов
@@ -45,12 +39,10 @@ public class JsonInputDataManagementModule extends PhDAppModule {
      */
     public JsonInputDataManagementModule(Path configFolder) {
         Objects.requireNonNull(configFolder);
-        this.configFolder = configFolder;
     }
 
     @Override
     protected void configure() {
-        bindConstant().annotatedWith(ConfigFolderPath.class).to(configFolder.toAbsolutePath().toString());
         bind(InputDataManager.class, JsonInputDataManager.class);
         multiBind(ShutdownHook.class, JsonInputDataManager.class);
     }

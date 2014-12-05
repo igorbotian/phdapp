@@ -20,9 +20,7 @@ package ru.spbftu.igorbotian.phdapp.input;
 
 import org.apache.commons.lang3.StringUtils;
 import ru.spbftu.igorbotian.phdapp.common.DataException;
-import ru.spbftu.igorbotian.phdapp.common.InputData;
 import ru.spbftu.igorbotian.phdapp.common.PointwiseInputData;
-import ru.spbftu.igorbotian.phdapp.conf.ConfigFolderPath;
 import ru.spbftu.igorbotian.phdapp.conf.Configuration;
 import ru.spbftu.igorbotian.phdapp.utils.ShutdownHook;
 
@@ -64,24 +62,21 @@ public abstract class FileBasedInputDataManager implements InputDataManager, Shu
      * Средства конфигурации приложения
      */
     private final Configuration config;
+
     /**
      * Разрешение файлов, содержащих исходные данные поддерживаемого формата
      */
     private final String fileExtension;
+
     /**
      * Директория для хранения наборов исходных данных
      */
     private Path dataFolder;
 
     @Inject
-    public FileBasedInputDataManager(Configuration config, @ConfigFolderPath String pathToConfigFolder, String fileExtension) {
+    public FileBasedInputDataManager(Configuration config, String fileExtension) {
         Objects.requireNonNull(config);
-        Objects.requireNonNull(pathToConfigFolder);
         Objects.requireNonNull(fileExtension);
-
-        if (StringUtils.isEmpty(pathToConfigFolder)) {
-            throw new IllegalArgumentException("Configuration folder cannot be empty");
-        }
 
         if (StringUtils.isEmpty(fileExtension)) {
             throw new IllegalArgumentException("File extension cannot be empty");
@@ -89,20 +84,16 @@ public abstract class FileBasedInputDataManager implements InputDataManager, Shu
 
         this.config = config;
         this.fileExtension = fileExtension;
-        dataFolder = initDataFolder(Paths.get(pathToConfigFolder));
+        dataFolder = initDataFolder();
     }
 
-    private Path initDataFolder(Path configFolder) {
-        assert (configFolder != null);
-
+    private Path initDataFolder() {
         Path dataFolder;
 
         if (config.hasSetting(DATA_FOLDER_CONFIG_SETTING)) {
             dataFolder = Paths.get(config.getString(DATA_FOLDER_CONFIG_SETTING));
         } else {
-            Path parentFolder = Files.exists(configFolder)
-                    ? configFolder.getParent()
-                    : Paths.get(".").toAbsolutePath().getParent();
+            Path parentFolder = Paths.get(".").toAbsolutePath().getParent();
             dataFolder = parentFolder.resolve(DATA_FOLDER_NAME);
         }
 

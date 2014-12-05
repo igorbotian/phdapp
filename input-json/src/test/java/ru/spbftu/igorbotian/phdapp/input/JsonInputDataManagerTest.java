@@ -53,7 +53,7 @@ public class JsonInputDataManagerTest {
 
     @Before
     public void setUp() throws DataException {
-        dataManager = new JsonInputDataManager(mockConfigWithNoProperties(), "anyFolder");
+        dataManager = new JsonInputDataManager(mockConfigWithNoProperties());
 
         Set<DataClass> classes = new HashSet<>(Arrays.asList(
                 DataFactory.newClass("firstClass"),

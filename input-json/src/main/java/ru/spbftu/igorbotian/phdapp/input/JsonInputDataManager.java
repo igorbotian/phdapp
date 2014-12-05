@@ -22,10 +22,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.inject.Singleton;
 import ru.spbftu.igorbotian.phdapp.common.DataException;
-import ru.spbftu.igorbotian.phdapp.common.InputData;
 import ru.spbftu.igorbotian.phdapp.common.PointwiseInputData;
 import ru.spbftu.igorbotian.phdapp.common.pdu.PointwiseInputDataPDU;
-import ru.spbftu.igorbotian.phdapp.conf.ConfigFolderPath;
 import ru.spbftu.igorbotian.phdapp.conf.Configuration;
 
 import javax.inject.Inject;
@@ -56,8 +54,8 @@ class JsonInputDataManager extends FileBasedInputDataManager {
     private final Gson gson = new Gson();
 
     @Inject
-    JsonInputDataManager(Configuration config, @ConfigFolderPath String pathToConfigFolder) {
-        super(config, pathToConfigFolder, JSON_FILE_EXT);
+    JsonInputDataManager(Configuration config) {
+        super(config, JSON_FILE_EXT);
     }
 
     @Override
