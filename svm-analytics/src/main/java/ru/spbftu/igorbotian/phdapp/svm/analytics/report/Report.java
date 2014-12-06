@@ -20,10 +20,8 @@ package ru.spbftu.igorbotian.phdapp.svm.analytics.report;
 
 /**
  * Отчёт, содержащие различные метрики по работе классиификатора
- *
- * @see ru.spbftu.igorbotian.phdapp.svm.PointwiseClassifier
  */
 public interface Report {
 
-
+    //
 }
