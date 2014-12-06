@@ -3,11 +3,9 @@ package ru.spbftu.igorbotian.phdapp.svm;
 /**
  * Ошибка, связанная с отсутствием обязательного параметра классификации
  */
-public class ClassifierParamNotFoundException extends RuntimeException {
-
+public class ClassifierParamNotFoundException extends ClassificationException {
 
     public ClassifierParamNotFoundException() {
-        //
     }
 
     public ClassifierParamNotFoundException(String message) {
