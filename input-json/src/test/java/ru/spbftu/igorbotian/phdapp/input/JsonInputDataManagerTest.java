@@ -78,7 +78,7 @@ public class JsonInputDataManagerTest {
     private Configuration mockConfigWithNoProperties() {
         Configuration config = EasyMock.createNiceMock(Configuration.class);
 
-        EasyMock.expect(config.hasSetting(EasyMock.anyString())).andReturn(false);
+        EasyMock.expect(config.hasParam(EasyMock.anyString())).andReturn(false);
         EasyMock.replay(config);
 
         return config;

@@ -18,6 +18,8 @@
 
 package ru.spbftu.igorbotian.phdapp.conf;
 
+import java.util.Set;
+
 /**
  * Средство управления конфигурацией приложения на основе чтения и задания настроек.
  */
@@ -31,7 +33,13 @@ public interface Configuration {
      * @throws java.lang.IllegalArgumentException если название настройки пустое
      * @throws java.lang.NullPointerException     если название настройки не задано
      */
-    public boolean hasSetting(String param);
+    public boolean hasParam(String param);
+
+    /**
+     * Получение набора параметров, содержащихся в конфигурации
+     * @return множество названий настроек в строковом виде
+     */
+    public Set<String> params();
 
     /**
      * Получение настройки типа <code>Boolean</code>

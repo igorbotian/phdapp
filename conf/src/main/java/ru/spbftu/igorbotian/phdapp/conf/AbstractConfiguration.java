@@ -5,8 +5,10 @@ import org.apache.log4j.Logger;
 import ru.spbftu.igorbotian.phdapp.utils.ShutdownHook;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
@@ -138,7 +140,7 @@ public abstract class AbstractConfiguration implements Configuration, ShutdownHo
     }
 
     @Override
-    public boolean hasSetting(String param) {
+    public boolean hasParam(String param) {
         Objects.requireNonNull(param);
 
         if (StringUtils.isEmpty(param)) {
@@ -146,6 +148,11 @@ public abstract class AbstractConfiguration implements Configuration, ShutdownHo
         }
 
         return config.get(param) != null;
+    }
+
+    @Override
+    public Set<String> params() {
+        return config.keySet();
     }
 
     @Override

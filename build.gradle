@@ -190,15 +190,14 @@ project(':output-summary') {
 }
 
 project(':svm') {
-    description 'SVM classification mechanism'
+    description 'SVM abstract classification mechanism'
 
     dependencies {
         compile(
                 project(':common'),
-                project(':conf')
+                project(':conf'),
+                project(':ioc')
         )
-
-        testCompile junit
     }
 }
 

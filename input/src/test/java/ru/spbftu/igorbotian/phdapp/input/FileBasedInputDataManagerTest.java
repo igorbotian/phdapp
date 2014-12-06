@@ -86,7 +86,7 @@ public class FileBasedInputDataManagerTest {
     private Configuration mockConfigWithNoProperties() {
         Configuration config = EasyMock.createNiceMock(Configuration.class);
 
-        EasyMock.expect(config.hasSetting(EasyMock.anyString())).andReturn(false);
+        EasyMock.expect(config.hasParam(EasyMock.anyString())).andReturn(false);
         EasyMock.replay(config);
 
         return config;
@@ -95,7 +95,7 @@ public class FileBasedInputDataManagerTest {
     private Configuration mockConfigWithDataFolderProperty(Path dataFolder) {
         Configuration config = EasyMock.createNiceMock(Configuration.class);
 
-        EasyMock.expect(config.hasSetting(FileBasedInputDataManager.DATA_FOLDER_CONFIG_SETTING)).andReturn(true);
+        EasyMock.expect(config.hasParam(FileBasedInputDataManager.DATA_FOLDER_CONFIG_SETTING)).andReturn(true);
         EasyMock.expect(config.getString(FileBasedInputDataManager.DATA_FOLDER_CONFIG_SETTING)).andReturn(
                 dataFolder.toString());
         EasyMock.replay(config);

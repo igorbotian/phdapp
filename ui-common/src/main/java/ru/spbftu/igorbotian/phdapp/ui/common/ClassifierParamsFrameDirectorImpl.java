@@ -109,11 +109,11 @@ public class ClassifierParamsFrameDirectorImpl implements ClassifierParamsFrameD
     }
 
     private double get(String param, double defaultValue) {
-        return this.getValue(config::hasSetting, config::getDouble, config::setDouble, param, defaultValue);
+        return this.getValue(config::hasParam, config::getDouble, config::setDouble, param, defaultValue);
     }
 
     private int get(String param, int defaultValue) {
-        return this.getValue(config::hasSetting, config::getInt, config::setInt, param, defaultValue);
+        return this.getValue(config::hasParam, config::getInt, config::setInt, param, defaultValue);
     }
 
     private <T> T getValue(Function<String, Boolean> checker, Function<String, T> getter,
