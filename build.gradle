@@ -155,6 +155,7 @@ project(':main') {
                 project(':output-summary'),
                 project(':svm'),
                 project(':svm-analytics'),
+                project(':svm-interval'),
                 project(':ui'),
                 project(':ui-common'),
                 project(':ui-swing'),
@@ -215,6 +216,18 @@ project(':svm-analytics') {
         testCompile(
                 junit,
                 project(':common').sourceSets.test.output
+        )
+    }
+}
+
+project(':svm-interval') {
+    description 'SVM classification mechanism that supports interval data'
+
+    dependencies {
+        compile(
+                project(':common'),
+                project(':ioc'),
+                project(':svm')
         )
     }
 }
