@@ -26,6 +26,13 @@ import java.util.List;
 public interface MultiClassificationReport extends Report {
 
     /**
+     * Количество произведённых классификаций с различными значениями параметров
+     *
+     * @return целое положительное число
+     */
+    int numberOfClassifications();
+
+    /**
      * Среднее значение метрики <code>Accuracy</code>
      *
      * @return вещественное значение в диапазоне [0.0;1.0]
@@ -89,11 +96,18 @@ public interface MultiClassificationReport extends Report {
     float maxRecall();
 
     /**
-     * Количество произведённых классификаций с различными значениями параметров
+     * Получение значений параметров, при которых точность классификации является наихудшей среди заданных наборов параметров
      *
-     * @return целое положительное число
+     * @return отчёт по работе классификатора, в котором отражены значения параметров классификации
      */
-    int numberOfIterations();
+    SingleClassificationReport max();
+
+    /**
+     * Получение значений параметров, при которых точность классификации является наилучшей среди заданных наборов параметров
+     *
+     * @return отчёт по работе классификатора, в котором отражены значения параметров классификации
+     */
+    SingleClassificationReport min();
 
     /**
      * Множество отчётов с метриками по каждой произведённой классификации
@@ -101,5 +115,5 @@ public interface MultiClassificationReport extends Report {
      * @return список объектов типа <code>SingleClassificationReport</code>, отсортированный в порядке увеличения значений
      * изменяемых параметров
      */
-    List<SingleClassificationReport> iterationReports();
+    List<SingleClassificationReport> classifications();
 }

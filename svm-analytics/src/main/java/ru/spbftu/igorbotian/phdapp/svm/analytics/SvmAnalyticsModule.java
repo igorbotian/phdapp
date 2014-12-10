@@ -19,6 +19,7 @@
 package ru.spbftu.igorbotian.phdapp.svm.analytics;
 
 import ru.spbftu.igorbotian.phdapp.ioc.PhDAppModule;
+import ru.spbftu.igorbotian.phdapp.svm.analytics.report.ReportFactoryModule;
 
 /**
  * Модуль получения аналитической информации по результатам работы классификатора исходных данных
@@ -30,6 +31,7 @@ public class SvmAnalyticsModule extends PhDAppModule {
 
     @Override
     protected void configure() {
+        install(new ReportFactoryModule());
         bind(SampleGenerator.class, SampleGeneratorImpl.class);
     }
 }

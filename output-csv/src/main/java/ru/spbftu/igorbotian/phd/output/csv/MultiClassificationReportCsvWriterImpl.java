@@ -43,7 +43,7 @@ class MultiClassificationReportCSVWriterImpl implements MultiClassificationRepor
     private static final String AVERAGE_RECALL_LABEL = "averageRecall";
     private static final String MIN_RECALL_LABEL = "minRecall";
     private static final String MAX_RECALL_LABEL = "maxRecall";
-    private static final String NUMBER_OF_ITERATIONS_LABEL = "numberOfIterations";
+    private static final String NUMBER_OF_ITERATIONS_LABEL = "numberOfClassifications";
 
     private final Localization localization;
     private final SingleClassificationReportCSVWriter singleReportWriter;
@@ -99,10 +99,10 @@ class MultiClassificationReportCSVWriterImpl implements MultiClassificationRepor
                 Float.toString(report.averageRecall()),
                 Float.toString(report.minRecall()),
                 Float.toString(report.maxRecall()),
-                Integer.toString(report.numberOfIterations())
+                Integer.toString(report.numberOfClassifications())
         );
 
-        for (SingleClassificationReport iterationReport : report.iterationReports()) {
+        for (SingleClassificationReport iterationReport : report.classifications()) {
             singleReportWriter.writeTo(iterationReport, writer, false);
         }
     }

@@ -42,7 +42,7 @@ class MultiClassificationReportSummaryWriterImpl implements MultiClassificationR
     private static final String AVERAGE_RECALL_LABEL = "averageRecall";
     private static final String MIN_RECALL_LABEL = "minRecall";
     private static final String MAX_RECALL_LABEL = "maxRecall";
-    private static final String NUMBER_OF_ITERATIONS_LABEL = "numberOfIterations";
+    private static final String NUMBER_OF_ITERATIONS_LABEL = "numberOfClassifications";
 
     private final Localization localization;
 
@@ -66,6 +66,6 @@ class MultiClassificationReportSummaryWriterImpl implements MultiClassificationR
         summary.writeItem(localization.getLabel(AVERAGE_RECALL_LABEL), report.averageRecall());
         summary.writeItem(localization.getLabel(MIN_RECALL_LABEL), report.minRecall());
         summary.writeItem(localization.getLabel(MAX_RECALL_LABEL), report.maxRecall());
-        summary.writeItem(localization.getLabel(NUMBER_OF_ITERATIONS_LABEL), report.numberOfIterations());
+        summary.writeItem(localization.getLabel(NUMBER_OF_ITERATIONS_LABEL), report.numberOfClassifications());
     }
 }
