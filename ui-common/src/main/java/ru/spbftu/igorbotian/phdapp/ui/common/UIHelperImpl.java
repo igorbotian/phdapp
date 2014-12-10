@@ -24,7 +24,7 @@ import ru.spbftu.igorbotian.phd.output.csv.MultiClassificationReportCSVWriter;
 import ru.spbftu.igorbotian.phd.output.csv.SingleClassificationReportCSVWriter;
 import ru.spbftu.igorbotian.phd.output.summary.MultiClassificationReportSummaryWriter;
 import ru.spbftu.igorbotian.phd.output.summary.SingleClassificationReportSummaryWriter;
-import ru.spbftu.igorbotian.phdapp.conf.Configuration;
+import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
 import ru.spbftu.igorbotian.phdapp.svm.analytics.SampleGenerator;
 
@@ -46,7 +46,7 @@ class UIHelperImpl implements UIHelper {
 
     @Inject
     public UIHelperImpl(Localization localization,
-                        Configuration configuration,
+                        ApplicationConfiguration configuration,
                         SampleGenerator sampleGenerator,
                         SingleClassificationReportSummaryWriter singleClassificationReportSummaryWriter,
                         SingleClassificationReportCSVWriter singleClassificationReportCSVWriter,

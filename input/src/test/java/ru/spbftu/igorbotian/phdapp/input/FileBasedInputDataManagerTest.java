@@ -23,7 +23,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import ru.spbftu.igorbotian.phdapp.common.DataException;
 import ru.spbftu.igorbotian.phdapp.common.PointwiseInputData;
-import ru.spbftu.igorbotian.phdapp.conf.Configuration;
+import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -69,7 +69,7 @@ public class FileBasedInputDataManagerTest {
         testDefaultInputDataFolder(mockConfigWithNoProperties(), dataFolder);
     }
 
-    private void testDefaultInputDataFolder(Configuration config, Path expectedDataFolder)
+    private void testDefaultInputDataFolder(ApplicationConfiguration config, Path expectedDataFolder)
             throws IOException {
 
         FileBasedInputDataManager instance = new InputDataManagerImpl(config);
@@ -83,8 +83,8 @@ public class FileBasedInputDataManagerTest {
         }
     }
 
-    private Configuration mockConfigWithNoProperties() {
-        Configuration config = EasyMock.createNiceMock(Configuration.class);
+    private ApplicationConfiguration mockConfigWithNoProperties() {
+        ApplicationConfiguration config = EasyMock.createNiceMock(ApplicationConfiguration.class);
 
         EasyMock.expect(config.hasParam(EasyMock.anyString())).andReturn(false);
         EasyMock.replay(config);
@@ -92,8 +92,8 @@ public class FileBasedInputDataManagerTest {
         return config;
     }
 
-    private Configuration mockConfigWithDataFolderProperty(Path dataFolder) {
-        Configuration config = EasyMock.createNiceMock(Configuration.class);
+    private ApplicationConfiguration mockConfigWithDataFolderProperty(Path dataFolder) {
+        ApplicationConfiguration config = EasyMock.createNiceMock(ApplicationConfiguration.class);
 
         EasyMock.expect(config.hasParam(FileBasedInputDataManager.DATA_FOLDER_CONFIG_SETTING)).andReturn(true);
         EasyMock.expect(config.getString(FileBasedInputDataManager.DATA_FOLDER_CONFIG_SETTING)).andReturn(
@@ -105,7 +105,7 @@ public class FileBasedInputDataManagerTest {
 
     private class InputDataManagerImpl extends FileBasedInputDataManager {
 
-        private InputDataManagerImpl(Configuration config) {
+        private InputDataManagerImpl(ApplicationConfiguration config) {
             super(config, "any");
         }
 

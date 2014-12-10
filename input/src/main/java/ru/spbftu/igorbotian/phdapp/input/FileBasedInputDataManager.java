@@ -21,7 +21,7 @@ package ru.spbftu.igorbotian.phdapp.input;
 import org.apache.commons.lang3.StringUtils;
 import ru.spbftu.igorbotian.phdapp.common.DataException;
 import ru.spbftu.igorbotian.phdapp.common.PointwiseInputData;
-import ru.spbftu.igorbotian.phdapp.conf.Configuration;
+import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 import ru.spbftu.igorbotian.phdapp.utils.ShutdownHook;
 
 import javax.inject.Inject;
@@ -61,7 +61,7 @@ public abstract class FileBasedInputDataManager implements InputDataManager, Shu
     /**
      * Средства конфигурации приложения
      */
-    private final Configuration config;
+    private final ApplicationConfiguration config;
 
     /**
      * Разрешение файлов, содержащих исходные данные поддерживаемого формата
@@ -74,7 +74,7 @@ public abstract class FileBasedInputDataManager implements InputDataManager, Shu
     private Path dataFolder;
 
     @Inject
-    public FileBasedInputDataManager(Configuration config, String fileExtension) {
+    public FileBasedInputDataManager(ApplicationConfiguration config, String fileExtension) {
         Objects.requireNonNull(config);
         Objects.requireNonNull(fileExtension);
 

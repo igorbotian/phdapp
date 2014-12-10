@@ -49,16 +49,15 @@ project(':conf') {
     }
 }
 
-project(':conf-properties') {
-    description '.properties file-based configuration implementation module'
+project(':conf-app') {
+    description 'PhD application configuration implementation module'
 
     dependencies {
         compile(
                 project(':conf'),
+                project(':conf-properties'),
                 project(':ioc'),
-                gson,
                 googleGuice,
-                commonsLang,
                 log4j
         )
     }
@@ -70,7 +69,7 @@ project(':input') {
     dependencies {
         compile(
                 project(':common'),
-                project(':conf'),
+                project(':conf-app'),
                 project(':utils'),
                 commonsLang
         )
@@ -87,9 +86,9 @@ project(':input-json') {
 
     dependencies {
         compile(
+                project(':conf-app'),
                 project(':input'),
                 project(':ioc'),
-                project(':conf'),
                 gson,
                 googleGuice,
                 commonsLang,
@@ -147,7 +146,7 @@ project(':main') {
 
     dependencies {
         compile(
-                project(':conf-properties'),
+                project(':conf-app'),
                 project(':input-json'),
                 project(':locale-java-i18n'),
                 project(':log-log4j'),
@@ -208,7 +207,7 @@ project(':svm-analytics') {
     dependencies {
         compile(
                 project(':common'),
-                project(':conf'),
+                project(':conf-app'),
                 project(':input'),
                 project(':svm')
         )

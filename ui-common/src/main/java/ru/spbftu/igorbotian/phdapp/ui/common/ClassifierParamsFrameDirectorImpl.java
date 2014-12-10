@@ -19,7 +19,7 @@
 package ru.spbftu.igorbotian.phdapp.ui.common;
 
 import ru.spbftu.igorbotian.phdapp.common.Range;
-import ru.spbftu.igorbotian.phdapp.conf.Configuration;
+import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 
 import java.util.Objects;
 import java.util.function.BiConsumer;
@@ -102,9 +102,9 @@ public class ClassifierParamsFrameDirectorImpl implements ClassifierParamsFrameD
     private final int PRECISE_INTERVAL_JUDGEMENTS_RATIO_MIN = 0;
     private final int PRECISE_INTERVAL_JUDGEMENTS_RATIO_MAX = 100;
 
-    private final Configuration config;
+    private final ApplicationConfiguration config;
 
-    public ClassifierParamsFrameDirectorImpl(Configuration config) {
+    public ClassifierParamsFrameDirectorImpl(ApplicationConfiguration config) {
         this.config = Objects.requireNonNull(config);
     }
 
@@ -118,7 +118,7 @@ public class ClassifierParamsFrameDirectorImpl implements ClassifierParamsFrameD
 
     private <T> T getValue(Function<String, Boolean> checker, Function<String, T> getter,
                            BiConsumer<String, T> setter, String param, T defaultValue) {
-        if(checker.apply(param)) {
+        if (checker.apply(param)) {
             return getter.apply(param);
         }
 

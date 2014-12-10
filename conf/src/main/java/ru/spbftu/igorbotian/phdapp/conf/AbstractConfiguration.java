@@ -2,10 +2,7 @@ package ru.spbftu.igorbotian.phdapp.conf;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import ru.spbftu.igorbotian.phdapp.utils.ShutdownHook;
 
-import java.io.IOException;
-import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -17,7 +14,7 @@ import java.util.function.Function;
  *
  * @see ru.spbftu.igorbotian.phdapp.conf.Configuration
  */
-public abstract class AbstractConfiguration implements Configuration, ShutdownHook {
+public abstract class AbstractConfiguration implements Configuration {
 
     private final Logger LOGGER = Logger.getLogger(AbstractConfiguration.class);
 
@@ -32,25 +29,12 @@ public abstract class AbstractConfiguration implements Configuration, ShutdownHo
      */
     private boolean configChanged;
 
-    public AbstractConfiguration() {
-        loadConfiguration();
+    /**
+     * Удаление всех настроек конфигурации
+     */
+    protected void clear() {
+        config.clear();
     }
-
-    /**
-     * Физическая загрузка конфигурационных значений
-     *
-     * @return ассоциативный массив, хранящий конфигурационный значения в строковом виде
-     * @throws IOException в случае проблемы физической загрузки конфигурации
-     */
-    protected abstract Map<String, String> load() throws IOException;
-
-    /**
-     * Физическое сохранение конфигурационных значений
-     *
-     * @param configParams ассоциативный массив, хранящий конфигурационный значения в строковом виде
-     * @throws IOException в случае проблемы физического сохранения конфигурации
-     */
-    protected abstract void store(Map<String, String> configParams) throws IOException;
 
     /**
      * Получение информации о том, была ли изменена конфигурация приложения
@@ -68,31 +52,6 @@ public abstract class AbstractConfiguration implements Configuration, ShutdownHo
         if (!configChanged) {
             configChanged = true;
             LOGGER.debug("Configuration changed");
-        }
-    }
-
-    private void loadConfiguration() {
-        LOGGER.debug("Loading configuration");
-
-        try {
-            config.clear();
-            config.putAll(load());
-            LOGGER.debug("Configuration successfully loaded");
-        } catch (IOException e) {
-            LOGGER.error("Unable to load configuration", e);
-        }
-    }
-
-    private void storeConfiguration() {
-        LOGGER.debug("Storing configuration");
-
-        if (configChanged()) {
-            try {
-                store(config);
-                LOGGER.debug("Configuration successfully stored");
-            } catch (IOException e) {
-                LOGGER.error("Failed to store configuration", e);
-            }
         }
     }
 
@@ -132,11 +91,6 @@ public abstract class AbstractConfiguration implements Configuration, ShutdownHo
         }
 
         return (value == null) ? null : parser.apply(value);
-    }
-
-    @Override
-    public void onExit() {
-        storeConfiguration();
     }
 
     @Override

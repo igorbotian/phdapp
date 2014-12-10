@@ -25,7 +25,7 @@ import org.junit.Test;
 import ru.spbftu.igorbotian.phdapp.common.*;
 import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
 import ru.spbftu.igorbotian.phdapp.common.impl.InputDataFactory;
-import ru.spbftu.igorbotian.phdapp.conf.Configuration;
+import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -75,8 +75,8 @@ public class JsonInputDataManagerTest {
         data = InputDataFactory.newPointwiseData(classes, trainingSet, testingSet);
     }
 
-    private Configuration mockConfigWithNoProperties() {
-        Configuration config = EasyMock.createNiceMock(Configuration.class);
+    private ApplicationConfiguration mockConfigWithNoProperties() {
+        ApplicationConfiguration config = EasyMock.createNiceMock(ApplicationConfiguration.class);
 
         EasyMock.expect(config.hasParam(EasyMock.anyString())).andReturn(false);
         EasyMock.replay(config);
