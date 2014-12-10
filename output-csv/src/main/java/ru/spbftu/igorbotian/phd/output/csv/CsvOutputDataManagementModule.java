@@ -23,14 +23,14 @@ import ru.spbftu.igorbotian.phdapp.ioc.PhDAppModule;
 /**
  * Модуль для сохранения отчётов по работе классификатора в формате CSV
  *
- * @see ru.spbftu.igorbotian.phd.output.csv.SingleIterationReportCsvWriter
- * @see ru.spbftu.igorbotian.phd.output.csv.MultiIterationReportCsvWriter
+ * @see SingleClassificationReportCSVWriter
+ * @see MultiClassificationReportCSVWriter
  */
 public class CsvOutputDataManagementModule extends PhDAppModule {
 
     @Override
     protected void configure() {
-        bind(SingleIterationReportCsvWriter.class).to(SingleIterationReportCsvWriterImpl.class);
-        bind(MultiIterationReportCsvWriter.class).to(MultiIterationReportCsvWriterImpl.class);
+        bind(SingleClassificationReportCSVWriter.class).to(SingleClassificationReportCSVWriterImpl.class);
+        bind(MultiClassificationReportCSVWriter.class).to(MultiClassificationReportCSVWriterImpl.class);
     }
 }

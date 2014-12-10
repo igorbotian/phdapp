@@ -23,14 +23,14 @@ import ru.spbftu.igorbotian.phdapp.ioc.PhDAppModule;
 /**
  * Модуль для сохранения отчётов по работе классификатора в виде сводки
  *
- * @see ru.spbftu.igorbotian.phd.output.summary.SingleIterationReportSummaryWriter
- * @see ru.spbftu.igorbotian.phd.output.summary.MultiIterationReportSummaryWriter
+ * @see SingleClassificationReportSummaryWriter
+ * @see MultiClassificationReportSummaryWriter
  */
 public class SummaryOutputDataManagementModule extends PhDAppModule {
 
     @Override
     protected void configure() {
-        bind(SingleIterationReportSummaryWriter.class).to(SingleIterationReportSummaryWriterImpl.class);
-        bind(MultiIterationReportSummaryWriter.class).to(MultiIterationReportSummaryWriterImpl.class);
+        bind(SingleClassificationReportSummaryWriter.class).to(SingleClassificationReportSummaryWriterImpl.class);
+        bind(MultiClassificationReportSummaryWriter.class).to(MultiClassificationReportSummaryWriterImpl.class);
     }
 }

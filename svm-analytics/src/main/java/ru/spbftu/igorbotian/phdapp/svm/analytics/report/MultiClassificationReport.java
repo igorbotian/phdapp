@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * Отчёт, содержащий метрики по работе классификатора для различных заданных параметров
  */
-public interface MultiIterationReport extends Report {
+public interface MultiClassificationReport extends Report {
 
     /**
      * Среднее значение метрики <code>Accuracy</code>
@@ -98,8 +98,8 @@ public interface MultiIterationReport extends Report {
     /**
      * Множество отчётов с метриками по каждой произведённой классификации
      *
-     * @return список объектов типа <code>SingleIterationReport</code>, отсортированный в порядке увеличения значений
+     * @return список объектов типа <code>SingleClassificationReport</code>, отсортированный в порядке увеличения значений
      * изменяемых параметров
      */
-    List<SingleIterationReport> iterationReports();
+    List<SingleClassificationReport> iterationReports();
 }

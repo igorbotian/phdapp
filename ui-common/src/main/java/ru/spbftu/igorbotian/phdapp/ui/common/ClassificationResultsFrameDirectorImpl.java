@@ -19,12 +19,12 @@
 package ru.spbftu.igorbotian.phdapp.ui.common;
 
 import org.apache.log4j.Logger;
-import ru.spbftu.igorbotian.phd.output.csv.MultiIterationReportCsvWriter;
-import ru.spbftu.igorbotian.phd.output.csv.SingleIterationReportCsvWriter;
-import ru.spbftu.igorbotian.phd.output.summary.MultiIterationReportSummaryWriter;
-import ru.spbftu.igorbotian.phd.output.summary.SingleIterationReportSummaryWriter;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.report.MultiIterationReport;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleIterationReport;
+import ru.spbftu.igorbotian.phd.output.csv.MultiClassificationReportCSVWriter;
+import ru.spbftu.igorbotian.phd.output.csv.SingleClassificationReportCSVWriter;
+import ru.spbftu.igorbotian.phd.output.summary.MultiClassificationReportSummaryWriter;
+import ru.spbftu.igorbotian.phd.output.summary.SingleClassificationReportSummaryWriter;
+import ru.spbftu.igorbotian.phdapp.svm.analytics.report.MultiClassificationReport;
+import ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleClassificationReport;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -45,27 +45,27 @@ class ClassificationResultsFrameDirectorImpl implements ClassificationResultsFra
 
     private final Logger LOGGER = Logger.getLogger(ClassificationResultsFrameDirectorImpl.class);
 
-    private final SingleIterationReportSummaryWriter singleIterationReportSummaryWriter;
-    private final MultiIterationReportSummaryWriter multiIterationReportSummaryWriter;
-    private final SingleIterationReportCsvWriter singleIterationReportCsvWriter;
-    private final MultiIterationReportCsvWriter multiIterationReportCsvWriter;
+    private final SingleClassificationReportSummaryWriter singleClassificationReportSummaryWriter;
+    private final MultiClassificationReportSummaryWriter multiClassificationReportSummaryWriter;
+    private final SingleClassificationReportCSVWriter singleClassificationReportCSVWriter;
+    private final MultiClassificationReportCSVWriter multiClassificationReportCSVWriter;
 
-    public ClassificationResultsFrameDirectorImpl(SingleIterationReportSummaryWriter singleIterationReportSummaryWriter,
-                                           MultiIterationReportSummaryWriter multiIterationReportSummaryWriter,
-                                           SingleIterationReportCsvWriter singleIterationReportCsvWriter,
-                                           MultiIterationReportCsvWriter multiIterationReportCsvWriter) {
+    public ClassificationResultsFrameDirectorImpl(SingleClassificationReportSummaryWriter singleClassificationReportSummaryWriter,
+                                           MultiClassificationReportSummaryWriter multiClassificationReportSummaryWriter,
+                                           SingleClassificationReportCSVWriter singleClassificationReportCSVWriter,
+                                           MultiClassificationReportCSVWriter multiClassificationReportCSVWriter) {
 
-        this.singleIterationReportSummaryWriter = Objects.requireNonNull(singleIterationReportSummaryWriter);
-        this.multiIterationReportSummaryWriter = Objects.requireNonNull(multiIterationReportSummaryWriter);
-        this.singleIterationReportCsvWriter = Objects.requireNonNull(singleIterationReportCsvWriter);
-        this.multiIterationReportCsvWriter = Objects.requireNonNull(multiIterationReportCsvWriter);
+        this.singleClassificationReportSummaryWriter = Objects.requireNonNull(singleClassificationReportSummaryWriter);
+        this.multiClassificationReportSummaryWriter = Objects.requireNonNull(multiClassificationReportSummaryWriter);
+        this.singleClassificationReportCSVWriter = Objects.requireNonNull(singleClassificationReportCSVWriter);
+        this.multiClassificationReportCSVWriter = Objects.requireNonNull(multiClassificationReportCSVWriter);
     }
 
     @Override
-    public List<String> getReportSummary(SingleIterationReport report) {
+    public List<String> getReportSummary(SingleClassificationReport report) {
         try {
             StringWriter writer = new StringWriter();
-            singleIterationReportSummaryWriter.writeTo(report, new PrintWriter(writer));
+            singleClassificationReportSummaryWriter.writeTo(report, new PrintWriter(writer));
             return divideByLines(writer.toString());
         } catch (IOException e) {
             LOGGER.error("Unable to obtain report summary", e);
@@ -75,10 +75,10 @@ class ClassificationResultsFrameDirectorImpl implements ClassificationResultsFra
     }
 
     @Override
-    public List<String> getReportSummary(MultiIterationReport report) {
+    public List<String> getReportSummary(MultiClassificationReport report) {
         try {
             StringWriter writer = new StringWriter();
-            multiIterationReportSummaryWriter.writeTo(report, new PrintWriter(writer));
+            multiClassificationReportSummaryWriter.writeTo(report, new PrintWriter(writer));
             return divideByLines(writer.toString());
         } catch (IOException e) {
             LOGGER.error("Unable to obtain report summary", e);
@@ -99,14 +99,14 @@ class ClassificationResultsFrameDirectorImpl implements ClassificationResultsFra
     }
 
     @Override
-    public void exportReportToCSV(SingleIterationReport report, Path file) throws IOException {
+    public void exportReportToCSV(SingleClassificationReport report, Path file) throws IOException {
         PrintWriter writer = new PrintWriter(new FileWriter(file.toFile(), false));
-        singleIterationReportCsvWriter.writeTo(report, writer, true);
+        singleClassificationReportCSVWriter.writeTo(report, writer, true);
     }
 
     @Override
-    public void exportReportToCSV(MultiIterationReport report, Path file) throws IOException {
+    public void exportReportToCSV(MultiClassificationReport report, Path file) throws IOException {
         PrintWriter writer = new PrintWriter(new FileWriter(file.toFile(), false));
-        multiIterationReportCsvWriter.writeTo(report, writer, true);
+        multiClassificationReportCSVWriter.writeTo(report, writer, true);
     }
 }

@@ -20,18 +20,18 @@ package ru.spbftu.igorbotian.phd.output.csv;
 
 import com.google.inject.Inject;
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleIterationReport;
+import ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleClassificationReport;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Objects;
 
 /**
- * Реализация интерфейса <code>SingleIterationReportCsvWriter</code>
+ * Реализация интерфейса <code>SingleClassificationReportCSVWriter</code>
  *
- * @see ru.spbftu.igorbotian.phd.output.csv.SingleIterationReportCsvWriter
+ * @see SingleClassificationReportCSVWriter
  */
-class SingleIterationReportCsvWriterImpl implements SingleIterationReportCsvWriter {
+class SingleClassificationReportCSVWriterImpl implements SingleClassificationReportCSVWriter {
 
     private static final String SAMPLE_SIZE_LABEL = "sampleSize";
     private static final String CONSTANT_COST_PARAMETER_LABEL = "cParameter";
@@ -45,16 +45,16 @@ class SingleIterationReportCsvWriterImpl implements SingleIterationReportCsvWrit
     private final Localization localization;
 
     @Inject
-    public SingleIterationReportCsvWriterImpl(Localization localization) {
+    public SingleClassificationReportCSVWriterImpl(Localization localization) {
         this.localization = Objects.requireNonNull(localization);
     }
 
     @Override
-    public void writeTo(SingleIterationReport report, PrintWriter writer, boolean includeHeader) throws IOException {
+    public void writeTo(SingleClassificationReport report, PrintWriter writer, boolean includeHeader) throws IOException {
         Objects.requireNonNull(report);
         Objects.requireNonNull(writer);
 
-        CsvWriter csv = new CsvWriter(writer);
+        CSVWriter csv = new CSVWriter(writer);
 
         if (includeHeader) {
             writeHeaderTo(csv);
@@ -63,7 +63,7 @@ class SingleIterationReportCsvWriterImpl implements SingleIterationReportCsvWrit
         writeContentsTo(report, csv);
     }
 
-    private void writeHeaderTo(CsvWriter csv) throws IOException {
+    private void writeHeaderTo(CSVWriter csv) throws IOException {
         csv.writeLine(localization.getLabel(SAMPLE_SIZE_LABEL),
                 localization.getLabel(CONSTANT_COST_PARAMETER_LABEL),
                 localization.getLabel(GAUSSIAN_KERNEL_PARAMETER_LABEL),
@@ -75,7 +75,7 @@ class SingleIterationReportCsvWriterImpl implements SingleIterationReportCsvWrit
         );
     }
 
-    private void writeContentsTo(SingleIterationReport report, CsvWriter csv) throws IOException {
+    private void writeContentsTo(SingleClassificationReport report, CSVWriter csv) throws IOException {
         csv.writeLine(
                 Integer.toString(report.sampleSize()),
                 Float.toString(report.constantCostParameter()),

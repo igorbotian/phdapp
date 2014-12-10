@@ -47,7 +47,7 @@ public final class Reports {
      * @return отчёт заданного типа
      * @throws java.lang.IllegalArgumentException если значение хотя бы одного параметра выходит за пределы допустимых значений
      */
-    public static SingleIterationReport newSingleIterationReport(final int sampleSize,
+    public static SingleClassificationReport newSingleIterationReport(final int sampleSize,
                                                                  final float constantCostParameter,
                                                                  final float gaussianKernelParameter,
                                                                  final float judgedSampleItemsRatio,
@@ -55,7 +55,7 @@ public final class Reports {
                                                                  final float accuracy,
                                                                  final float precision,
                                                                  final float recall) {
-        return new SingleIterationReport() {
+        return new SingleClassificationReport() {
 
             @Override
             public float accuracy() {
@@ -115,7 +115,7 @@ public final class Reports {
      * @throws java.lang.NullPointerException если список отчётов не задан
      * @throws java.lang.IllegalArgumentException если список отчётов пустой
      */
-    public static MultiIterationReport newMultiIterationReport(List<SingleIterationReport> iterationReports) {
+    public static MultiClassificationReport newMultiIterationReport(List<SingleClassificationReport> iterationReports) {
         Objects.requireNonNull(iterationReports);
 
         if(iterationReports.isEmpty()) {
@@ -133,7 +133,7 @@ public final class Reports {
         float minRecall = 1.0f;
         float maxRecall = 0.0f;
 
-        for (SingleIterationReport report : iterationReports) {
+        for (SingleClassificationReport report : iterationReports) {
             accuracySum += report.accuracy();
 
             if (report.accuracy() > maxAccuracy) {
@@ -171,7 +171,7 @@ public final class Reports {
                 iterationReports);
     }
 
-    private static MultiIterationReport newMultiIterationReport(final float avgAccuracy,
+    private static MultiClassificationReport newMultiIterationReport(final float avgAccuracy,
                                                                 final float minAccuracy,
                                                                 final float maxAccuracy,
                                                                 final float avgPrecision,
@@ -180,8 +180,8 @@ public final class Reports {
                                                                 final float avgRecall,
                                                                 final float minRecall,
                                                                 final float maxRecall,
-                                                                final List<SingleIterationReport> iterationReports) {
-        return new MultiIterationReport() {
+                                                                final List<SingleClassificationReport> iterationReports) {
+        return new MultiClassificationReport() {
             @Override
             public float averageAccuracy() {
                 return avgAccuracy;
@@ -233,7 +233,7 @@ public final class Reports {
             }
 
             @Override
-            public List<SingleIterationReport> iterationReports() {
+            public List<SingleClassificationReport> iterationReports() {
                 return Collections.unmodifiableList(iterationReports);
             }
         };

@@ -3,7 +3,7 @@ package ru.spbftu.igorbotian.phdapp.svm.analytics.report;
 /**
  * Отчёт, содержащий метрики по работе классификатора с заданными параметрами
  */
-public interface SingleIterationReport extends Report {
+public interface SingleClassificationReport extends Report {
 
     /**
      * Получение количества элементов в выборке (уникальные элементы из обучающей и тестирующей выборки)

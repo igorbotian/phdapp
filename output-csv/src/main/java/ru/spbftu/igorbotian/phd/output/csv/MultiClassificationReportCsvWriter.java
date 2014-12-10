@@ -18,7 +18,7 @@
 
 package ru.spbftu.igorbotian.phd.output.csv;
 
-import ru.spbftu.igorbotian.phdapp.svm.analytics.report.MultiIterationReport;
+import ru.spbftu.igorbotian.phdapp.svm.analytics.report.MultiClassificationReport;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -26,10 +26,10 @@ import java.io.PrintWriter;
 /**
  * Средство сохранения отчёта по работе классификатора с заданными параметрами в формате CSV
  *
- * @see ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleIterationReport
- * @see ru.spbftu.igorbotian.phd.output.csv.CsvWriter
+ * @see ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleClassificationReport
+ * @see CSVWriter
  */
-public interface MultiIterationReportCsvWriter {
+public interface MultiClassificationReportCSVWriter {
 
     /**
      * Сохрание заданного отчёта по работе классификатора в указанный символьный поток
@@ -41,5 +41,5 @@ public interface MultiIterationReportCsvWriter {
      * @throws java.io.IOException            в случае ошибки ввода/вывода при сохранении отчёта в поток
      * @throws java.lang.NullPointerException если хотя бы один из аргументов не задан
      */
-    void writeTo(MultiIterationReport report, PrintWriter writer, boolean includeHeader) throws IOException;
+    void writeTo(MultiClassificationReport report, PrintWriter writer, boolean includeHeader) throws IOException;
 }

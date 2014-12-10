@@ -20,18 +20,18 @@ package ru.spbftu.igorbotian.phd.output.summary;
 
 import com.google.inject.Inject;
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleIterationReport;
+import ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleClassificationReport;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Objects;
 
 /**
- * Реализация класса <code>SingleIterationReportSummaryWriter</code>
+ * Реализация класса <code>SingleClassificationReportSummaryWriter</code>
  *
- * @see ru.spbftu.igorbotian.phd.output.summary.SingleIterationReportSummaryWriter
+ * @see SingleClassificationReportSummaryWriter
  */
-class SingleIterationReportSummaryWriterImpl implements SingleIterationReportSummaryWriter {
+class SingleClassificationReportSummaryWriterImpl implements SingleClassificationReportSummaryWriter {
 
     private static final String SAMPLE_SIZE_LABEL = "sampleSize";
     private static final String CONSTANT_COST_PARAMETER_LABEL = "cParameter";
@@ -45,12 +45,12 @@ class SingleIterationReportSummaryWriterImpl implements SingleIterationReportSum
     private final Localization localization;
 
     @Inject
-    public SingleIterationReportSummaryWriterImpl(Localization localization) {
+    public SingleClassificationReportSummaryWriterImpl(Localization localization) {
         this.localization = Objects.requireNonNull(localization);
     }
 
     @Override
-    public void writeTo(SingleIterationReport report, PrintWriter writer) throws IOException {
+    public void writeTo(SingleClassificationReport report, PrintWriter writer) throws IOException {
         Objects.requireNonNull(report);
         Objects.requireNonNull(writer);
 

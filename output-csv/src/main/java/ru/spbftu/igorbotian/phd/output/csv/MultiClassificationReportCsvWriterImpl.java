@@ -20,8 +20,8 @@ package ru.spbftu.igorbotian.phd.output.csv;
 
 import com.google.inject.Inject;
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.report.MultiIterationReport;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleIterationReport;
+import ru.spbftu.igorbotian.phdapp.svm.analytics.report.MultiClassificationReport;
+import ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleClassificationReport;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -30,9 +30,9 @@ import java.util.Objects;
 /**
  * Реализация класса <code>MultiIterationReportCsv</code>
  *
- * @see ru.spbftu.igorbotian.phd.output.csv.MultiIterationReportCsvWriter
+ * @see MultiClassificationReportCSVWriter
  */
-class MultiIterationReportCsvWriterImpl implements MultiIterationReportCsvWriter {
+class MultiClassificationReportCSVWriterImpl implements MultiClassificationReportCSVWriter {
 
     private static final String AVERAGE_ACCURACY_LABEL = "averageAccuracy";
     private static final String MIN_ACCURACY_LABEL = "minAccuracy";
@@ -46,20 +46,20 @@ class MultiIterationReportCsvWriterImpl implements MultiIterationReportCsvWriter
     private static final String NUMBER_OF_ITERATIONS_LABEL = "numberOfIterations";
 
     private final Localization localization;
-    private final SingleIterationReportCsvWriter singleReportWriter;
+    private final SingleClassificationReportCSVWriter singleReportWriter;
 
     @Inject
-    public MultiIterationReportCsvWriterImpl(Localization localization, SingleIterationReportCsvWriter writer) {
+    public MultiClassificationReportCSVWriterImpl(Localization localization, SingleClassificationReportCSVWriter writer) {
         this.localization = Objects.requireNonNull(localization);
         this.singleReportWriter = Objects.requireNonNull(writer);
     }
 
     @Override
-    public void writeTo(MultiIterationReport report, PrintWriter writer, boolean includeHeader) throws IOException {
+    public void writeTo(MultiClassificationReport report, PrintWriter writer, boolean includeHeader) throws IOException {
         Objects.requireNonNull(report);
         Objects.requireNonNull(writer);
 
-        CsvWriter csv = new CsvWriter(writer);
+        CSVWriter csv = new CSVWriter(writer);
 
         if (includeHeader) {
             writeHeaderTo(csv);
@@ -68,7 +68,7 @@ class MultiIterationReportCsvWriterImpl implements MultiIterationReportCsvWriter
         writeContentsTo(report, csv);
     }
 
-    private void writeHeaderTo(CsvWriter writer) throws IOException {
+    private void writeHeaderTo(CSVWriter writer) throws IOException {
         assert (writer != null);
 
         writer.writeLine(
@@ -85,7 +85,7 @@ class MultiIterationReportCsvWriterImpl implements MultiIterationReportCsvWriter
         );
     }
 
-    private void writeContentsTo(MultiIterationReport report, CsvWriter writer) throws IOException {
+    private void writeContentsTo(MultiClassificationReport report, CSVWriter writer) throws IOException {
         assert (report != null);
         assert (writer != null);
 
@@ -102,7 +102,7 @@ class MultiIterationReportCsvWriterImpl implements MultiIterationReportCsvWriter
                 Integer.toString(report.numberOfIterations())
         );
 
-        for (SingleIterationReport iterationReport : report.iterationReports()) {
+        for (SingleClassificationReport iterationReport : report.iterationReports()) {
             singleReportWriter.writeTo(iterationReport, writer, false);
         }
     }

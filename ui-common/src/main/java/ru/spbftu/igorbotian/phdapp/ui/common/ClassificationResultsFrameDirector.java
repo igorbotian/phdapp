@@ -18,8 +18,8 @@
 
 package ru.spbftu.igorbotian.phdapp.ui.common;
 
-import ru.spbftu.igorbotian.phdapp.svm.analytics.report.MultiIterationReport;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleIterationReport;
+import ru.spbftu.igorbotian.phdapp.svm.analytics.report.MultiClassificationReport;
+import ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleClassificationReport;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -33,20 +33,20 @@ public interface ClassificationResultsFrameDirector {
     /**
      * Получение строк резюме для указанных результатов классиикации
      */
-    public List<String> getReportSummary(SingleIterationReport report);
+    public List<String> getReportSummary(SingleClassificationReport report);
 
     /**
      * Получение строк резюме для указанных результатов классиикации
      */
-    public List<String> getReportSummary(MultiIterationReport report);
+    public List<String> getReportSummary(MultiClassificationReport report);
 
     /**
      * Сохранение указанных результатов классификации в заданный файл
      */
-    public void exportReportToCSV(SingleIterationReport report, Path file) throws IOException;
+    public void exportReportToCSV(SingleClassificationReport report, Path file) throws IOException;
 
     /**
      * Сохранение указанных результатов классификации в заданный файл
      */
-    public void exportReportToCSV(MultiIterationReport report, Path file) throws IOException;
+    public void exportReportToCSV(MultiClassificationReport report, Path file) throws IOException;
 }

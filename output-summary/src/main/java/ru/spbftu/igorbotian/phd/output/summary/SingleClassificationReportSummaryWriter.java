@@ -18,7 +18,7 @@
 
 package ru.spbftu.igorbotian.phd.output.summary;
 
-import ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleIterationReport;
+import ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleClassificationReport;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -26,10 +26,10 @@ import java.io.PrintWriter;
 /**
  * Средство сохранения сводки по отчёту по работе классификатора с заданными параметрами в формате сводки
  *
- * @see ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleIterationReport
+ * @see ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleClassificationReport
  * @see ru.spbftu.igorbotian.phd.output.summary.SummaryWriter
  */
-public interface SingleIterationReportSummaryWriter {
+public interface SingleClassificationReportSummaryWriter {
 
     /**
      * Сохрание сводки по заданному отчёту по работе классификатора в указанный символьный поток
@@ -39,5 +39,5 @@ public interface SingleIterationReportSummaryWriter {
      * @throws java.io.IOException            в случае ошибки ввода/вывода при сохранении отчёта в поток
      * @throws java.lang.NullPointerException если хотя бы один из аргументов не задан
      */
-    void writeTo(SingleIterationReport report, PrintWriter writer) throws IOException;
+    void writeTo(SingleClassificationReport report, PrintWriter writer) throws IOException;
 }

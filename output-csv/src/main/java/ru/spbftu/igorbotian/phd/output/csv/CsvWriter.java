@@ -27,39 +27,39 @@ import java.util.Objects;
  * @see java.io.PrintWriter
  * @see <a href="https://en.wikipedia.org/wiki/Comma-separated_values">https://en.wikipedia.org/wiki/Comma-separated_values</a>
  */
-public class CsvWriter extends PrintWriter {
+public class CSVWriter extends PrintWriter {
 
     private static final String LINE_BREAK = "\\r\\n"; // cross-platform
 
-    public CsvWriter(Writer out) {
+    public CSVWriter(Writer out) {
         super(out);
     }
 
-    public CsvWriter(Writer out, boolean autoFlush) {
+    public CSVWriter(Writer out, boolean autoFlush) {
         super(out, autoFlush);
     }
 
-    public CsvWriter(OutputStream out) {
+    public CSVWriter(OutputStream out) {
         super(out);
     }
 
-    public CsvWriter(OutputStream out, boolean autoFlush) {
+    public CSVWriter(OutputStream out, boolean autoFlush) {
         super(out, autoFlush);
     }
 
-    public CsvWriter(String fileName) throws FileNotFoundException {
+    public CSVWriter(String fileName) throws FileNotFoundException {
         super(fileName);
     }
 
-    public CsvWriter(String fileName, String csn) throws FileNotFoundException, UnsupportedEncodingException {
+    public CSVWriter(String fileName, String csn) throws FileNotFoundException, UnsupportedEncodingException {
         super(fileName, csn);
     }
 
-    public CsvWriter(File file) throws FileNotFoundException {
+    public CSVWriter(File file) throws FileNotFoundException {
         super(file);
     }
 
-    public CsvWriter(File file, String csn) throws FileNotFoundException, UnsupportedEncodingException {
+    public CSVWriter(File file, String csn) throws FileNotFoundException, UnsupportedEncodingException {
         super(file, csn);
     }
 

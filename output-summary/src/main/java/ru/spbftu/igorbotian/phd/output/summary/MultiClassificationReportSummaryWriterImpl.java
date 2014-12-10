@@ -20,18 +20,18 @@ package ru.spbftu.igorbotian.phd.output.summary;
 
 import com.google.inject.Inject;
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.report.MultiIterationReport;
+import ru.spbftu.igorbotian.phdapp.svm.analytics.report.MultiClassificationReport;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Objects;
 
 /**
- * Реализация класса <code>MultiIterationReportSummaryWriter</code>
+ * Реализация класса <code>MultiClassificationReportSummaryWriter</code>
  *
- * @see ru.spbftu.igorbotian.phd.output.summary.MultiIterationReportSummaryWriter
+ * @see MultiClassificationReportSummaryWriter
  */
-class MultiIterationReportSummaryWriterImpl implements MultiIterationReportSummaryWriter {
+class MultiClassificationReportSummaryWriterImpl implements MultiClassificationReportSummaryWriter {
 
     private static final String AVERAGE_ACCURACY_LABEL = "averageAccuracy";
     private static final String MIN_ACCURACY_LABEL = "minAccuracy";
@@ -47,12 +47,12 @@ class MultiIterationReportSummaryWriterImpl implements MultiIterationReportSumma
     private final Localization localization;
 
     @Inject
-    public MultiIterationReportSummaryWriterImpl(Localization localization) {
+    public MultiClassificationReportSummaryWriterImpl(Localization localization) {
         this.localization = Objects.requireNonNull(localization);
     }
 
     @Override
-    public void writeTo(MultiIterationReport report, PrintWriter writer) throws IOException {
+    public void writeTo(MultiClassificationReport report, PrintWriter writer) throws IOException {
         Objects.requireNonNull(report);
         Objects.requireNonNull(writer);
 

@@ -20,10 +20,10 @@ package ru.spbftu.igorbotian.phdapp.ui.common;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import ru.spbftu.igorbotian.phd.output.csv.MultiIterationReportCsvWriter;
-import ru.spbftu.igorbotian.phd.output.csv.SingleIterationReportCsvWriter;
-import ru.spbftu.igorbotian.phd.output.summary.MultiIterationReportSummaryWriter;
-import ru.spbftu.igorbotian.phd.output.summary.SingleIterationReportSummaryWriter;
+import ru.spbftu.igorbotian.phd.output.csv.MultiClassificationReportCSVWriter;
+import ru.spbftu.igorbotian.phd.output.csv.SingleClassificationReportCSVWriter;
+import ru.spbftu.igorbotian.phd.output.summary.MultiClassificationReportSummaryWriter;
+import ru.spbftu.igorbotian.phd.output.summary.SingleClassificationReportSummaryWriter;
 import ru.spbftu.igorbotian.phdapp.conf.Configuration;
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
 import ru.spbftu.igorbotian.phdapp.svm.analytics.SampleGenerator;
@@ -48,27 +48,27 @@ class UIHelperImpl implements UIHelper {
     public UIHelperImpl(Localization localization,
                         Configuration configuration,
                         SampleGenerator sampleGenerator,
-                        SingleIterationReportSummaryWriter singleIterationReportSummaryWriter,
-                        SingleIterationReportCsvWriter singleIterationReportCsvWriter,
-                        MultiIterationReportSummaryWriter multiIterationReportSummaryWriter,
-                        MultiIterationReportCsvWriter multiIterationReportCsvWriter) {
+                        SingleClassificationReportSummaryWriter singleClassificationReportSummaryWriter,
+                        SingleClassificationReportCSVWriter singleClassificationReportCSVWriter,
+                        MultiClassificationReportSummaryWriter multiClassificationReportSummaryWriter,
+                        MultiClassificationReportCSVWriter multiClassificationReportCSVWriter) {
 
         Objects.requireNonNull(localization);
         Objects.requireNonNull(configuration);
         Objects.requireNonNull(sampleGenerator);
-        Objects.requireNonNull(singleIterationReportSummaryWriter);
-        Objects.requireNonNull(singleIterationReportCsvWriter);
-        Objects.requireNonNull(multiIterationReportSummaryWriter);
-        Objects.requireNonNull(multiIterationReportCsvWriter);
+        Objects.requireNonNull(singleClassificationReportSummaryWriter);
+        Objects.requireNonNull(singleClassificationReportCSVWriter);
+        Objects.requireNonNull(multiClassificationReportSummaryWriter);
+        Objects.requireNonNull(multiClassificationReportCSVWriter);
 
         this.localization = localization;
         sampleCanvasDirector = new SampleCanvasDirectorImpl(sampleGenerator);
         classifierParamsFrameDirector = new ClassifierParamsFrameDirectorImpl(configuration);
         classificationResultsFrameDirector = new ClassificationResultsFrameDirectorImpl(
-                singleIterationReportSummaryWriter,
-                multiIterationReportSummaryWriter,
-                singleIterationReportCsvWriter,
-                multiIterationReportCsvWriter
+                singleClassificationReportSummaryWriter,
+                multiClassificationReportSummaryWriter,
+                singleClassificationReportCSVWriter,
+                multiClassificationReportCSVWriter
         );
     }
 
