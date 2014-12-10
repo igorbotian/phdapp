@@ -27,7 +27,7 @@ import java.io.PrintWriter;
  * Средство сохранения сводки по отчёту по работе классификатора с заданными параметрами в формате CSV
  *
  * @see ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleClassificationReport
- * @see ru.spbftu.igorbotian.phd.output.csv.CsvWriter
+ * @see ru.spbftu.igorbotian.phd.output.summary.SummaryWriter
  */
 public interface MultiClassificationReportSummaryWriter {
 
