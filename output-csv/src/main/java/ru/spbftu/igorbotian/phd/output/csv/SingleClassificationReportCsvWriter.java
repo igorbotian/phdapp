@@ -18,28 +18,77 @@
 
 package ru.spbftu.igorbotian.phd.output.csv;
 
+import ru.spbftu.igorbotian.phdapp.locale.Localization;
 import ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleClassificationReport;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Objects;
 
 /**
- * Средство сохранения отчёта по работе классификатора с заданными параметрами в формате CSV
+ * Реализация сохранения отчёта единичной классификации в формате CSV
  *
  * @see ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleClassificationReport
- * @see CSVWriter
+ * @see ru.spbftu.igorbotian.phd.output.csv.ReportCSVWriter
  */
-public interface SingleClassificationReportCSVWriter {
+class SingleClassificationReportCSVWriter implements ReportCSVWriter<SingleClassificationReport> {
 
-    /**
-     * Сохрание заданного отчёта по работе классификатора в указанный символьный поток
-     *
-     * @param report        отчёт по работе классификатора
-     * @param writer        выходной символьный поток
-     * @param includeHeader если значение равно <code>true</code>, то первая строчка будет содержать локализованный заголовок
-     *                      (название каждого столбца данных)
-     * @throws java.io.IOException            в случае ошибки ввода/вывода при сохранении отчёта в поток
-     * @throws java.lang.NullPointerException если хотя бы один из аргументов не задан
-     */
-    void writeTo(SingleClassificationReport report, PrintWriter writer, boolean includeHeader) throws IOException;
+    private static final String SAMPLE_SIZE_LABEL = "sampleSize";
+    private static final String CONSTANT_COST_PARAMETER_LABEL = "cParameter";
+    private static final String GAUSSIAN_KERNEL_PARAMETER_LABEL = "sigmaParameter";
+    private static final String PERCENT_OF_JUDGED_SAMPLE_ITEMS_LABEL = "percentOfJudgedSampleItems";
+    private static final String PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_LABEL = "preciseIntervalJudgedSampleItemsRatio";
+    private static final String ACCURACY_LABEL = "accuracy";
+    private static final String PRECISION_LABEL = "precision";
+    private static final String RECALL_LABEL = "recall";
+
+    private final Localization localization;
+
+    public SingleClassificationReportCSVWriter(Localization localization) {
+        this.localization = Objects.requireNonNull(localization);
+    }
+
+    @Override
+    public Class<SingleClassificationReport> getTargetReportClass() {
+        return SingleClassificationReport.class;
+    }
+
+    @Override
+    public void writeTo(SingleClassificationReport report, PrintWriter writer, boolean includeHeader) throws IOException {
+        Objects.requireNonNull(report);
+        Objects.requireNonNull(writer);
+
+        CSVWriter csv = new CSVWriter(writer);
+
+        if (includeHeader) {
+            writeHeaderTo(csv);
+        }
+
+        writeContentsTo(report, csv);
+    }
+
+    private void writeHeaderTo(CSVWriter csv) throws IOException {
+        csv.writeLine(localization.getLabel(SAMPLE_SIZE_LABEL),
+                localization.getLabel(CONSTANT_COST_PARAMETER_LABEL),
+                localization.getLabel(GAUSSIAN_KERNEL_PARAMETER_LABEL),
+                localization.getLabel(PERCENT_OF_JUDGED_SAMPLE_ITEMS_LABEL),
+                localization.getLabel(PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_LABEL),
+                localization.getLabel(ACCURACY_LABEL),
+                localization.getLabel(PRECISION_LABEL),
+                localization.getLabel(RECALL_LABEL)
+        );
+    }
+
+    private void writeContentsTo(SingleClassificationReport report, CSVWriter csv) throws IOException {
+        csv.writeLine(
+                Integer.toString(report.sampleSize()),
+                Float.toString(report.constantCostParameter()),
+                Float.toString(report.gaussianKernelParameter()),
+                Float.toString(report.judgedSampleItemsRatio()),
+                Float.toString(report.preciseIntervalSampleItemsRatio()),
+                Float.toString(report.accuracy()),
+                Float.toString(report.precision()),
+                Float.toString(report.recall())
+        );
+    }
 }

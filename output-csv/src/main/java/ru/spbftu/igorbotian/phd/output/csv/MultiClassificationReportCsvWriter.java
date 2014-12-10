@@ -18,28 +18,97 @@
 
 package ru.spbftu.igorbotian.phd.output.csv;
 
+import ru.spbftu.igorbotian.phdapp.locale.Localization;
 import ru.spbftu.igorbotian.phdapp.svm.analytics.report.MultiClassificationReport;
+import ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleClassificationReport;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Objects;
 
 /**
- * Средство сохранения отчёта по работе классификатора с заданными параметрами в формате CSV
+ * Реализация сохранения отчёта серии классификаций в формате CSV
  *
- * @see ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleClassificationReport
- * @see CSVWriter
+ * @see ru.spbftu.igorbotian.phdapp.svm.analytics.report.MultiClassificationReport
+ * @see ru.spbftu.igorbotian.phd.output.csv.ReportCSVWriter
  */
-public interface MultiClassificationReportCSVWriter {
+class MultiClassificationReportCSVWriter implements ReportCSVWriter<MultiClassificationReport> {
 
-    /**
-     * Сохрание заданного отчёта по работе классификатора в указанный символьный поток
-     *
-     * @param report        отчёт по работе классификатора
-     * @param writer        выходной символьный поток
-     * @param includeHeader если значение равно <code>true</code>, то первая строчка будет содержать локализованный заголовок
-     *                      (название каждого столбца данных)
-     * @throws java.io.IOException            в случае ошибки ввода/вывода при сохранении отчёта в поток
-     * @throws java.lang.NullPointerException если хотя бы один из аргументов не задан
-     */
-    void writeTo(MultiClassificationReport report, PrintWriter writer, boolean includeHeader) throws IOException;
+    private static final String AVERAGE_ACCURACY_LABEL = "averageAccuracy";
+    private static final String MIN_ACCURACY_LABEL = "minAccuracy";
+    private static final String MAX_ACCURACY_LABEL = "maxAccuracy";
+    private static final String AVERAGE_PRECISION_LABEL = "averagePrecision";
+    private static final String MIN_PRECISION_LABEL = "minPrecision";
+    private static final String MAX_PRECISION_LABEL = "maxPrecision";
+    private static final String AVERAGE_RECALL_LABEL = "averageRecall";
+    private static final String MIN_RECALL_LABEL = "minRecall";
+    private static final String MAX_RECALL_LABEL = "maxRecall";
+    private static final String NUMBER_OF_ITERATIONS_LABEL = "numberOfClassifications";
+
+    private final Localization localization;
+    private final ReportCSVWriter<SingleClassificationReport> singleReportWriter;
+
+    public MultiClassificationReportCSVWriter(Localization localization,
+                                              ReportCSVWriter<SingleClassificationReport> writer) {
+        this.localization = Objects.requireNonNull(localization);
+        this.singleReportWriter = Objects.requireNonNull(writer);
+    }
+
+    @Override
+    public Class<MultiClassificationReport> getTargetReportClass() {
+        return MultiClassificationReport.class;
+    }
+
+    @Override
+    public void writeTo(MultiClassificationReport report, PrintWriter writer, boolean includeHeader) throws IOException {
+        Objects.requireNonNull(report);
+        Objects.requireNonNull(writer);
+
+        CSVWriter csv = new CSVWriter(writer);
+
+        if (includeHeader) {
+            writeHeaderTo(csv);
+        }
+
+        writeContentsTo(report, csv);
+    }
+
+    private void writeHeaderTo(CSVWriter writer) throws IOException {
+        assert (writer != null);
+
+        writer.writeLine(
+                localization.getLabel(AVERAGE_ACCURACY_LABEL),
+                localization.getLabel(MIN_ACCURACY_LABEL),
+                localization.getLabel(MAX_ACCURACY_LABEL),
+                localization.getLabel(AVERAGE_PRECISION_LABEL),
+                localization.getLabel(MIN_PRECISION_LABEL),
+                localization.getLabel(MAX_PRECISION_LABEL),
+                localization.getLabel(AVERAGE_RECALL_LABEL),
+                localization.getLabel(MIN_RECALL_LABEL),
+                localization.getLabel(MAX_RECALL_LABEL),
+                localization.getLabel(NUMBER_OF_ITERATIONS_LABEL)
+        );
+    }
+
+    private void writeContentsTo(MultiClassificationReport report, CSVWriter writer) throws IOException {
+        assert (report != null);
+        assert (writer != null);
+
+        writer.writeLine(
+                Float.toString(report.averageAccuracy()),
+                Float.toString(report.minAccuracy()),
+                Float.toString(report.maxAccuracy()),
+                Float.toString(report.averagePrecision()),
+                Float.toString(report.minPrecision()),
+                Float.toString(report.maxPrecision()),
+                Float.toString(report.averageRecall()),
+                Float.toString(report.minRecall()),
+                Float.toString(report.maxRecall()),
+                Integer.toString(report.numberOfClassifications())
+        );
+
+        for (SingleClassificationReport iterationReport : report.classifications()) {
+            singleReportWriter.writeTo(iterationReport, writer, false);
+        }
+    }
 }

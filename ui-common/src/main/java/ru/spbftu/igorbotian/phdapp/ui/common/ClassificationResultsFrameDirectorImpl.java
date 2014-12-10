@@ -19,11 +19,12 @@
 package ru.spbftu.igorbotian.phdapp.ui.common;
 
 import org.apache.log4j.Logger;
-import ru.spbftu.igorbotian.phd.output.csv.MultiClassificationReportCSVWriter;
-import ru.spbftu.igorbotian.phd.output.csv.SingleClassificationReportCSVWriter;
+import ru.spbftu.igorbotian.phd.output.csv.ReportCSVWriter;
+import ru.spbftu.igorbotian.phd.output.csv.ReportCSVWriterFactory;
 import ru.spbftu.igorbotian.phd.output.summary.MultiClassificationReportSummaryWriter;
 import ru.spbftu.igorbotian.phd.output.summary.SingleClassificationReportSummaryWriter;
 import ru.spbftu.igorbotian.phdapp.svm.analytics.report.MultiClassificationReport;
+import ru.spbftu.igorbotian.phdapp.svm.analytics.report.Report;
 import ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleClassificationReport;
 
 import java.io.FileWriter;
@@ -47,18 +48,15 @@ class ClassificationResultsFrameDirectorImpl implements ClassificationResultsFra
 
     private final SingleClassificationReportSummaryWriter singleClassificationReportSummaryWriter;
     private final MultiClassificationReportSummaryWriter multiClassificationReportSummaryWriter;
-    private final SingleClassificationReportCSVWriter singleClassificationReportCSVWriter;
-    private final MultiClassificationReportCSVWriter multiClassificationReportCSVWriter;
+    private final ReportCSVWriterFactory reportCSVWriterFactory;
 
     public ClassificationResultsFrameDirectorImpl(SingleClassificationReportSummaryWriter singleClassificationReportSummaryWriter,
-                                           MultiClassificationReportSummaryWriter multiClassificationReportSummaryWriter,
-                                           SingleClassificationReportCSVWriter singleClassificationReportCSVWriter,
-                                           MultiClassificationReportCSVWriter multiClassificationReportCSVWriter) {
+                                                  MultiClassificationReportSummaryWriter multiClassificationReportSummaryWriter,
+                                                  ReportCSVWriterFactory reportCSVWriterFactory) {
 
         this.singleClassificationReportSummaryWriter = Objects.requireNonNull(singleClassificationReportSummaryWriter);
         this.multiClassificationReportSummaryWriter = Objects.requireNonNull(multiClassificationReportSummaryWriter);
-        this.singleClassificationReportCSVWriter = Objects.requireNonNull(singleClassificationReportCSVWriter);
-        this.multiClassificationReportCSVWriter = Objects.requireNonNull(multiClassificationReportCSVWriter);
+        this.reportCSVWriterFactory = Objects.requireNonNull(reportCSVWriterFactory);
     }
 
     @Override
@@ -99,14 +97,10 @@ class ClassificationResultsFrameDirectorImpl implements ClassificationResultsFra
     }
 
     @Override
-    public void exportReportToCSV(SingleClassificationReport report, Path file) throws IOException {
+    @SuppressWarnings("unchecked")
+    public <R extends Report> void exportReportToCSV(R report, Path file) throws IOException {
         PrintWriter writer = new PrintWriter(new FileWriter(file.toFile(), false));
-        singleClassificationReportCSVWriter.writeTo(report, writer, true);
-    }
-
-    @Override
-    public void exportReportToCSV(MultiClassificationReport report, Path file) throws IOException {
-        PrintWriter writer = new PrintWriter(new FileWriter(file.toFile(), false));
-        multiClassificationReportCSVWriter.writeTo(report, writer, true);
+        ReportCSVWriter<R> csvWriter = reportCSVWriterFactory.get((Class<R>) report.getClass());
+        csvWriter.writeTo(report, writer, true);
     }
 }

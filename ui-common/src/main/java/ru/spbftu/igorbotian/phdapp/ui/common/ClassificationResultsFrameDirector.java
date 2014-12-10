@@ -19,6 +19,7 @@
 package ru.spbftu.igorbotian.phdapp.ui.common;
 
 import ru.spbftu.igorbotian.phdapp.svm.analytics.report.MultiClassificationReport;
+import ru.spbftu.igorbotian.phdapp.svm.analytics.report.Report;
 import ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleClassificationReport;
 
 import java.io.IOException;
@@ -43,10 +44,5 @@ public interface ClassificationResultsFrameDirector {
     /**
      * Сохранение указанных результатов классификации в заданный файл
      */
-    public void exportReportToCSV(SingleClassificationReport report, Path file) throws IOException;
-
-    /**
-     * Сохранение указанных результатов классификации в заданный файл
-     */
-    public void exportReportToCSV(MultiClassificationReport report, Path file) throws IOException;
+    public <R extends Report> void exportReportToCSV(R report, Path file) throws IOException;
 }

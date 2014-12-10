@@ -22,7 +22,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import ru.spbftu.igorbotian.phd.output.csv.CsvOutputDataManagementModule;
+import ru.spbftu.igorbotian.phd.output.csv.CSVOutputDataManagementModule;
 import ru.spbftu.igorbotian.phd.output.summary.SummaryOutputDataManagementModule;
 import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfigurationModule;
 import ru.spbftu.igorbotian.phdapp.input.JsonInputDataManagementModule;
@@ -68,7 +68,7 @@ public class PhDApp {
             new JavaI18NLocalizationModule(),
             new IntervalPairwiseClassifierModule(),
             new SvmAnalyticsModule(),
-            new CsvOutputDataManagementModule(),
+            new CSVOutputDataManagementModule(),
             new SummaryOutputDataManagementModule(),
             new CommonUserInterfaceModule(),
             new SwingUserInterfaceModule(),
@@ -110,7 +110,6 @@ public class PhDApp {
 
     private static void start() {
         Injector injector = Guice.createInjector(INJECTION_MODULES);
-        injector.getInstance(ReportFactory.class);
         registerShutdownHooks(injector.getInstance(ShutdownHooks.class));
         injector.getInstance(UserInterface.class).showMainWindow();
     }

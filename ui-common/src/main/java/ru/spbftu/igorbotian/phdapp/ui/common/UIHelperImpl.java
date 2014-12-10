@@ -20,8 +20,7 @@ package ru.spbftu.igorbotian.phdapp.ui.common;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import ru.spbftu.igorbotian.phd.output.csv.MultiClassificationReportCSVWriter;
-import ru.spbftu.igorbotian.phd.output.csv.SingleClassificationReportCSVWriter;
+import ru.spbftu.igorbotian.phd.output.csv.ReportCSVWriterFactory;
 import ru.spbftu.igorbotian.phd.output.summary.MultiClassificationReportSummaryWriter;
 import ru.spbftu.igorbotian.phd.output.summary.SingleClassificationReportSummaryWriter;
 import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
@@ -49,17 +48,15 @@ class UIHelperImpl implements UIHelper {
                         ApplicationConfiguration configuration,
                         SampleGenerator sampleGenerator,
                         SingleClassificationReportSummaryWriter singleClassificationReportSummaryWriter,
-                        SingleClassificationReportCSVWriter singleClassificationReportCSVWriter,
                         MultiClassificationReportSummaryWriter multiClassificationReportSummaryWriter,
-                        MultiClassificationReportCSVWriter multiClassificationReportCSVWriter) {
+                        ReportCSVWriterFactory reportCSVWriterFactory) {
 
         Objects.requireNonNull(localization);
         Objects.requireNonNull(configuration);
         Objects.requireNonNull(sampleGenerator);
         Objects.requireNonNull(singleClassificationReportSummaryWriter);
-        Objects.requireNonNull(singleClassificationReportCSVWriter);
+        Objects.requireNonNull(reportCSVWriterFactory);
         Objects.requireNonNull(multiClassificationReportSummaryWriter);
-        Objects.requireNonNull(multiClassificationReportCSVWriter);
 
         this.localization = localization;
         sampleCanvasDirector = new SampleCanvasDirectorImpl(sampleGenerator);
@@ -67,8 +64,7 @@ class UIHelperImpl implements UIHelper {
         classificationResultsFrameDirector = new ClassificationResultsFrameDirectorImpl(
                 singleClassificationReportSummaryWriter,
                 multiClassificationReportSummaryWriter,
-                singleClassificationReportCSVWriter,
-                multiClassificationReportCSVWriter
+                reportCSVWriterFactory
         );
     }
 
