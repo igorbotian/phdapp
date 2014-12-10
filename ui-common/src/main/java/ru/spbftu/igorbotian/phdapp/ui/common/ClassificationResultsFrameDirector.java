@@ -18,9 +18,7 @@
 
 package ru.spbftu.igorbotian.phdapp.ui.common;
 
-import ru.spbftu.igorbotian.phdapp.svm.analytics.report.MultiClassificationReport;
 import ru.spbftu.igorbotian.phdapp.svm.analytics.report.Report;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleClassificationReport;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -32,14 +30,9 @@ import java.util.List;
 public interface ClassificationResultsFrameDirector {
 
     /**
-     * Получение строк резюме для указанных результатов классиикации
+     * Получение строк сводки для указанных результатов классиикации
      */
-    public List<String> getReportSummary(SingleClassificationReport report);
-
-    /**
-     * Получение строк резюме для указанных результатов классиикации
-     */
-    public List<String> getReportSummary(MultiClassificationReport report);
+    public <R extends Report> List<String> getReportSummary(R report);
 
     /**
      * Сохранение указанных результатов классификации в заданный файл

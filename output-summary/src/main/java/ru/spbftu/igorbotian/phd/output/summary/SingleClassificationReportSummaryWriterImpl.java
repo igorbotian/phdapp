@@ -18,7 +18,6 @@
 
 package ru.spbftu.igorbotian.phd.output.summary;
 
-import com.google.inject.Inject;
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
 import ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleClassificationReport;
 
@@ -27,11 +26,12 @@ import java.io.PrintWriter;
 import java.util.Objects;
 
 /**
- * Реализация класса <code>SingleClassificationReportSummaryWriter</code>
+ * Реализация интерфейса <code>ReportSummaryWriter</code> для отчётов типа <code>SingleClassificationReport</code>
  *
- * @see SingleClassificationReportSummaryWriter
+ * @see ru.spbftu.igorbotian.phd.output.summary.ReportSummaryWriter
+ * @see ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleClassificationReport
  */
-class SingleClassificationReportSummaryWriterImpl implements SingleClassificationReportSummaryWriter {
+class SingleClassificationReportSummaryWriterImpl implements ReportSummaryWriter<SingleClassificationReport> {
 
     private static final String SAMPLE_SIZE_LABEL = "sampleSize";
     private static final String CONSTANT_COST_PARAMETER_LABEL = "cParameter";
@@ -44,9 +44,13 @@ class SingleClassificationReportSummaryWriterImpl implements SingleClassificatio
 
     private final Localization localization;
 
-    @Inject
     public SingleClassificationReportSummaryWriterImpl(Localization localization) {
         this.localization = Objects.requireNonNull(localization);
+    }
+
+    @Override
+    public Class<SingleClassificationReport> getTargetReportClass() {
+        return SingleClassificationReport.class;
     }
 
     @Override

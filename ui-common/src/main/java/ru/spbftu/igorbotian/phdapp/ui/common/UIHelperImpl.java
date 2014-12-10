@@ -21,8 +21,7 @@ package ru.spbftu.igorbotian.phdapp.ui.common;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import ru.spbftu.igorbotian.phd.output.csv.ReportCSVWriterFactory;
-import ru.spbftu.igorbotian.phd.output.summary.MultiClassificationReportSummaryWriter;
-import ru.spbftu.igorbotian.phd.output.summary.SingleClassificationReportSummaryWriter;
+import ru.spbftu.igorbotian.phd.output.summary.ReportSummaryWriterFactory;
 import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
 import ru.spbftu.igorbotian.phdapp.svm.analytics.SampleGenerator;
@@ -47,25 +46,20 @@ class UIHelperImpl implements UIHelper {
     public UIHelperImpl(Localization localization,
                         ApplicationConfiguration configuration,
                         SampleGenerator sampleGenerator,
-                        SingleClassificationReportSummaryWriter singleClassificationReportSummaryWriter,
-                        MultiClassificationReportSummaryWriter multiClassificationReportSummaryWriter,
+                        ReportSummaryWriterFactory reportSummaryWriterFactory,
                         ReportCSVWriterFactory reportCSVWriterFactory) {
 
         Objects.requireNonNull(localization);
         Objects.requireNonNull(configuration);
         Objects.requireNonNull(sampleGenerator);
-        Objects.requireNonNull(singleClassificationReportSummaryWriter);
+        Objects.requireNonNull(reportSummaryWriterFactory);
         Objects.requireNonNull(reportCSVWriterFactory);
-        Objects.requireNonNull(multiClassificationReportSummaryWriter);
 
         this.localization = localization;
         sampleCanvasDirector = new SampleCanvasDirectorImpl(sampleGenerator);
         classifierParamsFrameDirector = new ClassifierParamsFrameDirectorImpl(configuration);
-        classificationResultsFrameDirector = new ClassificationResultsFrameDirectorImpl(
-                singleClassificationReportSummaryWriter,
-                multiClassificationReportSummaryWriter,
-                reportCSVWriterFactory
-        );
+        classificationResultsFrameDirector =
+                new ClassificationResultsFrameDirectorImpl(reportSummaryWriterFactory, reportCSVWriterFactory);
     }
 
     @Override

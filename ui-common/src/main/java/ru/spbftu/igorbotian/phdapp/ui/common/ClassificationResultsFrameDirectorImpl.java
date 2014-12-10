@@ -21,11 +21,9 @@ package ru.spbftu.igorbotian.phdapp.ui.common;
 import org.apache.log4j.Logger;
 import ru.spbftu.igorbotian.phd.output.csv.ReportCSVWriter;
 import ru.spbftu.igorbotian.phd.output.csv.ReportCSVWriterFactory;
-import ru.spbftu.igorbotian.phd.output.summary.MultiClassificationReportSummaryWriter;
-import ru.spbftu.igorbotian.phd.output.summary.SingleClassificationReportSummaryWriter;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.report.MultiClassificationReport;
+import ru.spbftu.igorbotian.phd.output.summary.ReportSummaryWriter;
+import ru.spbftu.igorbotian.phd.output.summary.ReportSummaryWriterFactory;
 import ru.spbftu.igorbotian.phdapp.svm.analytics.report.Report;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleClassificationReport;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -46,37 +44,23 @@ class ClassificationResultsFrameDirectorImpl implements ClassificationResultsFra
 
     private final Logger LOGGER = Logger.getLogger(ClassificationResultsFrameDirectorImpl.class);
 
-    private final SingleClassificationReportSummaryWriter singleClassificationReportSummaryWriter;
-    private final MultiClassificationReportSummaryWriter multiClassificationReportSummaryWriter;
+    private final ReportSummaryWriterFactory reportSummaryWriterFactory;
     private final ReportCSVWriterFactory reportCSVWriterFactory;
 
-    public ClassificationResultsFrameDirectorImpl(SingleClassificationReportSummaryWriter singleClassificationReportSummaryWriter,
-                                                  MultiClassificationReportSummaryWriter multiClassificationReportSummaryWriter,
+    public ClassificationResultsFrameDirectorImpl(ReportSummaryWriterFactory reportSummaryWriterFactory,
                                                   ReportCSVWriterFactory reportCSVWriterFactory) {
 
-        this.singleClassificationReportSummaryWriter = Objects.requireNonNull(singleClassificationReportSummaryWriter);
-        this.multiClassificationReportSummaryWriter = Objects.requireNonNull(multiClassificationReportSummaryWriter);
+        this.reportSummaryWriterFactory = Objects.requireNonNull(reportSummaryWriterFactory);
         this.reportCSVWriterFactory = Objects.requireNonNull(reportCSVWriterFactory);
     }
 
     @Override
-    public List<String> getReportSummary(SingleClassificationReport report) {
+    @SuppressWarnings("unchecked")
+    public <R extends Report> List<String> getReportSummary(R report) {
         try {
             StringWriter writer = new StringWriter();
-            singleClassificationReportSummaryWriter.writeTo(report, new PrintWriter(writer));
-            return divideByLines(writer.toString());
-        } catch (IOException e) {
-            LOGGER.error("Unable to obtain report summary", e);
-        }
-
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<String> getReportSummary(MultiClassificationReport report) {
-        try {
-            StringWriter writer = new StringWriter();
-            multiClassificationReportSummaryWriter.writeTo(report, new PrintWriter(writer));
+            ReportSummaryWriter<R> summaryWriter = reportSummaryWriterFactory.get((Class<R>) report.getClass());
+            summaryWriter.writeTo(report, new PrintWriter(writer));
             return divideByLines(writer.toString());
         } catch (IOException e) {
             LOGGER.error("Unable to obtain report summary", e);

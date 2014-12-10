@@ -18,7 +18,6 @@
 
 package ru.spbftu.igorbotian.phd.output.summary;
 
-import com.google.inject.Inject;
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
 import ru.spbftu.igorbotian.phdapp.svm.analytics.report.MultiClassificationReport;
 
@@ -27,11 +26,12 @@ import java.io.PrintWriter;
 import java.util.Objects;
 
 /**
- * Реализация класса <code>MultiClassificationReportSummaryWriter</code>
+ * Реализация интерфейса <code>ReportSummaryWriter</code> для отчётов типа <code>MultiClassificationReport</code>
  *
- * @see MultiClassificationReportSummaryWriter
+ * @see ru.spbftu.igorbotian.phd.output.summary.ReportSummaryWriter
+ * @see ru.spbftu.igorbotian.phdapp.svm.analytics.report.MultiClassificationReport
  */
-class MultiClassificationReportSummaryWriterImpl implements MultiClassificationReportSummaryWriter {
+class MultiClassificationReportSummaryWriterImpl implements ReportSummaryWriter<MultiClassificationReport> {
 
     private static final String AVERAGE_ACCURACY_LABEL = "averageAccuracy";
     private static final String MIN_ACCURACY_LABEL = "minAccuracy";
@@ -46,9 +46,13 @@ class MultiClassificationReportSummaryWriterImpl implements MultiClassificationR
 
     private final Localization localization;
 
-    @Inject
     public MultiClassificationReportSummaryWriterImpl(Localization localization) {
         this.localization = Objects.requireNonNull(localization);
+    }
+
+    @Override
+    public Class<MultiClassificationReport> getTargetReportClass() {
+        return MultiClassificationReport.class;
     }
 
     @Override

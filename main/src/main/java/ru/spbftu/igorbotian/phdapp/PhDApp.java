@@ -31,7 +31,6 @@ import ru.spbftu.igorbotian.phdapp.locale.java.JavaI18NLocalizationModule;
 import ru.spbftu.igorbotian.phdapp.log.Log4j;
 import ru.spbftu.igorbotian.phdapp.svm.IntervalPairwiseClassifierModule;
 import ru.spbftu.igorbotian.phdapp.svm.analytics.SvmAnalyticsModule;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.report.ReportFactory;
 import ru.spbftu.igorbotian.phdapp.ui.UserInterface;
 import ru.spbftu.igorbotian.phdapp.ui.common.CommonUserInterfaceModule;
 import ru.spbftu.igorbotian.phdapp.ui.swing.SwingUserInterfaceModule;
