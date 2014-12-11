@@ -64,17 +64,39 @@ public class SummaryWriter extends PrintWriter {
     }
 
     /**
+     * Запись заголовка сводных данных
+     * @param header заголовок
+     * @throws IOException в случае ошибки ввода/вывода
+     * @throws NullPointerException если параметр не задан
+     */
+    public void writeHeader(String header) throws IOException {
+        Objects.requireNonNull(header);
+
+        write(header);
+        writeEmptyLine();
+    }
+
+    /**
      * Запись указанного значения вместе с соответствующим описанием как элемент сводных данных
      *
      * @param key   описание записываемого значения
      * @param value значение, которое будет содержать результирующая сводка
      * @throws IOException в случае ошибки ввода/вывода
+     * @throws NullPointerException если хотя бы один из параметров не задан
      */
     public void writeItem(String key, Object value) throws IOException {
         Objects.requireNonNull(key);
         Objects.requireNonNull(value);
 
         write(key + ": " + value.toString());
+        writeEmptyLine();
+    }
+
+    /**
+     * Запись пустой строки
+     * @throws IOException в случае ошибки ввода/вывода
+     */
+    public void writeEmptyLine() throws IOException {
         write(LINE_BREAK);
     }
 }

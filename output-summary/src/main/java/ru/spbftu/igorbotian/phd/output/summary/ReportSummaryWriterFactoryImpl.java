@@ -3,6 +3,7 @@ package ru.spbftu.igorbotian.phd.output.summary;
 import com.google.inject.Inject;
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
 import ru.spbftu.igorbotian.phdapp.svm.analytics.report.Report;
+import ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleClassificationReport;
 
 import java.util.Map;
 import java.util.Objects;
@@ -19,8 +20,10 @@ class ReportSummaryWriterFactoryImpl implements ReportSummaryWriterFactory {
 
     @Inject
     public ReportSummaryWriterFactoryImpl(Localization localization) {
-        register(new SingleClassificationReportSummaryWriterImpl(localization));
-        register(new MultiClassificationReportSummaryWriterImpl(localization));
+        ReportSummaryWriter<SingleClassificationReport> singleReportWriter
+                = new SingleClassificationReportSummaryWriterImpl(localization);
+        register(singleReportWriter);
+        register(new MultiClassificationReportSummaryWriterImpl(localization, singleReportWriter));
     }
 
     @Override

@@ -20,6 +20,7 @@ package ru.spbftu.igorbotian.phd.output.summary;
 
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
 import ru.spbftu.igorbotian.phdapp.svm.analytics.report.MultiClassificationReport;
+import ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleClassificationReport;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -43,11 +44,16 @@ class MultiClassificationReportSummaryWriterImpl implements ReportSummaryWriter<
     private static final String MIN_RECALL_LABEL = "minRecall";
     private static final String MAX_RECALL_LABEL = "maxRecall";
     private static final String NUMBER_OF_ITERATIONS_LABEL = "numberOfClassifications";
+    private static final String MIN_PRECISION_CLASSIFICATION_LABEL = "minPrecisionClassificationLabel";
+    private static final String MAX_PRECISION_CLASSIFICATION_LABEL = "maxPrecisionClassificationLabel";
 
     private final Localization localization;
+    private final ReportSummaryWriter<SingleClassificationReport> singleReportWriter;
 
-    public MultiClassificationReportSummaryWriterImpl(Localization localization) {
+    public MultiClassificationReportSummaryWriterImpl(Localization localization,
+                                                      ReportSummaryWriter<SingleClassificationReport> singleReportWriter) {
         this.localization = Objects.requireNonNull(localization);
+        this.singleReportWriter = Objects.requireNonNull(singleReportWriter);
     }
 
     @Override
@@ -61,6 +67,7 @@ class MultiClassificationReportSummaryWriterImpl implements ReportSummaryWriter<
         Objects.requireNonNull(writer);
 
         SummaryWriter summary = new SummaryWriter(writer);
+
         summary.writeItem(localization.getLabel(AVERAGE_ACCURACY_LABEL), report.averageAccuracy());
         summary.writeItem(localization.getLabel(MIN_ACCURACY_LABEL), report.minAccuracy());
         summary.writeItem(localization.getLabel(MAX_ACCURACY_LABEL), report.maxAccuracy());
@@ -71,5 +78,13 @@ class MultiClassificationReportSummaryWriterImpl implements ReportSummaryWriter<
         summary.writeItem(localization.getLabel(MIN_RECALL_LABEL), report.minRecall());
         summary.writeItem(localization.getLabel(MAX_RECALL_LABEL), report.maxRecall());
         summary.writeItem(localization.getLabel(NUMBER_OF_ITERATIONS_LABEL), report.numberOfClassifications());
+
+        summary.writeEmptyLine();
+        summary.writeHeader(MAX_PRECISION_CLASSIFICATION_LABEL + ":");
+        singleReportWriter.writeTo(report.max(), summary);
+
+        summary.writeEmptyLine();
+        summary.writeHeader(MIN_PRECISION_CLASSIFICATION_LABEL + ":");
+        singleReportWriter.writeTo(report.min(), summary);
     }
 }
