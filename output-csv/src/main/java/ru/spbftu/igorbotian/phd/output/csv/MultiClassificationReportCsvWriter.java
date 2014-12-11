@@ -46,10 +46,9 @@ class MultiClassificationReportCSVWriter implements ReportCSVWriter<MultiClassif
     private static final String NUMBER_OF_ITERATIONS_LABEL = "numberOfClassifications";
 
     private final Localization localization;
-    private final ReportCSVWriter<SingleClassificationReport> singleReportWriter;
+    private final SingleClassificationReportCSVWriter singleReportWriter;
 
-    public MultiClassificationReportCSVWriter(Localization localization,
-                                              ReportCSVWriter<SingleClassificationReport> writer) {
+    public MultiClassificationReportCSVWriter(Localization localization, SingleClassificationReportCSVWriter writer) {
         this.localization = Objects.requireNonNull(localization);
         this.singleReportWriter = Objects.requireNonNull(writer);
     }
@@ -106,6 +105,8 @@ class MultiClassificationReportCSVWriter implements ReportCSVWriter<MultiClassif
                 Float.toString(report.maxRecall()),
                 Integer.toString(report.numberOfClassifications())
         );
+
+        singleReportWriter.writeHeaderTo(writer);
 
         for (SingleClassificationReport iterationReport : report.classifications()) {
             singleReportWriter.writeTo(iterationReport, writer, false);

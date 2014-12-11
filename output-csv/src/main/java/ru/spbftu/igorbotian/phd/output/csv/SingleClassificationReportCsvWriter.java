@@ -67,7 +67,7 @@ class SingleClassificationReportCSVWriter implements ReportCSVWriter<SingleClass
         writeContentsTo(report, csv);
     }
 
-    private void writeHeaderTo(CSVWriter csv) throws IOException {
+    void writeHeaderTo(CSVWriter csv) throws IOException {
         csv.writeLine(localization.getLabel(SAMPLE_SIZE_LABEL),
                 localization.getLabel(CONSTANT_COST_PARAMETER_LABEL),
                 localization.getLabel(GAUSSIAN_KERNEL_PARAMETER_LABEL),
