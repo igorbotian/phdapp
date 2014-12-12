@@ -34,6 +34,7 @@ public class SvmAnalyticsModule extends PhDAppModule {
     protected void configure() {
         install(new MathDataFactoryModule());
         install(new ReportFactoryModule());
+        bind(CrossValidatorParameters.class).to(CrossValidatorParametersImpl.class);
         bind(SampleGenerator.class, SampleGeneratorImpl.class);
     }
 }

@@ -5,7 +5,7 @@ package ru.spbftu.igorbotian.phdapp.svm;
  *
  * @see IntervalClassifierParameters
  */
-public class IntervalClassifierParametersImpl extends AbstractClassifierParameterFactory
+class IntervalClassifierParametersImpl extends AbstractClassifierParameterFactory
         implements IntervalClassifierParameters {
 
     @Override

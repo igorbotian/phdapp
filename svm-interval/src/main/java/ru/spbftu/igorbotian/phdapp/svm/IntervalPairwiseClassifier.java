@@ -12,7 +12,7 @@ import java.util.Set;
  * Попарный классификатор, поддерживающий интервальные экспертные оценки
  */
 @Singleton
-public class IntervalPairwiseClassifier implements PairwiseClassifier {
+class IntervalPairwiseClassifier implements PairwiseClassifier {
 
     /**
      * Фабрика объектов предметной области
