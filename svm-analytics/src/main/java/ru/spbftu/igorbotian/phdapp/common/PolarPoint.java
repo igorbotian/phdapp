@@ -18,8 +18,6 @@
 
 package ru.spbftu.igorbotian.phdapp.common;
 
-import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
-
 import java.util.*;
 
 /**
@@ -31,9 +29,9 @@ import java.util.*;
 public class PolarPoint implements ClassifiedObject {
 
     /**
-     * Точка, не относящаяся ни к одному классу
+     * Обозначение класса, когда точка не принадлежит никакому классу
      */
-    public static final DataClass UNCLASSIFIED = DataFactory.newClass("unclassified");
+    private static final String UNCLASSIFIED_CLASS_NAME = "Unclassified";
 
     /**
      * Обозначение радиуса
@@ -61,6 +59,11 @@ public class PolarPoint implements ClassifiedObject {
     private final DataClass dataClass;
 
     /**
+     * Фабрика объектов предметной области
+     */
+    private final DataFactory dataFactory;
+
+    /**
      * Параметры данной точки как элемента выборки
      */
     private Set<Parameter<?>> params;
@@ -68,35 +71,36 @@ public class PolarPoint implements ClassifiedObject {
     /**
      * Создание точки, принадлежащей заданному классу, по полярным координатам
      *
-     * @param r   полярный радиус (неотрицательный)
-     * @param phi полярный угол (в радианах)
+     * @param r           полярный радиус (неотрицательный)
+     * @param phi         полярный угол (в радианах)
+     * @param dataFactory фабрика объектов предметной области
+     * @throws java.lang.NullPointerException если класс или фабрика не заданы
      */
-    public PolarPoint(double r, double phi, DataClass dataClass) {
+    public PolarPoint(double r, double phi, DataClass dataClass, DataFactory dataFactory) {
         if (r < 0) {
             throw new IllegalArgumentException("Polar radius cannot have a negative value");
         }
 
-        if (dataClass == null) {
-            throw new NullPointerException("Data class cannot be null");
-        }
-
         this.r = r;
         this.phi = phi;
-        this.dataClass = dataClass;
+        this.dataClass = Objects.requireNonNull(dataClass);
+        this.dataFactory = Objects.requireNonNull(dataFactory);
         this.params = Collections.unmodifiableSet(new HashSet<Parameter<?>>(Arrays.asList(
-                DataFactory.newParameter(R_LABEL, r, BasicDataTypes.REAL),
-                DataFactory.newParameter(PHI_LABEL, phi, BasicDataTypes.REAL)
+                dataFactory.newParameter(R_LABEL, r, BasicDataTypes.REAL),
+                dataFactory.newParameter(PHI_LABEL, phi, BasicDataTypes.REAL)
         )));
     }
 
     /**
      * Создание точки, не принадлежащей ни одному классу, по полярным координатам
      *
-     * @param r   полярный радиус (неотрицательный)
-     * @param phi полярный угол (в радианах)
+     * @param r           полярный радиус (неотрицательный)
+     * @param phi         полярный угол (в радианах)
+     * @param dataFactory фабрика объектов предметной области
+     * @throws java.lang.NullPointerException если фабрика объектов предметной области не задана
      */
-    public PolarPoint(double r, double phi) {
-        this(r, phi, UNCLASSIFIED);
+    public PolarPoint(double r, double phi, DataFactory dataFactory) {
+        this(r, phi, Objects.requireNonNull(dataFactory).newClass(UNCLASSIFIED_CLASS_NAME), dataFactory);
     }
 
     /**
@@ -129,11 +133,21 @@ public class PolarPoint implements ClassifiedObject {
 
     /**
      * Поворот данной точки на заданный угол
+     *
      * @param radians угол (в радианах), на который будет повёрнута данная точка
      * @return полярные координаты точки, получившейся в результате поворота на заданный угол
      */
     public PolarPoint rotate(double radians) {
-        return new PolarPoint(r, phi + radians, dataClass);
+        return new PolarPoint(r, phi + radians, dataClass, dataFactory);
+    }
+
+    /**
+     * Перевод полярных координат данной точки в Декартовы координаты
+     *
+     * @return данная точка, заданная в полярных координатах
+     */
+    public Point toCartesian() {
+        return new Point(r * Math.cos(phi), r * Math.sin(phi), dataClass(), dataFactory);
     }
 
     @Override
@@ -164,8 +178,6 @@ public class PolarPoint implements ClassifiedObject {
 
     @Override
     public String toString() {
-        return UNCLASSIFIED.equals(dataClass)
-                ? String.format("(%.5f;%.5f)", r, phi)
-                : String.format("(%.5f;%.5f;%s)", r, phi, dataClass);
+        return String.format("(%.5f;%.5f;%s)", r, phi, dataClass);
     }
 }

@@ -18,9 +18,11 @@
 
 package ru.spbftu.igorbotian.phdapp.common.impl;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import ru.spbftu.igorbotian.phdapp.common.*;
 
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -29,15 +31,29 @@ import java.util.Set;
 @Singleton
 class InputDataFactoryImpl implements InputDataFactory {
 
+    /**
+     * Фабрика объектов предметной области
+     */
+    private final DataFactory dataFactory;
+
+    @Inject
+    public InputDataFactoryImpl(DataFactory dataFactory) {
+        this.dataFactory = Objects.requireNonNull(dataFactory);
+    }
+
+    @Override
     public PointwiseInputData newPointwiseData(Set<? extends DataClass> classes,
                                                Set<? extends PointwiseTrainingObject> trainingSet,
                                                Set<? extends UnclassifiedObject> objects) throws DataException {
-        return new PointwiseInputDataImpl(classes, trainingSet, objects);
+        return new PointwiseInputDataImpl(dataFactory.newUnclassifiedData(classes, objects),
+                dataFactory.newPointwiseTrainingSet(classes, trainingSet));
     }
 
+    @Override
     public PairwiseInputData newPairwiseData(Set<? extends DataClass> classes,
                                              Set<? extends PairwiseTrainingObject> trainingSet,
                                              Set<? extends UnclassifiedObject> objects) throws DataException {
-        return new PairwiseInputDataImpl(classes, trainingSet, objects);
+        return new PairwiseInputDataImpl(dataFactory.newUnclassifiedData(classes, objects),
+                dataFactory.newPairwiseTrainingSet(trainingSet));
     }
 }

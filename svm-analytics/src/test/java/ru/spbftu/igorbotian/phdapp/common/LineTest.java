@@ -80,8 +80,8 @@ public class LineTest extends BaseDataTest<Line> {
 
     @Test
     public void testConstructionByTwoPoints() {
-        Point a = new Point(0.0, 0.0);
-        Point b = new Point(1.0, 1.0);
+        Point a = new Point(0.0, 0.0, dataFactory);
+        Point b = new Point(1.0, 1.0, dataFactory);
         Line line = new Line(a, b);
 
         Assert.assertEquals(-1.0, line.a(), delta);

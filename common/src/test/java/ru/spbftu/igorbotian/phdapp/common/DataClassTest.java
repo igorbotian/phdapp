@@ -20,7 +20,6 @@ package ru.spbftu.igorbotian.phdapp.common;
 
 import org.junit.Assert;
 import org.junit.Test;
-import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
 
 /**
  * Модульные тесты для класса <code>DataClass</code>
@@ -29,14 +28,14 @@ import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
  */
 public class DataClassTest extends BaseDataTest<DataClass> {
 
-    private final DataClass obj = DataFactory.newClass("obj");
-    private final DataClass similarObj = DataFactory.newClass("obj");
-    private final DataClass differentObj = DataFactory.newClass("differentObj");
+    private final DataClass obj = dataFactory.newClass("obj");
+    private final DataClass similarObj = dataFactory.newClass("obj");
+    private final DataClass differentObj = dataFactory.newClass("differentObj");
 
     @Test
     public void testName() {
         String className = "test";
-        Assert.assertEquals(className, DataFactory.newClass(className).name());
+        Assert.assertEquals(className, dataFactory.newClass(className).name());
     }
 
     @Test

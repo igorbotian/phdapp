@@ -18,11 +18,9 @@
 
 package ru.spbftu.igorbotian.phdapp.svm.analytics;
 
-import ru.spbftu.igorbotian.phdapp.common.DataClass;
 import ru.spbftu.igorbotian.phdapp.common.Line;
 import ru.spbftu.igorbotian.phdapp.common.Point;
 import ru.spbftu.igorbotian.phdapp.common.Range;
-import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
 
 import java.util.Set;
 
@@ -34,16 +32,6 @@ import java.util.Set;
  * Сгенерированная таким образом выборка затем используется для проверки корректности работы классификатора.
  */
 public interface SampleGenerator {
-
-    /**
-     * Класс, соответствующий множеству точек вокруг первой опорной точки
-     */
-    public static DataClass FIRST_SET_OF_POINTS = DataFactory.newClass("FirstSetOfObjects");
-
-    /**
-     * Класс, соответствующий множеству точек вокруг второй опорной точки
-     */
-    public static DataClass SECOND_SET_OF_POINTS = DataFactory.newClass("SecondSetOfObjects");
 
     /**
      * Регенерация случайно разбросанных точек вокруг опорных точек.

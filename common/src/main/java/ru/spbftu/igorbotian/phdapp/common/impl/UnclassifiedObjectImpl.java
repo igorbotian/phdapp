@@ -28,7 +28,7 @@ import java.util.Set;
 
 /**
  * @see ru.spbftu.igorbotian.phdapp.common.UnclassifiedData
- * @see DataFactory
+ * @see ru.spbftu.igorbotian.phdapp.common.DataFactory
  */
 class UnclassifiedObjectImpl implements UnclassifiedObject {
 

@@ -26,7 +26,7 @@ import java.util.Objects;
 
 /**
  * @see ru.spbftu.igorbotian.phdapp.common.Parameter
- * @see DataFactory
+ * @see ru.spbftu.igorbotian.phdapp.common.DataFactory
  */
 class ParameterImpl<V> implements Parameter<V> {
 

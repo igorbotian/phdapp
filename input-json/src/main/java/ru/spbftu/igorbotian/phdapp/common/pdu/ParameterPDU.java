@@ -19,8 +19,10 @@
 package ru.spbftu.igorbotian.phdapp.common.pdu;
 
 import ru.spbftu.igorbotian.phdapp.common.DataException;
-import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
+import ru.spbftu.igorbotian.phdapp.common.DataFactory;
 import ru.spbftu.igorbotian.phdapp.common.Parameter;
+
+import java.util.Objects;
 
 /**
  * POJO-версия класса, предназначенная для использования в механизме сериализации
@@ -43,7 +45,7 @@ public final class ParameterPDU<T> {
         return pdu;
     }
 
-    public Parameter<T> toObject() throws DataException {
-        return DataFactory.newParameter(name, value, valueType.toObject());
+    public Parameter<T> toObject(DataFactory dataFactory) throws DataException {
+        return Objects.requireNonNull(dataFactory).newParameter(name, value, valueType.toObject());
     }
 }

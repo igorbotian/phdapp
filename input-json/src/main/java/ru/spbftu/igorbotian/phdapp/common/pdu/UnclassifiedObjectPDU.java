@@ -19,11 +19,12 @@
 package ru.spbftu.igorbotian.phdapp.common.pdu;
 
 import ru.spbftu.igorbotian.phdapp.common.DataException;
-import ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject;
-import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
+import ru.spbftu.igorbotian.phdapp.common.DataFactory;
 import ru.spbftu.igorbotian.phdapp.common.Parameter;
+import ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject;
 
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -46,13 +47,15 @@ public final class UnclassifiedObjectPDU {
         return pdu;
     }
 
-    public UnclassifiedObject toObject() throws DataException {
+    public UnclassifiedObject toObject(DataFactory dataFactory) throws DataException {
+        Objects.requireNonNull(dataFactory);
+
         Set<Parameter<?>> params = new LinkedHashSet<>();
 
-        for(ParameterPDU param : this.params) {
-            params.add(param.toObject());
+        for (ParameterPDU param : this.params) {
+            params.add(param.toObject(dataFactory));
         }
 
-        return DataFactory.newUnclassifiedObject(id, params);
+        return dataFactory.newUnclassifiedObject(id, params);
     }
 }

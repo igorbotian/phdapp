@@ -30,9 +30,8 @@ public abstract class AbstractInputDataImpl implements InputData {
 
     private final UnclassifiedData testingSet;
 
-    public AbstractInputDataImpl(Set<? extends DataClass> classes, Set<? extends UnclassifiedObject> testingSet)
-            throws DataException {
-        this.testingSet = DataFactory.newUnclassifiedData(classes, Objects.requireNonNull(testingSet));
+    public AbstractInputDataImpl(UnclassifiedData testingSet) throws DataException {
+        this.testingSet = Objects.requireNonNull(testingSet);
     }
 
     @Override

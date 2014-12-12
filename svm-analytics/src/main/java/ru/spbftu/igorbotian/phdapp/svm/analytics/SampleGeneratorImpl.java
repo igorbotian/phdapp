@@ -18,20 +18,20 @@
 
 package ru.spbftu.igorbotian.phdapp.svm.analytics;
 
-import ru.spbftu.igorbotian.phdapp.common.Line;
-import ru.spbftu.igorbotian.phdapp.common.Point;
-import ru.spbftu.igorbotian.phdapp.common.PolarPoint;
-import ru.spbftu.igorbotian.phdapp.common.Range;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import ru.spbftu.igorbotian.phdapp.common.*;
 import ru.spbftu.igorbotian.phdapp.svm.analytics.math.ExponentialRandom;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.math.MathUtils;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
  * @see ru.spbftu.igorbotian.phdapp.svm.analytics.SampleGenerator
  */
+@Singleton
 class SampleGeneratorImpl implements SampleGenerator {
 
     /**
@@ -49,16 +49,58 @@ class SampleGeneratorImpl implements SampleGenerator {
      */
     private static final double dispersionRadius = 1.1 * distanceBetweenSupportingPoints;
 
-    private final Point firstPoint = new Point(dispersionRadius, dispersionRadius, FIRST_SET_OF_POINTS);
-    private final Point secondPoint = MathUtils.toDecart(new PolarPoint(
-            MathUtils.toPolar(firstPoint).r() + distanceBetweenSupportingPoints,
-            MathUtils.toPolar(firstPoint).phi(),
-            SECOND_SET_OF_POINTS
-    ));
-    private final Line separatingLine = determineSeparatingLine(firstPoint, secondPoint);
+    /**
+     * Фабрика объектов предметной области
+     */
+    private final DataFactory dataFactory;
+
+    /**
+     * Первая опорная точка
+     */
+    private final Point firstPoint;
+
+    /**
+     * Вторая опорная точка
+     */
+    private final Point secondPoint;
+
+    /**
+     * Прямая, проходящая через опорные точки
+     */
+    private final Line separatingLine;
+
+    /**
+     * Общее количество генерируемых точек
+     */
     private int numberOfPoints;
+
+    /**
+     * Множество точек, генерируемых вокруг первой опорной точки
+     */
     private Set<Point> firstSet = new HashSet<>();
+
+    /**
+     * Множество точек, генерируемых вокруг второй опорной точки
+     */
     private Set<Point> secondSet = new HashSet<>();
+
+    @Inject
+    public SampleGeneratorImpl(DataFactory dataFactory) {
+        this.dataFactory = Objects.requireNonNull(dataFactory);
+
+        firstPoint = new Point(dispersionRadius, dispersionRadius,
+                dataFactory.newClass("FirstSetOfObjects"), dataFactory);
+        secondPoint = new PolarPoint(
+                firstPoint.toPolar().r() + distanceBetweenSupportingPoints,
+                firstPoint.toPolar().phi(),
+                dataFactory.newClass("SecondSetOfObjects"),
+                dataFactory
+        ).toCartesian();
+
+        separatingLine = determineSeparatingLine(firstPoint, secondPoint);
+
+        regeneratePoints(DEFAULT_POINTS_COUNT);
+    }
 
     /*
      * 1. Вычисляем середину отрезка, соединяющего опорные точки
@@ -68,17 +110,13 @@ class SampleGeneratorImpl implements SampleGenerator {
      * 5. Получившуюся точку переводим в Декартовы координаты
      * 6. Прямая, разделяющая два множества будет проходить через найденную середину и вычисленную точку
      */
-    private static Line determineSeparatingLine(Point a, Point b) {
-        Point middle = new Point((a.x() + b.x()) / 2, (a.y() + b.y()) / 2);
+    private Line determineSeparatingLine(Point a, Point b) {
+        Point middle = new Point((a.x() + b.x()) / 2, (a.y() + b.y()) / 2, dataFactory);
         Point translatedB = b.shift(-middle.x(), -middle.y());
-        PolarPoint rotatedPolarB = MathUtils.toPolar(translatedB).rotate(Math.PI / 2);
-        Point pointOnSeparatingLine = MathUtils.toDecart(rotatedPolarB).shift(middle.x(), middle.y());
+        PolarPoint rotatedPolarB = translatedB.toPolar().rotate(Math.PI / 2);
+        Point pointOnSeparatingLine = rotatedPolarB.toCartesian().shift(middle.x(), middle.y());
 
         return new Line(middle, pointOnSeparatingLine);
-    }
-
-    public SampleGeneratorImpl() {
-        regeneratePoints(DEFAULT_POINTS_COUNT);
     }
 
     @Override
@@ -97,7 +135,8 @@ class SampleGeneratorImpl implements SampleGenerator {
         while (i < count) {
             if (polarPoints.add(new PolarPoint(
                     ExponentialRandom.nextDouble(0.0, dispersionRadius),
-                    ExponentialRandom.nextDouble(0.0, 2 * Math.PI)))) {
+                    ExponentialRandom.nextDouble(0.0, 2 * Math.PI),
+                    dataFactory))) {
                 i++;
             }
         }
@@ -105,8 +144,11 @@ class SampleGeneratorImpl implements SampleGenerator {
         Set<Point> result = new HashSet<>();
 
         for (PolarPoint polarPoint : polarPoints) {
-            Point decartPoint = MathUtils.toDecart(polarPoint);
-            result.add(new Point(decartPoint.x() + supportingPoint.x(), decartPoint.y() + supportingPoint.y()));
+            Point cartesianPoint = polarPoint.toCartesian();
+            result.add(new Point(cartesianPoint.x() + supportingPoint.x(),
+                    cartesianPoint.y() + supportingPoint.y(),
+                    dataFactory
+            ));
         }
 
         return result;

@@ -18,8 +18,6 @@
 
 package ru.spbftu.igorbotian.phdapp.common;
 
-import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
-
 import java.util.*;
 
 /**
@@ -29,9 +27,9 @@ import java.util.*;
 public class Point implements ClassifiedObject {
 
     /**
-     * Точка, не относящаяся ни к одному классу
+     * Обозначение класса, когда точка не принадлежит никакому классу
      */
-    public static final DataClass UNCLASSIFIED = DataFactory.newClass("unclassified");
+    private static final String UNCLASSIFIED_CLASS_NAME = "Unclassified";
 
     /**
      * Обозначение оси ординат
@@ -64,36 +62,41 @@ public class Point implements ClassifiedObject {
     private DataClass dataClass;
 
     /**
+     * Фабрика создания объектов предметной области
+     */
+    private DataFactory dataFactory;
+
+    /**
      * Создание точки в двумерном пространстве
      *
-     * @param x         координата по оси абсцисс
-     * @param y         координата по оси ординат
-     * @param dataClass класс, к которому принадлежит данная точка
-     * @throws java.lang.NullPointerException если класс не задан
+     * @param x           координата по оси абсцисс
+     * @param y           координата по оси ординат
+     * @param dataClass   класс, к которому принадлежит данная точка
+     * @param dataFactory фабрика объектов предметной области
+     * @throws java.lang.NullPointerException если класс или фабрика не заданы
      */
-    public Point(double x, double y, DataClass dataClass) {
-        if (dataClass == null) {
-            throw new NullPointerException("Data class cannot be null");
-        }
-
+    public Point(double x, double y, DataClass dataClass, DataFactory dataFactory) {
         this.x = x;
         this.y = y;
-        this.dataClass = dataClass;
+        this.dataClass = Objects.requireNonNull(dataClass);
+        this.dataFactory = Objects.requireNonNull(dataFactory);
 
         params = Collections.unmodifiableSet(new HashSet<Parameter<?>>(Arrays.asList(
-                DataFactory.newParameter(X_DIMENSION_LABEL, x, BasicDataTypes.REAL),
-                DataFactory.newParameter(Y_DIMENSION_LABEL, y, BasicDataTypes.REAL)
+                dataFactory.newParameter(X_DIMENSION_LABEL, x, BasicDataTypes.REAL),
+                dataFactory.newParameter(Y_DIMENSION_LABEL, y, BasicDataTypes.REAL)
         )));
     }
 
     /**
      * Создание точки в двумерном пространстве
      *
-     * @param x координата по оси абсцисс
-     * @param y координата по оси ординат
+     * @param x           координата по оси абсцисс
+     * @param y           координата по оси ординат
+     * @param dataFactory фабрика объектов предметной области
+     * @throws java.lang.NullPointerException если фабрика объектов предметной области не задана
      */
-    public Point(double x, double y) {
-        this(x, y, UNCLASSIFIED);
+    public Point(double x, double y, DataFactory dataFactory) {
+        this(x, y, Objects.requireNonNull(dataFactory).newClass(UNCLASSIFIED_CLASS_NAME), dataFactory);
     }
 
     /**
@@ -122,7 +125,49 @@ public class Point implements ClassifiedObject {
      * @return точка, получившаяюся в результате заданного смещения по оси абсцисс и ординат
      */
     public Point shift(double dx, double dy) {
-        return new Point(x + dx, y + dy, dataClass);
+        return new Point(x + dx, y + dy, dataClass, dataFactory);
+    }
+
+    /**
+     * Перевод Декартовых координат данной точки в полярные координаты
+     *
+     * @return заданная точка в полярных координатах
+     */
+    public PolarPoint toPolar() {
+        double x = x();
+        double y = y();
+        double r = Math.sqrt(x * x + y * y);
+        double phi;
+
+        if (x > 0 && y >= 0) {
+            phi = Math.atan(y / x);
+        } else if (x > 0 && y < 0) {
+            phi = Math.atan(y / x) + 2 * Math.PI;
+        } else if (x < 0) {
+            phi = Math.atan(y / x) + Math.PI;
+        } else if (x == 0 && y > 0) {
+            phi = Math.PI / 2;
+        } else if (x == 0 && y < 0) {
+            phi = 3 * Math.PI / 2;
+        } else { // x == 0 && y == 0
+            r = 0;
+            phi = 0;
+        }
+
+        return new PolarPoint(r, phi, dataFactory);
+    }
+
+    /**
+     * Вычисление расстояния от данной до задачнной точки
+     *
+     * @param b вторая точка
+     * @return положительное вещественное число
+     * @throws java.lang.NullPointerException если вторая точка не задана
+     */
+    public double distanceTo(Point b) {
+        Objects.requireNonNull(b);
+
+        return Math.sqrt(Math.pow(Math.abs(b.x() - x()), 2.0) + Math.pow(Math.abs(b.y() - y()), 2.0));
     }
 
     @Override
@@ -132,9 +177,7 @@ public class Point implements ClassifiedObject {
 
     @Override
     public String id() {
-        return UNCLASSIFIED.equals(dataClass)
-                ? String.format("(%.5f;%.5f", x, y)
-                : String.format("(%.5f;%.5f;%s)", x, y, dataClass.toString());
+        return String.format("(%.5f;%.5f;%s)", x, y, dataClass.toString());
     }
 
     @Override

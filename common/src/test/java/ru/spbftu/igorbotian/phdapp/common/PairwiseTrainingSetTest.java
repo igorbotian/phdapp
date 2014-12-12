@@ -19,7 +19,6 @@
 package ru.spbftu.igorbotian.phdapp.common;
 
 import org.junit.Test;
-import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
 
 import java.util.Collections;
 
@@ -30,23 +29,23 @@ import java.util.Collections;
  */
 public class PairwiseTrainingSetTest extends BaseDataTest<PairwiseTrainingSet> {
 
-    private final UnclassifiedObject firstObj = DataFactory.newUnclassifiedObject("firstObj",
-            Collections.singleton(DataFactory.newParameter("param", "firstObj", BasicDataTypes.STRING)));
-    private final UnclassifiedObject secondObj = DataFactory.newUnclassifiedObject("secondObj",
-            Collections.singleton(DataFactory.newParameter("param", "secondObj", BasicDataTypes.STRING)));
-    private final UnclassifiedObject thirdObj = DataFactory.newUnclassifiedObject("thirdObj",
-            Collections.singleton(DataFactory.newParameter("param", "thirdObj", BasicDataTypes.STRING)));
+    private final UnclassifiedObject firstObj = dataFactory.newUnclassifiedObject("firstObj",
+            Collections.singleton(dataFactory.newParameter("param", "firstObj", BasicDataTypes.STRING)));
+    private final UnclassifiedObject secondObj = dataFactory.newUnclassifiedObject("secondObj",
+            Collections.singleton(dataFactory.newParameter("param", "secondObj", BasicDataTypes.STRING)));
+    private final UnclassifiedObject thirdObj = dataFactory.newUnclassifiedObject("thirdObj",
+            Collections.singleton(dataFactory.newParameter("param", "thirdObj", BasicDataTypes.STRING)));
 
-    private final PairwiseTrainingObject firstPair = DataFactory.newPairwiseTrainingObject(
+    private final PairwiseTrainingObject firstPair = dataFactory.newPairwiseTrainingObject(
             Collections.singleton(firstObj), Collections.singleton(secondObj)
     );
-    private final PairwiseTrainingObject secondPair = DataFactory.newPairwiseTrainingObject(
+    private final PairwiseTrainingObject secondPair = dataFactory.newPairwiseTrainingObject(
             Collections.singleton(firstObj), Collections.singleton(thirdObj)
     );
 
-    private final PairwiseTrainingSet obj = DataFactory.newPairwiseTrainingSet(Collections.singleton(firstPair));
-    private final PairwiseTrainingSet similarObj = DataFactory.newPairwiseTrainingSet(Collections.singleton(firstPair));
-    private final PairwiseTrainingSet differentObj = DataFactory.newPairwiseTrainingSet(Collections.singleton(secondPair));
+    private final PairwiseTrainingSet obj = dataFactory.newPairwiseTrainingSet(Collections.singleton(firstPair));
+    private final PairwiseTrainingSet similarObj = dataFactory.newPairwiseTrainingSet(Collections.singleton(firstPair));
+    private final PairwiseTrainingSet differentObj = dataFactory.newPairwiseTrainingSet(Collections.singleton(secondPair));
 
     @Test
     public void testHashCode() {

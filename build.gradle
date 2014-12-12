@@ -28,6 +28,7 @@ project(':common') {
 
     dependencies {
         compile(
+                project(':ioc'),
                 commonsLang,
                 log4j,
                 validationApi

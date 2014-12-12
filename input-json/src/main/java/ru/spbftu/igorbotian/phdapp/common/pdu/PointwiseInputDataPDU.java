@@ -21,6 +21,7 @@ package ru.spbftu.igorbotian.phdapp.common.pdu;
 import ru.spbftu.igorbotian.phdapp.common.*;
 
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -49,18 +50,21 @@ public class PointwiseInputDataPDU {
         return pdu;
     }
 
-    public PointwiseInputData toObject(InputDataFactory inputDataFactory) throws DataException {
+    public PointwiseInputData toObject(DataFactory dataFactory, InputDataFactory inputDataFactory) throws DataException {
+        Objects.requireNonNull(dataFactory);
+        Objects.requireNonNull(inputDataFactory);
+
         Set<DataClass> classes = new LinkedHashSet<>();
-        this.classes.forEach(clazz -> classes.add(clazz.toObject()));
+        this.classes.forEach(clazz -> classes.add(clazz.toObject(dataFactory)));
 
         Set<UnclassifiedObject> testingSet = new LinkedHashSet<>();
         for (UnclassifiedObjectPDU pdu : this.testingSet) {
-            testingSet.add(pdu.toObject());
+            testingSet.add(pdu.toObject(dataFactory));
         }
 
         Set<PointwiseTrainingObject> trainingSet = new LinkedHashSet<>();
         for (PointwiseTrainingObjectPDU pdu : this.trainingSet) {
-            trainingSet.add(pdu.toObject());
+            trainingSet.add(pdu.toObject(dataFactory));
         }
 
         return inputDataFactory.newPointwiseData(classes, trainingSet, testingSet);

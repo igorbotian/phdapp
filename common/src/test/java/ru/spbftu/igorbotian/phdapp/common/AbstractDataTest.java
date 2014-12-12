@@ -18,9 +18,13 @@
 
 package ru.spbftu.igorbotian.phdapp.common;
 
-import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -31,6 +35,16 @@ import java.util.stream.Collectors;
  * Предоставляет вспомогательные методы, использующиеся в тестах
  */
 public abstract class AbstractDataTest {
+
+    /**
+     * Фабрика объектов предметной области
+     */
+    protected static final DataFactory dataFactory;
+
+    static {
+        Injector injector = Guice.createInjector(new DataModule());
+        dataFactory = injector.getInstance(DataFactory.class);
+    }
 
     /**
      * Создание строки со случайным содержимым
@@ -92,7 +106,7 @@ public abstract class AbstractDataTest {
      * @return объект класса
      */
     protected static DataClass randomClass() {
-        return DataFactory.newClass(randomString());
+        return dataFactory.newClass(randomString());
     }
 
     /**
@@ -124,7 +138,7 @@ public abstract class AbstractDataTest {
      */
     protected static Parameter<String> randomStringObjectParameter(String name) {
         Objects.requireNonNull(name);
-        return DataFactory.newParameter(name, randomString(), BasicDataTypes.STRING);
+        return dataFactory.newParameter(name, randomString(), BasicDataTypes.STRING);
     }
 
     /**
@@ -159,7 +173,7 @@ public abstract class AbstractDataTest {
      */
     protected static UnclassifiedObject randomObject(Set<String> paramNames) {
         Objects.requireNonNull(paramNames);
-        return DataFactory.newUnclassifiedObject(randomString(), randomStringObjectParameters(paramNames));
+        return dataFactory.newUnclassifiedObject(randomString(), randomStringObjectParameters(paramNames));
     }
 
     /**

@@ -21,7 +21,6 @@ package ru.spbftu.igorbotian.phdapp.common;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -50,15 +49,15 @@ public class UnclassifiedDataTest extends BaseDataTest<UnclassifiedData> {
         Set<DataClass> anotherSetOfClasses = randomClasses(2);
         Set<UnclassifiedObject> anotherSetOfObjects = randomObjects(2, 1);
 
-        obj = DataFactory.newUnclassifiedData(setOfClasses, setOfObjects);
-        differentObj = DataFactory.newUnclassifiedData(anotherSetOfClasses, anotherSetOfObjects);
-        objWithSameClassesAndDifferentObjects = DataFactory.newUnclassifiedData(setOfClasses, anotherSetOfObjects);
-        similarObj = DataFactory.newUnclassifiedData(setOfClasses, setOfObjects);
+        obj = dataFactory.newUnclassifiedData(setOfClasses, setOfObjects);
+        differentObj = dataFactory.newUnclassifiedData(anotherSetOfClasses, anotherSetOfObjects);
+        objWithSameClassesAndDifferentObjects = dataFactory.newUnclassifiedData(setOfClasses, anotherSetOfObjects);
+        similarObj = dataFactory.newUnclassifiedData(setOfClasses, setOfObjects);
     }
 
     @Test
     public void testClasses() throws DataException {
-        UnclassifiedData data = DataFactory.newUnclassifiedData(setOfClasses, setOfObjects);
+        UnclassifiedData data = dataFactory.newUnclassifiedData(setOfClasses, setOfObjects);
 
         Assert.assertEquals(setOfClasses.size(), data.classes().size());
         Assert.assertTrue(setOfClasses.containsAll(data.classes()));
@@ -66,7 +65,7 @@ public class UnclassifiedDataTest extends BaseDataTest<UnclassifiedData> {
 
     @Test
     public void testObjects() throws DataException {
-        UnclassifiedData data = DataFactory.newUnclassifiedData(setOfClasses, setOfObjects);
+        UnclassifiedData data = dataFactory.newUnclassifiedData(setOfClasses, setOfObjects);
 
         Assert.assertEquals(setOfObjects.size(), data.objects().size());
         Assert.assertTrue(setOfObjects.containsAll(data.objects()));
@@ -76,15 +75,15 @@ public class UnclassifiedDataTest extends BaseDataTest<UnclassifiedData> {
     public void testObjectsWithDifferentParams() throws DataException {
         String paramName = randomString();
         Set<Parameter<?>> firstSetOfParams = Collections.singleton(
-                DataFactory.newParameter(paramName, 1.0, BasicDataTypes.REAL));
+                dataFactory.newParameter(paramName, 1.0, BasicDataTypes.REAL));
         Set<Parameter<?>> secondSetOfParams = Collections.singleton(
-                DataFactory.newParameter(paramName, randomString(), BasicDataTypes.STRING));
+                dataFactory.newParameter(paramName, randomString(), BasicDataTypes.STRING));
 
         Set<UnclassifiedObject> objects = new HashSet<>();
-        objects.add(DataFactory.newUnclassifiedObject(randomString(), firstSetOfParams));
-        objects.add(DataFactory.newUnclassifiedObject(randomString(), secondSetOfParams));
+        objects.add(dataFactory.newUnclassifiedObject(randomString(), firstSetOfParams));
+        objects.add(dataFactory.newUnclassifiedObject(randomString(), secondSetOfParams));
 
-        DataFactory.newUnclassifiedData(randomClasses(2), objects);
+        dataFactory.newUnclassifiedData(randomClasses(2), objects);
     }
 
     @Test

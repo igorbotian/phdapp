@@ -18,12 +18,15 @@
 
 package ru.spbftu.igorbotian.phdapp.svm.analytics;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import ru.spbftu.igorbotian.phdapp.common.DataFactory;
+import ru.spbftu.igorbotian.phdapp.common.DataModule;
 import ru.spbftu.igorbotian.phdapp.common.Line;
 import ru.spbftu.igorbotian.phdapp.common.Point;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.math.MathUtils;
 
 import java.util.Set;
 import java.util.function.BiFunction;
@@ -38,7 +41,8 @@ public class SampleGeneratorTest {
 
     @Before
     public void setUp() {
-        sampleGenerator = new SampleGeneratorImpl();
+        Injector injector = Guice.createInjector(new DataModule());
+        sampleGenerator = new SampleGeneratorImpl(injector.getInstance(DataFactory.class));
     }
 
     @Test
@@ -76,8 +80,8 @@ public class SampleGeneratorTest {
     }
 
     private Point nearestSupportingPoint(Point point, Point firstSupportingPoint, Point secondSupportingPoint) {
-        double toFirstSupportingPoint = MathUtils.distance(point, firstSupportingPoint);
-        double toSecondSupportingPoint = MathUtils.distance(point, secondSupportingPoint);
+        double toFirstSupportingPoint = point.distanceTo(firstSupportingPoint);
+        double toSecondSupportingPoint = point.distanceTo(secondSupportingPoint);
 
         return (toFirstSupportingPoint < toSecondSupportingPoint) ? firstSupportingPoint : secondSupportingPoint;
     }
@@ -109,9 +113,9 @@ public class SampleGeneratorTest {
     private static boolean isLeftOrUnder(Point point, Line line) {
         double x = line.x(point.y());
 
-        if(point.x() < x) { // левее
+        if (point.x() < x) { // левее
             return true;
-        } else if(point.x() > x) { // правее
+        } else if (point.x() > x) { // правее
             return false;
         } else { // горизонтальная линия
             double y = line.y(point.x());
@@ -123,9 +127,9 @@ public class SampleGeneratorTest {
     private static boolean isRightOrAbove(Point point, Line line) {
         double x = line.x(point.y());
 
-        if(point.x() > x) { // правее
+        if (point.x() > x) { // правее
             return true;
-        } else if(point.x() < x) { // левее
+        } else if (point.x() < x) { // левее
             return false;
         } else { // горизонтальная линия
             double y = line.y(point.x());

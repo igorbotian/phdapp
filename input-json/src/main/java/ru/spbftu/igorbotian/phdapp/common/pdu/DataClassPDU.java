@@ -19,7 +19,9 @@
 package ru.spbftu.igorbotian.phdapp.common.pdu;
 
 import ru.spbftu.igorbotian.phdapp.common.DataClass;
-import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
+import ru.spbftu.igorbotian.phdapp.common.DataFactory;
+
+import java.util.Objects;
 
 /**
  * POJO-версия класса, предназначенная для использования в механизме сериализации
@@ -36,7 +38,7 @@ public final class DataClassPDU {
         return pdu;
     }
 
-    public DataClass toObject() {
-        return DataFactory.newClass(name);
+    public DataClass toObject(DataFactory dataFactory) {
+        return Objects.requireNonNull(dataFactory).newClass(name);
     }
 }

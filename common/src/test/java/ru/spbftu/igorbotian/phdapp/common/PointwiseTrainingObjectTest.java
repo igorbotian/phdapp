@@ -21,7 +21,6 @@ package ru.spbftu.igorbotian.phdapp.common;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -48,14 +47,14 @@ public class PointwiseTrainingObjectTest extends BaseDataTest<PointwiseTrainingO
         DataClass anotherRealClass = randomClass();
         Set<Parameter<?>> anotherSetOfParams = randomStringObjectParameters(3);
 
-        obj = DataFactory.newPointwiseTrainingObject("obj", setOfParams, realClass);
-        differentObj = DataFactory.newPointwiseTrainingObject("differentObj", anotherSetOfParams, anotherRealClass);
-        similarObj = DataFactory.newPointwiseTrainingObject("obj", new HashSet<>(setOfParams), realClass);
+        obj = dataFactory.newPointwiseTrainingObject("obj", setOfParams, realClass);
+        differentObj = dataFactory.newPointwiseTrainingObject("differentObj", anotherSetOfParams, anotherRealClass);
+        similarObj = dataFactory.newPointwiseTrainingObject("obj", new HashSet<>(setOfParams), realClass);
     }
 
     @Test
     public void testRealClass() {
-        Assert.assertEquals(realClass, DataFactory.newPointwiseTrainingObject("name", setOfParams, realClass).realClass());
+        Assert.assertEquals(realClass, dataFactory.newPointwiseTrainingObject("name", setOfParams, realClass).realClass());
     }
 
     @Test

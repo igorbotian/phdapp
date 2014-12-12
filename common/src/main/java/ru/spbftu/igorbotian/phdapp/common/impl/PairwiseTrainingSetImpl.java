@@ -27,7 +27,7 @@ import java.util.Set;
 
 /**
  * @see ru.spbftu.igorbotian.phdapp.common.PairwiseTrainingSet
- * @see ru.spbftu.igorbotian.phdapp.common.impl.DataFactory
+ * @see ru.spbftu.igorbotian.phdapp.common.DataFactory
  */
 class PairwiseTrainingSetImpl implements PairwiseTrainingSet {
 

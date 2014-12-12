@@ -19,11 +19,12 @@
 package ru.spbftu.igorbotian.phdapp.common.pdu;
 
 import ru.spbftu.igorbotian.phdapp.common.DataException;
+import ru.spbftu.igorbotian.phdapp.common.DataFactory;
 import ru.spbftu.igorbotian.phdapp.common.PairwiseTrainingObject;
 import ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject;
-import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -48,19 +49,21 @@ public class PairwiseTrainingObjectPDU {
         return pdu;
     }
 
-    public PairwiseTrainingObject toObject() throws DataException {
+    public PairwiseTrainingObject toObject(DataFactory dataFactory) throws DataException {
+        Objects.requireNonNull(dataFactory);
+
         Set<UnclassifiedObject> preferable = new HashSet<>();
 
-        for(UnclassifiedObjectPDU pdu : this.preferable) {
-            preferable.add(pdu.toObject());
+        for (UnclassifiedObjectPDU pdu : this.preferable) {
+            preferable.add(pdu.toObject(dataFactory));
         }
 
         Set<UnclassifiedObject> inferior = new HashSet<>();
 
-        for(UnclassifiedObjectPDU pdu : this.inferior) {
-            inferior.add(pdu.toObject());
+        for (UnclassifiedObjectPDU pdu : this.inferior) {
+            inferior.add(pdu.toObject(dataFactory));
         }
 
-        return DataFactory.newPairwiseTrainingObject(preferable, inferior);
+        return dataFactory.newPairwiseTrainingObject(preferable, inferior);
     }
 }

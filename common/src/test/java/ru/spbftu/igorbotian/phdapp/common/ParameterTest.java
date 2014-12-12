@@ -20,7 +20,6 @@ package ru.spbftu.igorbotian.phdapp.common;
 
 import org.junit.Assert;
 import org.junit.Test;
-import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
 
 /**
  * Модульные тесты для класса <code>Parameter</code>
@@ -29,29 +28,29 @@ import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
  */
 public class ParameterTest extends BaseDataTest<Parameter> {
 
-    private final Parameter obj = DataFactory.newParameter("obj", "value", BasicDataTypes.STRING);
+    private final Parameter obj = dataFactory.newParameter("obj", "value", BasicDataTypes.STRING);
     private final Parameter differentObj =
-            DataFactory.newParameter("differentObj", "anotherValue", BasicDataTypes.STRING);
+            dataFactory.newParameter("differentObj", "anotherValue", BasicDataTypes.STRING);
     private final Parameter objWithSameNameAndDifferentValue =
-            DataFactory.newParameter("obj", "anotherValue", BasicDataTypes.STRING);
-    private final Parameter similarObj = DataFactory.newParameter("obj", "value", BasicDataTypes.STRING);
+            dataFactory.newParameter("obj", "anotherValue", BasicDataTypes.STRING);
+    private final Parameter similarObj = dataFactory.newParameter("obj", "value", BasicDataTypes.STRING);
 
     @Test
     public void testName() {
         String paramName = "test";
-        Assert.assertEquals(paramName, DataFactory.newParameter(paramName, "anyValue", BasicDataTypes.STRING).name());
+        Assert.assertEquals(paramName, dataFactory.newParameter(paramName, "anyValue", BasicDataTypes.STRING).name());
     }
 
     @Test
     public void testValue() {
         String paramValue = "test";
-        Assert.assertEquals(paramValue, DataFactory.newParameter("anyParam", paramValue, BasicDataTypes.STRING).value());
+        Assert.assertEquals(paramValue, dataFactory.newParameter("anyParam", paramValue, BasicDataTypes.STRING).value());
     }
 
     @Test
     public void testValueType() {
         DataType<String> dataType = BasicDataTypes.STRING;
-        Assert.assertEquals(dataType, DataFactory.newParameter("anyParam", "anyValue", dataType).valueType());
+        Assert.assertEquals(dataType, dataFactory.newParameter("anyParam", "anyValue", dataType).valueType());
     }
 
     @Test

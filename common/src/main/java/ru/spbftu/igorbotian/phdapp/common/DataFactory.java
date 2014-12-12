@@ -1,37 +1,11 @@
-/**
- * Copyright (c) 2014 Igor Botian
- *
- * This program is free software: you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by the Free
- * Software Foundation; either version 2 of the License, or (at your option)
- * any later version.
- *
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
- * for more details. You should have received a copy of the GNU General
- * Public License along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
- *
- * @author Igor Botian <igor.botian@gmail.com>
- */
-
-package ru.spbftu.igorbotian.phdapp.common.impl;
-
-import ru.spbftu.igorbotian.phdapp.common.*;
+package ru.spbftu.igorbotian.phdapp.common;
 
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Фабрика объектов предметной области
  */
-public final class DataFactory {
-
-    private DataFactory() {
-        //
-    }
+public interface DataFactory {
 
     /**
      * Создание объекта типа <code>DataClass</code>
@@ -41,9 +15,7 @@ public final class DataFactory {
      * @throws java.lang.IllegalArgumentException если идентификатор класса пустой
      * @see ru.spbftu.igorbotian.phdapp.common.DataClass
      */
-    public static DataClass newClass(String name) {
-        return new DataClassImpl(name);
-    }
+    DataClass newClass(String name);
 
     /**
      * Создание множества объектов классов классификации на основе их имён
@@ -51,9 +23,7 @@ public final class DataFactory {
      * @param names названия классов (каждое не может быть пустым)
      * @return множество классов
      */
-    public static Set<DataClass> newClasses(String... names) {
-        return Stream.of(names).map(DataFactory::newClass).collect(Collectors.toSet());
-    }
+    Set<DataClass> newClasses(String... names);
 
     /**
      * Создание множества объектов классов классификации на основе их имён
@@ -61,9 +31,7 @@ public final class DataFactory {
      * @param names названия классов (каждое не может быть пустым)
      * @return множество классов
      */
-    public static Set<DataClass> newClasses(Set<String> names) {
-        return names.stream().map(DataFactory::newClass).collect(Collectors.toSet());
-    }
+    Set<DataClass> newClasses(Set<String> names);
 
     /**
      * Создание объекта типа <code>Parameter</code>
@@ -75,9 +43,7 @@ public final class DataFactory {
      * @throws java.lang.NullPointerException     если хотя бы один из параметров не задан
      * @see ru.spbftu.igorbotian.phdapp.common.Parameter
      */
-    public static <V> Parameter<V> newParameter(String name, V value, DataType<V> valueType) {
-        return new ParameterImpl<>(name, value, valueType);
-    }
+    <V> Parameter<V> newParameter(String name, V value, DataType<V> valueType);
 
     /**
      * Создание объекта типа <code>UnclassifiedObject</code>
@@ -90,9 +56,7 @@ public final class DataFactory {
      *                                            не содержит ни одного элемента
      * @see ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject
      */
-    public static UnclassifiedObject newUnclassifiedObject(String id, Set<Parameter<?>> params) {
-        return new UnclassifiedObjectImpl(id, params);
-    }
+    UnclassifiedObject newUnclassifiedObject(String id, Set<Parameter<?>> params);
 
     /**
      * Создание объекта типа <code>ClassifiedObject</code>
@@ -104,9 +68,7 @@ public final class DataFactory {
      * @throws java.lang.NullPointerException если хотя бы один из параметров не задан
      * @see ru.spbftu.igorbotian.phdapp.common.ClassifiedObject
      */
-    public static ClassifiedObject newClassifiedObject(String id, Set<Parameter<?>> params, DataClass dataClass) {
-        return new ClassifiedObjectImpl(id, params, dataClass);
-    }
+    ClassifiedObject newClassifiedObject(String id, Set<Parameter<?>> params, DataClass dataClass);
 
     /**
      * Создание объекта типа <code>ClassifiedObject</code>
@@ -118,22 +80,19 @@ public final class DataFactory {
      * @throws java.lang.NullPointerException если хотя бы один из параметров не задан
      * @see ru.spbftu.igorbotian.phdapp.common.PointwiseTrainingObject
      */
-    public static PointwiseTrainingObject newPointwiseTrainingObject(String id, Set<Parameter<?>> params, DataClass realClass) {
-        return new PointwiseTrainingObjectImpl(id, params, realClass);
-    }
+    PointwiseTrainingObject newPointwiseTrainingObject(String id, Set<Parameter<?>> params, DataClass realClass);
 
     /**
      * Создание объекта типа <code>PairwiseTrainingObject</code>
+     *
      * @param preferable набор исходных объектов, который предпочтителен другого набора
-     * @param inferior набор исходных объектов, над которым другой набор имеет предпочтение
+     * @param inferior   набор исходных объектов, над которым другой набор имеет предпочтение
      * @return объект типа <code>PairwiseTrainingObject</code> с заданными параметрами
-     * @throws java.lang.NullPointerException если хотя бы один из параметров не задан
+     * @throws java.lang.NullPointerException     если хотя бы один из параметров не задан
      * @throws java.lang.IllegalArgumentException если хотя бы один объект из одного набора также содержится и во втором
      */
-    public static PairwiseTrainingObject newPairwiseTrainingObject(Set<? extends UnclassifiedObject> preferable,
-                                                                   Set<? extends UnclassifiedObject> inferior) {
-        return new PairwiseTrainingObjectImpl(preferable, inferior);
-    }
+    PairwiseTrainingObject newPairwiseTrainingObject(Set<? extends UnclassifiedObject> preferable,
+                                                     Set<? extends UnclassifiedObject> inferior);
 
     /**
      * Создание объекта типа <code>UnclassifiedData</code>
@@ -149,10 +108,8 @@ public final class DataFactory {
      * @throws java.lang.NullPointerException                   если множество классов или множество объектов равно <code>null</code>
      * @see ru.spbftu.igorbotian.phdapp.common.UnclassifiedData
      */
-    public static UnclassifiedData newUnclassifiedData(Set<? extends DataClass> classes,
-                                                       Set<? extends UnclassifiedObject> objects) throws DataException {
-        return new UnclassifiedDataImpl(classes, objects);
-    }
+    UnclassifiedData newUnclassifiedData(Set<? extends DataClass> classes,
+                                         Set<? extends UnclassifiedObject> objects) throws DataException;
 
     /**
      * Создание объекта типа <code>ClassifiedData</code>
@@ -168,10 +125,8 @@ public final class DataFactory {
      * @throws java.lang.NullPointerException                   если множество классов или множество объектов равно <code>null</code>
      * @see ru.spbftu.igorbotian.phdapp.common.ClassifiedData
      */
-    public static ClassifiedData newClassifiedData(Set<? extends DataClass> classes,
-                                                   Set<? extends ClassifiedObject> objects) throws DataException {
-        return new ClassifiedDataImpl(classes, objects);
-    }
+    ClassifiedData newClassifiedData(Set<? extends DataClass> classes,
+                                     Set<? extends ClassifiedObject> objects) throws DataException;
 
     /**
      * Создание объекта типа <code>PointwiseTrainingSet</code>
@@ -187,18 +142,15 @@ public final class DataFactory {
      * @throws java.lang.NullPointerException                   если множество классов или множество объектов равно <code>null</code>
      * @see ru.spbftu.igorbotian.phdapp.common.PointwiseTrainingSet
      */
-    public static PointwiseTrainingSet newPointwiseTrainingSet(Set<? extends DataClass> classes,
-                                                               Set<? extends PointwiseTrainingObject> objects) throws DataException {
-        return new PointwiseTrainingSetImpl(classes, objects);
-    }
+    PointwiseTrainingSet newPointwiseTrainingSet(Set<? extends DataClass> classes,
+                                                 Set<? extends PointwiseTrainingObject> objects) throws DataException;
 
     /**
      * Создание объекта типа <code>PairwiseTrainingSet</code>
+     *
      * @param objects элементы обучающей выборки
      * @return объект типа <code>PairwiseTrainingSet</code> с заданными параметрами
      * @throws java.lang.NullPointerException если множество элементов обучающей выборки не задано
      */
-    public static PairwiseTrainingSet newPairwiseTrainingSet(Set<? extends PairwiseTrainingObject> objects) {
-        return new PairwiseTrainingSetImpl(objects);
-    }
+    PairwiseTrainingSet newPairwiseTrainingSet(Set<? extends PairwiseTrainingObject> objects);
 }

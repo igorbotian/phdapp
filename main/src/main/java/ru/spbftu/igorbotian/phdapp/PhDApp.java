@@ -24,6 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import ru.spbftu.igorbotian.phd.output.csv.CSVOutputDataManagementModule;
 import ru.spbftu.igorbotian.phd.output.summary.SummaryOutputDataManagementModule;
+import ru.spbftu.igorbotian.phdapp.common.DataModule;
 import ru.spbftu.igorbotian.phdapp.common.InputDataModule;
 import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfigurationModule;
 import ru.spbftu.igorbotian.phdapp.input.JsonInputDataManagementModule;
@@ -63,6 +64,7 @@ public class PhDApp {
      * Список из модулей приложения
      */
     public static final Set<PhDAppModule> INJECTION_MODULES = new LinkedHashSet<>(Arrays.asList(
+            new DataModule(),
             new InputDataModule(),
             new ApplicationConfigurationModule(CONFIG_FOLDER),
             new JsonInputDataManagementModule(CONFIG_FOLDER),

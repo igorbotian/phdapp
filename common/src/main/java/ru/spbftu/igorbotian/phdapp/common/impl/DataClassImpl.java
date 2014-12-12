@@ -25,7 +25,7 @@ import java.util.Objects;
 
 /**
  * @see ru.spbftu.igorbotian.phdapp.common.DataClass
- * @see DataFactory
+ * @see ru.spbftu.igorbotian.phdapp.common.DataFactory
  */
 class DataClassImpl implements DataClass {
 

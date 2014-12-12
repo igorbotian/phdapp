@@ -24,7 +24,7 @@ import java.util.*;
 
 /**
  * @see ru.spbftu.igorbotian.phdapp.common.UnclassifiedData
- * @see ru.spbftu.igorbotian.phdapp.common.impl.DataFactory
+ * @see ru.spbftu.igorbotian.phdapp.common.DataFactory
  */
 class UnclassifiedDataImpl implements UnclassifiedData {
 

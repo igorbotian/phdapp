@@ -31,13 +31,11 @@ public class PairwiseInputDataImpl extends AbstractInputDataImpl implements Pair
 
     private final PairwiseTrainingSet trainingSet;
 
-    public PairwiseInputDataImpl(Set<? extends DataClass> classes, Set<? extends PairwiseTrainingObject> trainingSet,
-                                 Set<? extends UnclassifiedObject> testingSet)
+    public PairwiseInputDataImpl(UnclassifiedData testingSet, PairwiseTrainingSet trainingSet)
             throws DataException {
 
-        super(classes, testingSet);
-
-        this.trainingSet = DataFactory.newPairwiseTrainingSet(trainingSet);
+        super(testingSet);
+        this.trainingSet = Objects.requireNonNull(trainingSet);
     }
 
     @Override

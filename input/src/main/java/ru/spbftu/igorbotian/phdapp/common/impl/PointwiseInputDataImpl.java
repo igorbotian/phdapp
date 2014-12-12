@@ -32,11 +32,11 @@ class PointwiseInputDataImpl extends AbstractInputDataImpl implements PointwiseI
 
     private final PointwiseTrainingSet trainingSet;
 
-    public PointwiseInputDataImpl(Set<? extends DataClass> classes, Set<? extends PointwiseTrainingObject> trainingSet,
-                                  Set<? extends UnclassifiedObject> testingSet) throws DataException {
+    public PointwiseInputDataImpl(UnclassifiedData testingSet, PointwiseTrainingSet trainingSet)
+            throws DataException {
 
-        super(classes, testingSet);
-        this.trainingSet = DataFactory.newPointwiseTrainingSet(classes, Objects.requireNonNull(trainingSet));
+        super(testingSet);
+        this.trainingSet = Objects.requireNonNull(trainingSet);
     }
 
     public Set<? extends PointwiseTrainingObject> trainingSet() {

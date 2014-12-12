@@ -19,11 +19,12 @@
 package ru.spbftu.igorbotian.phdapp.common.pdu;
 
 import ru.spbftu.igorbotian.phdapp.common.DataException;
+import ru.spbftu.igorbotian.phdapp.common.DataFactory;
 import ru.spbftu.igorbotian.phdapp.common.Parameter;
 import ru.spbftu.igorbotian.phdapp.common.PointwiseTrainingObject;
-import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
 
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -48,13 +49,15 @@ public final class PointwiseTrainingObjectPDU {
         return pdu;
     }
 
-    public PointwiseTrainingObject toObject() throws DataException {
+    public PointwiseTrainingObject toObject(DataFactory dataFactory) throws DataException {
+        Objects.requireNonNull(dataFactory);
+
         Set<Parameter<?>> params = new LinkedHashSet<>();
 
         for (ParameterPDU param : this.params) {
-            params.add(param.toObject());
+            params.add(param.toObject(dataFactory));
         }
 
-        return DataFactory.newPointwiseTrainingObject(id, params, realClass.toObject());
+        return dataFactory.newPointwiseTrainingObject(id, params, realClass.toObject(dataFactory));
     }
 }

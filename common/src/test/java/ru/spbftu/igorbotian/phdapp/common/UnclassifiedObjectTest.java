@@ -21,7 +21,6 @@ package ru.spbftu.igorbotian.phdapp.common;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -45,22 +44,22 @@ public class UnclassifiedObjectTest extends BaseDataTest<UnclassifiedObject> {
         setOfParams = randomStringObjectParameters(2);
         Set<Parameter<?>> anotherSetOfParams = randomStringObjectParameters(2);
 
-        obj = DataFactory.newUnclassifiedObject("obj", setOfParams);
-        differentObj = DataFactory.newUnclassifiedObject("differentObj", anotherSetOfParams);
-        objWithSameNameAndDifferentParams = DataFactory.newUnclassifiedObject("obj", anotherSetOfParams);
-        similarObj = DataFactory.newUnclassifiedObject("obj", new HashSet<>(setOfParams));
+        obj = dataFactory.newUnclassifiedObject("obj", setOfParams);
+        differentObj = dataFactory.newUnclassifiedObject("differentObj", anotherSetOfParams);
+        objWithSameNameAndDifferentParams = dataFactory.newUnclassifiedObject("obj", anotherSetOfParams);
+        similarObj = dataFactory.newUnclassifiedObject("obj", new HashSet<>(setOfParams));
     }
 
     @Test
     public void testId() {
         String id = "test";
-        Assert.assertEquals(id, DataFactory.newUnclassifiedObject(id, setOfParams).id());
+        Assert.assertEquals(id, dataFactory.newUnclassifiedObject(id, setOfParams).id());
     }
 
     @Test
     public void testParams() {
         Set<Parameter<?>> setOfParams = randomStringObjectParameters(2);
-        UnclassifiedObject obj = DataFactory.newUnclassifiedObject(randomString(), setOfParams);
+        UnclassifiedObject obj = dataFactory.newUnclassifiedObject(randomString(), setOfParams);
 
         Assert.assertEquals(setOfParams.size(), obj.parameters().size());
         Assert.assertTrue(setOfParams.containsAll(obj.parameters()));
@@ -69,13 +68,13 @@ public class UnclassifiedObjectTest extends BaseDataTest<UnclassifiedObject> {
     @Test
     public void testParamsWithDifferentTypes() {
         Set<Parameter<?>> setOfParams = new HashSet<>();
-        setOfParams.add(DataFactory.newParameter(randomString(), 1, BasicDataTypes.INTEGER));
-        setOfParams.add(DataFactory.newParameter(randomString(), 1.0, BasicDataTypes.REAL));
-        setOfParams.add(DataFactory.newParameter(randomString(), randomString(), BasicDataTypes.STRING));
+        setOfParams.add(dataFactory.newParameter(randomString(), 1, BasicDataTypes.INTEGER));
+        setOfParams.add(dataFactory.newParameter(randomString(), 1.0, BasicDataTypes.REAL));
+        setOfParams.add(dataFactory.newParameter(randomString(), randomString(), BasicDataTypes.STRING));
 
-        UnclassifiedObject obj = DataFactory.newUnclassifiedObject(randomString(), setOfParams);
+        UnclassifiedObject obj = dataFactory.newUnclassifiedObject(randomString(), setOfParams);
 
-        for(Parameter param : setOfParams) {
+        for (Parameter param : setOfParams) {
             Assert.assertTrue(obj.parameters().contains(param));
         }
     }

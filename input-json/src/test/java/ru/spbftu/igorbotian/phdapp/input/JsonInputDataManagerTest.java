@@ -25,7 +25,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import ru.spbftu.igorbotian.phdapp.common.*;
-import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
 import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 
 import java.io.ByteArrayInputStream;
@@ -54,25 +53,26 @@ public class JsonInputDataManagerTest {
 
     @Before
     public void setUp() throws DataException {
-        Injector injector = Guice.createInjector(new InputDataModule());
+        Injector injector = Guice.createInjector(new DataModule(), new InputDataModule());
+        DataFactory dataFactory = injector.getInstance(DataFactory.class);
         InputDataFactory inputDataFactory = injector.getInstance(InputDataFactory.class);
-        dataManager = new JsonInputDataManager(mockConfigWithNoProperties(), inputDataFactory);
+        dataManager = new JsonInputDataManager(mockConfigWithNoProperties(), dataFactory, inputDataFactory);
 
         Set<DataClass> classes = new HashSet<>(Arrays.asList(
-                DataFactory.newClass("firstClass"),
-                DataFactory.newClass("secondClass")
+                dataFactory.newClass("firstClass"),
+                dataFactory.newClass("secondClass")
         ));
         Set<Parameter<?>> params = new HashSet<>(Arrays.asList(
-                DataFactory.newParameter("firstParam", "firstValue", BasicDataTypes.STRING),
-                DataFactory.newParameter("secondParam", "secondValue", BasicDataTypes.STRING)
+                dataFactory.newParameter("firstParam", "firstValue", BasicDataTypes.STRING),
+                dataFactory.newParameter("secondParam", "secondValue", BasicDataTypes.STRING)
         ));
         Set<UnclassifiedObject> testingSet = new HashSet<>(Arrays.asList(
-                DataFactory.newUnclassifiedObject("firstObject", params),
-                DataFactory.newUnclassifiedObject("secondObject", params)
+                dataFactory.newUnclassifiedObject("firstObject", params),
+                dataFactory.newUnclassifiedObject("secondObject", params)
         ));
         Set<PointwiseTrainingObject> trainingSet = new HashSet<>(Arrays.asList(
-                DataFactory.newPointwiseTrainingObject("thirdObject", params, classes.iterator().next()),
-                DataFactory.newPointwiseTrainingObject("fourthObject", params, classes.iterator().next())
+                dataFactory.newPointwiseTrainingObject("thirdObject", params, classes.iterator().next()),
+                dataFactory.newPointwiseTrainingObject("fourthObject", params, classes.iterator().next())
         ));
 
         data = inputDataFactory.newPointwiseData(classes, trainingSet, testingSet);

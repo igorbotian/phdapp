@@ -21,7 +21,6 @@ package ru.spbftu.igorbotian.phdapp.common;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -48,14 +47,14 @@ public class ClassifiedObjectTest extends BaseDataTest<ClassifiedObject> {
         DataClass anotherRealClass = randomClass();
         Set<Parameter<?>> anotherSetOfParams = randomStringObjectParameters(3);
 
-        obj = DataFactory.newClassifiedObject("obj", setOfParams, dataClass);
-        differentObj = DataFactory.newClassifiedObject("differentObj", anotherSetOfParams, anotherRealClass);
-        similarObj = DataFactory.newClassifiedObject("obj", new HashSet<>(setOfParams), dataClass);
+        obj = dataFactory.newClassifiedObject("obj", setOfParams, dataClass);
+        differentObj = dataFactory.newClassifiedObject("differentObj", anotherSetOfParams, anotherRealClass);
+        similarObj = dataFactory.newClassifiedObject("obj", new HashSet<>(setOfParams), dataClass);
     }
 
     @Test
     public void testDataClass() {
-        Assert.assertEquals(dataClass, DataFactory.newClassifiedObject("name", setOfParams, dataClass).dataClass());
+        Assert.assertEquals(dataClass, dataFactory.newClassifiedObject("name", setOfParams, dataClass).dataClass());
     }
 
     @Test
