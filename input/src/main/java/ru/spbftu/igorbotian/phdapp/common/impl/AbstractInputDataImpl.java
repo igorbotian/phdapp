@@ -26,7 +26,7 @@ import java.util.Set;
 /**
  * @see ru.spbftu.igorbotian.phdapp.common.InputData
  */
-public abstract class AbstractInputDataImpl implements InputData {
+abstract class AbstractInputDataImpl implements InputData {
 
     private final UnclassifiedData testingSet;
 

@@ -29,7 +29,7 @@ import java.util.Set;
  * @see ru.spbftu.igorbotian.phdapp.common.PointwiseTrainingObject
  * @see ru.spbftu.igorbotian.phdapp.common.DataFactory
  */
-public class PointwiseTrainingObjectImpl extends UnclassifiedObjectImpl implements PointwiseTrainingObject {
+class PointwiseTrainingObjectImpl extends UnclassifiedObjectImpl implements PointwiseTrainingObject {
 
     /**
      * Реальный класс классификации, которому соответствует объект

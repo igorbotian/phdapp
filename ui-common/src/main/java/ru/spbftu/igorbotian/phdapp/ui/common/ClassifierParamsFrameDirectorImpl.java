@@ -31,7 +31,7 @@ import java.util.function.Function;
  *
  * @see ClassifierParamsFrameDirector
  */
-public class ClassifierParamsFrameDirectorImpl implements ClassifierParamsFrameDirector {
+class ClassifierParamsFrameDirectorImpl implements ClassifierParamsFrameDirector {
 
     private final String CONSTANT_COST_PARAM_ID = "constantCostParam";
     private final String CONSTANT_COST_PARAM_MIN_ID = "constantCostParamMin";
