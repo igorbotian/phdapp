@@ -9,6 +9,7 @@ public class IntervalPairwiseClassifierModule extends PhDAppModule {
 
     @Override
     protected void configure() {
+        bind(IntervalClassifierParameters.class).to(IntervalClassifierParametersImpl.class);
         bind(PairwiseClassifier.class).to(IntervalPairwiseClassifier.class);
     }
 }

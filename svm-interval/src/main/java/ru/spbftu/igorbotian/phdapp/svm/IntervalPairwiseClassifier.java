@@ -36,7 +36,9 @@ public class IntervalPairwiseClassifier implements PairwiseClassifier {
     }
 
     @Override
-    public ClassifiedData classify(UnclassifiedData input, ClassifierParams params) throws ClassificationException {
+    public ClassifiedData classify(UnclassifiedData input, Set<? extends ClassifierParameter<?>> params)
+            throws ClassificationException {
+
         try {
             return classifyRandomly(input); // TODO
         } catch (DataException e) {
