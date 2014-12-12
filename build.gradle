@@ -29,9 +29,8 @@ project(':common') {
     dependencies {
         compile(
                 project(':ioc'),
-                commonsLang,
-                log4j,
-                validationApi
+                googleGuice,
+                log4j
         )
 
         testCompile junit
@@ -42,11 +41,7 @@ project(':conf') {
     description 'Configuration interface module'
 
     dependencies {
-        compile(
-                project(':utils'),
-                commonsLang,
-                log4j
-        )
+        compile log4j
     }
 }
 
@@ -56,8 +51,8 @@ project(':conf-app') {
     dependencies {
         compile(
                 project(':conf'),
-                project(':conf-properties'),
                 project(':ioc'),
+                project(':utils'),
                 googleGuice,
                 log4j
         )
@@ -73,7 +68,6 @@ project(':input') {
                 project(':conf-app'),
                 project(':ioc'),
                 project(':utils'),
-                commonsLang,
                 googleGuice
         )
 
@@ -94,7 +88,6 @@ project(':input-json') {
                 project(':ioc'),
                 gson,
                 googleGuice,
-                commonsLang,
                 log4j
         )
 
@@ -128,7 +121,6 @@ project(':locale-java-i18n') {
                 project(':ioc'),
                 project(':locale'),
                 googleGuice,
-                commonsLang,
                 log4j
         )
 
@@ -155,11 +147,8 @@ project(':main') {
                 project(':log-log4j'),
                 project(':output-csv'),
                 project(':output-summary'),
-                project(':svm'),
                 project(':svm-analytics'),
                 project(':svm-interval'),
-                project(':ui'),
-                project(':ui-common'),
                 project(':ui-swing'),
                 project(':utils')
         )
@@ -198,7 +187,6 @@ project(':svm') {
     dependencies {
         compile(
                 project(':common'),
-                project(':conf'),
                 project(':ioc')
         )
     }
@@ -210,8 +198,6 @@ project(':svm-analytics') {
     dependencies {
         compile(
                 project(':common'),
-                project(':conf-app'),
-                project(':input'),
                 project(':svm')
         )
 
@@ -244,6 +230,7 @@ project(':ui-common') {
     dependencies {
         compile(
                 project(':common'),
+                project(':conf-app'),
                 project(':ioc'),
                 project(':locale'),
                 project(':output-csv'),

@@ -18,9 +18,8 @@
 
 package ru.spbftu.igorbotian.phdapp.common.impl;
 
-import org.apache.commons.lang3.StringUtils;
-import ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject;
 import ru.spbftu.igorbotian.phdapp.common.Parameter;
+import ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject;
 
 import java.util.Collections;
 import java.util.Objects;
@@ -46,7 +45,7 @@ class UnclassifiedObjectImpl implements UnclassifiedObject {
         Objects.requireNonNull(id);
         Objects.requireNonNull(params);
 
-        if (StringUtils.isEmpty(id)) {
+        if (id.isEmpty()) {
             throw new IllegalArgumentException("ID cannot be empty");
         }
 

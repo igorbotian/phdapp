@@ -20,10 +20,7 @@ package ru.spbftu.igorbotian.phdapp;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import ru.spbftu.igorbotian.phdapp.output.csv.CSVOutputDataManagementModule;
-import ru.spbftu.igorbotian.phdapp.output.summary.SummaryOutputDataManagementModule;
 import ru.spbftu.igorbotian.phdapp.common.DataModule;
 import ru.spbftu.igorbotian.phdapp.common.InputDataModule;
 import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfigurationModule;
@@ -31,6 +28,8 @@ import ru.spbftu.igorbotian.phdapp.input.JsonInputDataManagementModule;
 import ru.spbftu.igorbotian.phdapp.ioc.PhDAppModule;
 import ru.spbftu.igorbotian.phdapp.locale.java.JavaI18NLocalizationModule;
 import ru.spbftu.igorbotian.phdapp.log.Log4j;
+import ru.spbftu.igorbotian.phdapp.output.csv.CSVOutputDataManagementModule;
+import ru.spbftu.igorbotian.phdapp.output.summary.SummaryOutputDataManagementModule;
 import ru.spbftu.igorbotian.phdapp.svm.IntervalPairwiseClassifierModule;
 import ru.spbftu.igorbotian.phdapp.svm.analytics.SvmAnalyticsModule;
 import ru.spbftu.igorbotian.phdapp.ui.UserInterface;
@@ -81,7 +80,7 @@ public class PhDApp {
     private static Path getConfigFolder() {
         String customConfFolderName = System.getProperty(CONFIG_FOLDER_SYSTEM_PROPERTY);
 
-        if (StringUtils.isNotEmpty(customConfFolderName)) {
+        if (customConfFolderName != null && !customConfFolderName.isEmpty()) {
             Path customConfigFolder = Paths.get(customConfFolderName);
 
             if (Files.exists(customConfigFolder)) {

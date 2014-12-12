@@ -18,7 +18,6 @@
 
 package ru.spbftu.igorbotian.phdapp.common.impl;
 
-import org.apache.commons.lang3.StringUtils;
 import ru.spbftu.igorbotian.phdapp.common.DataType;
 import ru.spbftu.igorbotian.phdapp.common.Parameter;
 
@@ -50,7 +49,7 @@ class ParameterImpl<V> implements Parameter<V> {
         Objects.requireNonNull(value);
         Objects.requireNonNull(valueType);
 
-        if (StringUtils.isEmpty(name)) {
+        if (name.isEmpty()) {
             throw new IllegalArgumentException("Name cannot be empty");
         }
 

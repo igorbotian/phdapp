@@ -2,7 +2,6 @@ package ru.spbftu.igorbotian.phdapp.conf;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import ru.spbftu.igorbotian.phdapp.utils.ShutdownHook;
 
@@ -14,6 +13,7 @@ import java.util.Objects;
 
 /**
  * Реализация конфигурации приложения
+ *
  * @see ru.spbftu.igorbotian.phdapp.conf.Configuration
  * @see ru.spbftu.igorbotian.phdapp.utils.ShutdownHook
  */
@@ -44,7 +44,7 @@ class ApplicationConfigurationImpl extends PropertiesBasedConfiguration implemen
     public ApplicationConfigurationImpl(@ConfigFolderPath String pathToConfigFolder) {
         Objects.requireNonNull(pathToConfigFolder);
 
-        if (StringUtils.isEmpty(pathToConfigFolder)) {
+        if (pathToConfigFolder.isEmpty()) {
             throw new IllegalArgumentException("Configuration folder cannot be empty");
         }
 

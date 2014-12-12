@@ -18,7 +18,6 @@
 
 package ru.spbftu.igorbotian.phdapp.common.impl;
 
-import org.apache.commons.lang3.StringUtils;
 import ru.spbftu.igorbotian.phdapp.common.DataClass;
 
 import java.util.Objects;
@@ -37,7 +36,7 @@ class DataClassImpl implements DataClass {
     public DataClassImpl(String name) {
         Objects.requireNonNull(name);
 
-        if (StringUtils.isEmpty(name)) {
+        if (name.isEmpty()) {
             throw new IllegalArgumentException("Name cannot be empty");
         }
 

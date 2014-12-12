@@ -19,7 +19,6 @@
 package ru.spbftu.igorbotian.phdapp.locale.java;
 
 import com.google.inject.Singleton;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
 
@@ -75,7 +74,7 @@ class JavaI18NLocalization implements Localization {
     public String getLabel(String label) {
         Objects.requireNonNull(label);
 
-        if (StringUtils.isEmpty(label)) {
+        if (label.isEmpty()) {
             throw new IllegalArgumentException("Label cannot be empty");
         }
 
@@ -89,9 +88,6 @@ class JavaI18NLocalization implements Localization {
     }
 
     private String getBundledLabel(String label) {
-        assert (StringUtils.isNotEmpty(label));
-        assert (labels != null);
-
         try {
             // файлы локализации имеют кодировку UTF-8, а встроенные средства локализации Java работают с ними
             // в кодировке ISO-8869-1

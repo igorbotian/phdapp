@@ -18,7 +18,6 @@
 
 package ru.spbftu.igorbotian.phdapp.input;
 
-import org.apache.commons.lang3.StringUtils;
 import ru.spbftu.igorbotian.phdapp.common.DataException;
 import ru.spbftu.igorbotian.phdapp.common.PointwiseInputData;
 import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
@@ -78,7 +77,7 @@ public abstract class FileBasedInputDataManager implements InputDataManager, Shu
         Objects.requireNonNull(config);
         Objects.requireNonNull(fileExtension);
 
-        if (StringUtils.isEmpty(fileExtension)) {
+        if (fileExtension.isEmpty()) {
             throw new IllegalArgumentException("File extension cannot be empty");
         }
 

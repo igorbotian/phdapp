@@ -1,6 +1,5 @@
 package ru.spbftu.igorbotian.phdapp.conf;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import java.util.Map;
@@ -59,7 +58,7 @@ public abstract class AbstractConfiguration implements Configuration {
         Objects.requireNonNull(param);
         Objects.requireNonNull(value);
 
-        if (StringUtils.isEmpty(param)) {
+        if (param.isEmpty()) {
             throw new IllegalArgumentException("Parameter cannot be empty");
         }
 
@@ -79,7 +78,7 @@ public abstract class AbstractConfiguration implements Configuration {
 
         Objects.requireNonNull(param);
 
-        if (StringUtils.isEmpty(param)) {
+        if (param.isEmpty()) {
             throw new IllegalArgumentException("Parameter cannot be empty");
         }
 
@@ -97,7 +96,7 @@ public abstract class AbstractConfiguration implements Configuration {
     public boolean hasParam(String param) {
         Objects.requireNonNull(param);
 
-        if (StringUtils.isEmpty(param)) {
+        if (param.isEmpty()) {
             throw new IllegalArgumentException("Param cannot be empty");
         }
 
