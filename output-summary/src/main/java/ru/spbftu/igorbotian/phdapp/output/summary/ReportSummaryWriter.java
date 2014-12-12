@@ -1,4 +1,4 @@
-package ru.spbftu.igorbotian.phd.output.summary;
+package ru.spbftu.igorbotian.phdapp.output.summary;
 
 import ru.spbftu.igorbotian.phdapp.svm.analytics.report.Report;
 
@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 /**
  * Средство сохранения сводки по отчёту по работе классификатора с заданными параметрами в формате сводки
  *
- * @see ru.spbftu.igorbotian.phd.output.summary.SummaryWriter
+ * @see SummaryWriter
  */
 public interface ReportSummaryWriter<R extends Report> {
 

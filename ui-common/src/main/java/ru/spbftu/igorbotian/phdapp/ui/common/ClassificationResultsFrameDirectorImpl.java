@@ -19,10 +19,10 @@
 package ru.spbftu.igorbotian.phdapp.ui.common;
 
 import org.apache.log4j.Logger;
-import ru.spbftu.igorbotian.phd.output.csv.ReportCSVWriter;
-import ru.spbftu.igorbotian.phd.output.csv.ReportCSVWriterFactory;
-import ru.spbftu.igorbotian.phd.output.summary.ReportSummaryWriter;
-import ru.spbftu.igorbotian.phd.output.summary.ReportSummaryWriterFactory;
+import ru.spbftu.igorbotian.phdapp.output.csv.ReportCSVWriter;
+import ru.spbftu.igorbotian.phdapp.output.csv.ReportCSVWriterFactory;
+import ru.spbftu.igorbotian.phdapp.output.summary.ReportSummaryWriter;
+import ru.spbftu.igorbotian.phdapp.output.summary.ReportSummaryWriterFactory;
 import ru.spbftu.igorbotian.phdapp.svm.analytics.report.Report;
 
 import java.io.FileWriter;

@@ -1,4 +1,4 @@
-package ru.spbftu.igorbotian.phd.output.summary;
+package ru.spbftu.igorbotian.phdapp.output.summary;
 
 import ru.spbftu.igorbotian.phdapp.svm.analytics.report.Report;
 
@@ -6,7 +6,7 @@ import ru.spbftu.igorbotian.phdapp.svm.analytics.report.Report;
  * Фабрика средств сохранения сводки по отчёту по работе классификатора с заданными параметрами
  *
  * @see ru.spbftu.igorbotian.phdapp.svm.analytics.report.Report
- * @see ru.spbftu.igorbotian.phd.output.summary.ReportSummaryWriter
+ * @see ReportSummaryWriter
  */
 public interface ReportSummaryWriterFactory {
 

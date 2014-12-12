@@ -16,7 +16,7 @@
  * @author Igor Botian <igor.botian@gmail.com>
  */
 
-package ru.spbftu.igorbotian.phd.output.csv;
+package ru.spbftu.igorbotian.phdapp.output.csv;
 
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
 import ru.spbftu.igorbotian.phdapp.svm.analytics.report.MultiClassificationReport;
@@ -30,7 +30,7 @@ import java.util.Objects;
  * Реализация сохранения отчёта серии классификаций в формате CSV
  *
  * @see ru.spbftu.igorbotian.phdapp.svm.analytics.report.MultiClassificationReport
- * @see ru.spbftu.igorbotian.phd.output.csv.ReportCSVWriter
+ * @see ReportCSVWriter
  */
 class MultiClassificationReportCSVWriter implements ReportCSVWriter<MultiClassificationReport> {
 

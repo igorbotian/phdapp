@@ -16,7 +16,7 @@
  * @author Igor Botian <igor.botian@gmail.com>
  */
 
-package ru.spbftu.igorbotian.phd.output.csv;
+package ru.spbftu.igorbotian.phdapp.output.csv;
 
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
 import ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleClassificationReport;
@@ -29,7 +29,7 @@ import java.util.Objects;
  * Реализация сохранения отчёта единичной классификации в формате CSV
  *
  * @see ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleClassificationReport
- * @see ru.spbftu.igorbotian.phd.output.csv.ReportCSVWriter
+ * @see ReportCSVWriter
  */
 class SingleClassificationReportCSVWriter implements ReportCSVWriter<SingleClassificationReport> {
 

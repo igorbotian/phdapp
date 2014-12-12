@@ -16,7 +16,7 @@
  * @author Igor Botian <igor.botian@gmail.com>
  */
 
-package ru.spbftu.igorbotian.phd.output.summary;
+package ru.spbftu.igorbotian.phdapp.output.summary;
 
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
 import ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleClassificationReport;
@@ -28,7 +28,7 @@ import java.util.Objects;
 /**
  * Реализация интерфейса <code>ReportSummaryWriter</code> для отчётов типа <code>SingleClassificationReport</code>
  *
- * @see ru.spbftu.igorbotian.phd.output.summary.ReportSummaryWriter
+ * @see ReportSummaryWriter
  * @see ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleClassificationReport
  */
 class SingleClassificationReportSummaryWriterImpl implements ReportSummaryWriter<SingleClassificationReport> {

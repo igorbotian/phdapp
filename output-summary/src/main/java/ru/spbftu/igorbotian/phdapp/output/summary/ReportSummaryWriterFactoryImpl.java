@@ -1,4 +1,4 @@
-package ru.spbftu.igorbotian.phd.output.summary;
+package ru.spbftu.igorbotian.phdapp.output.summary;
 
 import com.google.inject.Inject;
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Реализация фабрики средств сохранения сводки по отчёту по работе классификатора с заданными параметрами
  *
- * @see ru.spbftu.igorbotian.phd.output.summary.ReportSummaryWriterFactory
+ * @see ReportSummaryWriterFactory
  */
 class ReportSummaryWriterFactoryImpl implements ReportSummaryWriterFactory {
 

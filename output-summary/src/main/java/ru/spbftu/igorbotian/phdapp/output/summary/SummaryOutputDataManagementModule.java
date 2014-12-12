@@ -16,19 +16,19 @@
  * @author Igor Botian <igor.botian@gmail.com>
  */
 
-package ru.spbftu.igorbotian.phd.output.csv;
+package ru.spbftu.igorbotian.phdapp.output.summary;
 
 import ru.spbftu.igorbotian.phdapp.ioc.PhDAppModule;
 
 /**
- * Модуль для сохранения отчётов по работе классификатора в формате CSV
+ * Модуль для сохранения отчётов по работе классификатора в виде сводки
  *
- * @see ru.spbftu.igorbotian.phd.output.csv.ReportCSVWriterFactory
+ * @see ReportSummaryWriterFactory
  */
-public class CSVOutputDataManagementModule extends PhDAppModule {
+public class SummaryOutputDataManagementModule extends PhDAppModule {
 
     @Override
     protected void configure() {
-        bind(ReportCSVWriterFactory.class).to(ReportCSVWriterFactoryImpl.class);
+        bind(ReportSummaryWriterFactory.class).to(ReportSummaryWriterFactoryImpl.class);
     }
 }

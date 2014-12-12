@@ -16,7 +16,7 @@
  * @author Igor Botian <igor.botian@gmail.com>
  */
 
-package ru.spbftu.igorbotian.phd.output.csv;
+package ru.spbftu.igorbotian.phdapp.output.csv;
 
 import java.io.*;
 import java.util.Objects;

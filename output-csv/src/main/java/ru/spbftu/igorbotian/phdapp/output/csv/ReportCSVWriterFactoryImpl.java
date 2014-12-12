@@ -1,4 +1,4 @@
-package ru.spbftu.igorbotian.phd.output.csv;
+package ru.spbftu.igorbotian.phdapp.output.csv;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
