@@ -20,6 +20,7 @@ package ru.spbftu.igorbotian.phdapp.ui.swing;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import ru.spbftu.igorbotian.phdapp.common.MathDataFactory;
 import ru.spbftu.igorbotian.phdapp.common.Range;
 import ru.spbftu.igorbotian.phdapp.ui.common.ClassifierParamsFrameDirector;
 import ru.spbftu.igorbotian.phdapp.ui.common.UIHelper;
@@ -53,6 +54,7 @@ class ClassifierParamsWidgetsImpl implements ClassifierParamsWidgets {
     /* Внешние ресурсы */
 
     private final UIHelper uiHelper;
+    private final MathDataFactory mathDataFactory;
 
     /* Виджеты */
 
@@ -69,8 +71,10 @@ class ClassifierParamsWidgetsImpl implements ClassifierParamsWidgets {
     private IntegerRangeSpinner intervalPreciseIntervalJudgementsRatioSpinner;
 
     @Inject
-    public ClassifierParamsWidgetsImpl(UIHelper uiHelper) {
+    public ClassifierParamsWidgetsImpl(UIHelper uiHelper, MathDataFactory mathDataFactory) {
         this.uiHelper = Objects.requireNonNull(uiHelper);
+        this.mathDataFactory = Objects.requireNonNull(mathDataFactory);
+
         ClassifierParamsFrameDirector director = uiHelper.classifierParamsFrameDirector();
 
         preciseConstantCostParamSpinner = preciseDoubleSpinner(
@@ -203,7 +207,7 @@ class ClassifierParamsWidgetsImpl implements ClassifierParamsWidgets {
                 minGetter.get(), maxGetter.get(), boundGetter.get().upperBound(),
                 minGetter.get(), maxGetter.get(), stepSizeGetter.get());
         ChangeListener changeListener = (e -> boundSetter.accept(
-                new Range<>(spinner.getMinValue(), spinner.getMaxValue(), Integer::compare))
+                mathDataFactory.newRange(spinner.getMinValue(), spinner.getMaxValue(), Integer::compare))
         );
 
         spinner.addMinValueChangeListener(changeListener);
@@ -223,7 +227,7 @@ class ClassifierParamsWidgetsImpl implements ClassifierParamsWidgets {
                 minGetter.get(), maxGetter.get(), stepSizeGetter.get());
 
         ChangeListener changeListener = (e -> boundSetter.accept(
-                new Range<>(spinner.getMinValue(), spinner.getMaxValue(), Double::compare))
+                mathDataFactory.newRange(spinner.getMinValue(), spinner.getMaxValue(), Double::compare))
         );
 
         spinner.addMinValueChangeListener(changeListener);

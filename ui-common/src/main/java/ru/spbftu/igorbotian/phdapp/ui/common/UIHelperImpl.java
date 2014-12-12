@@ -22,6 +22,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import ru.spbftu.igorbotian.phd.output.csv.ReportCSVWriterFactory;
 import ru.spbftu.igorbotian.phd.output.summary.ReportSummaryWriterFactory;
+import ru.spbftu.igorbotian.phdapp.common.MathDataFactory;
 import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
 import ru.spbftu.igorbotian.phdapp.svm.analytics.SampleGenerator;
@@ -47,7 +48,8 @@ class UIHelperImpl implements UIHelper {
                         ApplicationConfiguration configuration,
                         SampleGenerator sampleGenerator,
                         ReportSummaryWriterFactory reportSummaryWriterFactory,
-                        ReportCSVWriterFactory reportCSVWriterFactory) {
+                        ReportCSVWriterFactory reportCSVWriterFactory,
+                        MathDataFactory mathDataFactory) {
 
         Objects.requireNonNull(localization);
         Objects.requireNonNull(configuration);
@@ -57,7 +59,7 @@ class UIHelperImpl implements UIHelper {
 
         this.localization = localization;
         sampleCanvasDirector = new SampleCanvasDirectorImpl(sampleGenerator);
-        classifierParamsFrameDirector = new ClassifierParamsFrameDirectorImpl(configuration);
+        classifierParamsFrameDirector = new ClassifierParamsFrameDirectorImpl(configuration, mathDataFactory);
         classificationResultsFrameDirector =
                 new ClassificationResultsFrameDirectorImpl(reportSummaryWriterFactory, reportCSVWriterFactory);
     }

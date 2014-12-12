@@ -19,6 +19,7 @@
 package ru.spbftu.igorbotian.phdapp.common;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Comparator;
@@ -28,24 +29,46 @@ import java.util.Comparator;
  *
  * @see ru.spbftu.igorbotian.phdapp.common.Range
  */
-public class RangeTest {
+public class RangeTest extends MathPrimitivesBaseTest<Range<Integer>> {
+
+    private Range<Integer> obj;
+    private Range<Integer> similarObj;
+    private Range<Integer> differentObj;
 
     private final Integer lowerBound = -1;
     private final Integer upperBound = 1;
-    private final Comparator<Integer> comparator = Integer::compare;
+
+    @Before
+    public void setUp() {
+        super.setUp();
+
+        obj = newRange(lowerBound, upperBound);
+        similarObj = newRange(lowerBound, upperBound);
+        differentObj = newRange(lowerBound, 2 * upperBound);
+    }
 
     @Test
     public void testLowerBound() {
-        Assert.assertEquals(lowerBound, new Range<>(lowerBound, upperBound, comparator).lowerBound());
+        Assert.assertEquals(lowerBound, newRange(lowerBound, upperBound).lowerBound());
     }
 
     @Test
     public void testUpperBound() {
-        Assert.assertEquals(upperBound, new Range<>(lowerBound, upperBound, comparator).upperBound());
+        Assert.assertEquals(upperBound, newRange(lowerBound, upperBound).upperBound());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testLowerBoundGreaterThenUpperBound() {
-        new Range<>(upperBound, lowerBound, comparator);
+        newRange(upperBound, lowerBound);
+    }
+
+    @Test
+    public void testHashCode() {
+        super.testHashCode(obj, differentObj, similarObj);
+    }
+
+    @Test
+    public void testEquals() {
+        super.testHashCode(obj, differentObj, similarObj);
     }
 }

@@ -18,6 +18,7 @@
 
 package ru.spbftu.igorbotian.phdapp.svm.analytics;
 
+import ru.spbftu.igorbotian.phdapp.common.MathDataFactoryModule;
 import ru.spbftu.igorbotian.phdapp.ioc.PhDAppModule;
 import ru.spbftu.igorbotian.phdapp.svm.analytics.report.ReportFactoryModule;
 
@@ -31,6 +32,7 @@ public class SvmAnalyticsModule extends PhDAppModule {
 
     @Override
     protected void configure() {
+        install(new MathDataFactoryModule());
         install(new ReportFactoryModule());
         bind(SampleGenerator.class, SampleGeneratorImpl.class);
     }

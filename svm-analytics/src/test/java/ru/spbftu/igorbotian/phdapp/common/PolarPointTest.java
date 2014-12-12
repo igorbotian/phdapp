@@ -19,6 +19,7 @@
 package ru.spbftu.igorbotian.phdapp.common;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -26,16 +27,25 @@ import org.junit.Test;
  *
  * @see ru.spbftu.igorbotian.phdapp.common.PolarPoint
  */
-public class PolarPointTest extends BaseDataTest<PolarPoint> {
+public class PolarPointTest extends MathPrimitivesBaseTest<PolarPoint> {
 
     private final double delta = 0.0001;
 
     private final double r = 1.0;
     private final double phi = Math.PI / 2;
 
-    private final PolarPoint obj = new PolarPoint(r, phi, dataFactory);
-    private final PolarPoint similarObj = new PolarPoint(r, phi, dataFactory);
-    private final PolarPoint differentObj = new PolarPoint(2.0, Math.PI / 3, dataFactory);
+    private PolarPoint obj;
+    private PolarPoint similarObj;
+    private PolarPoint differentObj;
+
+    @Before
+    public void setUp() {
+        super.setUp();
+
+        obj = newPolarPoint(r, phi);
+        similarObj = newPolarPoint(r, phi);
+        differentObj = newPolarPoint(2.0, Math.PI / 3);
+    }
 
     @Test
     public void testR() {
@@ -49,23 +59,22 @@ public class PolarPointTest extends BaseDataTest<PolarPoint> {
 
     @Test
     public void testRotate() {
-        Assert.assertEquals(new PolarPoint(r, Math.PI, dataFactory),
-                new PolarPoint(r, Math.PI / 2, dataFactory).rotate(Math.PI / 2));
+        Assert.assertEquals(newPolarPoint(r, Math.PI), newPolarPoint(r, Math.PI / 2).rotate(Math.PI / 2));
     }
 
     @Test
     public void testToDecart() {
         double c = Math.sqrt(2) / 2; // значение каждой из Декартовых координат, при которых полярный радиус до точки = 1.0
 
-        assertPointsEqual(new Point(0.0, 0.0, dataFactory), new PolarPoint(0.0, 0.0, dataFactory).toCartesian());
-        assertPointsEqual(new Point(1.0, 0.0, dataFactory), new PolarPoint(1.0, 0.0, dataFactory).toCartesian());
-        assertPointsEqual(new Point(c, c, dataFactory), new PolarPoint(1.0, Math.PI / 4, dataFactory).toCartesian());
-        assertPointsEqual(new Point(0.0, 1.0, dataFactory), new PolarPoint(1.0, Math.PI / 2, dataFactory).toCartesian());
-        assertPointsEqual(new Point(-c, c, dataFactory), new PolarPoint(1.0, 3 * Math.PI / 4, dataFactory).toCartesian());
-        assertPointsEqual(new Point(-1.0, 0.0, dataFactory), new PolarPoint(1.0, Math.PI, dataFactory).toCartesian());
-        assertPointsEqual(new Point(-c, -c, dataFactory), new PolarPoint(1.0, 5 * Math.PI / 4, dataFactory).toCartesian());
-        assertPointsEqual(new Point(0.0, -1.0, dataFactory), new PolarPoint(1.0, 3 * Math.PI / 2, dataFactory).toCartesian());
-        assertPointsEqual(new Point(c, -c, dataFactory), new PolarPoint(1.0, 7 * Math.PI / 4, dataFactory).toCartesian());
+        assertPointsEqual(newPoint(0.0, 0.0), newPolarPoint(0.0, 0.0).toCartesian());
+        assertPointsEqual(newPoint(1.0, 0.0), newPolarPoint(1.0, 0.0).toCartesian());
+        assertPointsEqual(newPoint(c, c), newPolarPoint(1.0, Math.PI / 4).toCartesian());
+        assertPointsEqual(newPoint(0.0, 1.0), newPolarPoint(1.0, Math.PI / 2).toCartesian());
+        assertPointsEqual(newPoint(-c, c), newPolarPoint(1.0, 3 * Math.PI / 4).toCartesian());
+        assertPointsEqual(newPoint(-1.0, 0.0), newPolarPoint(1.0, Math.PI).toCartesian());
+        assertPointsEqual(newPoint(-c, -c), newPolarPoint(1.0, 5 * Math.PI / 4).toCartesian());
+        assertPointsEqual(newPoint(0.0, -1.0), newPolarPoint(1.0, 3 * Math.PI / 2).toCartesian());
+        assertPointsEqual(newPoint(c, -c), newPolarPoint(1.0, 7 * Math.PI / 4).toCartesian());
     }
 
     private void assertPointsEqual(Point a, Point b) {

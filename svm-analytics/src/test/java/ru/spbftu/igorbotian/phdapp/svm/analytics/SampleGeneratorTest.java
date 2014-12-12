@@ -23,7 +23,6 @@ import com.google.inject.Injector;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import ru.spbftu.igorbotian.phdapp.common.DataFactory;
 import ru.spbftu.igorbotian.phdapp.common.DataModule;
 import ru.spbftu.igorbotian.phdapp.common.Line;
 import ru.spbftu.igorbotian.phdapp.common.Point;
@@ -41,8 +40,8 @@ public class SampleGeneratorTest {
 
     @Before
     public void setUp() {
-        Injector injector = Guice.createInjector(new DataModule());
-        sampleGenerator = new SampleGeneratorImpl(injector.getInstance(DataFactory.class));
+        Injector injector = Guice.createInjector(new DataModule(), new SvmAnalyticsModule());
+        sampleGenerator = injector.getInstance(SampleGenerator.class);
     }
 
     @Test

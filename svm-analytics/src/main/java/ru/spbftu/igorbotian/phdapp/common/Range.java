@@ -18,88 +18,24 @@
 
 package ru.spbftu.igorbotian.phdapp.common;
 
-import java.util.Comparator;
-import java.util.Objects;
-
 /**
  * Диапазон значений (включая границы)
  *
  * @param <T> тип значений
  */
-public class Range<T> {
-
-    /**
-     * Нижняя граница диапазона
-     */
-    private final T lowerBound;
-
-    /**
-     * Верхняя граница диапазона
-     */
-    private final T upperBound;
-
-    /**
-     * Конструктор объекта
-     *
-     * @param lowerBound нижняя граница диапазона
-     * @param upperBound верхняя граница диапазона
-     * @param comparator необходим для проверки того, что нижняя граница по величине не больше верхней
-     * @throws java.lang.NullPointerException     если хотя бы один из параметров не задан
-     * @throws java.lang.IllegalArgumentException если значение нижней границы больше по величине значение верхней
-     */
-    public Range(T lowerBound, T upperBound, Comparator<T> comparator) {
-        Objects.requireNonNull(lowerBound);
-        Objects.requireNonNull(upperBound);
-        Objects.requireNonNull(comparator);
-
-        if (comparator.compare(lowerBound, upperBound) == 1) {
-            throw new IllegalArgumentException("Range lower bound cannot be greater then the upper bound");
-        }
-
-        this.lowerBound = lowerBound;
-        this.upperBound = upperBound;
-    }
+public interface Range<T> {
 
     /**
      * Получение нижней границы диапазона
      *
      * @return нижняя граница диапазона
      */
-    public T lowerBound() {
-        return lowerBound;
-    }
+    T lowerBound();
 
     /**
      * Получение верхней границы диапазона
      *
      * @return верхняя граница диапазона
      */
-    public T upperBound() {
-        return upperBound;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(lowerBound, upperBound);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) {
-            return true;
-        }
-
-        if (obj == null || !(obj instanceof Range)) {
-            return false;
-        }
-
-        Range other = (Range) obj;
-        return lowerBound.equals(other.lowerBound)
-                && upperBound.equals(other.upperBound);
-    }
-
-    @Override
-    public String toString() {
-        return String.format("[%s:%s]", lowerBound.toString(), upperBound.toString());
-    }
+    T upperBound();
 }

@@ -18,6 +18,7 @@
 
 package ru.spbftu.igorbotian.phdapp.ui.common;
 
+import ru.spbftu.igorbotian.phdapp.common.MathDataFactory;
 import ru.spbftu.igorbotian.phdapp.common.Range;
 import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 
@@ -103,9 +104,11 @@ public class ClassifierParamsFrameDirectorImpl implements ClassifierParamsFrameD
     private final int PRECISE_INTERVAL_JUDGEMENTS_RATIO_MAX = 100;
 
     private final ApplicationConfiguration config;
+    private final MathDataFactory mathDataFactory;
 
-    public ClassifierParamsFrameDirectorImpl(ApplicationConfiguration config) {
+    public ClassifierParamsFrameDirectorImpl(ApplicationConfiguration config, MathDataFactory mathDataFactory) {
         this.config = Objects.requireNonNull(config);
+        this.mathDataFactory = Objects.requireNonNull(mathDataFactory);
     }
 
     private double get(String param, double defaultValue) {
@@ -158,7 +161,7 @@ public class ClassifierParamsFrameDirectorImpl implements ClassifierParamsFrameD
 
     @Override
     public Range<Double> intervalConstantCostParameter() {
-        return new Range<>(get(CONSTANT_COST_PARAM_MIN_ID, DEFAULT_CONSTANT_COST_PARAM_MIN),
+        return mathDataFactory.newRange(get(CONSTANT_COST_PARAM_MIN_ID, DEFAULT_CONSTANT_COST_PARAM_MIN),
                 get(CONSTANT_COST_PARAM_MAX_ID, DEFAULT_CONSTANT_COST_PARAM_MAX),
                 Double::compare);
     }
@@ -203,7 +206,7 @@ public class ClassifierParamsFrameDirectorImpl implements ClassifierParamsFrameD
 
     @Override
     public Range<Double> intervalGaussianKernelParameter() {
-        return new Range<>(get(GAUSSIAN_KERNEL_PARAM_MIN_ID, DEFAULT_GAUSSIAN_KERNEL_PARAM_MIN),
+        return mathDataFactory.newRange(get(GAUSSIAN_KERNEL_PARAM_MIN_ID, DEFAULT_GAUSSIAN_KERNEL_PARAM_MIN),
                 get(GAUSSIAN_KERNEL_PARAM_MAX_ID, DEFAULT_GAUSSIAN_KERNEL_PARAM_MAX),
                 Double::compare);
     }
@@ -280,7 +283,7 @@ public class ClassifierParamsFrameDirectorImpl implements ClassifierParamsFrameD
 
     @Override
     public Range<Integer> intervalSampleSize() {
-        return new Range<>(get(SAMPLE_SIZE_MIN_ID, DEFAULT_SAMPLE_SIZE_MIN),
+        return mathDataFactory.newRange(get(SAMPLE_SIZE_MIN_ID, DEFAULT_SAMPLE_SIZE_MIN),
                 get(SAMPLE_SIZE_MAX_ID, DEFAULT_SAMPLE_SIZE_MAX),
                 Integer::compare);
     }
@@ -331,7 +334,7 @@ public class ClassifierParamsFrameDirectorImpl implements ClassifierParamsFrameD
 
     @Override
     public Range<Integer> intervalLearningTrainingSetsSizeRatio() {
-        return new Range<>(get(LEARNING_TRAINING_SETS_SIZE_RATIO_MIN_ID, DEFAULT_LEARNING_TRAINING_SETS_SIZE_RATIO_MIN),
+        return mathDataFactory.newRange(get(LEARNING_TRAINING_SETS_SIZE_RATIO_MIN_ID, DEFAULT_LEARNING_TRAINING_SETS_SIZE_RATIO_MIN),
                 get(LEARNING_TRAINING_SETS_SIZE_RATIO_MAX_ID, DEFAULT_LEARNING_TRAINING_SETS_SIZE_RATIO_MAX),
                 Integer::compare);
     }
@@ -376,7 +379,7 @@ public class ClassifierParamsFrameDirectorImpl implements ClassifierParamsFrameD
 
     @Override
     public Range<Integer> intervalPreciseIntervalJudgementsRatio() {
-        return new Range<>(get(PRECISE_INTERVAL_JUDGEMENTS_RATIO_MIN_ID, DEFAULT_PRECISE_INTERVAL_JUDGEMENTS_RATIO_MIN),
+        return mathDataFactory.newRange(get(PRECISE_INTERVAL_JUDGEMENTS_RATIO_MIN_ID, DEFAULT_PRECISE_INTERVAL_JUDGEMENTS_RATIO_MIN),
                 get(PRECISE_INTERVAL_JUDGEMENTS_RATIO_MAX_ID, DEFAULT_PRECISE_INTERVAL_JUDGEMENTS_RATIO_MAX),
                 Integer::compare);
     }

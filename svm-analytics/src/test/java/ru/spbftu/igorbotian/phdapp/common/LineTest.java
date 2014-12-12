@@ -19,6 +19,7 @@
 package ru.spbftu.igorbotian.phdapp.common;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -26,7 +27,7 @@ import org.junit.Test;
  *
  * @see ru.spbftu.igorbotian.phdapp.common.Line
  */
-public class LineTest extends BaseDataTest<Line> {
+public class LineTest extends MathPrimitivesBaseTest<Line> {
 
     private final double delta = 0.0001;
 
@@ -34,9 +35,18 @@ public class LineTest extends BaseDataTest<Line> {
     private final double b = 2.0;
     private final double c = 3.0;
 
-    private Line obj = new Line(a, b, c);
-    private Line similarObj = new Line(a, b, c);
-    private Line differentObj = new Line(a + 1.0, b + 1.0, c + 1.0);
+    private Line obj;
+    private Line similarObj;
+    private Line differentObj;
+
+    @Before
+    public void setUp() {
+        super.setUp();
+
+        obj = newLine(a, b, c);
+        similarObj = newLine(a, b, c);
+        differentObj = newLine(a + 1.0, b + 1.0, c + 1.0);
+    }
 
     @Test
     public void testA() {
@@ -55,17 +65,17 @@ public class LineTest extends BaseDataTest<Line> {
 
     @Test
     public void testX() {
-        Assert.assertEquals(1.0, new Line(-2.0, -2.0, 4.0).x(1.0), delta);
+        Assert.assertEquals(1.0, newLine(-2.0, -2.0, 4.0).x(1.0), delta);
     }
 
     @Test
     public void testY() {
-        Assert.assertEquals(1.0, new Line(-2.0, -2.0, 4.0).x(1.0), delta);
+        Assert.assertEquals(1.0, newLine(-2.0, -2.0, 4.0).x(1.0), delta);
     }
 
     @Test
     public void testAngle() {
-        Assert.assertEquals(- Math.PI / 4, new Line(-2.0, -2.0, 4.0).angle(), delta);
+        Assert.assertEquals(- Math.PI / 4, newLine(-2.0, -2.0, 4.0).angle(), delta);
     }
 
     @Test
@@ -80,9 +90,9 @@ public class LineTest extends BaseDataTest<Line> {
 
     @Test
     public void testConstructionByTwoPoints() {
-        Point a = new Point(0.0, 0.0, dataFactory);
-        Point b = new Point(1.0, 1.0, dataFactory);
-        Line line = new Line(a, b);
+        Point a = newPoint(0.0, 0.0);
+        Point b = newPoint(1.0, 1.0);
+        Line line = newLine(a, b);
 
         Assert.assertEquals(-1.0, line.a(), delta);
         Assert.assertEquals(1.0, line.b(), delta);

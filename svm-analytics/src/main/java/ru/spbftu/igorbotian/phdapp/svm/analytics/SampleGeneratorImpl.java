@@ -50,9 +50,9 @@ class SampleGeneratorImpl implements SampleGenerator {
     private static final double dispersionRadius = 1.1 * distanceBetweenSupportingPoints;
 
     /**
-     * Фабрика объектов предметной области
+     * Фабрика математических примитивов, используемых в кросс-валидации классификатора
      */
-    private final DataFactory dataFactory;
+    private final MathDataFactory mathDataFactory;
 
     /**
      * Первая опорная точка
@@ -85,16 +85,15 @@ class SampleGeneratorImpl implements SampleGenerator {
     private Set<Point> secondSet = new HashSet<>();
 
     @Inject
-    public SampleGeneratorImpl(DataFactory dataFactory) {
-        this.dataFactory = Objects.requireNonNull(dataFactory);
+    public SampleGeneratorImpl(DataFactory dataFactory, MathDataFactory mathDataFactory) {
+        this.mathDataFactory = Objects.requireNonNull(mathDataFactory);
 
-        firstPoint = new Point(dispersionRadius, dispersionRadius,
-                dataFactory.newClass("FirstSetOfObjects"), dataFactory);
-        secondPoint = new PolarPoint(
+        firstPoint = mathDataFactory.newPoint(dispersionRadius, dispersionRadius,
+                dataFactory.newClass("FirstSetOfObjects"));
+        secondPoint = mathDataFactory.newPolarPoint(
                 firstPoint.toPolar().r() + distanceBetweenSupportingPoints,
                 firstPoint.toPolar().phi(),
-                dataFactory.newClass("SecondSetOfObjects"),
-                dataFactory
+                dataFactory.newClass("SecondSetOfObjects")
         ).toCartesian();
 
         separatingLine = determineSeparatingLine(firstPoint, secondPoint);
@@ -111,12 +110,12 @@ class SampleGeneratorImpl implements SampleGenerator {
      * 6. Прямая, разделяющая два множества будет проходить через найденную середину и вычисленную точку
      */
     private Line determineSeparatingLine(Point a, Point b) {
-        Point middle = new Point((a.x() + b.x()) / 2, (a.y() + b.y()) / 2, dataFactory);
+        Point middle = mathDataFactory.newPoint((a.x() + b.x()) / 2, (a.y() + b.y()) / 2);
         Point translatedB = b.shift(-middle.x(), -middle.y());
         PolarPoint rotatedPolarB = translatedB.toPolar().rotate(Math.PI / 2);
         Point pointOnSeparatingLine = rotatedPolarB.toCartesian().shift(middle.x(), middle.y());
 
-        return new Line(middle, pointOnSeparatingLine);
+        return mathDataFactory.newLine(middle, pointOnSeparatingLine);
     }
 
     @Override
@@ -133,10 +132,9 @@ class SampleGeneratorImpl implements SampleGenerator {
         int i = 0;
 
         while (i < count) {
-            if (polarPoints.add(new PolarPoint(
+            if (polarPoints.add(mathDataFactory.newPolarPoint(
                     ExponentialRandom.nextDouble(0.0, dispersionRadius),
-                    ExponentialRandom.nextDouble(0.0, 2 * Math.PI),
-                    dataFactory))) {
+                    ExponentialRandom.nextDouble(0.0, 2 * Math.PI)))) {
                 i++;
             }
         }
@@ -145,9 +143,8 @@ class SampleGeneratorImpl implements SampleGenerator {
 
         for (PolarPoint polarPoint : polarPoints) {
             Point cartesianPoint = polarPoint.toCartesian();
-            result.add(new Point(cartesianPoint.x() + supportingPoint.x(),
-                    cartesianPoint.y() + supportingPoint.y(),
-                    dataFactory
+            result.add(mathDataFactory.newPoint(cartesianPoint.x() + supportingPoint.x(),
+                    cartesianPoint.y() + supportingPoint.y()
             ));
         }
 
@@ -161,12 +158,14 @@ class SampleGeneratorImpl implements SampleGenerator {
 
     @Override
     public Range<Double> xCoordinateRange() {
-        return new Range<>(0.0, Math.max(firstPoint.x(), secondPoint.x()) + dispersionRadius, Double::compare);
+        return mathDataFactory.newRange(0.0, Math.max(firstPoint.x(),
+                secondPoint.x()) + dispersionRadius, Double::compare);
     }
 
     @Override
     public Range<Double> yCoordinateRange() {
-        return new Range<>(0.0, Math.max(firstPoint.y(), secondPoint.y()) + dispersionRadius, Double::compare);
+        return mathDataFactory.newRange(0.0, Math.max(firstPoint.y(),
+                secondPoint.y()) + dispersionRadius, Double::compare);
     }
 
     @Override
