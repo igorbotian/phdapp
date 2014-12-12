@@ -19,7 +19,6 @@
 package ru.spbftu.igorbotian.phdapp.common.pdu;
 
 import ru.spbftu.igorbotian.phdapp.common.*;
-import ru.spbftu.igorbotian.phdapp.common.impl.InputDataFactory;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -50,7 +49,7 @@ public class PairwiseInputDataPDU {
         return pdu;
     }
 
-    public PairwiseInputData toObject() throws DataException {
+    public PairwiseInputData toObject(InputDataFactory inputDataFactory) throws DataException {
         Set<DataClass> classes = new LinkedHashSet<>();
         this.classes.forEach(clazz -> classes.add(clazz.toObject()));
 
@@ -64,6 +63,6 @@ public class PairwiseInputDataPDU {
             trainingSet.add(pdu.toObject());
         }
 
-        return InputDataFactory.newPairwiseData(classes, trainingSet, testingSet);
+        return inputDataFactory.newPairwiseData(classes, trainingSet, testingSet);
     }
 }

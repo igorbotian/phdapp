@@ -70,8 +70,10 @@ project(':input') {
         compile(
                 project(':common'),
                 project(':conf-app'),
+                project(':ioc'),
                 project(':utils'),
-                commonsLang
+                commonsLang,
+                googleGuice
         )
 
         testCompile(

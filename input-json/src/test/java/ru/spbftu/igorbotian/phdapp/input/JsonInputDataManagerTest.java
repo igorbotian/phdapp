@@ -18,13 +18,14 @@
 
 package ru.spbftu.igorbotian.phdapp.input;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.easymock.EasyMock;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import ru.spbftu.igorbotian.phdapp.common.*;
 import ru.spbftu.igorbotian.phdapp.common.impl.DataFactory;
-import ru.spbftu.igorbotian.phdapp.common.impl.InputDataFactory;
 import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 
 import java.io.ByteArrayInputStream;
@@ -53,7 +54,9 @@ public class JsonInputDataManagerTest {
 
     @Before
     public void setUp() throws DataException {
-        dataManager = new JsonInputDataManager(mockConfigWithNoProperties());
+        Injector injector = Guice.createInjector(new InputDataModule());
+        InputDataFactory inputDataFactory = injector.getInstance(InputDataFactory.class);
+        dataManager = new JsonInputDataManager(mockConfigWithNoProperties(), inputDataFactory);
 
         Set<DataClass> classes = new HashSet<>(Arrays.asList(
                 DataFactory.newClass("firstClass"),
@@ -72,7 +75,7 @@ public class JsonInputDataManagerTest {
                 DataFactory.newPointwiseTrainingObject("fourthObject", params, classes.iterator().next())
         ));
 
-        data = InputDataFactory.newPointwiseData(classes, trainingSet, testingSet);
+        data = inputDataFactory.newPointwiseData(classes, trainingSet, testingSet);
     }
 
     private ApplicationConfiguration mockConfigWithNoProperties() {

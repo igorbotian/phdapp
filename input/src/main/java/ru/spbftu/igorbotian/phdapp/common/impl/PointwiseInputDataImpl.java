@@ -26,7 +26,7 @@ import java.util.Set;
 /**
  * @see ru.spbftu.igorbotian.phdapp.common.impl.AbstractInputDataImpl
  * @see ru.spbftu.igorbotian.phdapp.common.PointwiseInputData
- * @see ru.spbftu.igorbotian.phdapp.common.impl.InputDataFactory
+ * @see ru.spbftu.igorbotian.phdapp.common.InputDataFactory
  */
 class PointwiseInputDataImpl extends AbstractInputDataImpl implements PointwiseInputData {
 

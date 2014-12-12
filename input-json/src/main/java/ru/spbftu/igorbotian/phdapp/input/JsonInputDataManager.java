@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.inject.Singleton;
 import ru.spbftu.igorbotian.phdapp.common.DataException;
+import ru.spbftu.igorbotian.phdapp.common.InputDataFactory;
 import ru.spbftu.igorbotian.phdapp.common.PointwiseInputData;
 import ru.spbftu.igorbotian.phdapp.common.pdu.PointwiseInputDataPDU;
 import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
@@ -53,9 +54,15 @@ class JsonInputDataManager extends FileBasedInputDataManager {
      */
     private final Gson gson = new Gson();
 
+    /**
+     * Фабрика объектов исходных данных
+     */
+    private final InputDataFactory inputDataFactory;
+
     @Inject
-    JsonInputDataManager(ApplicationConfiguration config) {
-        super(config, JSON_FILE_EXT);
+    JsonInputDataManager(ApplicationConfiguration config, InputDataFactory inputDataFactory) {
+        super(Objects.requireNonNull(config), JSON_FILE_EXT);
+        this.inputDataFactory = Objects.requireNonNull(inputDataFactory);
     }
 
     @Override
@@ -63,8 +70,8 @@ class JsonInputDataManager extends FileBasedInputDataManager {
         Objects.requireNonNull(stream);
 
         try {
-            return gson.fromJson(
-                    new InputStreamReader(stream, StandardCharsets.UTF_8), PointwiseInputDataPDU.class).toObject();
+            return gson.fromJson(new InputStreamReader(stream, StandardCharsets.UTF_8),
+                    PointwiseInputDataPDU.class).toObject(inputDataFactory);
         } catch (JsonSyntaxException e) {
             throw new DataException("Failed to deserialize input data", e);
         }
