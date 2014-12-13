@@ -3,19 +3,19 @@ package ru.spbftu.igorbotian.phdapp.svm;
 /**
  * Набор параметров конфигурации классификатора
  */
-public interface IntervalClassifierParameters {
+public interface IntervalClassifierParameterFactory {
 
     /**
-     * Получение значения параметра постоянной стоимости
+     * Создание значения параметра постоянной стоимости
      *
      * @return параметр классификатора со значением вещественного типа
      */
-    MutableClassifierParameter<Double> constantCostParameter();
+    MutableClassifierParameter<Double> newConstantCostParameter();
 
     /**
-     * Получение значения параметра Гауссова ядра
+     * Создание значения параметра Гауссова ядра
      *
      * @return параметр классификатора со значением вещественного типа
      */
-    MutableClassifierParameter<Double> gaussianKernelParameter();
+    MutableClassifierParameter<Double> newGaussianKernelParameter();
 }
