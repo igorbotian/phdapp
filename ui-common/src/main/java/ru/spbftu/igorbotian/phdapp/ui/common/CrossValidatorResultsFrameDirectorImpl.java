@@ -36,18 +36,18 @@ import java.util.Objects;
 import java.util.StringTokenizer;
 
 /**
- * Реализация интерфейса <code>ClassificationResultsFrameDirector</code>
+ * Реализация интерфейса <code>CrossValidatorResultsFrameDirector</code>
  *
- * @see ClassificationResultsFrameDirector
+ * @see CrossValidatorResultsFrameDirector
  */
-class ClassificationResultsFrameDirectorImpl implements ClassificationResultsFrameDirector {
+class CrossValidatorResultsFrameDirectorImpl implements CrossValidatorResultsFrameDirector {
 
-    private final Logger LOGGER = Logger.getLogger(ClassificationResultsFrameDirectorImpl.class);
+    private final Logger LOGGER = Logger.getLogger(CrossValidatorResultsFrameDirectorImpl.class);
 
     private final ReportSummaryWriterFactory reportSummaryWriterFactory;
     private final ReportCSVWriterFactory reportCSVWriterFactory;
 
-    public ClassificationResultsFrameDirectorImpl(ReportSummaryWriterFactory reportSummaryWriterFactory,
+    public CrossValidatorResultsFrameDirectorImpl(ReportSummaryWriterFactory reportSummaryWriterFactory,
                                                   ReportCSVWriterFactory reportCSVWriterFactory) {
 
         this.reportSummaryWriterFactory = Objects.requireNonNull(reportSummaryWriterFactory);

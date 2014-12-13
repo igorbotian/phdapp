@@ -41,12 +41,12 @@ public interface UIHelper {
     SampleCanvasDirector sampleCanvasDirector();
 
     /**
-     * Получение модели окна, отображающего компоненты для задания параметров классификации
+     * Получение модели окна, отображающего компоненты для задания параметров кросс-валидации
      */
-    ClassifierParamsFrameDirector classifierParamsFrameDirector();
+    CrossValidatorParamsFrameDirector crossValidatorParamsFrameDirector();
 
     /**
-     * Получение модели окна, отображающего результаты классификации
+     * Получение модели окна, отображающего результаты кросс-валидации
      */
-    ClassificationResultsFrameDirector classificationResultsFrameDirector();
+    CrossValidatorResultsFrameDirector crossValidationResultsFrameDirector();
 }

@@ -27,5 +27,5 @@ import ru.spbftu.igorbotian.phdapp.ui.common.UIHelper;
  */
 public interface SwingUIHelper extends UIHelper {
 
-    ClassifierParamsWidgets widgets();
+    CrossValidatorParamsWidgets widgets();
 }

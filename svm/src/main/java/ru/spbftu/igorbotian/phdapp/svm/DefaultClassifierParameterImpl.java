@@ -79,13 +79,13 @@ class DefaultClassifierParameterImpl<T> implements MutableClassifierParameter<T>
             return true;
         }
 
-        if (obj == null || !(obj instanceof DefaultClassifierParameterImpl)) {
+        if (obj == null || !(obj instanceof ClassifierParameter)) {
             return false;
         }
 
-        DefaultClassifierParameterImpl other = (DefaultClassifierParameterImpl) obj;
-        return (name.equals(other.name)
-                && valueClass.equals(other.valueClass)
-                && value.equals(other.value));
+        ClassifierParameter other = (ClassifierParameter) obj;
+        return (name.equals(other.name())
+                && valueClass.equals(other.valueClass())
+                && value.equals(other.value()));
     }
 }

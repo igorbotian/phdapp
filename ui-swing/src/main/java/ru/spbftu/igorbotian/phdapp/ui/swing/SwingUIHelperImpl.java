@@ -20,8 +20,8 @@ package ru.spbftu.igorbotian.phdapp.ui.swing;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import ru.spbftu.igorbotian.phdapp.ui.common.ClassificationResultsFrameDirector;
-import ru.spbftu.igorbotian.phdapp.ui.common.ClassifierParamsFrameDirector;
+import ru.spbftu.igorbotian.phdapp.ui.common.CrossValidatorResultsFrameDirector;
+import ru.spbftu.igorbotian.phdapp.ui.common.CrossValidatorParamsFrameDirector;
 import ru.spbftu.igorbotian.phdapp.ui.common.SampleCanvasDirector;
 import ru.spbftu.igorbotian.phdapp.ui.common.UIHelper;
 
@@ -36,16 +36,16 @@ import java.util.Objects;
 class SwingUIHelperImpl implements SwingUIHelper {
 
     private UIHelper uiHelper;
-    private ClassifierParamsWidgets widgets;
+    private CrossValidatorParamsWidgets widgets;
 
     @Inject
-    public SwingUIHelperImpl(UIHelper uiHelper, ClassifierParamsWidgets widgets) {
+    public SwingUIHelperImpl(UIHelper uiHelper, CrossValidatorParamsWidgets widgets) {
         this.uiHelper = Objects.requireNonNull(uiHelper);
         this.widgets = Objects.requireNonNull(widgets);
     }
 
     @Override
-    public ClassifierParamsWidgets widgets() {
+    public CrossValidatorParamsWidgets widgets() {
         return widgets;
     }
 
@@ -60,12 +60,12 @@ class SwingUIHelperImpl implements SwingUIHelper {
     }
 
     @Override
-    public ClassifierParamsFrameDirector classifierParamsFrameDirector() {
-        return uiHelper.classifierParamsFrameDirector();
+    public CrossValidatorParamsFrameDirector crossValidatorParamsFrameDirector() {
+        return uiHelper.crossValidatorParamsFrameDirector();
     }
 
     @Override
-    public ClassificationResultsFrameDirector classificationResultsFrameDirector() {
-        return uiHelper.classificationResultsFrameDirector();
+    public CrossValidatorResultsFrameDirector crossValidationResultsFrameDirector() {
+        return uiHelper.crossValidationResultsFrameDirector();
     }
 }

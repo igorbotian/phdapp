@@ -28,32 +28,32 @@ import ru.spbftu.igorbotian.phdapp.ui.swing.widget.IntegerSpinner;
  * Введённые пользователем значения сохраняются по завершению работы программы
  * и задаются по умолчанию при следующей работе приложения.
  */
-interface ClassifierParamsWidgets {
+interface CrossValidatorParamsWidgets {
 
     /**
      * Заданное значение коэффициента С
      */
-    DoubleSpinner preciseCParamSpinner();
+    DoubleSpinner preciseConstantCostParamSpinner();
 
     /**
      * Заданный диапазон значений коэффициента С
      */
-    DoubleRangeSpinner intervalCParamSpinner();
+    DoubleRangeSpinner intervalConstantCostParamSpinner();
 
     /**
      * Заданное значение коэффициента Сигма
      */
-    DoubleSpinner preciseSigmaParamSpinner();
+    DoubleSpinner preciseGaussianKernelParamSpinner();
 
     /**
      * Заданный диапазон значений коэффициента Сигма
      */
-    DoubleRangeSpinner intervalSigmaParamSpinner();
+    DoubleRangeSpinner intervalGaussianKernelParamSpinner();
 
     /**
      * Заданное значение количества итераций
      */
-    IntegerSpinner preciseNumberOfIterationsSpinner();
+    IntegerSpinner preciseSamplesToGenerateCountSpinner();
 
     /**
      * Заданное значение количества элементов в выборке
@@ -69,21 +69,21 @@ interface ClassifierParamsWidgets {
      * Заданное значение количества элементов выборки в процентном отношении,
      * для которых задано хотя бы одно предпочтение
      */
-    IntegerSpinner precisePercentOfJudgedSampleItemsSpinner();
+    IntegerSpinner preciseTrainingTestingSetsSizeRatioSpinner();
 
     /**
      * Заданный диапазон значений количества элементов выборки в процентном соотношении,
      * для которых задано хотя бы одно предпочтение
      */
-    IntegerRangeSpinner intervalPercentOfJudgedSampleItemsSpinner();
+    IntegerRangeSpinner intervalTrainingTestingSetsSizeRatioSpinner();
 
     /**
      * Заданное значение процентного соотношения точных/интервальных предпочтений для элементов выборки
      */
-    IntegerSpinner precisePreciseIntervalJudgedSampleItemsRatioSpinner();
+    IntegerSpinner precisePreciseIntervalJudgmentsCountRatioSpinner();
 
     /**
      * Заданный диапазон значений процентного соотношения точных/интервальных предпочтений для элементов выборки
      */
-    IntegerRangeSpinner intervalPreciseIntervalJudgedSampleItemsRatioSpinner();
+    IntegerRangeSpinner intervalPreciseIntervalJudgmentsCountRatioSpinner();
 }

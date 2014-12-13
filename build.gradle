@@ -237,6 +237,7 @@ project(':ui-common') {
                 project(':output-csv'),
                 project(':output-summary'),
                 project(':svm-analytics'),
+                project(':svm-interval'),
                 project(':ui')
         )
     }
@@ -251,7 +252,8 @@ project(':ui-swing') {
                 project(':locale'),
                 project(':ui'),
                 project(':ui-common'),
-                project(':svm-analytics')
+                project(':svm-analytics'),
+                project(':svm-interval')
         )
     }
 }

@@ -20,11 +20,11 @@ package ru.spbftu.igorbotian.phdapp.ui.common;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import ru.spbftu.igorbotian.phdapp.output.csv.ReportCSVWriterFactory;
-import ru.spbftu.igorbotian.phdapp.output.summary.ReportSummaryWriterFactory;
-import ru.spbftu.igorbotian.phdapp.common.MathDataFactory;
 import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
+import ru.spbftu.igorbotian.phdapp.output.csv.ReportCSVWriterFactory;
+import ru.spbftu.igorbotian.phdapp.output.summary.ReportSummaryWriterFactory;
+import ru.spbftu.igorbotian.phdapp.svm.analytics.CrossValidatorParameterFactory;
 import ru.spbftu.igorbotian.phdapp.svm.analytics.SampleGenerator;
 
 import java.util.Objects;
@@ -40,8 +40,8 @@ class UIHelperImpl implements UIHelper {
     private final Localization localization;
 
     private final SampleCanvasDirector sampleCanvasDirector;
-    private final ClassifierParamsFrameDirector classifierParamsFrameDirector;
-    private final ClassificationResultsFrameDirector classificationResultsFrameDirector;
+    private final CrossValidatorParamsFrameDirector crossValidatorParamsFrameDirector;
+    private final CrossValidatorResultsFrameDirector crossValidatorResultsFrameDirector;
 
     @Inject
     public UIHelperImpl(Localization localization,
@@ -49,19 +49,21 @@ class UIHelperImpl implements UIHelper {
                         SampleGenerator sampleGenerator,
                         ReportSummaryWriterFactory reportSummaryWriterFactory,
                         ReportCSVWriterFactory reportCSVWriterFactory,
-                        MathDataFactory mathDataFactory) {
+                        CrossValidatorParameterFactory crossValidatorParameterFactory) {
 
         Objects.requireNonNull(localization);
         Objects.requireNonNull(configuration);
         Objects.requireNonNull(sampleGenerator);
         Objects.requireNonNull(reportSummaryWriterFactory);
         Objects.requireNonNull(reportCSVWriterFactory);
+        Objects.requireNonNull(crossValidatorParameterFactory);
 
         this.localization = localization;
         sampleCanvasDirector = new SampleCanvasDirectorImpl(sampleGenerator);
-        classifierParamsFrameDirector = new ClassifierParamsFrameDirectorImpl(configuration, mathDataFactory);
-        classificationResultsFrameDirector =
-                new ClassificationResultsFrameDirectorImpl(reportSummaryWriterFactory, reportCSVWriterFactory);
+        crossValidatorParamsFrameDirector
+                = new CrossValidatorParamsFrameDirectorImpl(configuration, crossValidatorParameterFactory);
+        crossValidatorResultsFrameDirector =
+                new CrossValidatorResultsFrameDirectorImpl(reportSummaryWriterFactory, reportCSVWriterFactory);
     }
 
     @Override
@@ -75,12 +77,12 @@ class UIHelperImpl implements UIHelper {
     }
 
     @Override
-    public ClassifierParamsFrameDirector classifierParamsFrameDirector() {
-        return classifierParamsFrameDirector;
+    public CrossValidatorParamsFrameDirector crossValidatorParamsFrameDirector() {
+        return crossValidatorParamsFrameDirector;
     }
 
     @Override
-    public ClassificationResultsFrameDirector classificationResultsFrameDirector() {
-        return classificationResultsFrameDirector;
+    public CrossValidatorResultsFrameDirector crossValidationResultsFrameDirector() {
+        return crossValidatorResultsFrameDirector;
     }
 }

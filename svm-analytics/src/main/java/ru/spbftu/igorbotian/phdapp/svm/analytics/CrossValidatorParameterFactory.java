@@ -128,7 +128,7 @@ public interface CrossValidatorParameterFactory {
     /**
      * Идентификатор параметра, задающего количество объектов в генерируемой выборке
      */
-    public static final String SAMPLE_SIZE_ID = "samplesToGenerateCount";
+    public static final String SAMPLE_SIZE_ID = "sampleSize";
 
     /**
      * Значение по умолчанию параметра, задающего количество объектов в генерируемой выборке
@@ -143,7 +143,7 @@ public interface CrossValidatorParameterFactory {
     /**
      * Значение по умолчанию верхней границы интервального значения параметра, задающего количество объектов в генерируемой выборке
      */
-    public static final int SAMPLE_SIZE_DEFAULT_UPPER_BOUND = Integer.MAX_VALUE;
+    public static final int SAMPLE_SIZE_DEFAULT_UPPER_BOUND = Short.MAX_VALUE;
 
     /**
      * Значение по умолчанию величины изменения параметра, задающего количество объектов в генерируемой выборке,

@@ -25,17 +25,17 @@ import java.nio.file.Path;
 import java.util.List;
 
 /**
- * Модель окна, отображающего результаты классификации
+ * Модель окна, отображающего результаты кросс-валидации классификатора
  */
-public interface ClassificationResultsFrameDirector {
+public interface CrossValidatorResultsFrameDirector {
 
     /**
-     * Получение строк сводки для указанных результатов классиикации
+     * Получение строк сводки для указанных результатов кросс-валидации
      */
     public <R extends Report> List<String> getReportSummary(R report);
 
     /**
-     * Сохранение указанных результатов классификации в заданный файл
+     * Сохранение указанных результатов кросс-валидации в заданный файл
      */
     public <R extends Report> void exportReportToCSV(R report, Path file) throws IOException;
 }

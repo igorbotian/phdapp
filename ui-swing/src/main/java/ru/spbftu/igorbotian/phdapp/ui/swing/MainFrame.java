@@ -203,10 +203,10 @@ class MainFrame extends PhDAppFrame {
                 });
 
                 JComponent[] widgets = new JComponent[]{
-                        uiHelper.widgets().preciseCParamSpinner(),
-                        uiHelper.widgets().preciseSigmaParamSpinner(),
-                        uiHelper.widgets().precisePercentOfJudgedSampleItemsSpinner(),
-                        uiHelper.widgets().precisePreciseIntervalJudgedSampleItemsRatioSpinner(),
+                        uiHelper.widgets().preciseConstantCostParamSpinner(),
+                        uiHelper.widgets().preciseGaussianKernelParamSpinner(),
+                        uiHelper.widgets().preciseTrainingTestingSetsSizeRatioSpinner(),
+                        uiHelper.widgets().precisePreciseIntervalJudgmentsCountRatioSpinner(),
                         viewSampleButton
                 };
 
@@ -214,55 +214,55 @@ class MainFrame extends PhDAppFrame {
             } else if (averagePrecisionActionRadioButton == button) {
                 JComponent[] widgets = new JComponent[]{
                         uiHelper.widgets().preciseSampleSizeSpinner(),
-                        uiHelper.widgets().preciseNumberOfIterationsSpinner(),
-                        uiHelper.widgets().preciseCParamSpinner(),
-                        uiHelper.widgets().preciseSigmaParamSpinner(),
-                        uiHelper.widgets().precisePercentOfJudgedSampleItemsSpinner(),
-                        uiHelper.widgets().precisePreciseIntervalJudgedSampleItemsRatioSpinner()
+                        uiHelper.widgets().preciseSamplesToGenerateCountSpinner(),
+                        uiHelper.widgets().preciseConstantCostParamSpinner(),
+                        uiHelper.widgets().preciseGaussianKernelParamSpinner(),
+                        uiHelper.widgets().preciseTrainingTestingSetsSizeRatioSpinner(),
+                        uiHelper.widgets().precisePreciseIntervalJudgmentsCountRatioSpinner()
                 };
 
                 doAction(this::calculateAveragePrecisionOnMultipleIterations, widgets);
             } else if (sampleSizeActionRadioButton == button) {
                 JComponent[] widgets = new JComponent[]{
                         uiHelper.widgets().intervalSampleSizeSpinner(),
-                        uiHelper.widgets().preciseNumberOfIterationsSpinner(),
-                        uiHelper.widgets().preciseCParamSpinner(),
-                        uiHelper.widgets().preciseSigmaParamSpinner(),
-                        uiHelper.widgets().precisePercentOfJudgedSampleItemsSpinner(),
-                        uiHelper.widgets().precisePreciseIntervalJudgedSampleItemsRatioSpinner()
+                        uiHelper.widgets().preciseSamplesToGenerateCountSpinner(),
+                        uiHelper.widgets().preciseConstantCostParamSpinner(),
+                        uiHelper.widgets().preciseGaussianKernelParamSpinner(),
+                        uiHelper.widgets().preciseTrainingTestingSetsSizeRatioSpinner(),
+                        uiHelper.widgets().precisePreciseIntervalJudgmentsCountRatioSpinner()
                 };
 
                 doAction(this::calculatePrecisionOnDifferentSampleSizes, widgets);
             } else if (judgementsCountActionRadioButton == button) {
                 JComponent[] widgets = new JComponent[]{
                         uiHelper.widgets().preciseSampleSizeSpinner(),
-                        uiHelper.widgets().preciseNumberOfIterationsSpinner(),
-                        uiHelper.widgets().preciseCParamSpinner(),
-                        uiHelper.widgets().preciseSigmaParamSpinner(),
-                        uiHelper.widgets().intervalPercentOfJudgedSampleItemsSpinner(),
-                        uiHelper.widgets().precisePreciseIntervalJudgedSampleItemsRatioSpinner()
+                        uiHelper.widgets().preciseSamplesToGenerateCountSpinner(),
+                        uiHelper.widgets().preciseConstantCostParamSpinner(),
+                        uiHelper.widgets().preciseGaussianKernelParamSpinner(),
+                        uiHelper.widgets().intervalTrainingTestingSetsSizeRatioSpinner(),
+                        uiHelper.widgets().precisePreciseIntervalJudgmentsCountRatioSpinner()
                 };
 
                 doAction(this::calculatePrecisionOnDifferentNumberOfJudgedSampleItems, widgets);
             } else if (parametersActionRadioButton == button) {
                 JComponent[] widgets = new JComponent[]{
                         uiHelper.widgets().preciseSampleSizeSpinner(),
-                        uiHelper.widgets().preciseNumberOfIterationsSpinner(),
-                        uiHelper.widgets().intervalCParamSpinner(),
-                        uiHelper.widgets().intervalSigmaParamSpinner(),
-                        uiHelper.widgets().precisePercentOfJudgedSampleItemsSpinner(),
-                        uiHelper.widgets().precisePreciseIntervalJudgedSampleItemsRatioSpinner()
+                        uiHelper.widgets().preciseSamplesToGenerateCountSpinner(),
+                        uiHelper.widgets().intervalConstantCostParamSpinner(),
+                        uiHelper.widgets().intervalGaussianKernelParamSpinner(),
+                        uiHelper.widgets().preciseTrainingTestingSetsSizeRatioSpinner(),
+                        uiHelper.widgets().precisePreciseIntervalJudgmentsCountRatioSpinner()
                 };
 
                 doAction(this::calculatePrecisionOnDifferentParams, widgets);
             } else if (intervalJudgementsActionRadioButton == button) {
                 JComponent[] widgets = new JComponent[]{
                         uiHelper.widgets().preciseSampleSizeSpinner(),
-                        uiHelper.widgets().preciseNumberOfIterationsSpinner(),
-                        uiHelper.widgets().preciseCParamSpinner(),
-                        uiHelper.widgets().preciseSigmaParamSpinner(),
-                        uiHelper.widgets().precisePercentOfJudgedSampleItemsSpinner(),
-                        uiHelper.widgets().intervalPreciseIntervalJudgedSampleItemsRatioSpinner()
+                        uiHelper.widgets().preciseSamplesToGenerateCountSpinner(),
+                        uiHelper.widgets().preciseConstantCostParamSpinner(),
+                        uiHelper.widgets().preciseGaussianKernelParamSpinner(),
+                        uiHelper.widgets().preciseTrainingTestingSetsSizeRatioSpinner(),
+                        uiHelper.widgets().intervalPreciseIntervalJudgmentsCountRatioSpinner()
                 };
 
                 doAction(this::calculatePrecisionOnDifferentPreciseIntervalSampleItemsRatio, widgets);
