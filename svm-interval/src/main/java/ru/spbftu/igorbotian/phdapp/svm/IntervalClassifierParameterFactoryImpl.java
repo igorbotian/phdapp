@@ -10,13 +10,33 @@ class IntervalClassifierParameterFactoryImpl extends AbstractClassifierParameter
 
     @Override
     public MutableClassifierParameter<Double> newConstantCostParameter() {
-        return super.newMutableParameter("constantCostParameter", Double.class,
-                100.0, -1000000.0, 1000000.0, Double::compare);
+        return newConstantCostParameter(CONSTANT_COST_PARAM_DEFAULT_VALUE);
+    }
+
+    @Override
+    public MutableClassifierParameter<Double> newConstantCostParameter(double value) {
+        if (value < CONSTANT_COST_PARAM_MIN || value > CONSTANT_COST_PARAM_MAX) {
+            throw new IllegalArgumentException("Constant cost parameter value can't be less than the minimum " +
+                    "or greater than the maximum");
+        }
+
+        return super.newMutableParameter(CONSTANT_COST_PARAM_ID, Double.class,
+                value, CONSTANT_COST_PARAM_MIN, CONSTANT_COST_PARAM_MAX, Double::compare);
     }
 
     @Override
     public MutableClassifierParameter<Double> newGaussianKernelParameter() {
-        return new DefaultClassifierParameterImpl<>("gaussianKernelParameter", Double.class,
-                0.1, -1000000.0, 1000000.0, Double::compare);
+        return newGaussianKernelParameter(GAUSSIAN_KERNEL_PARAM_DEFAULT_VALUE);
+    }
+
+    @Override
+    public MutableClassifierParameter<Double> newGaussianKernelParameter(double value) {
+        if (value < GAUSSIAN_KERNEL_PARAM_MIN || value > GAUSSIAN_KERNEL_PARAM_MAX) {
+            throw new IllegalArgumentException("Gaussian kernel parameter value can't be less than the minimum " +
+                    "or greater than the maximum");
+        }
+
+        return new DefaultClassifierParameterImpl<>(GAUSSIAN_KERNEL_PARAM_ID, Double.class,
+                value, GAUSSIAN_KERNEL_PARAM_MIN, GAUSSIAN_KERNEL_PARAM_MAX, Double::compare);
     }
 }
