@@ -198,7 +198,8 @@ project(':svm-analytics') {
     dependencies {
         compile(
                 project(':common'),
-                project(':svm')
+                project(':svm'),
+                project(':svm-interval')
         )
 
         testCompile(
