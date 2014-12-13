@@ -1,7 +1,7 @@
 package ru.spbftu.igorbotian.phdapp.svm.analytics;
 
 import ru.spbftu.igorbotian.phdapp.svm.AbstractClassifierParameterFactory;
-import ru.spbftu.igorbotian.phdapp.svm.ClassifierParameter;
+import ru.spbftu.igorbotian.phdapp.svm.MutableClassifierParameter;
 
 import java.util.Comparator;
 import java.util.Objects;
@@ -9,17 +9,18 @@ import java.util.Objects;
 /**
  * Реализация параметра кросс-валидации классификатора по умолчанию
  */
-class DefaultCrossValidatorParameterImpl<T> extends AbstractClassifierParameterFactory implements CrossValidatorParameter<T> {
+class DefaultCrossValidatorParameterImpl<T> extends AbstractClassifierParameterFactory
+        implements MutableCrossValidatorParameter<T> {
 
     private static final String LOWER_BOUND_SUFFIX = "LowerBound";
     private static final String UPPER_BOUND_SUFFIX = "UpperBound";
     private static final String STEP_SIZE_SUFFIX = "StepSize";
 
     private final String name;
-    private final ClassifierParameter<T> value;
-    private final ClassifierParameter<T> lowerBound;
-    private final ClassifierParameter<T> upperBound;
-    private final ClassifierParameter<T> stepSize;
+    private final MutableClassifierParameter<T> value;
+    private final MutableClassifierParameter<T> lowerBound;
+    private final MutableClassifierParameter<T> upperBound;
+    private final MutableClassifierParameter<T> stepSize;
 
     public DefaultCrossValidatorParameterImpl(String name, Class<T> valueClass, T value, T lowerBound, T upperBound,
                                               T minValue, T maxValue, T stepSize, Comparator<T> comparator) {
@@ -46,22 +47,22 @@ class DefaultCrossValidatorParameterImpl<T> extends AbstractClassifierParameterF
     }
 
     @Override
-    public ClassifierParameter<T> value() {
+    public MutableClassifierParameter<T> value() {
         return value;
     }
 
     @Override
-    public ClassifierParameter<T> lowerBound() {
+    public MutableClassifierParameter<T> lowerBound() {
         return lowerBound;
     }
 
     @Override
-    public ClassifierParameter<T> upperBound() {
+    public MutableClassifierParameter<T> upperBound() {
         return upperBound;
     }
 
     @Override
-    public ClassifierParameter<T> stepSize() {
+    public MutableClassifierParameter<T> stepSize() {
         return stepSize;
     }
 
