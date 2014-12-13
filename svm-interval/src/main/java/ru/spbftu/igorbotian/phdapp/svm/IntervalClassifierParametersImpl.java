@@ -9,13 +9,13 @@ class IntervalClassifierParametersImpl extends AbstractClassifierParameterFactor
         implements IntervalClassifierParameters {
 
     @Override
-    public ClassifierParameter<Double> constantCostParameter() {
-        return super.newParameter("constantCostParameter", Double.class,
+    public MutableClassifierParameter<Double> constantCostParameter() {
+        return super.newMutableParameter("constantCostParameter", Double.class,
                 100.0, -1000000.0, 1000000.0, Double::compare);
     }
 
     @Override
-    public ClassifierParameter<Double> gaussianKernelParameter() {
+    public MutableClassifierParameter<Double> gaussianKernelParameter() {
         return new DefaultClassifierParameterImpl<>("gaussianKernelParameter", Double.class,
                 0.1, -1000000.0, 1000000.0, Double::compare);
     }

@@ -29,10 +29,10 @@ class DefaultCrossValidatorParameterImpl<T> extends AbstractClassifierParameterF
             throw new IllegalArgumentException("Cross-validator parameter name cannot be empty");
         }
 
-        this.value = newParameter(name, valueClass, value, minValue, maxValue, comparator);
-        this.lowerBound = newParameter(name + LOWER_BOUND_SUFFIX, valueClass, lowerBound, minValue, maxValue, comparator);
-        this.upperBound = newParameter(name + UPPER_BOUND_SUFFIX, valueClass, upperBound, minValue, maxValue, comparator);
-        this.stepSize = newParameter(name + STEP_SIZE_SUFFIX, valueClass, stepSize, minValue, maxValue, comparator);
+        this.value = newMutableParameter(name, valueClass, value, minValue, maxValue, comparator);
+        this.lowerBound = newMutableParameter(name + LOWER_BOUND_SUFFIX, valueClass, lowerBound, minValue, maxValue, comparator);
+        this.upperBound = newMutableParameter(name + UPPER_BOUND_SUFFIX, valueClass, upperBound, minValue, maxValue, comparator);
+        this.stepSize = newMutableParameter(name + STEP_SIZE_SUFFIX, valueClass, stepSize, minValue, maxValue, comparator);
     }
 
     @Override

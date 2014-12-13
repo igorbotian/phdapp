@@ -6,10 +6,10 @@ import java.util.Objects;
 /**
  * Реализация параметра классификатора по умолчанию
  */
-class DefaultClassifierParameterImpl<T> implements ClassifierParameter<T> {
+class DefaultClassifierParameterImpl<T> implements MutableClassifierParameter<T> {
 
     private final String name;
-    private final T value;
+    private T value;
     private final T minValue;
     private final T maxValue;
     private final Class<T> valueClass;
@@ -41,6 +41,11 @@ class DefaultClassifierParameterImpl<T> implements ClassifierParameter<T> {
     @Override
     public T value() {
         return value;
+    }
+
+    @Override
+    public void setValue(T newValue) throws IllegalArgumentException {
+        this.value = newValue;
     }
 
     @Override

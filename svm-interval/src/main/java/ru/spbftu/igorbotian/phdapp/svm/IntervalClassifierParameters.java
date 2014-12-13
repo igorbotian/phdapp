@@ -10,12 +10,12 @@ public interface IntervalClassifierParameters {
      *
      * @return параметр классификатора со значением вещественного типа
      */
-    ClassifierParameter<Double> constantCostParameter();
+    MutableClassifierParameter<Double> constantCostParameter();
 
     /**
      * Получение значения параметра Гауссова ядра
      *
      * @return параметр классификатора со значением вещественного типа
      */
-    ClassifierParameter<Double> gaussianKernelParameter();
+    MutableClassifierParameter<Double> gaussianKernelParameter();
 }
