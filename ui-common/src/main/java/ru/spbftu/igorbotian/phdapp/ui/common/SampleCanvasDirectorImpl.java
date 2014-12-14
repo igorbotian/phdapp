@@ -18,10 +18,10 @@
 
 package ru.spbftu.igorbotian.phdapp.ui.common;
 
-import ru.spbftu.igorbotian.phdapp.common.Line;
-import ru.spbftu.igorbotian.phdapp.common.Point;
-import ru.spbftu.igorbotian.phdapp.common.Range;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.SampleGenerator;
+import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.Line;
+import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.Point;
+import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.Range;
+import ru.spbftu.igorbotian.phdapp.svm.validation.sample.SampleGenerator;
 
 import java.util.Objects;
 import java.util.Set;
@@ -31,7 +31,7 @@ import java.util.Set;
  * Все данные берутся из <code>SampleGenerator</code>
  *
  * @see SampleCanvasDirector
- * @see ru.spbftu.igorbotian.phdapp.svm.analytics.SampleGenerator
+ * @see ru.spbftu.igorbotian.phdapp.svm.validation.sample.SampleGenerator
  */
 class SampleCanvasDirectorImpl implements SampleCanvasDirector {
 

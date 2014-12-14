@@ -15,35 +15,35 @@ public interface IntervalPairwiseClassifierCrossValidators {
      *
      * @return средство кросс-валидации для данного действия
      */
-    IntervalPairwiseClassifierCrossValidator<SingleClassificationReport> precisionValidator();
+    PairwiseClassifierCrossValidator<SingleClassificationReport> precisionValidator();
 
     /**
      * Средство кросс-валидации, ориентированное на среднее значение точности серии попарных классификаций
      *
      * @return средство кросс-валидации для данного действия
      */
-    IntervalPairwiseClassifierCrossValidator<MultiClassificationReport> averagePrecisionValidator();
+    PairwiseClassifierCrossValidator<MultiClassificationReport> averagePrecisionValidator();
 
     /**
      * Средство анализа зависимости точности классификации от размера обучающей выборки
      *
      * @return средство кросс-валидации для данного действия
      */
-    IntervalPairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnSampleSizeAnalyzer();
+    PairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnSampleSizeAnalyzer();
 
     /**
      * Средство анализа завимимости точности классификации от размера обучающей выборки
      *
      * @return средство кросс-валидации для данного действия
      */
-    IntervalPairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnTrainingSetSizeAnalyzer();
+    PairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnTrainingSetSizeAnalyzer();
 
     /**
      * Средство анализа завимимости точности классификации от параметров классификации
      *
      * @return средство кросс-валидации для данного действия
      */
-    IntervalPairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnClassifierParametersAnalyzer();
+    PairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnClassifierParametersAnalyzer();
 
     /**
      * Средство анализа завимимости точности классификации от процентного соотношения количества точных/интервальных
@@ -51,5 +51,5 @@ public interface IntervalPairwiseClassifierCrossValidators {
      *
      * @return средство кросс-валидации для данного действия
      */
-    IntervalPairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnPreciseIntervalJudgementsRatioAnalyzer();
+    PairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnPreciseIntervalJudgementsRatioAnalyzer();
 }

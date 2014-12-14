@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2014 Igor Botian
  *
  * This program is free software: you can redistribute it and/or modify it
@@ -16,34 +16,26 @@
  * @author Igor Botian <igor.botian@gmail.com>
  */
 
-package ru.spbftu.igorbotian.phdapp.ui.common;
-
-import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.Line;
-import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.Point;
-import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.Range;
-
-import java.util.Set;
+package ru.spbftu.igorbotian.phdapp.svm.validation.sample.math;
 
 /**
- * Модель компонента, отвечающего за отображение выборки для классификатора
+ * Диапазон значений (включая границы)
+ *
+ * @param <T> тип значений
  */
-public interface SampleCanvasDirector {
+public interface Range<T> {
 
-    int numberOfPoints();
+    /**
+     * Получение нижней границы диапазона
+     *
+     * @return нижняя граница диапазона
+     */
+    T lowerBound();
 
-    Line separatingLine();
-
-    Range<Double> xCoordinateRange();
-
-    Range<Double> yCoordinateRange();
-
-    Point firstSupportingPoint();
-
-    Point secondSupportingPoint();
-
-    Set<Point> firstSetOfPoints();
-
-    Set<Point> secondSetOfPoints();
-
-    void regeneratePoints(int count);
+    /**
+     * Получение верхней границы диапазона
+     *
+     * @return верхняя граница диапазона
+     */
+    T upperBound();
 }

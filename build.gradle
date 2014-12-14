@@ -149,6 +149,7 @@ project(':main') {
                 project(':output-summary'),
                 project(':svm-analytics'),
                 project(':svm-interval'),
+                project(':svm-validation-sample'),
                 project(':ui-swing'),
                 project(':utils')
         )
@@ -161,7 +162,8 @@ project(':output-csv') {
     dependencies {
         compile(
                 project(':locale'),
-                project(':svm-analytics')
+                project(':svm-analytics'),
+                project(':svm-validation-sample')
         )
 
         testCompile junit
@@ -174,7 +176,8 @@ project(':output-summary') {
     dependencies {
         compile(
                 project(':locale'),
-                project(':svm-analytics')
+                project(':svm-analytics'),
+                project(':svm-validation-sample')
         )
 
         testCompile junit
@@ -221,6 +224,22 @@ project(':svm-interval') {
     }
 }
 
+project(':svm-validation-sample') {
+    description 'Cross-validation sample manager for the new SVM classification mechanism'
+
+    dependencies {
+        compile(
+                project(':common'),
+                project(':svm')
+        )
+
+        testCompile(
+                junit,
+                project(':common').sourceSets.test.output
+        )
+    }
+}
+
 project(':ui') {
     description 'Abstract user interface entities'
 }
@@ -238,6 +257,7 @@ project(':ui-common') {
                 project(':output-summary'),
                 project(':svm-analytics'),
                 project(':svm-interval'),
+                project(':svm-validation-sample'),
                 project(':ui')
         )
     }
@@ -253,7 +273,8 @@ project(':ui-swing') {
                 project(':ui'),
                 project(':ui-common'),
                 project(':svm-analytics'),
-                project(':svm-interval')
+                project(':svm-interval'),
+                project(':svm-validation-sample')
         )
     }
 }

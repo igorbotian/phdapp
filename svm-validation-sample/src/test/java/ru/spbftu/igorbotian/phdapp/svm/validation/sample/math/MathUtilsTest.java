@@ -16,34 +16,27 @@
  * @author Igor Botian <igor.botian@gmail.com>
  */
 
-package ru.spbftu.igorbotian.phdapp.ui.common;
+package ru.spbftu.igorbotian.phdapp.svm.validation.sample.math;
 
-import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.Line;
-import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.Point;
-import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.Range;
-
-import java.util.Set;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
- * Модель компонента, отвечающего за отображение выборки для классификатора
+ * Модульные тесты для класса <code>MathUtils</code>
+ *
+ * @see MathUtils
  */
-public interface SampleCanvasDirector {
+public class MathUtilsTest {
 
-    int numberOfPoints();
+    private final double delta = 0.0001;
 
-    Line separatingLine();
+    @Test
+    public void testTranslateOfPositives() {
+        Assert.assertEquals(2.0, MathUtils.translate(1.0, 0.0, 5.0, 0.0, 10.0), delta);
+    }
 
-    Range<Double> xCoordinateRange();
-
-    Range<Double> yCoordinateRange();
-
-    Point firstSupportingPoint();
-
-    Point secondSupportingPoint();
-
-    Set<Point> firstSetOfPoints();
-
-    Set<Point> secondSetOfPoints();
-
-    void regeneratePoints(int count);
+    @Test
+    public void testTranslateOfNegatives() {
+        Assert.assertEquals(-2.0, MathUtils.translate(-1.0, -5.0, -0.0, -10.0, 0.0), delta);
+    }
 }

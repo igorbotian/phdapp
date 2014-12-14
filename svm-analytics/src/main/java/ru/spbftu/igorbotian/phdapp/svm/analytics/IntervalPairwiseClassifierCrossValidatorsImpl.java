@@ -17,51 +17,44 @@ import java.util.Objects;
 class IntervalPairwiseClassifierCrossValidatorsImpl implements IntervalPairwiseClassifierCrossValidators {
 
     /**
-     * Средство генерации обучающей выборки для классификатора, используемое по-умолчанию
-     */
-    private SampleGenerator sampleGenerator;
-
-    /**
      * Реализация по умолчанию попарного классификатора, над которым проводится кросс-валидация
      */
     private PairwiseClassifier classifier;
 
     @Inject
-    public IntervalPairwiseClassifierCrossValidatorsImpl(SampleGenerator sampleGenerator,
-                                                         PairwiseClassifier classifier) {
-        this.sampleGenerator = Objects.requireNonNull(sampleGenerator);
+    public IntervalPairwiseClassifierCrossValidatorsImpl(PairwiseClassifier classifier) {
         this.classifier = Objects.requireNonNull(classifier);
 
         // TODO init validators
     }
 
     @Override
-    public IntervalPairwiseClassifierCrossValidator<SingleClassificationReport> precisionValidator() {
+    public PairwiseClassifierCrossValidator<SingleClassificationReport> precisionValidator() {
         return null; // TODO
     }
 
     @Override
-    public IntervalPairwiseClassifierCrossValidator<MultiClassificationReport> averagePrecisionValidator() {
+    public PairwiseClassifierCrossValidator<MultiClassificationReport> averagePrecisionValidator() {
         return null; // TODO
     }
 
     @Override
-    public IntervalPairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnSampleSizeAnalyzer() {
+    public PairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnSampleSizeAnalyzer() {
         return null; // TODO
     }
 
     @Override
-    public IntervalPairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnTrainingSetSizeAnalyzer() {
+    public PairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnTrainingSetSizeAnalyzer() {
         return null; // TODO
     }
 
     @Override
-    public IntervalPairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnClassifierParametersAnalyzer() {
+    public PairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnClassifierParametersAnalyzer() {
         return null; // TODO
     }
 
     @Override
-    public IntervalPairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnPreciseIntervalJudgementsRatioAnalyzer() {
+    public PairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnPreciseIntervalJudgementsRatioAnalyzer() {
         return null; // TODO
     }
 }

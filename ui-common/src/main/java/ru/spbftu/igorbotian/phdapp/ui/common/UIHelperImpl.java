@@ -25,7 +25,7 @@ import ru.spbftu.igorbotian.phdapp.locale.Localization;
 import ru.spbftu.igorbotian.phdapp.output.csv.ReportCSVWriterFactory;
 import ru.spbftu.igorbotian.phdapp.output.summary.ReportSummaryWriterFactory;
 import ru.spbftu.igorbotian.phdapp.svm.analytics.CrossValidatorParameterFactory;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.SampleGenerator;
+import ru.spbftu.igorbotian.phdapp.svm.validation.sample.SampleGenerator;
 
 import java.util.Objects;
 

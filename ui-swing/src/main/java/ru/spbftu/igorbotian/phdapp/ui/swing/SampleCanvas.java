@@ -18,7 +18,8 @@
 
 package ru.spbftu.igorbotian.phdapp.ui.swing;
 
-import ru.spbftu.igorbotian.phdapp.common.Line;
+import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.*;
+import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.Point;
 import ru.spbftu.igorbotian.phdapp.ui.common.SampleCanvasDirector;
 
 import javax.swing.*;
@@ -82,16 +83,16 @@ public class SampleCanvas extends JPanel {
                 SECOND_SET_OF_POINTS_COLOR);
     }
 
-    private void paintSetOfPoints(Graphics g, Set<ru.spbftu.igorbotian.phdapp.common.Point> points,
-                                  ru.spbftu.igorbotian.phdapp.common.Point supportingPoint, Color color) {
-        for (ru.spbftu.igorbotian.phdapp.common.Point point : points) {
+    private void paintSetOfPoints(Graphics g, Set<ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.Point> points,
+                                  Point supportingPoint, Color color) {
+        for (Point point : points) {
             paintPoint(g, point, color, SET_POINT_RADIUS);
         }
 
         paintPoint(g, supportingPoint, SUPPORTING_POINT_COLOR, SUPPORTING_POINT_RADIUS);
     }
 
-    private void paintPoint(Graphics g, ru.spbftu.igorbotian.phdapp.common.Point point, Color color, int radius) {
+    private void paintPoint(Graphics g, Point point, Color color, int radius) {
         int x = toCanvasX(point.x());
         int y = toCanvasY(point.y());
 
