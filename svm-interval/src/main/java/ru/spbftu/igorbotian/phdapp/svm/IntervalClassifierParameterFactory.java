@@ -56,7 +56,7 @@ public interface IntervalClassifierParameterFactory {
      *
      * @return параметр классификатора со значением вещественного типа
      */
-    ClassifierParameter<Double> newConstantCostParameter();
+    ClassifierParameter<Double> constantCostParameter();
 
     /**
      * Создание параметра постоянной стоимости с заданным значением
@@ -66,7 +66,7 @@ public interface IntervalClassifierParameterFactory {
      * @return параметр классификатора со значением вещественного типа
      * @throws IllegalArgumentException если значение меньше минимально допустимого или больше максимально допустимого
      */
-    ClassifierParameter<Double> newConstantCostParameter(double value);
+    ClassifierParameter<Double> constantCostParameter(double value);
 
     //-------------------------------------------------------------------------
 
@@ -75,7 +75,7 @@ public interface IntervalClassifierParameterFactory {
      *
      * @return параметр классификатора со значением вещественного типа
      */
-    ClassifierParameter<Double> newGaussianKernelParameter();
+    ClassifierParameter<Double> gaussianKernelParameter();
 
     /**
      * Создание параметра Гауссова ядра с заданным значением
@@ -85,7 +85,7 @@ public interface IntervalClassifierParameterFactory {
      * @return параметр классификатора со значением вещественного типа
      * @throws IllegalArgumentException если значение меньше минимально допустимого или больше максимально допустимого
      */
-    ClassifierParameter<Double> newGaussianKernelParameter(double value);
+    ClassifierParameter<Double> gaussianKernelParameter(double value);
 
     //-------------------------------------------------------------------------
 

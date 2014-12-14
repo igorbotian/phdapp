@@ -14,12 +14,12 @@ class IntervalClassifierParameterFactoryImpl extends AbstractClassifierParameter
         implements IntervalClassifierParameterFactory {
 
     @Override
-    public MutableClassifierParameter<Double> newConstantCostParameter() {
-        return newConstantCostParameter(CONSTANT_COST_PARAM_DEFAULT_VALUE);
+    public MutableClassifierParameter<Double> constantCostParameter() {
+        return constantCostParameter(CONSTANT_COST_PARAM_DEFAULT_VALUE);
     }
 
     @Override
-    public MutableClassifierParameter<Double> newConstantCostParameter(double value) {
+    public MutableClassifierParameter<Double> constantCostParameter(double value) {
         if (value < CONSTANT_COST_PARAM_MIN_VALUE || value > CONSTANT_COST_PARAM_MAX_VALUE) {
             throw new IllegalArgumentException("Constant cost parameter value can't be less than the minimum " +
                     "or greater than the maximum");
@@ -30,12 +30,12 @@ class IntervalClassifierParameterFactoryImpl extends AbstractClassifierParameter
     }
 
     @Override
-    public MutableClassifierParameter<Double> newGaussianKernelParameter() {
-        return newGaussianKernelParameter(GAUSSIAN_KERNEL_PARAM_DEFAULT_VALUE);
+    public MutableClassifierParameter<Double> gaussianKernelParameter() {
+        return gaussianKernelParameter(GAUSSIAN_KERNEL_PARAM_DEFAULT_VALUE);
     }
 
     @Override
-    public MutableClassifierParameter<Double> newGaussianKernelParameter(double value) {
+    public MutableClassifierParameter<Double> gaussianKernelParameter(double value) {
         if (value < GAUSSIAN_KERNEL_PARAM_MIN_VALUE || value > GAUSSIAN_KERNEL_PARAM_MAX_VALUE) {
             throw new IllegalArgumentException("Gaussian kernel parameter value can't be less than the minimum " +
                     "or greater than the maximum");
@@ -48,8 +48,8 @@ class IntervalClassifierParameterFactoryImpl extends AbstractClassifierParameter
     @Override
     public Set<ClassifierParameter<?>> defaultValues() {
         return Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
-                newConstantCostParameter(),
-                newGaussianKernelParameter()
+                constantCostParameter(),
+                gaussianKernelParameter()
         )));
     }
 }
