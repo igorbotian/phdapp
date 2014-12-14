@@ -16,7 +16,7 @@
  * @author Igor Botian <igor.botian@gmail.com>
  */
 
-package ru.spbftu.igorbotian.phdapp.svm.analytics.report;
+package ru.spbftu.igorbotian.phdapp.svm.validation.report;
 
 /**
  * Отчёт, содержащие различные метрики по работе классиификатора

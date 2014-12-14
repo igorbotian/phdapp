@@ -1,6 +1,6 @@
 package ru.spbftu.igorbotian.phdapp.output.csv;
 
-import ru.spbftu.igorbotian.phdapp.svm.analytics.report.Report;
+import ru.spbftu.igorbotian.phdapp.svm.validation.report.Report;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -8,7 +8,6 @@ import java.io.PrintWriter;
 /**
  * Средство сохранения отчёта по работе классификатора с заданными параметрами в формате CSV
  *
- * @see ru.spbftu.igorbotian.phdapp.svm.analytics.report.Report
  * @see CSVWriter
  */
 public interface ReportCSVWriter <R extends Report> {

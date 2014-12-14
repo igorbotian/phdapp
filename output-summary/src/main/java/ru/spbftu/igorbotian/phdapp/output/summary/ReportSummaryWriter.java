@@ -1,6 +1,6 @@
 package ru.spbftu.igorbotian.phdapp.output.summary;
 
-import ru.spbftu.igorbotian.phdapp.svm.analytics.report.Report;
+import ru.spbftu.igorbotian.phdapp.svm.validation.report.Report;
 
 import java.io.IOException;
 import java.io.PrintWriter;

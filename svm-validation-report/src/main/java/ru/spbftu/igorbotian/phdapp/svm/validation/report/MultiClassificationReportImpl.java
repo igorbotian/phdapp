@@ -1,4 +1,4 @@
-package ru.spbftu.igorbotian.phdapp.svm.analytics.report;
+package ru.spbftu.igorbotian.phdapp.svm.validation.report;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -8,7 +8,7 @@ import java.util.Objects;
 /**
  * Реализация интерфейса <code>MultiClassificationReport</code>
  *
- * @see ru.spbftu.igorbotian.phdapp.svm.analytics.report.MultiClassificationReport
+ * @see MultiClassificationReport
  */
 class MultiClassificationReportImpl implements MultiClassificationReport {
 

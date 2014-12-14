@@ -3,8 +3,8 @@ package ru.spbftu.igorbotian.phdapp.svm.analytics;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import ru.spbftu.igorbotian.phdapp.svm.PairwiseClassifier;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.report.MultiClassificationReport;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleClassificationReport;
+import ru.spbftu.igorbotian.phdapp.svm.validation.report.MultiClassificationReport;
+import ru.spbftu.igorbotian.phdapp.svm.validation.report.SingleClassificationReport;
 
 import java.util.Objects;
 

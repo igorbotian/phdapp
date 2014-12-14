@@ -19,7 +19,7 @@
 package ru.spbftu.igorbotian.phdapp.output.summary;
 
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleClassificationReport;
+import ru.spbftu.igorbotian.phdapp.svm.validation.report.SingleClassificationReport;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -29,7 +29,6 @@ import java.util.Objects;
  * Реализация интерфейса <code>ReportSummaryWriter</code> для отчётов типа <code>SingleClassificationReport</code>
  *
  * @see ReportSummaryWriter
- * @see ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleClassificationReport
  */
 class SingleClassificationReportSummaryWriterImpl implements ReportSummaryWriter<SingleClassificationReport> {
 

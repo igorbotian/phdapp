@@ -1,7 +1,7 @@
 package ru.spbftu.igorbotian.phdapp.svm.analytics;
 
-import ru.spbftu.igorbotian.phdapp.svm.analytics.report.MultiClassificationReport;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleClassificationReport;
+import ru.spbftu.igorbotian.phdapp.svm.validation.report.MultiClassificationReport;
+import ru.spbftu.igorbotian.phdapp.svm.validation.report.SingleClassificationReport;
 
 /**
  * Фабрика средств кросс-валидации попарного классификатора

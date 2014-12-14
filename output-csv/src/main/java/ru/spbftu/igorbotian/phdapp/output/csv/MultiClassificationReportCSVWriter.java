@@ -19,8 +19,8 @@
 package ru.spbftu.igorbotian.phdapp.output.csv;
 
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.report.MultiClassificationReport;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleClassificationReport;
+import ru.spbftu.igorbotian.phdapp.svm.validation.report.MultiClassificationReport;
+import ru.spbftu.igorbotian.phdapp.svm.validation.report.SingleClassificationReport;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -28,8 +28,6 @@ import java.util.Objects;
 
 /**
  * Реализация сохранения отчёта серии классификаций в формате CSV
- *
- * @see ru.spbftu.igorbotian.phdapp.svm.analytics.report.MultiClassificationReport
  * @see ReportCSVWriter
  */
 class MultiClassificationReportCSVWriter implements ReportCSVWriter<MultiClassificationReport> {

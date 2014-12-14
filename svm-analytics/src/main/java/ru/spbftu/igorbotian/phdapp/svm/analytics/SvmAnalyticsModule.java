@@ -19,12 +19,10 @@
 package ru.spbftu.igorbotian.phdapp.svm.analytics;
 
 import ru.spbftu.igorbotian.phdapp.ioc.PhDAppModule;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.report.ReportFactoryModule;
 
 /**
  * Модуль получения аналитической информации по результатам работы классификатора исходных данных
  *
- * @see ru.spbftu.igorbotian.phdapp.svm.analytics.report.ReportFactory
  * @see ru.spbftu.igorbotian.phdapp.svm.analytics.CrossValidatorParameterFactory
  * @see ru.spbftu.igorbotian.phdapp.svm.analytics.IntervalPairwiseClassifierCrossValidators
  */
@@ -32,7 +30,6 @@ public class SvmAnalyticsModule extends PhDAppModule {
 
     @Override
     protected void configure() {
-        install(new ReportFactoryModule());
         bind(CrossValidatorParameterFactory.class).to(CrossValidatorParameterFactoryImpl.class);
         bind(IntervalPairwiseClassifierCrossValidators.class).to(IntervalPairwiseClassifierCrossValidatorsImpl.class);
     }

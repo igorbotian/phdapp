@@ -1,11 +1,11 @@
-package ru.spbftu.igorbotian.phdapp.svm.analytics.report;
+package ru.spbftu.igorbotian.phdapp.svm.validation.report;
 
 import java.util.List;
 
 /**
  * Реализация фабрики различных отчётов по работе классификатора
  *
- * @see ru.spbftu.igorbotian.phdapp.svm.analytics.report.ReportFactory
+ * @see ReportFactory
  */
 class ReportFactoryImpl implements ReportFactory {
 

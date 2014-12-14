@@ -3,7 +3,7 @@ package ru.spbftu.igorbotian.phdapp.output.csv;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.report.Report;
+import ru.spbftu.igorbotian.phdapp.svm.validation.report.Report;
 
 import java.util.Map;
 import java.util.Objects;

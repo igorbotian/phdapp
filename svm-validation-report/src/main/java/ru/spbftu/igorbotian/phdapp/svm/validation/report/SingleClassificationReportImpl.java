@@ -1,8 +1,8 @@
-package ru.spbftu.igorbotian.phdapp.svm.analytics.report;
+package ru.spbftu.igorbotian.phdapp.svm.validation.report;
 
 /**
  * Реализация интерфейса <code>SingleClassificationReport</code>
- * @see ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleClassificationReport
+ * @see SingleClassificationReport
  */
 class SingleClassificationReportImpl implements SingleClassificationReport {
 

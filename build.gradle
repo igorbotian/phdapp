@@ -149,6 +149,7 @@ project(':main') {
                 project(':output-summary'),
                 project(':svm-analytics'),
                 project(':svm-interval'),
+                project(':svm-validation-report'),
                 project(':svm-validation-sample'),
                 project(':ui-swing'),
                 project(':utils')
@@ -162,8 +163,7 @@ project(':output-csv') {
     dependencies {
         compile(
                 project(':locale'),
-                project(':svm-analytics'),
-                project(':svm-validation-sample')
+                project(':svm-validation-report')
         )
 
         testCompile junit
@@ -176,8 +176,7 @@ project(':output-summary') {
     dependencies {
         compile(
                 project(':locale'),
-                project(':svm-analytics'),
-                project(':svm-validation-sample')
+                project(':svm-validation-report')
         )
 
         testCompile junit
@@ -202,7 +201,9 @@ project(':svm-analytics') {
         compile(
                 project(':common'),
                 project(':svm'),
-                project(':svm-interval')
+                project(':svm-interval'),
+                project(':svm-validation-report'),
+                project(':svm-validation-sample')
         )
 
         testCompile(
@@ -221,6 +222,14 @@ project(':svm-interval') {
                 project(':ioc'),
                 project(':svm')
         )
+    }
+}
+
+project(':svm-validation-report') {
+    description 'Report management for the cross-validation mechanism'
+
+    dependencies {
+        compile project(':ioc')
     }
 }
 

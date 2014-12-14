@@ -23,7 +23,7 @@ import ru.spbftu.igorbotian.phdapp.output.csv.ReportCSVWriter;
 import ru.spbftu.igorbotian.phdapp.output.csv.ReportCSVWriterFactory;
 import ru.spbftu.igorbotian.phdapp.output.summary.ReportSummaryWriter;
 import ru.spbftu.igorbotian.phdapp.output.summary.ReportSummaryWriterFactory;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.report.Report;
+import ru.spbftu.igorbotian.phdapp.svm.validation.report.Report;
 
 import java.io.FileWriter;
 import java.io.IOException;

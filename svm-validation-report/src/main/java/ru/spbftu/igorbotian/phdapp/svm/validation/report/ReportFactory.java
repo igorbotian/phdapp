@@ -1,4 +1,4 @@
-package ru.spbftu.igorbotian.phdapp.svm.analytics.report;
+package ru.spbftu.igorbotian.phdapp.svm.validation.report;
 
 import java.util.List;
 
