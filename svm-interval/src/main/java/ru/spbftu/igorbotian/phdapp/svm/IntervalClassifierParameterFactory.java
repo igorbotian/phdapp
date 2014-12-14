@@ -1,5 +1,7 @@
 package ru.spbftu.igorbotian.phdapp.svm;
 
+import java.util.Set;
+
 /**
  * Набор параметров конфигурации классификатора
  */
@@ -84,4 +86,12 @@ public interface IntervalClassifierParameterFactory {
      * @throws IllegalArgumentException если значение меньше минимально допустимого или больше максимально допустимого
      */
     ClassifierParameter<Double> newGaussianKernelParameter(double value);
+
+    //-------------------------------------------------------------------------
+
+    /**
+     * Получение множества всех параметров классификатора со значениями по умолчанию
+     * @return непустое множество параметров классификатора
+     */
+    Set<ClassifierParameter<?>> defaultValues();
 }

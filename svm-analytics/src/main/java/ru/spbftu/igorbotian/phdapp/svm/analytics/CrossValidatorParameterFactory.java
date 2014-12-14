@@ -2,6 +2,8 @@ package ru.spbftu.igorbotian.phdapp.svm.analytics;
 
 import ru.spbftu.igorbotian.phdapp.svm.IntervalClassifierParameterFactory;
 
+import java.util.Set;
+
 /**
  * Набор параметров средства кросс-валидации классификатора
  */
@@ -383,4 +385,12 @@ public interface CrossValidatorParameterFactory {
      */
     CrossValidatorParameter<Integer> newPreciseIntervalJudgmentsCountRatio(int value, int lowerBound,
                                                                            int upperBound, int stepSize);
+
+    //-------------------------------------------------------------------------
+
+    /**
+     * Получение множества параметров средства кросс-валидации классификатора со значениями по умолчанию
+     * @return непустое множество параметров средства кросс-валидации классификатора
+     */
+    Set<CrossValidatorParameter<?>> defaultValues();
 }

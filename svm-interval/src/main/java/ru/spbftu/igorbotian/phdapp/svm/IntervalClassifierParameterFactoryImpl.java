@@ -1,5 +1,10 @@
 package ru.spbftu.igorbotian.phdapp.svm;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Реализация набора параметров конфигурации классификатора
  *
@@ -38,5 +43,13 @@ class IntervalClassifierParameterFactoryImpl extends AbstractClassifierParameter
 
         return new DefaultClassifierParameterImpl<>(GAUSSIAN_KERNEL_PARAM_ID, Double.class,
                 value, GAUSSIAN_KERNEL_PARAM_MIN_VALUE, GAUSSIAN_KERNEL_PARAM_MAX_VALUE, Double::compare);
+    }
+
+    @Override
+    public Set<ClassifierParameter<?>> defaultValues() {
+        return Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
+                newConstantCostParameter(),
+                newGaussianKernelParameter()
+        )));
     }
 }
