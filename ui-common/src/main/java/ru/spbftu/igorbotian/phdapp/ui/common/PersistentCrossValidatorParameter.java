@@ -3,8 +3,8 @@ package ru.spbftu.igorbotian.phdapp.ui.common;
 import com.google.inject.Inject;
 import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 import ru.spbftu.igorbotian.phdapp.svm.MutableClassifierParameter;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.CrossValidatorParameter;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.MutableCrossValidatorParameter;
+import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidatorParameter;
+import ru.spbftu.igorbotian.phdapp.svm.validation.MutableCrossValidatorParameter;
 
 import java.util.Objects;
 import java.util.function.Function;

@@ -1,4 +1,4 @@
-package ru.spbftu.igorbotian.phdapp.svm.analytics;
+package ru.spbftu.igorbotian.phdapp.svm.validation;
 
 import ru.spbftu.igorbotian.phdapp.svm.PairwiseClassifier;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.Report;

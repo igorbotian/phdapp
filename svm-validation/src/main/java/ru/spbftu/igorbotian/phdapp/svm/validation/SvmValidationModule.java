@@ -16,17 +16,17 @@
  * @author Igor Botian <igor.botian@gmail.com>
  */
 
-package ru.spbftu.igorbotian.phdapp.svm.analytics;
+package ru.spbftu.igorbotian.phdapp.svm.validation;
 
 import ru.spbftu.igorbotian.phdapp.ioc.PhDAppModule;
 
 /**
- * Модуль получения аналитической информации по результатам работы классификатора исходных данных
+ * Модуль средства кросс-валидации классификатора
  *
- * @see ru.spbftu.igorbotian.phdapp.svm.analytics.CrossValidatorParameterFactory
- * @see ru.spbftu.igorbotian.phdapp.svm.analytics.IntervalPairwiseClassifierCrossValidators
+ * @see CrossValidatorParameterFactory
+ * @see IntervalPairwiseClassifierCrossValidators
  */
-public class SvmAnalyticsModule extends PhDAppModule {
+public class SvmValidationModule extends PhDAppModule {
 
     @Override
     protected void configure() {

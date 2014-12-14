@@ -20,7 +20,7 @@ package ru.spbftu.igorbotian.phdapp.ui.swing;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.MutableCrossValidatorParameter;
+import ru.spbftu.igorbotian.phdapp.svm.validation.MutableCrossValidatorParameter;
 import ru.spbftu.igorbotian.phdapp.ui.common.CrossValidatorParamsFrameDirector;
 import ru.spbftu.igorbotian.phdapp.ui.common.UIHelper;
 import ru.spbftu.igorbotian.phdapp.ui.swing.widget.DoubleRangeSpinner;

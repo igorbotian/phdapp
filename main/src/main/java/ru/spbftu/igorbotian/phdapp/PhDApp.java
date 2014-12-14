@@ -31,7 +31,7 @@ import ru.spbftu.igorbotian.phdapp.log.Log4j;
 import ru.spbftu.igorbotian.phdapp.output.csv.CSVOutputDataManagementModule;
 import ru.spbftu.igorbotian.phdapp.output.summary.SummaryOutputDataManagementModule;
 import ru.spbftu.igorbotian.phdapp.svm.IntervalPairwiseClassifierModule;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.SvmAnalyticsModule;
+import ru.spbftu.igorbotian.phdapp.svm.validation.SvmValidationModule;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.SvmValidationReportManagementModule;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.SvmValidationSampleManagementModule;
 import ru.spbftu.igorbotian.phdapp.ui.UserInterface;
@@ -73,7 +73,7 @@ public class PhDApp {
             new IntervalPairwiseClassifierModule(),
             new SvmValidationReportManagementModule(),
             new SvmValidationSampleManagementModule(),
-            new SvmAnalyticsModule(),
+            new SvmValidationModule(),
             new CSVOutputDataManagementModule(),
             new SummaryOutputDataManagementModule(),
             new CommonUserInterfaceModule(),

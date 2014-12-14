@@ -1,4 +1,4 @@
-package ru.spbftu.igorbotian.phdapp.svm.analytics;
+package ru.spbftu.igorbotian.phdapp.svm.validation;
 
 import java.util.Arrays;
 import java.util.Collections;

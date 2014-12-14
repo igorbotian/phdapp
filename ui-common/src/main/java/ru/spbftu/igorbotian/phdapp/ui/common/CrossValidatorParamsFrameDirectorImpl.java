@@ -21,9 +21,9 @@ package ru.spbftu.igorbotian.phdapp.ui.common;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.CrossValidatorParameter;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.CrossValidatorParameterFactory;
-import ru.spbftu.igorbotian.phdapp.svm.analytics.MutableCrossValidatorParameter;
+import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidatorParameter;
+import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidatorParameterFactory;
+import ru.spbftu.igorbotian.phdapp.svm.validation.MutableCrossValidatorParameter;
 
 import java.util.Objects;
 

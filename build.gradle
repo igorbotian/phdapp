@@ -147,7 +147,7 @@ project(':main') {
                 project(':log-log4j'),
                 project(':output-csv'),
                 project(':output-summary'),
-                project(':svm-analytics'),
+                project(':svm-validation'),
                 project(':svm-interval'),
                 project(':svm-validation-report'),
                 project(':svm-validation-sample'),
@@ -194,8 +194,8 @@ project(':svm') {
     }
 }
 
-project(':svm-analytics') {
-    description 'Analytics of the new SVM classification mechanism'
+project(':svm-validation') {
+    description 'Cross-validation facility for the new SVM classification mechanism'
 
     dependencies {
         compile(
@@ -264,9 +264,8 @@ project(':ui-common') {
                 project(':locale'),
                 project(':output-csv'),
                 project(':output-summary'),
-                project(':svm-analytics'),
+                project(':svm-validation'),
                 project(':svm-interval'),
-                project(':svm-validation-sample'),
                 project(':ui')
         )
     }
@@ -280,10 +279,7 @@ project(':ui-swing') {
                 project(':ioc'),
                 project(':locale'),
                 project(':ui'),
-                project(':ui-common'),
-                project(':svm-analytics'),
-                project(':svm-interval'),
-                project(':svm-validation-sample')
+                project(':ui-common')
         )
     }
 }

@@ -18,7 +18,7 @@
 
 package ru.spbftu.igorbotian.phdapp.ui.common;
 
-import ru.spbftu.igorbotian.phdapp.svm.analytics.MutableCrossValidatorParameter;
+import ru.spbftu.igorbotian.phdapp.svm.validation.MutableCrossValidatorParameter;
 
 /**
  * Модель окна, отображающего компоненты для задания параметров кросс-валидации

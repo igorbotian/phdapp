@@ -1,4 +1,4 @@
-package ru.spbftu.igorbotian.phdapp.svm.analytics;
+package ru.spbftu.igorbotian.phdapp.svm.validation;
 
 /**
  * Ошибка, возникшая в процессе кросс-валидации классификатора

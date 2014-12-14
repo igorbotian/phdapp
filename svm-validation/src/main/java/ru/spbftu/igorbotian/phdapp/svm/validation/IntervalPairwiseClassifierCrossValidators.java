@@ -1,4 +1,4 @@
-package ru.spbftu.igorbotian.phdapp.svm.analytics;
+package ru.spbftu.igorbotian.phdapp.svm.validation;
 
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.MultiClassificationReport;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.SingleClassificationReport;
@@ -6,7 +6,7 @@ import ru.spbftu.igorbotian.phdapp.svm.validation.report.SingleClassificationRep
 /**
  * Фабрика средств кросс-валидации попарного классификатора
  *
- * @see ru.spbftu.igorbotian.phdapp.svm.analytics.PairwiseClassifierCrossValidator
+ * @see PairwiseClassifierCrossValidator
  */
 public interface IntervalPairwiseClassifierCrossValidators {
 
