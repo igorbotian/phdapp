@@ -18,7 +18,9 @@ public interface PairwiseClassifierCrossValidator<R extends Report> {
      * @param classifier      попарный классификатор
      * @param validatorParams множество параметров кросс-валидации
      * @return отчёт, содержащий результаты кросс-валидации указанного классификатора
+     * @throws ru.spbftu.igorbotian.phdapp.svm.analytics.CrossValidationException в случае ошибки кросс-валидации
      * @throws java.lang.NullPointerException если хотя бы один из параметров не задан
      */
-    R validate(PairwiseClassifier classifier, Set<? extends CrossValidatorParameter<?>> validatorParams);
+    R validate(PairwiseClassifier classifier, Set<? extends CrossValidatorParameter<?>> validatorParams)
+            throws CrossValidationException;
 }
