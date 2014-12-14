@@ -26,6 +26,7 @@ import org.junit.Test;
 import ru.spbftu.igorbotian.phdapp.common.DataModule;
 import ru.spbftu.igorbotian.phdapp.common.Line;
 import ru.spbftu.igorbotian.phdapp.common.Point;
+import ru.spbftu.igorbotian.phdapp.svm.IntervalPairwiseClassifierModule;
 
 import java.util.Set;
 import java.util.function.BiFunction;
@@ -40,7 +41,12 @@ public class SampleGeneratorTest {
 
     @Before
     public void setUp() {
-        Injector injector = Guice.createInjector(new DataModule(), new SvmAnalyticsModule());
+        Injector injector = Guice.createInjector(
+                new DataModule(),
+                new IntervalPairwiseClassifierModule(),
+                new SvmAnalyticsModule()
+        );
+
         sampleGenerator = injector.getInstance(SampleGenerator.class);
     }
 

@@ -3,6 +3,7 @@ package ru.spbftu.igorbotian.phdapp.common;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.Before;
+import ru.spbftu.igorbotian.phdapp.svm.IntervalPairwiseClassifierModule;
 import ru.spbftu.igorbotian.phdapp.svm.analytics.SvmAnalyticsModule;
 
 /**
@@ -14,7 +15,12 @@ public abstract class MathPrimitivesBaseTest<T> extends BaseDataTest<T> {
 
     @Before
     public void setUp() {
-        Injector injector = Guice.createInjector(new DataModule(), new SvmAnalyticsModule());
+        Injector injector = Guice.createInjector(
+                new DataModule(),
+                new IntervalPairwiseClassifierModule(),
+                new SvmAnalyticsModule()
+        );
+
         mathDataFactory = injector.getInstance(MathDataFactory.class);
     }
 

@@ -86,7 +86,10 @@ class SampleGeneratorImpl implements SampleGenerator {
 
     @Inject
     public SampleGeneratorImpl(DataFactory dataFactory, MathDataFactory mathDataFactory) {
-        this.mathDataFactory = Objects.requireNonNull(mathDataFactory);
+        Objects.requireNonNull(dataFactory);
+        Objects.requireNonNull(mathDataFactory);
+
+        this.mathDataFactory = mathDataFactory;
 
         firstPoint = mathDataFactory.newPoint(dispersionRadius, dispersionRadius,
                 dataFactory.newClass("FirstSetOfObjects"));

@@ -1,0 +1,55 @@
+package ru.spbftu.igorbotian.phdapp.svm.analytics;
+
+import ru.spbftu.igorbotian.phdapp.svm.analytics.report.MultiClassificationReport;
+import ru.spbftu.igorbotian.phdapp.svm.analytics.report.SingleClassificationReport;
+
+/**
+ * Фабрика средств кросс-валидации попарного классификатора
+ *
+ * @see ru.spbftu.igorbotian.phdapp.svm.analytics.PairwiseClassifierCrossValidator
+ */
+public interface IntervalPairwiseClassifierCrossValidators {
+
+    /**
+     * Средство кросс-валидации, ориентированное на значение точности единичной попарной классификации
+     *
+     * @return средство кросс-валидации для данного действия
+     */
+    IntervalPairwiseClassifierCrossValidator<SingleClassificationReport> precisionValidator();
+
+    /**
+     * Средство кросс-валидации, ориентированное на среднее значение точности серии попарных классификаций
+     *
+     * @return средство кросс-валидации для данного действия
+     */
+    IntervalPairwiseClassifierCrossValidator<MultiClassificationReport> averagePrecisionValidator();
+
+    /**
+     * Средство анализа зависимости точности классификации от размера обучающей выборки
+     *
+     * @return средство кросс-валидации для данного действия
+     */
+    IntervalPairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnSampleSizeAnalyzer();
+
+    /**
+     * Средство анализа завимимости точности классификации от размера обучающей выборки
+     *
+     * @return средство кросс-валидации для данного действия
+     */
+    IntervalPairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnTrainingSetSizeAnalyzer();
+
+    /**
+     * Средство анализа завимимости точности классификации от параметров классификации
+     *
+     * @return средство кросс-валидации для данного действия
+     */
+    IntervalPairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnClassifierParametersAnalyzer();
+
+    /**
+     * Средство анализа завимимости точности классификации от процентного соотношения количества точных/интервальных
+     * экспертных оценок
+     *
+     * @return средство кросс-валидации для данного действия
+     */
+    IntervalPairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnPreciseIntervalJudgementsRatioAnalyzer();
+}
