@@ -33,10 +33,10 @@ import java.util.Objects;
 class SingleClassificationReportCSVWriter implements ReportCSVWriter<SingleClassificationReport> {
 
     private static final String SAMPLE_SIZE_LABEL = "sampleSize";
-    private static final String CONSTANT_COST_PARAMETER_LABEL = "cParameter";
-    private static final String GAUSSIAN_KERNEL_PARAMETER_LABEL = "sigmaParameter";
-    private static final String PERCENT_OF_JUDGED_SAMPLE_ITEMS_LABEL = "percentOfJudgedSampleItems";
-    private static final String PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_LABEL = "preciseIntervalJudgedSampleItemsRatio";
+    private static final String CONSTANT_COST_PARAMETER_LABEL = "constantCostParameter";
+    private static final String GAUSSIAN_KERNEL_PARAMETER_LABEL = "gaussianKernelParameter";
+    private static final String TRAINING_TESTING_SETS_SIZE_RATIO_LABEL = "trainingTestingSetsSizeRatio";
+    private static final String PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_LABEL = "preciseIntervalJudgmentsCountRatio";
     private static final String ACCURACY_LABEL = "accuracy";
     private static final String PRECISION_LABEL = "precision";
     private static final String RECALL_LABEL = "recall";
@@ -70,8 +70,8 @@ class SingleClassificationReportCSVWriter implements ReportCSVWriter<SingleClass
         csv.writeLine(localization.getLabel(SAMPLE_SIZE_LABEL),
                 localization.getLabel(CONSTANT_COST_PARAMETER_LABEL),
                 localization.getLabel(GAUSSIAN_KERNEL_PARAMETER_LABEL),
-                localization.getLabel(PERCENT_OF_JUDGED_SAMPLE_ITEMS_LABEL),
-                localization.getLabel(PRECISE_INTERVAL_JUDGED_SAMPLE_ITEMS_RATIO_LABEL),
+                localization.getLabel(TRAINING_TESTING_SETS_SIZE_RATIO_LABEL),
+                localization.getLabel(PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_LABEL),
                 localization.getLabel(ACCURACY_LABEL),
                 localization.getLabel(PRECISION_LABEL),
                 localization.getLabel(RECALL_LABEL)
