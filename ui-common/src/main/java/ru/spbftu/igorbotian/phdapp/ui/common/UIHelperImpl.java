@@ -25,7 +25,7 @@ import ru.spbftu.igorbotian.phdapp.locale.Localization;
 import ru.spbftu.igorbotian.phdapp.output.csv.ReportCSVWriterFactory;
 import ru.spbftu.igorbotian.phdapp.output.summary.ReportSummaryWriterFactory;
 import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidatorParameterFactory;
-import ru.spbftu.igorbotian.phdapp.svm.validation.sample.SampleGenerator;
+import ru.spbftu.igorbotian.phdapp.svm.validation.sample.CrossValidationSampleGenerator;
 
 import java.util.Objects;
 
@@ -46,7 +46,7 @@ class UIHelperImpl implements UIHelper {
     @Inject
     public UIHelperImpl(Localization localization,
                         ApplicationConfiguration configuration,
-                        SampleGenerator sampleGenerator,
+                        CrossValidationSampleGenerator sampleGenerator,
                         ReportSummaryWriterFactory reportSummaryWriterFactory,
                         ReportCSVWriterFactory reportCSVWriterFactory,
                         CrossValidatorParameterFactory crossValidatorParameterFactory) {

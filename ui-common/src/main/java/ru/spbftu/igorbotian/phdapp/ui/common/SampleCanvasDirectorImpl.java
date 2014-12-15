@@ -18,26 +18,26 @@
 
 package ru.spbftu.igorbotian.phdapp.ui.common;
 
+import ru.spbftu.igorbotian.phdapp.svm.validation.sample.CrossValidationSampleGenerator;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.Line;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.Point;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.Range;
-import ru.spbftu.igorbotian.phdapp.svm.validation.sample.SampleGenerator;
 
 import java.util.Objects;
 import java.util.Set;
 
 /**
  * Реализация интерфейса <code>SampleCanvasDirector</code>.
- * Все данные берутся из <code>SampleGenerator</code>
+ * Все данные берутся из <code>CrossValidationSampleGenerator</code>
  *
  * @see SampleCanvasDirector
- * @see ru.spbftu.igorbotian.phdapp.svm.validation.sample.SampleGenerator
+ * @see ru.spbftu.igorbotian.phdapp.svm.validation.sample.CrossValidationSampleGenerator
  */
 class SampleCanvasDirectorImpl implements SampleCanvasDirector {
 
-    private final SampleGenerator sampleGenerator;
+    private final CrossValidationSampleGenerator sampleGenerator;
 
-    public SampleCanvasDirectorImpl(SampleGenerator sampleGenerator) {
+    public SampleCanvasDirectorImpl(CrossValidationSampleGenerator sampleGenerator) {
         this.sampleGenerator = Objects.requireNonNull(sampleGenerator);
     }
 

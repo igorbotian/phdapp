@@ -31,12 +31,12 @@ import java.util.Set;
 import java.util.function.BiFunction;
 
 /**
- * Модульные тесты для класса <code>SampleGenerator</code>
+ * Модульные тесты для класса <code>CrossValidationSampleGenerator</code>
  */
-public class SampleGeneratorTest {
+public class CrossValidationSampleGeneratorTest {
 
     private final int[] NUMBERS_OF_POINTS = {50, 100, 250, 500, 1000, 2000};
-    private SampleGenerator sampleGenerator;
+    private CrossValidationSampleGenerator sampleGenerator;
 
     @Before
     public void setUp() {
@@ -45,7 +45,7 @@ public class SampleGeneratorTest {
                 new SvmValidationSampleManagementModule()
         );
 
-        sampleGenerator = injector.getInstance(SampleGenerator.class);
+        sampleGenerator = injector.getInstance(CrossValidationSampleGenerator.class);
     }
 
     @Test
@@ -94,9 +94,9 @@ public class SampleGeneratorTest {
         for (int count : NUMBERS_OF_POINTS) {
             sampleGenerator.regeneratePoints(count);
             ensureLineSeparatesMostOfThePoints(sampleGenerator.firstSetOfPoints(),
-                    sampleGenerator.separatingLine(), SampleGeneratorTest::isLeftOrUnder);
+                    sampleGenerator.separatingLine(), CrossValidationSampleGeneratorTest::isLeftOrUnder);
             ensureLineSeparatesMostOfThePoints(sampleGenerator.secondSetOfPoints(),
-                    sampleGenerator.separatingLine(), SampleGeneratorTest::isRightOrAbove);
+                    sampleGenerator.separatingLine(), CrossValidationSampleGeneratorTest::isRightOrAbove);
         }
     }
 

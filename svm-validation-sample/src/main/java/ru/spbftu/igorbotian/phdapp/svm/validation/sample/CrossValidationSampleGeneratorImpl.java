@@ -29,10 +29,10 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * @see SampleGenerator
+ * @see CrossValidationSampleGenerator
  */
 @Singleton
-class SampleGeneratorImpl implements SampleGenerator {
+class CrossValidationSampleGeneratorImpl implements CrossValidationSampleGenerator {
 
     /**
      * Количество случайных точек по умолчанию, которое необходимо сгенерировать вокруг каждой опорной точки
@@ -85,7 +85,7 @@ class SampleGeneratorImpl implements SampleGenerator {
     private Set<Point> secondSet = new HashSet<>();
 
     @Inject
-    public SampleGeneratorImpl(DataFactory dataFactory, MathDataFactory mathDataFactory) {
+    public CrossValidationSampleGeneratorImpl(DataFactory dataFactory, MathDataFactory mathDataFactory) {
         Objects.requireNonNull(dataFactory);
         Objects.requireNonNull(mathDataFactory);
 
