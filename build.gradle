@@ -149,6 +149,8 @@ project(':main') {
                 project(':output-summary'),
                 project(':svm-validation'),
                 project(':svm-interval'),
+                project(':svm-validation'),
+                project(':svm-validation-interval'),
                 project(':svm-validation-report'),
                 project(':svm-validation-sample'),
                 project(':ui-swing'),
@@ -194,25 +196,6 @@ project(':svm') {
     }
 }
 
-project(':svm-validation') {
-    description 'Cross-validation facility for the new SVM classification mechanism'
-
-    dependencies {
-        compile(
-                project(':common'),
-                project(':svm'),
-                project(':svm-interval'),
-                project(':svm-validation-report'),
-                project(':svm-validation-sample')
-        )
-
-        testCompile(
-                junit,
-                project(':common').sourceSets.test.output
-        )
-    }
-}
-
 project(':svm-interval') {
     description 'SVM classification mechanism that supports interval data'
 
@@ -225,11 +208,41 @@ project(':svm-interval') {
     }
 }
 
+project(':svm-validation') {
+    description 'Cross-validation common entities'
+
+    dependencies {
+        compile(
+                project(':ioc'),
+                project(':svm'),
+                project(':svm-interval')
+        )
+    }
+}
+
+project(':svm-validation-interval') {
+    description 'Cross-validation facility for the new SVM classification mechanism'
+
+    dependencies {
+        compile(
+                project(':common'),
+                project(':svm'),
+                project(':svm-interval'),
+                project(':svm-validation'),
+                project(':svm-validation-report'),
+                project(':svm-validation-sample')
+        )
+    }
+}
+
 project(':svm-validation-report') {
     description 'Report management for the cross-validation mechanism'
 
     dependencies {
-        compile project(':ioc')
+        compile(
+                project(':ioc'),
+                project(':svm')
+        )
     }
 }
 
@@ -239,7 +252,10 @@ project(':svm-validation-sample') {
     dependencies {
         compile(
                 project(':common'),
-                project(':svm')
+                project(':svm'),
+                project(':svm-interval'),
+                project(':svm-validation'),
+                project(':utils')
         )
 
         testCompile(
@@ -264,8 +280,12 @@ project(':ui-common') {
                 project(':locale'),
                 project(':output-csv'),
                 project(':output-summary'),
-                project(':svm-validation'),
+                project(':svm'),
                 project(':svm-interval'),
+                project(':svm-validation'),
+                project(':svm-validation-interval'),
+                project(':svm-validation-report'),
+                project(':svm-validation-sample'),
                 project(':ui')
         )
     }

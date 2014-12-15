@@ -21,16 +21,15 @@ package ru.spbftu.igorbotian.phdapp.svm.validation;
 import ru.spbftu.igorbotian.phdapp.ioc.PhDAppModule;
 
 /**
- * Модуль средства кросс-валидации классификатора
+ * Модуль средства кросс-валидации попарного классификатора
  *
  * @see CrossValidatorParameterFactory
  * @see IntervalPairwiseClassifierCrossValidators
  */
-public class SvmValidationModule extends PhDAppModule {
+public class SvmIntervalClassifierValidationModule extends PhDAppModule {
 
     @Override
     protected void configure() {
-        bind(CrossValidatorParameterFactory.class).to(CrossValidatorParameterFactoryImpl.class);
         bind(IntervalPairwiseClassifierCrossValidators.class).to(IntervalPairwiseClassifierCrossValidatorsImpl.class);
     }
 }

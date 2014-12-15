@@ -2,9 +2,11 @@ package ru.spbftu.igorbotian.phdapp.svm.validation;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import ru.spbftu.igorbotian.phdapp.svm.PairwiseClassifier;
+import ru.spbftu.igorbotian.phdapp.svm.IntervalClassifierParameterFactory;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.MultiClassificationReport;
+import ru.spbftu.igorbotian.phdapp.svm.validation.report.ReportFactory;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.SingleClassificationReport;
+import ru.spbftu.igorbotian.phdapp.svm.validation.sample.CrossValidationSampleManager;
 
 import java.util.Objects;
 
@@ -17,20 +19,23 @@ import java.util.Objects;
 class IntervalPairwiseClassifierCrossValidatorsImpl implements IntervalPairwiseClassifierCrossValidators {
 
     /**
-     * Реализация по умолчанию попарного классификатора, над которым проводится кросс-валидация
+     * Средство кросс-валидации, ориентированное на значение точности единичной попарной классификации
      */
-    private PairwiseClassifier classifier;
+    private final PairwiseClassifierCrossValidator<SingleClassificationReport> precisionValidator;
 
     @Inject
-    public IntervalPairwiseClassifierCrossValidatorsImpl(PairwiseClassifier classifier) {
-        this.classifier = Objects.requireNonNull(classifier);
+    public IntervalPairwiseClassifierCrossValidatorsImpl(CrossValidationSampleManager sampleManager,
+                                                         IntervalClassifierParameterFactory classifierParameterFactory,
+                                                         CrossValidatorParameterFactory crossValidatorParameterFactory,
+                                                         ReportFactory reportFactory) {
 
-        // TODO init validators
+        this.precisionValidator = new PrecisionValidator(sampleManager, classifierParameterFactory,
+                crossValidatorParameterFactory, reportFactory);
     }
 
     @Override
     public PairwiseClassifierCrossValidator<SingleClassificationReport> precisionValidator() {
-        return null; // TODO
+        return precisionValidator;
     }
 
     @Override
