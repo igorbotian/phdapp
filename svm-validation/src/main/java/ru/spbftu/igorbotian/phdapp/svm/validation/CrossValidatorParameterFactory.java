@@ -156,7 +156,7 @@ public interface CrossValidatorParameterFactory {
     /**
      * Минимально допустимое значение параметра, задающего количество объектов в генерируемой выборке
      */
-    public static final int SAMPLE_SIZE_MIN = 1;
+    public static final int SAMPLE_SIZE_MIN = 2;
 
     /**
      * Максимально допустимое значение параметра, задающего количество объектов в генерируемой выборке
