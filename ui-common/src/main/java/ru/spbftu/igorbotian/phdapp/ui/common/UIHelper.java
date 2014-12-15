@@ -38,7 +38,7 @@ public interface UIHelper {
     /**
      * Получение модели компонента, отвечающего за отображение выборки для классификации
      */
-    SampleCanvasDirector sampleCanvasDirector();
+    CrossValidationSampleCanvasDirector sampleCanvasDirector();
 
     /**
      * Получение модели окна, отображающего компоненты для задания параметров кросс-валидации

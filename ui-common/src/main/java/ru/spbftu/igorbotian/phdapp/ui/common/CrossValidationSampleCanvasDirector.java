@@ -27,7 +27,7 @@ import java.util.Set;
 /**
  * Модель компонента, отвечающего за отображение выборки для классификатора
  */
-public interface SampleCanvasDirector {
+public interface CrossValidationSampleCanvasDirector {
 
     int numberOfPoints();
 

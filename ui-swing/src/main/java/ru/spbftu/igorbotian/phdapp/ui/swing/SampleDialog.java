@@ -18,7 +18,7 @@
 
 package ru.spbftu.igorbotian.phdapp.ui.swing;
 
-import ru.spbftu.igorbotian.phdapp.ui.common.SampleCanvasDirector;
+import ru.spbftu.igorbotian.phdapp.ui.common.CrossValidationSampleCanvasDirector;
 import ru.spbftu.igorbotian.phdapp.ui.swing.widget.IntegerSpinner;
 
 import javax.swing.*;
@@ -35,10 +35,10 @@ public class SampleDialog extends PhDAppDialog {
     private static final String REGENERATE_LABEL = "regenerate";
     private static final String CLOSE_LABEL = "close";
 
-    private final SampleCanvasDirector canvasDirector;
+    private final CrossValidationSampleCanvasDirector canvasDirector;
 
     private IntegerSpinner sampleSizeSpinner;
-    private SampleCanvas sampleCanvas;
+    private CrossValidationSampleCanvas sampleCanvas;
     private JButton regenerateButton;
     private JButton closeButton;
 
@@ -62,7 +62,7 @@ public class SampleDialog extends PhDAppDialog {
         setTitle(uiHelper.getLabel(SAMPLE_LABEL));
 
         sampleSizeSpinner = uiHelper.widgets().preciseSampleSizeSpinner();
-        sampleCanvas = new SampleCanvas(canvasDirector);
+        sampleCanvas = new CrossValidationSampleCanvas(canvasDirector);
         sampleCanvas.setPreferredSize(new Dimension(480, 480));
         sampleCanvas.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
 

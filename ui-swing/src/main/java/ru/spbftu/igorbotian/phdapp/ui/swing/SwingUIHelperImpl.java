@@ -22,7 +22,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import ru.spbftu.igorbotian.phdapp.ui.common.CrossValidatorResultsFrameDirector;
 import ru.spbftu.igorbotian.phdapp.ui.common.CrossValidatorParamsFrameDirector;
-import ru.spbftu.igorbotian.phdapp.ui.common.SampleCanvasDirector;
+import ru.spbftu.igorbotian.phdapp.ui.common.CrossValidationSampleCanvasDirector;
 import ru.spbftu.igorbotian.phdapp.ui.common.UIHelper;
 
 import java.util.Objects;
@@ -55,7 +55,7 @@ class SwingUIHelperImpl implements SwingUIHelper {
     }
 
     @Override
-    public SampleCanvasDirector sampleCanvasDirector() {
+    public CrossValidationSampleCanvasDirector sampleCanvasDirector() {
         return uiHelper.sampleCanvasDirector();
     }
 

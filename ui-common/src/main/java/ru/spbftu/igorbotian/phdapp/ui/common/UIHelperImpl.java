@@ -39,7 +39,7 @@ class UIHelperImpl implements UIHelper {
 
     private final Localization localization;
 
-    private final SampleCanvasDirector sampleCanvasDirector;
+    private final CrossValidationSampleCanvasDirector sampleCanvasDirector;
     private final CrossValidatorParamsFrameDirector crossValidatorParamsFrameDirector;
     private final CrossValidatorResultsFrameDirector crossValidatorResultsFrameDirector;
 
@@ -59,7 +59,7 @@ class UIHelperImpl implements UIHelper {
         Objects.requireNonNull(crossValidatorParameterFactory);
 
         this.localization = localization;
-        sampleCanvasDirector = new SampleCanvasDirectorImpl(sampleGenerator);
+        sampleCanvasDirector = new CrossValidationSampleCanvasDirectorImpl(sampleGenerator);
         crossValidatorParamsFrameDirector
                 = new CrossValidatorParamsFrameDirectorImpl(configuration, crossValidatorParameterFactory);
         crossValidatorResultsFrameDirector =
@@ -72,7 +72,7 @@ class UIHelperImpl implements UIHelper {
     }
 
     @Override
-    public SampleCanvasDirector sampleCanvasDirector() {
+    public CrossValidationSampleCanvasDirector sampleCanvasDirector() {
         return sampleCanvasDirector;
     }
 

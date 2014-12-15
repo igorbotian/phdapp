@@ -20,7 +20,7 @@ package ru.spbftu.igorbotian.phdapp.ui.swing;
 
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.*;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.Point;
-import ru.spbftu.igorbotian.phdapp.ui.common.SampleCanvasDirector;
+import ru.spbftu.igorbotian.phdapp.ui.common.CrossValidationSampleCanvasDirector;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,7 +30,7 @@ import java.util.Set;
 /**
  * Компонент, отображающий расположение элементов выборки для классификатора
  */
-public class SampleCanvas extends JPanel {
+public class CrossValidationSampleCanvas extends JPanel {
 
     private static final Color BG_COLOR = Color.WHITE;
     private static final Color SEPARATING_LINE_COLOR = Color.GRAY;
@@ -41,9 +41,9 @@ public class SampleCanvas extends JPanel {
     private static final int SET_POINT_RADIUS = 5;
     private static final int SUPPORTING_POINT_RADIUS = 7;
 
-    private SampleCanvasDirector director;
+    private CrossValidationSampleCanvasDirector director;
 
-    public SampleCanvas(SampleCanvasDirector director) {
+    public CrossValidationSampleCanvas(CrossValidationSampleCanvasDirector director) {
         this.director = Objects.requireNonNull(director);
         setMinimumSize(new Dimension(320, 320));
     }
@@ -101,21 +101,12 @@ public class SampleCanvas extends JPanel {
     }
 
     private int toCanvasX(double sampleX) {
-        return (int) translate(sampleX, director.xCoordinateRange().lowerBound(),
+        return (int) MathUtils.translate(sampleX, director.xCoordinateRange().lowerBound(),
                 director.xCoordinateRange().upperBound(), 0.0, getWidth());
     }
 
     private int toCanvasY(double sampleY) {
-        return (int) translate(sampleY, director.yCoordinateRange().lowerBound(),
+        return (int) MathUtils.translate(sampleY, director.yCoordinateRange().lowerBound(),
                 director.yCoordinateRange().upperBound(), 0.0, getHeight());
-    }
-
-    private double translate(double from, double fromMin, double fromMax, double toMin, double toMax) {
-        double fromLength = Math.abs(fromMax - fromMin);
-        double distanceBetweenFromXAndFromMin = from - fromMin;
-        assert (distanceBetweenFromXAndFromMin >= 0.0);
-
-        double c = distanceBetweenFromXAndFromMin / fromLength;
-        return (c * (toMax - toMin));
     }
 }

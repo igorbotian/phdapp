@@ -27,17 +27,17 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * Реализация интерфейса <code>SampleCanvasDirector</code>.
+ * Реализация интерфейса <code>CrossValidationSampleCanvasDirector</code>.
  * Все данные берутся из <code>CrossValidationSampleGenerator</code>
  *
- * @see SampleCanvasDirector
+ * @see CrossValidationSampleCanvasDirector
  * @see ru.spbftu.igorbotian.phdapp.svm.validation.sample.CrossValidationSampleGenerator
  */
-class SampleCanvasDirectorImpl implements SampleCanvasDirector {
+class CrossValidationSampleCanvasDirectorImpl implements CrossValidationSampleCanvasDirector {
 
     private final CrossValidationSampleGenerator sampleGenerator;
 
-    public SampleCanvasDirectorImpl(CrossValidationSampleGenerator sampleGenerator) {
+    public CrossValidationSampleCanvasDirectorImpl(CrossValidationSampleGenerator sampleGenerator) {
         this.sampleGenerator = Objects.requireNonNull(sampleGenerator);
     }
 
