@@ -137,7 +137,8 @@ class CrossValidationSampleGeneratorImpl implements CrossValidationSampleGenerat
         while (i < count) {
             if (polarPoints.add(mathDataFactory.newPolarPoint(
                     ExponentialRandom.nextDouble(0.0, dispersionRadius),
-                    ExponentialRandom.nextDouble(0.0, 2 * Math.PI)))) {
+                    /*ExponentialRandom.nextDouble(0.0, 2 * Math.PI)*/
+                    UniformedRandom.nextDouble(0.0, 2 * Math.PI)))) {
                 i++;
             }
         }

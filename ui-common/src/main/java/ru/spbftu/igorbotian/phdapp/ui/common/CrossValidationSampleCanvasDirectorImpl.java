@@ -20,6 +20,7 @@ package ru.spbftu.igorbotian.phdapp.ui.common;
 
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.CrossValidationSampleGenerator;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.Line;
+import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.MathDataFactory;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.Point;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.Range;
 
@@ -36,9 +37,17 @@ import java.util.Set;
 class CrossValidationSampleCanvasDirectorImpl implements CrossValidationSampleCanvasDirector {
 
     private final CrossValidationSampleGenerator sampleGenerator;
+    private final MathDataFactory mathDataFactory;
 
-    public CrossValidationSampleCanvasDirectorImpl(CrossValidationSampleGenerator sampleGenerator) {
+    public CrossValidationSampleCanvasDirectorImpl(CrossValidationSampleGenerator sampleGenerator,
+                                                   MathDataFactory mathDataFactory) {
         this.sampleGenerator = Objects.requireNonNull(sampleGenerator);
+        this.mathDataFactory = Objects.requireNonNull(mathDataFactory);
+    }
+
+    @Override
+    public MathDataFactory mathDataFactory() {
+        return mathDataFactory;
     }
 
     @Override

@@ -45,7 +45,7 @@ public final class ExponentialRandom {
      * Правая граница по оси абсцисс диапазона обратной функции, в котором будут генерироваться случайные числа.
      * В заданном диапазоне располагается наибольший разброс значений экспоненциальной функции.
      */
-    private static final double X_UPPER_BOUND = 2.0;
+    private static final double X_UPPER_BOUND = 2.3;
 
     private ExponentialRandom() {
         //
@@ -64,10 +64,10 @@ public final class ExponentialRandom {
             throw new IllegalArgumentException("The lower bound cannot be greater than the upper bound");
         }
 
-        double upperBound = Math.abs(max - min);
+        double upperBound = max - min;
         double uniformedRandom = MathUtils.translate(random.nextDouble(), 0.0, 1.0, X_LOWER_BOUND, X_UPPER_BOUND);
         double nonUniformedRandom = MathUtils.translate(density(uniformedRandom), 0.0, LAMBDA, 0.0, upperBound);
-        return min + nonUniformedRandom % (max - min);
+        return min + nonUniformedRandom % upperBound;
     }
 
     private static double density(double x) {

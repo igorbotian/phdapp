@@ -41,11 +41,16 @@ public class CrossValidationSampleCanvas extends JPanel {
     private static final int SET_POINT_RADIUS = 5;
     private static final int SUPPORTING_POINT_RADIUS = 7;
 
-    private CrossValidationSampleCanvasDirector director;
+    private final CrossValidationSampleCanvasDirector director;
 
     public CrossValidationSampleCanvas(CrossValidationSampleCanvasDirector director) {
         this.director = Objects.requireNonNull(director);
-        setMinimumSize(new Dimension(320, 320));
+
+        int minCanvasWidth = 320;
+        double xCoordSize = director.xCoordinateRange().upperBound() - director.xCoordinateRange().lowerBound();
+        double yCoordSize = director.yCoordinateRange().upperBound() - director.yCoordinateRange().lowerBound();
+
+        setMinimumSize(new Dimension(minCanvasWidth, (int) (yCoordSize * minCanvasWidth / xCoordSize)));
     }
 
     @Override
@@ -101,12 +106,16 @@ public class CrossValidationSampleCanvas extends JPanel {
     }
 
     private int toCanvasX(double sampleX) {
-        return (int) MathUtils.translate(sampleX, director.xCoordinateRange().lowerBound(),
-                director.xCoordinateRange().upperBound(), 0.0, getWidth());
+        double xMin = director.xCoordinateRange().lowerBound();
+        double xMax = director.xCoordinateRange().upperBound();
+
+        return (int) MathUtils.translate(sampleX, Math.min(sampleX, xMin), Math.max(sampleX, xMax), 0.0, getWidth());
     }
 
     private int toCanvasY(double sampleY) {
-        return (int) MathUtils.translate(sampleY, director.yCoordinateRange().lowerBound(),
-                director.yCoordinateRange().upperBound(), 0.0, getHeight());
+        double yMin = director.yCoordinateRange().lowerBound();
+        double yMax = director.yCoordinateRange().upperBound();
+
+        return (int) MathUtils.translate(sampleY, Math.min(sampleY, yMin), Math.max(sampleY, yMax), 0.0, getHeight());
     }
 }

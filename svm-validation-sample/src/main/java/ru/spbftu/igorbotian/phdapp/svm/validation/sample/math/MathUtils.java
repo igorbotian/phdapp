@@ -40,15 +40,19 @@ public final class MathUtils {
      *                                            если новый нижний предел имеет большее значение, чем новый верхний предел
      */
     public static double translate(double src, double fromMin, double fromMax, double toMin, double toMax) {
-        if (fromMin >= src || src >= fromMax) {
+        if (fromMin > src || src > fromMax) {
             throw new IllegalArgumentException("The source value should be less then the lower bound " +
                     "and greater then the upper bound");
+        }
+
+        if(fromMax == fromMin) {
+            throw new IllegalArgumentException("The source lower bound cannot be equal to the upper bound");
         }
 
         if (toMin > toMax) {
             throw new IllegalArgumentException("The target upper bound should be greater then the target lower bound");
         }
 
-        return toMin + (Math.abs(src - fromMin) / Math.abs(fromMax - fromMin)) * Math.abs(toMax - toMin);
+        return toMin + ((src - fromMin) / (fromMax - fromMin)) * (toMax - toMin);
     }
 }

@@ -19,6 +19,7 @@
 package ru.spbftu.igorbotian.phdapp.ui.common;
 
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.Line;
+import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.MathDataFactory;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.Point;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.Range;
 
@@ -28,6 +29,8 @@ import java.util.Set;
  * Модель компонента, отвечающего за отображение выборки для классификатора
  */
 public interface CrossValidationSampleCanvasDirector {
+
+    MathDataFactory mathDataFactory();
 
     int numberOfPoints();
 
