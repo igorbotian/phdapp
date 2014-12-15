@@ -19,6 +19,7 @@
 package ru.spbftu.igorbotian.phdapp.ui.common;
 
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.CrossValidationSampleGenerator;
+import ru.spbftu.igorbotian.phdapp.svm.validation.sample.CrossValidationSampleManager;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.Line;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.MathDataFactory;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.Point;
@@ -39,9 +40,9 @@ class CrossValidationSampleCanvasDirectorImpl implements CrossValidationSampleCa
     private final CrossValidationSampleGenerator sampleGenerator;
     private final MathDataFactory mathDataFactory;
 
-    public CrossValidationSampleCanvasDirectorImpl(CrossValidationSampleGenerator sampleGenerator,
+    public CrossValidationSampleCanvasDirectorImpl(CrossValidationSampleManager sampleManager,
                                                    MathDataFactory mathDataFactory) {
-        this.sampleGenerator = Objects.requireNonNull(sampleGenerator);
+        this.sampleGenerator = Objects.requireNonNull(sampleManager).sampleGenerator();
         this.mathDataFactory = Objects.requireNonNull(mathDataFactory);
     }
 

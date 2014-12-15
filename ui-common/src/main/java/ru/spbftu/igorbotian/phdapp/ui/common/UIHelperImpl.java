@@ -26,6 +26,7 @@ import ru.spbftu.igorbotian.phdapp.output.csv.ReportCSVWriterFactory;
 import ru.spbftu.igorbotian.phdapp.output.summary.ReportSummaryWriterFactory;
 import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidatorParameterFactory;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.CrossValidationSampleGenerator;
+import ru.spbftu.igorbotian.phdapp.svm.validation.sample.CrossValidationSampleManager;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.MathDataFactory;
 
 import java.util.Objects;
@@ -47,7 +48,7 @@ class UIHelperImpl implements UIHelper {
     @Inject
     public UIHelperImpl(Localization localization,
                         ApplicationConfiguration configuration,
-                        CrossValidationSampleGenerator sampleGenerator,
+                        CrossValidationSampleManager sampleManager,
                         ReportSummaryWriterFactory reportSummaryWriterFactory,
                         ReportCSVWriterFactory reportCSVWriterFactory,
                         CrossValidatorParameterFactory crossValidatorParameterFactory,
@@ -55,13 +56,13 @@ class UIHelperImpl implements UIHelper {
 
         Objects.requireNonNull(localization);
         Objects.requireNonNull(configuration);
-        Objects.requireNonNull(sampleGenerator);
+        Objects.requireNonNull(sampleManager);
         Objects.requireNonNull(reportSummaryWriterFactory);
         Objects.requireNonNull(reportCSVWriterFactory);
         Objects.requireNonNull(crossValidatorParameterFactory);
 
         this.localization = localization;
-        sampleCanvasDirector = new CrossValidationSampleCanvasDirectorImpl(sampleGenerator, mathDataFactory);
+        sampleCanvasDirector = new CrossValidationSampleCanvasDirectorImpl(sampleManager, mathDataFactory);
         crossValidatorParamsFrameDirector
                 = new CrossValidatorParamsFrameDirectorImpl(configuration, crossValidatorParameterFactory);
         crossValidatorResultsFrameDirector =

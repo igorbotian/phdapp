@@ -45,7 +45,7 @@ public class CrossValidationSampleGeneratorTest {
                 new SvmValidationSampleManagementModule()
         );
 
-        sampleGenerator = injector.getInstance(CrossValidationSampleGenerator.class);
+        sampleGenerator = injector.getInstance(CrossValidationSampleManager.class).sampleGenerator();
     }
 
     @Test

@@ -13,6 +13,6 @@ public class SvmValidationSampleManagementModule extends PhDAppModule {
     @Override
     protected void configure() {
         install(new MathDataFactoryModule());
-        bind(CrossValidationSampleGenerator.class, CrossValidationSampleGeneratorImpl.class);
+        bind(CrossValidationSampleManager.class, CrossValidationSampleManagerImpl.class);
     }
 }
