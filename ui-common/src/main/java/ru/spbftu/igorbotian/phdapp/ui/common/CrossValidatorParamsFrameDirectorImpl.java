@@ -54,14 +54,14 @@ class CrossValidatorParamsFrameDirectorImpl implements CrossValidatorParamsFrame
                                                  CrossValidatorParameterFactory crossValidatorParameterFactory) {
 
         this.appConfig = Objects.requireNonNull(appConfig);
-        constantCostParameter = newDoubleParameter(crossValidatorParameterFactory.newConstantCostParameter());
-        gaussianKernelParameter = newDoubleParameter(crossValidatorParameterFactory.newGaussianKernelParameter());
-        samplesToGenerateCount = newIntegerParameter(crossValidatorParameterFactory.newSamplesToGenerateCount());
-        sampleSize = newIntegerParameter(crossValidatorParameterFactory.newSampleSize());
+        constantCostParameter = newDoubleParameter(crossValidatorParameterFactory.constantCostParameter());
+        gaussianKernelParameter = newDoubleParameter(crossValidatorParameterFactory.gaussianKernelParameter());
+        samplesToGenerateCount = newIntegerParameter(crossValidatorParameterFactory.samplesToGenerateCount());
+        sampleSize = newIntegerParameter(crossValidatorParameterFactory.sampleSize());
         trainingTestingSetsSizeRatio
-                = newIntegerParameter(crossValidatorParameterFactory.newTrainingTestingSetsSizeRatio());
+                = newIntegerParameter(crossValidatorParameterFactory.trainingTestingSetsSizeRatio());
         preciseIntervalJudgmentsCountRatio
-                = newIntegerParameter(crossValidatorParameterFactory.newPreciseIntervalJudgmentsCountRatio());
+                = newIntegerParameter(crossValidatorParameterFactory.preciseIntervalJudgmentsCountRatio());
     }
 
     private MutableCrossValidatorParameter<Double> newDoubleParameter(CrossValidatorParameter<Double> param) {

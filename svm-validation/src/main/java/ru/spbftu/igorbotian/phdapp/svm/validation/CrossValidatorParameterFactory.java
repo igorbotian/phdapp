@@ -252,7 +252,7 @@ public interface CrossValidatorParameterFactory {
      *
      * @return параметр средства кросс-валидации
      */
-    CrossValidatorParameter<Double> newConstantCostParameter();
+    CrossValidatorParameter<Double> constantCostParameter();
 
     /**
      * Создание параметра постоянной стоимости с заданным значением
@@ -265,8 +265,8 @@ public interface CrossValidatorParameterFactory {
      * @throws IllegalArgumentException если заданное значение параметра меньше минимально допустимого
      *                                  или больше максимально допустимого
      */
-    CrossValidatorParameter<Double> newConstantCostParameter(double value, double lowerBound,
-                                                             double upperBound, double stepSize);
+    CrossValidatorParameter<Double> constantCostParameter(double value, double lowerBound,
+                                                          double upperBound, double stepSize);
 
     //-------------------------------------------------------------------------
 
@@ -275,7 +275,7 @@ public interface CrossValidatorParameterFactory {
      *
      * @return параметр средства кросс-валидации
      */
-    CrossValidatorParameter<Double> newGaussianKernelParameter();
+    CrossValidatorParameter<Double> gaussianKernelParameter();
 
     /**
      * Создание параметра Гауссова ядра с заданным значением
@@ -288,8 +288,8 @@ public interface CrossValidatorParameterFactory {
      * @throws IllegalArgumentException если заданное значение параметра меньше минимально допустимого
      *                                  или больше максимально допустимого
      */
-    CrossValidatorParameter<Double> newGaussianKernelParameter(double value, double lowerBound,
-                                                               double upperBound, double stepSize);
+    CrossValidatorParameter<Double> gaussianKernelParameter(double value, double lowerBound,
+                                                            double upperBound, double stepSize);
 
     //-------------------------------------------------------------------------
 
@@ -298,7 +298,7 @@ public interface CrossValidatorParameterFactory {
      *
      * @return параметр средства кросс-валидации
      */
-    CrossValidatorParameter<Integer> newSamplesToGenerateCount();
+    CrossValidatorParameter<Integer> samplesToGenerateCount();
 
     /**
      * Создание параметра, задающего количество генерируемых выборок, с заданным значением
@@ -311,8 +311,8 @@ public interface CrossValidatorParameterFactory {
      * @throws IllegalArgumentException если заданное значение параметра меньше минимально допустимого
      *                                  или больше максимально допустимого
      */
-    CrossValidatorParameter<Integer> newSamplesToGenerateCount(int value, int lowerBound,
-                                                               int upperBound, int stepSize);
+    CrossValidatorParameter<Integer> samplesToGenerateCount(int value, int lowerBound,
+                                                            int upperBound, int stepSize);
 
     //-------------------------------------------------------------------------
 
@@ -321,7 +321,7 @@ public interface CrossValidatorParameterFactory {
      *
      * @return параметр средства кросс-валидации
      */
-    CrossValidatorParameter<Integer> newSampleSize();
+    CrossValidatorParameter<Integer> sampleSize();
 
     /**
      * Создание параметра, задающего количество объектов в генерируемой выборке, с заданным значением
@@ -334,8 +334,8 @@ public interface CrossValidatorParameterFactory {
      * @throws IllegalArgumentException если заданное значение параметра меньше минимально допустимого
      *                                  или больше максимально допустимого
      */
-    CrossValidatorParameter<Integer> newSampleSize(int value, int lowerBound,
-                                                   int upperBound, int stepSize);
+    CrossValidatorParameter<Integer> sampleSize(int value, int lowerBound,
+                                                int upperBound, int stepSize);
 
     //-------------------------------------------------------------------------
 
@@ -345,7 +345,7 @@ public interface CrossValidatorParameterFactory {
      *
      * @return параметр средства кросс-валидации
      */
-    CrossValidatorParameter<Integer> newTrainingTestingSetsSizeRatio();
+    CrossValidatorParameter<Integer> trainingTestingSetsSizeRatio();
 
     /**
      * Создание параметра, задающего соотношение количества объектов, входящих в обучающей и тестирующей выборках,
@@ -359,8 +359,8 @@ public interface CrossValidatorParameterFactory {
      * @throws IllegalArgumentException если заданное значение параметра меньше минимально допустимого
      *                                  или больше максимально допустимого
      */
-    CrossValidatorParameter<Integer> newTrainingTestingSetsSizeRatio(int value, int lowerBound,
-                                                                     int upperBound, int stepSize);
+    CrossValidatorParameter<Integer> trainingTestingSetsSizeRatio(int value, int lowerBound,
+                                                                  int upperBound, int stepSize);
 
     //-------------------------------------------------------------------------
 
@@ -370,7 +370,7 @@ public interface CrossValidatorParameterFactory {
      *
      * @return параметр средства кросс-валидации
      */
-    CrossValidatorParameter<Integer> newPreciseIntervalJudgmentsCountRatio();
+    CrossValidatorParameter<Integer> preciseIntervalJudgmentsCountRatio();
 
     /**
      * Создание параметра, задающего соотношение количества точных и интервальных экспертных оценок, с заданным значением
@@ -383,8 +383,8 @@ public interface CrossValidatorParameterFactory {
      * @throws IllegalArgumentException если заданное значение параметра меньше минимально допустимого
      *                                  или больше максимально допустимого
      */
-    CrossValidatorParameter<Integer> newPreciseIntervalJudgmentsCountRatio(int value, int lowerBound,
-                                                                           int upperBound, int stepSize);
+    CrossValidatorParameter<Integer> preciseIntervalJudgmentsCountRatio(int value, int lowerBound,
+                                                                        int upperBound, int stepSize);
 
     //-------------------------------------------------------------------------
 
