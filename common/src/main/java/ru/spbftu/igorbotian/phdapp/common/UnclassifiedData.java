@@ -30,6 +30,11 @@ import java.util.Set;
 public interface UnclassifiedData {
 
     /**
+     * Минимально допустимое количество классов
+     */
+    public static final int MIN_NUMBER_OF_CLASSES = 2;
+
+    /**
      * Получение набора классов классификации
      *
      * @return непустое неизменяемое множество классов классификации
