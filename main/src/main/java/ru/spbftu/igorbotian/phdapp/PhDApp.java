@@ -47,6 +47,8 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Основной класс приложения.
@@ -65,7 +67,7 @@ public class PhDApp {
     /**
      * Список из модулей приложения
      */
-    public static final Set<PhDAppModule> INJECTION_MODULES = new LinkedHashSet<>(Arrays.asList(
+    public static final Set<PhDAppModule> INJECTION_MODULES = Stream.of(
             new DataModule(),
             new InputDataModule(),
             new ApplicationConfigurationModule(CONFIG_FOLDER),
@@ -81,7 +83,7 @@ public class PhDApp {
             new CommonUserInterfaceModule(),
             new SwingUserInterfaceModule(),
             new UtilsModule()
-    ));
+    ).collect(Collectors.toSet());
 
     private static Path getConfigFolder() {
         String customConfFolderName = System.getProperty(CONFIG_FOLDER_SYSTEM_PROPERTY);

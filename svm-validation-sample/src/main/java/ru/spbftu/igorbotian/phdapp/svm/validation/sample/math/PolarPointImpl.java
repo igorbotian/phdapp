@@ -5,7 +5,10 @@ import ru.spbftu.igorbotian.phdapp.common.DataClass;
 import ru.spbftu.igorbotian.phdapp.common.DataFactory;
 import ru.spbftu.igorbotian.phdapp.common.Parameter;
 
-import java.util.*;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Реализация интерфейса <code>PolarPoint</code>
@@ -63,10 +66,10 @@ class PolarPointImpl implements PolarPoint {
         this.phi = phi;
         this.dataClass = Objects.requireNonNull(dataClass);
         this.dataFactory = Objects.requireNonNull(dataFactory);
-        this.params = Collections.unmodifiableSet(new HashSet<Parameter<?>>(Arrays.asList(
+        this.params = Stream.of(
                 dataFactory.newParameter(R_LABEL, r, BasicDataTypes.REAL),
                 dataFactory.newParameter(PHI_LABEL, phi, BasicDataTypes.REAL)
-        )));
+        ).collect(Collectors.toSet());
     }
 
     public PolarPointImpl(double r, double phi, DataFactory dataFactory) {

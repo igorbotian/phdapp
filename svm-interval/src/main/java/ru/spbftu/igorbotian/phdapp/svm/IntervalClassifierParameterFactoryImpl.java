@@ -1,9 +1,8 @@
 package ru.spbftu.igorbotian.phdapp.svm;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Реализация набора параметров конфигурации классификатора
@@ -47,9 +46,9 @@ class IntervalClassifierParameterFactoryImpl extends AbstractClassifierParameter
 
     @Override
     public Set<ClassifierParameter<?>> defaultValues() {
-        return Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
+        return Stream.of(
                 constantCostParameter(),
                 gaussianKernelParameter()
-        )));
+        ).collect(Collectors.toSet());
     }
 }

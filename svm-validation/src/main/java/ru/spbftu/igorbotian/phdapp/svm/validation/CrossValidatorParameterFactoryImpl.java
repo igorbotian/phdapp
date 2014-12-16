@@ -1,9 +1,8 @@
 package ru.spbftu.igorbotian.phdapp.svm.validation;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Реализация набора параметров средства кросс-валидации классификатора
@@ -121,13 +120,13 @@ class CrossValidatorParameterFactoryImpl implements CrossValidatorParameterFacto
 
     @Override
     public Set<CrossValidatorParameter<?>> defaultValues() {
-        return Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
+        return Stream.of(
                 constantCostParameter(),
                 gaussianKernelParameter(),
                 samplesToGenerateCount(),
                 sampleSize(),
                 trainingTestingSetsSizeRatio(),
                 preciseIntervalJudgmentsCountRatio()
-        )));
+        ).collect(Collectors.toSet());
     }
 }

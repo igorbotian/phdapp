@@ -30,9 +30,9 @@ import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Модульные тесты для класса <code>JsonInputDataManager</code>
@@ -58,22 +58,22 @@ public class JsonInputDataManagerTest {
         InputDataFactory inputDataFactory = injector.getInstance(InputDataFactory.class);
         dataManager = new JsonInputDataManager(mockConfigWithNoProperties(), dataFactory, inputDataFactory);
 
-        Set<DataClass> classes = new HashSet<>(Arrays.asList(
+        Set<DataClass> classes = Stream.of(
                 dataFactory.newClass("firstClass"),
                 dataFactory.newClass("secondClass")
-        ));
-        Set<Parameter<?>> params = new HashSet<>(Arrays.asList(
+        ).collect(Collectors.toSet());
+        Set<Parameter<?>> params = Stream.of(
                 dataFactory.newParameter("firstParam", "firstValue", BasicDataTypes.STRING),
                 dataFactory.newParameter("secondParam", "secondValue", BasicDataTypes.STRING)
-        ));
-        Set<UnclassifiedObject> testingSet = new HashSet<>(Arrays.asList(
+        ).collect(Collectors.toSet());
+        Set<UnclassifiedObject> testingSet = Stream.of(
                 dataFactory.newUnclassifiedObject("firstObject", params),
                 dataFactory.newUnclassifiedObject("secondObject", params)
-        ));
-        Set<PointwiseTrainingObject> trainingSet = new HashSet<>(Arrays.asList(
+        ).collect(Collectors.toSet());
+        Set<PointwiseTrainingObject> trainingSet = Stream.of(
                 dataFactory.newPointwiseTrainingObject("thirdObject", params, classes.iterator().next()),
                 dataFactory.newPointwiseTrainingObject("fourthObject", params, classes.iterator().next())
-        ));
+        ).collect(Collectors.toSet());
 
         data = inputDataFactory.newPointwiseData(classes, trainingSet, testingSet);
     }

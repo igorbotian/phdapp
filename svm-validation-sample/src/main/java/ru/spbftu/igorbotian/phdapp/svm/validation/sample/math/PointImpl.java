@@ -6,6 +6,8 @@ import ru.spbftu.igorbotian.phdapp.common.DataFactory;
 import ru.spbftu.igorbotian.phdapp.common.Parameter;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Реализация интерфейса <code>Point</code>
@@ -60,10 +62,10 @@ class PointImpl implements Point {
         this.dataClass = Objects.requireNonNull(dataClass);
         this.dataFactory = Objects.requireNonNull(dataFactory);
 
-        params = Collections.unmodifiableSet(new HashSet<Parameter<?>>(Arrays.asList(
+        params = Stream.of(
                 dataFactory.newParameter(X_DIMENSION_LABEL, x, BasicDataTypes.REAL),
                 dataFactory.newParameter(Y_DIMENSION_LABEL, y, BasicDataTypes.REAL)
-        )));
+        ).collect(Collectors.toSet());
     }
 
     public PointImpl(double x, double y, DataFactory dataFactory) {
