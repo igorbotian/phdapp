@@ -7,6 +7,8 @@ import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidatorParameterFactory
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.MathDataFactory;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Реализация средства формирования выборки для кросс-валидации классификатора
@@ -44,10 +46,10 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
         int eachGroupSize = (sampleSize % 2 == 0) ? sampleSize / 2 : (sampleSize + 1) / 2;
         sampleGenerator.regeneratePoints(eachGroupSize);
 
-        Set<DataClass> dataClasses = new HashSet<>(Arrays.asList(
+        Set<DataClass> dataClasses = Stream.of(
                 sampleGenerator.firstSupportingPoint().dataClass(),
                 sampleGenerator.secondSupportingPoint().dataClass()
-        ));
+        ).collect(Collectors.toSet());
         Set<ClassifiedObject> data = new HashSet<>();
         sampleGenerator.firstSetOfPoints().forEach(data::add);
         sampleGenerator.secondSetOfPoints().forEach(data::add);
@@ -87,7 +89,7 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
         Map<DataClass, LinkedList<ClassifiedObject>> sampleByClasses = groupSampleItemsByClasses(sample);
         checkSampleIsDividable(sampleByClasses);
 
-        Pair<Set<ClassifiedObject>, Set<ClassifiedObject>> smallestValidSets = composeSmallestValidSets(sampleByClasses);
+        Pair<Set<ClassifiedObject>, Set<ClassifiedObject>> smallestValidSets = composeSmallestValidGroups(sampleByClasses);
         int firstSetSize = (int) Math.ceil(sample.objects().size() * ratio / 100);
         int secondSetSize = sample.objects().size() - firstSetSize;
 
@@ -212,54 +214,66 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
     }
 
     /**
-     * Фомирование корректных тестирующей и обучающей выборки, имеющих минимальный размер, на основе заданного
+     * Формирование корректных тестирующей и обучающей выборки, имеющих минимальный размер, на основе заданного
      * множества объектов
      */
-    private Pair<Set<ClassifiedObject>, Set<ClassifiedObject>> composeSmallestValidSets(
+    private Pair<Set<ClassifiedObject>, Set<ClassifiedObject>> composeSmallestValidGroups(
             Map<DataClass, LinkedList<ClassifiedObject>> sampleItemsByClasses) {
 
-        // TODO не самое лучшее решение - удалять из ассоциативного массива объекты
-        Set<ClassifiedObject> firstSet = composeSmallestValidSetFrom(sampleItemsByClasses);
-        removeSampleItems(sampleItemsByClasses, firstSet);
+        Set<ClassifiedObject> firstGroup = new HashSet<>();
+        Set<ClassifiedObject> secondGroup = new HashSet<>();
 
-        Set<ClassifiedObject> secondSet = composeSmallestValidSetFrom(sampleItemsByClasses);
-        removeSampleItems(sampleItemsByClasses, secondSet);
+        Map<DataClass, LinkedList<ClassifiedObject>> smallestGroups = extractSmallestGroups(sampleItemsByClasses);
+        boolean putNextObjectToFirstGroup = true;
 
-        return new Pair<>(firstSet, secondSet);
-    }
+        for(DataClass clazz : smallestGroups.keySet()) {
+            for(ClassifiedObject obj : smallestGroups.get(clazz)) {
+                if(putNextObjectToFirstGroup) {
+                    firstGroup.add(obj);
+                } else {
+                    secondGroup.add(obj);
+                }
 
-    /**
-     * Создание корректной обучающей/тестирующей выборки минимального размера (с двумя классами)
-     * на базе заданного множества объектов.
-     * Объекты созданной выборки из множества исходных объектов на этом шаге не удаляются.
-     * Исходное множество объектов должно быть разделимо.
-     */
-    private Set<ClassifiedObject> composeSmallestValidSetFrom(
-            Map<DataClass, LinkedList<ClassifiedObject>> sampleItemsByClasses) {
-
-        Iterator<DataClass> classIterator = sampleItemsByClasses.keySet().iterator();
-        ClassifiedObject firstItem = sampleItemsByClasses.get(classIterator.next()).getFirst();
-
-        assert(classIterator.hasNext());
-        ClassifiedObject secondItem = sampleItemsByClasses.get(classIterator.next()).getFirst();
-
-        return new HashSet<>(Arrays.asList(firstItem, secondItem));
-    }
-
-    /**
-     * Удаление объектов корректной выборки минимального размера (с двумя классами) из общего числа объектов
-     */
-    private void removeSampleItems(Map<DataClass, LinkedList<ClassifiedObject>> sampleItemsByClasses,
-                                   Set<ClassifiedObject> itemsToRemove) {
-
-        for (ClassifiedObject item : itemsToRemove) {
-            LinkedList<ClassifiedObject> items = sampleItemsByClasses.get(item.dataClass());
-            items.remove(item);
-
-            if (items.isEmpty()) {
-                sampleItemsByClasses.remove(item.dataClass());
+                putNextObjectToFirstGroup = !putNextObjectToFirstGroup;
             }
         }
+
+        return new Pair<>(firstGroup, secondGroup);
+    }
+
+    /**
+     * Из заданного множества объектов выделить минимально допустимую часть, корректную для формирования тестирующей и
+     * обучающей выборок
+     */
+    private Map<DataClass, LinkedList<ClassifiedObject>> extractSmallestGroups(
+            Map<DataClass, LinkedList<ClassifiedObject>> sampleItemsByClasses) {
+
+        Map<DataClass, LinkedList<ClassifiedObject>> smallestGroups = new HashMap<>();
+        Iterator<DataClass> classIt = sampleItemsByClasses.keySet().iterator();
+        int i = 0;
+
+        while(i < CrossValidatorParameterFactory.SAMPLE_SIZE_MIN) {
+            Iterator<ClassifiedObject> objIt = sampleItemsByClasses.get(classIt.next()).iterator();
+            int j = 0;
+
+            while(j < UnclassifiedData.MIN_NUMBER_OF_CLASSES) {
+                if(objIt.hasNext()) {
+                    ClassifiedObject obj = objIt.next();
+                    if(!smallestGroups.containsKey(obj.dataClass())) {
+                        smallestGroups.put(obj.dataClass(), new LinkedList<>());
+                    }
+
+                    smallestGroups.get(obj.dataClass()).add(obj);
+                    i++;
+                    j++;
+                } else {
+                    assert classIt.hasNext();
+                    objIt = sampleItemsByClasses.get(classIt.next()).iterator();
+                }
+            }
+        }
+
+        return smallestGroups;
     }
 
     /**
