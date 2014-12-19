@@ -16,16 +16,19 @@ class CrossValidatorParameterFactoryImpl implements CrossValidatorParameterFacto
                 CONSTANT_COST_PARAM_DEFAULT_VALUE,
                 CONSTANT_COST_PARAM_DEFAULT_LOWER_BOUND,
                 CONSTANT_COST_PARAM_DEFAULT_UPPER_BOUND,
-                CONSTANT_COST_PARAM_DEFAULT_STEP_SIZE
+                CONSTANT_COST_PARAM_DEFAULT_STEP_SIZE,
+                CONSTANT_COST_PARAM_STEP_SIZE_MIN,
+                CONSTANT_COST_PARAM_STEP_SIZE_MAX
         );
     }
 
     @Override
     public CrossValidatorParameter<Double> constantCostParameter(double value, double lowerBound,
-                                                                 double upperBound, double stepSize) {
+                                                                 double upperBound, double stepSize,
+                                                                 double stepSizeMin, double stepSizeMax) {
         return new DefaultCrossValidatorParameterImpl<>(CONSTANT_COST_PARAM_ID, Double.class,
                 value, lowerBound, upperBound, CONSTANT_COST_PARAM_MIN_VALUE, CONSTANT_COST_PARAM_MAX_VALUE,
-                stepSize, Double::compare);
+                stepSize, stepSizeMin, stepSizeMax, Double::compare);
     }
 
     @Override
@@ -34,16 +37,19 @@ class CrossValidatorParameterFactoryImpl implements CrossValidatorParameterFacto
                 GAUSSIAN_KERNEL_PARAM_DEFAULT_VALUE,
                 GAUSSIAN_KERNEL_PARAM_DEFAULT_LOWER_BOUND,
                 GAUSSIAN_KERNEL_PARAM_DEFAULT_UPPER_BOUND,
-                GAUSSIAN_KERNEL_PARAM_DEFAULT_STEP_SIZE
+                GAUSSIAN_KERNEL_PARAM_DEFAULT_STEP_SIZE,
+                GAUSSIAN_KERNEL_PARAM_STEP_SIZE_MIN,
+                GAUSSIAN_KERNEL_PARAM_STEP_SIZE_MAX
         );
     }
 
     @Override
     public CrossValidatorParameter<Double> gaussianKernelParameter(double value, double lowerBound,
-                                                                   double upperBound, double stepSize) {
+                                                                   double upperBound, double stepSize,
+                                                                   double stepSizeMin, double stepSizeMax) {
         return new DefaultCrossValidatorParameterImpl<>(GAUSSIAN_KERNEL_PARAM_ID, Double.class,
                 value, lowerBound, upperBound, GAUSSIAN_KERNEL_PARAM_MIN_VALUE, GAUSSIAN_KERNEL_PARAM_MAX_VALUE,
-                stepSize, Double::compare);
+                stepSize, stepSizeMin, stepSizeMax, Double::compare);
     }
 
     @Override
@@ -52,16 +58,19 @@ class CrossValidatorParameterFactoryImpl implements CrossValidatorParameterFacto
                 SAMPLES_TO_GENERATE_COUNT_DEFAULT_VALUE,
                 SAMPLES_TO_GENERATE_COUNT_DEFAULT_LOWER_BOUND,
                 SAMPLES_TO_GENERATE_COUNT_DEFAULT_UPPER_BOUND,
-                SAMPLES_TO_GENERATE_COUNT_DEFAULT_STEP_SIZE
+                SAMPLES_TO_GENERATE_COUNT_DEFAULT_STEP_SIZE,
+                SAMPLES_TO_GENERATE_COUNT_STEP_SIZE_MIN,
+                SAMPLES_TO_GENERATE_COUNT_STEP_SIZE_MAX
         );
     }
 
     @Override
     public CrossValidatorParameter<Integer> samplesToGenerateCount(int value, int lowerBound,
-                                                                   int upperBound, int stepSize) {
+                                                                   int upperBound, int stepSize,
+                                                                   int stepSizeMin, int stepSizeMax) {
         return new DefaultCrossValidatorParameterImpl<>(SAMPLES_TO_GENERATE_COUNT_ID, Integer.class,
                 value, lowerBound, upperBound, SAMPLES_TO_GENERATE_COUNT_MIN, SAMPLES_TO_GENERATE_COUNT_MAX,
-                stepSize, Integer::compare);
+                stepSize, stepSizeMin, stepSizeMax, Integer::compare);
     }
 
     @Override
@@ -70,16 +79,18 @@ class CrossValidatorParameterFactoryImpl implements CrossValidatorParameterFacto
                 SAMPLE_SIZE_DEFAULT_VALUE,
                 SAMPLE_SIZE_DEFAULT_LOWER_BOUND,
                 SAMPLE_SIZE_DEFAULT_UPPER_BOUND,
-                SAMPLE_SIZE_DEFAULT_STEP_SIZE
+                SAMPLE_SIZE_DEFAULT_STEP_SIZE,
+                SAMPLE_SIZE_STEP_SIZE_MIN,
+                SAMPLE_SIZE_STEP_SIZE_MAX
         );
     }
 
     @Override
     public CrossValidatorParameter<Integer> sampleSize(int value, int lowerBound, int upperBound,
-                                                       int stepSize) {
+                                                       int stepSize, int stepSizeMin, int stepSizeMax) {
         return new DefaultCrossValidatorParameterImpl<>(SAMPLE_SIZE_ID, Integer.class,
                 value, lowerBound, upperBound, SAMPLE_SIZE_MIN, SAMPLE_SIZE_MAX,
-                stepSize, Integer::compare);
+                stepSize, stepSizeMin, stepSizeMax, Integer::compare);
     }
 
     @Override
@@ -88,16 +99,19 @@ class CrossValidatorParameterFactoryImpl implements CrossValidatorParameterFacto
                 TRAINING_TESTING_SETS_SIZE_RATIO_DEFAULT_VALUE,
                 TRAINING_TESTING_SETS_SIZE_RATIO_DEFAULT_LOWER_BOUND,
                 TRAINING_TESTING_SETS_SIZE_RATIO_DEFAULT_UPPER_BOUND,
-                TRAINING_TESTING_SETS_SIZE_RATIO_DEFAULT_STEP_SIZE
+                TRAINING_TESTING_SETS_SIZE_RATIO_DEFAULT_STEP_SIZE,
+                TRAINING_TESTING_SETS_SIZE_RATIO_STEP_SIZE_MIN,
+                TRAINING_TESTING_SETS_SIZE_RATIO_STEP_SIZE_MAX
         );
     }
 
     @Override
     public CrossValidatorParameter<Integer> trainingTestingSetsSizeRatio(int value, int lowerBound,
-                                                                         int upperBound, int stepSize) {
+                                                                         int upperBound, int stepSize,
+                                                                         int stepSizeMin, int stepSizeMax) {
         return new DefaultCrossValidatorParameterImpl<>(TRAINING_TESTING_SETS_SIZE_RATIO_ID, Integer.class,
                 value, lowerBound, upperBound, TRAINING_TESTING_SETS_SIZE_RATIO_MIN,
-                TRAINING_TESTING_SETS_SIZE_RATIO_MAX, stepSize, Integer::compare);
+                TRAINING_TESTING_SETS_SIZE_RATIO_MAX, stepSize, stepSizeMin, stepSizeMax, Integer::compare);
     }
 
     @Override
@@ -106,16 +120,19 @@ class CrossValidatorParameterFactoryImpl implements CrossValidatorParameterFacto
                 PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_DEFAULT_VALUE,
                 PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_DEFAULT_LOWER_BOUND,
                 PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_DEFAULT_UPPER_BOUND,
-                PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_DEFAULT_STEP_SIZE
+                PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_DEFAULT_STEP_SIZE,
+                PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_STEP_SIZE_MIN,
+                PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_STEP_SIZE_MAX
         );
     }
 
     @Override
     public CrossValidatorParameter<Integer> preciseIntervalJudgmentsCountRatio(int value, int lowerBound,
-                                                                               int upperBound, int stepSize) {
+                                                                               int upperBound, int stepSize,
+                                                                               int stepSizeMin, int stepSizeMax) {
         return new DefaultCrossValidatorParameterImpl<>(PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_ID, Integer.class,
                 value, lowerBound, upperBound, PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_MIN,
-                PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_MAX, stepSize, Integer::compare);
+                PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_MAX, stepSize, stepSizeMin, stepSizeMax, Integer::compare);
     }
 
     @Override

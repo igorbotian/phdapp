@@ -103,37 +103,43 @@ class CrossValidatorParamsWidgetsImpl implements CrossValidatorParamsWidgets {
     }
 
     private IntegerRangeSpinner integerRangeSpinner(MutableCrossValidatorParameter<Integer> parameter) {
-
         IntegerRangeSpinner spinner = new IntegerRangeSpinner(
                 uiHelper.getLabel(parameter.name()),
                 parameter.lowerBound().value(),
-                parameter.value().minValue(),
-                parameter.value().maxValue(),
+                parameter.lowerBound().minValue(),
+                parameter.lowerBound().maxValue(),
                 parameter.upperBound().value(),
-                parameter.value().minValue(),
-                parameter.value().maxValue(),
-                parameter.stepSize().value()
+                parameter.upperBound().minValue(),
+                parameter.upperBound().maxValue(),
+                parameter.stepSize().value(),
+                parameter.stepSize().minValue(),
+                parameter.stepSize().maxValue()
         );
+
         spinner.addMinValueChangeListener(e -> parameter.lowerBound().setValue(spinner.getMinValue()));
         spinner.addMinValueChangeListener(e -> parameter.lowerBound().setValue(spinner.getMaxValue()));
+        spinner.addStepSizeChangeListener(e -> parameter.stepSize().setValue(spinner.getStepSize()));
 
         return spinner;
     }
 
     private DoubleRangeSpinner doubleRangeSpinner(MutableCrossValidatorParameter<Double> parameter) {
-
         DoubleRangeSpinner spinner = new DoubleRangeSpinner(
                 uiHelper.getLabel(parameter.name()),
                 parameter.lowerBound().value(),
-                parameter.value().minValue(),
-                parameter.value().maxValue(),
+                parameter.lowerBound().minValue(),
+                parameter.lowerBound().maxValue(),
                 parameter.upperBound().value(),
-                parameter.value().minValue(),
-                parameter.value().maxValue(),
-                parameter.stepSize().value()
+                parameter.upperBound().minValue(),
+                parameter.upperBound().maxValue(),
+                parameter.stepSize().value(),
+                parameter.stepSize().minValue(),
+                parameter.stepSize().maxValue()
         );
+
         spinner.addMinValueChangeListener(e -> parameter.lowerBound().setValue(spinner.getMinValue()));
         spinner.addMinValueChangeListener(e -> parameter.lowerBound().setValue(spinner.getMaxValue()));
+        spinner.addStepSizeChangeListener(e -> parameter.stepSize().setValue(spinner.getStepSize()));
 
         return spinner;
     }

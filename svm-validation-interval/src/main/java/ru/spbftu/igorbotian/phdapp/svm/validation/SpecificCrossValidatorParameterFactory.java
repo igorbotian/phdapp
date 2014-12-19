@@ -44,8 +44,10 @@ class SpecificCrossValidatorParameterFactory implements CrossValidatorParameterF
 
     @Override
     public CrossValidatorParameter<Double> constantCostParameter(double value, double lowerBound,
-                                                                 double upperBound, double stepSize) {
-        return parameterFactory.constantCostParameter(value, lowerBound, upperBound, stepSize);
+                                                                 double upperBound, double stepSize,
+                                                                 double stepSizeMin, double stepSizeMax) {
+        return parameterFactory.constantCostParameter(value, lowerBound, upperBound,
+                stepSize, stepSizeMin, stepSizeMax);
     }
 
     @Override
@@ -55,8 +57,10 @@ class SpecificCrossValidatorParameterFactory implements CrossValidatorParameterF
 
     @Override
     public CrossValidatorParameter<Double> gaussianKernelParameter(double value, double lowerBound,
-                                                                   double upperBound, double stepSize) {
-        return parameterFactory.gaussianKernelParameter(value, lowerBound, upperBound, stepSize);
+                                                                   double upperBound, double stepSize,
+                                                                   double stepSizeMin, double stepSizeMax) {
+        return parameterFactory.gaussianKernelParameter(value, lowerBound, upperBound,
+                stepSize, stepSizeMin, stepSizeMax);
     }
 
     @Override
@@ -66,8 +70,10 @@ class SpecificCrossValidatorParameterFactory implements CrossValidatorParameterF
 
     @Override
     public CrossValidatorParameter<Integer> samplesToGenerateCount(int value, int lowerBound,
-                                                                   int upperBound, int stepSize) {
-        return parameterFactory.samplesToGenerateCount(value, lowerBound, upperBound, stepSize);
+                                                                   int upperBound, int stepSize,
+                                                                   int stepSizeMin, int stepSizeMax) {
+        return parameterFactory.samplesToGenerateCount(value, lowerBound, upperBound,
+                stepSize, stepSizeMin, stepSizeMax);
     }
 
     @Override
@@ -76,8 +82,10 @@ class SpecificCrossValidatorParameterFactory implements CrossValidatorParameterF
     }
 
     @Override
-    public CrossValidatorParameter<Integer> sampleSize(int value, int lowerBound, int upperBound, int stepSize) {
-        return parameterFactory.sampleSize(value, lowerBound, upperBound, stepSize);
+    public CrossValidatorParameter<Integer> sampleSize(int value, int lowerBound, int upperBound, int stepSize,
+                                                       int stepSizeMin, int stepSizeMax) {
+        return parameterFactory.sampleSize(value, lowerBound, upperBound,
+                stepSize, stepSizeMin, stepSizeMax);
     }
 
     @Override
@@ -87,8 +95,10 @@ class SpecificCrossValidatorParameterFactory implements CrossValidatorParameterF
 
     @Override
     public CrossValidatorParameter<Integer> trainingTestingSetsSizeRatio(int value, int lowerBound,
-                                                                         int upperBound, int stepSize) {
-        return parameterFactory.trainingTestingSetsSizeRatio(value, lowerBound, upperBound, stepSize);
+                                                                         int upperBound, int stepSize,
+                                                                         int stepSizeMin, int stepSizeMax) {
+        return parameterFactory.trainingTestingSetsSizeRatio(value, lowerBound, upperBound,
+                stepSize, stepSizeMin, stepSizeMax);
     }
 
     @Override
@@ -98,8 +108,10 @@ class SpecificCrossValidatorParameterFactory implements CrossValidatorParameterF
 
     @Override
     public CrossValidatorParameter<Integer> preciseIntervalJudgmentsCountRatio(int value, int lowerBound,
-                                                                               int upperBound, int stepSize) {
-        return parameterFactory.preciseIntervalJudgmentsCountRatio(value, lowerBound, upperBound, stepSize);
+                                                                               int upperBound, int stepSize,
+                                                                               int stepSizeMin, int stepSizeMax) {
+        return parameterFactory.preciseIntervalJudgmentsCountRatio(value, lowerBound, upperBound,
+                stepSize, stepSizeMin, stepSizeMax);
     }
 
     @Override

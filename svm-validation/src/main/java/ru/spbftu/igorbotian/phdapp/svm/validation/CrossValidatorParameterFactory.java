@@ -31,11 +31,6 @@ public interface CrossValidatorParameterFactory {
     public static final double CONSTANT_COST_PARAM_DEFAULT_UPPER_BOUND = 1000;
 
     /**
-     * Значение по умолчанию величины изменения параметра постоянной стоимости в процессе кросс-валидации
-     */
-    public static final double CONSTANT_COST_PARAM_DEFAULT_STEP_SIZE = 1;
-
-    /**
      * Минимально допустимое значение параметра постоянной стоимости
      */
     public static final double CONSTANT_COST_PARAM_MIN_VALUE
@@ -46,6 +41,21 @@ public interface CrossValidatorParameterFactory {
      */
     public static final double CONSTANT_COST_PARAM_MAX_VALUE
             = IntervalClassifierParameterFactory.CONSTANT_COST_PARAM_MAX_VALUE;
+
+    /**
+     * Значение по умолчанию величины изменения параметра постоянной стоимости в процессе кросс-валидации
+     */
+    public static final double CONSTANT_COST_PARAM_DEFAULT_STEP_SIZE = 1;
+
+    /**
+     * Минимально допустимое значение величины изменения параметра постоянной стоимости в процессе кросс-валидации
+     */
+    public static final double CONSTANT_COST_PARAM_STEP_SIZE_MIN = 1;
+
+    /**
+     * Максимально допустимое значение величины изменения параметра постоянной стоимости в процессе кросс-валидации
+     */
+    public static final double CONSTANT_COST_PARAM_STEP_SIZE_MAX = CONSTANT_COST_PARAM_MAX_VALUE;
 
     //-------------------------------------------------------------------------
 
@@ -63,17 +73,12 @@ public interface CrossValidatorParameterFactory {
     /**
      * Значение по умолчанию нижней границы интервального значения параметра Гауссова ядра
      */
-    public static final double GAUSSIAN_KERNEL_PARAM_DEFAULT_LOWER_BOUND = 1;
+    public static final double GAUSSIAN_KERNEL_PARAM_DEFAULT_LOWER_BOUND = 0.001;
 
     /**
      * Значение по умолчанию верхней границы интервального значения параметра Гауссова ядра
      */
-    public static final double GAUSSIAN_KERNEL_PARAM_DEFAULT_UPPER_BOUND = 1000;
-
-    /**
-     * Значение по умолчанию величины изменения параметра Гауссова ядра в процессе кросс-валидации
-     */
-    public static final double GAUSSIAN_KERNEL_PARAM_DEFAULT_STEP_SIZE = 1;
+    public static final double GAUSSIAN_KERNEL_PARAM_DEFAULT_UPPER_BOUND = 10;
 
     /**
      * Минимально допустимое значение параметра Гауссова ядра
@@ -86,6 +91,21 @@ public interface CrossValidatorParameterFactory {
      */
     public static final double GAUSSIAN_KERNEL_PARAM_MAX_VALUE
             = IntervalClassifierParameterFactory.GAUSSIAN_KERNEL_PARAM_MAX_VALUE;
+
+    /**
+     * Значение по умолчанию величины изменения параметра Гауссова ядра в процессе кросс-валидации
+     */
+    public static final double GAUSSIAN_KERNEL_PARAM_DEFAULT_STEP_SIZE = 0.05;
+
+    /**
+     * Максимально допустимое значение величины изменения параметра Гауссова ядра в процессе кросс-валидации
+     */
+    public static final double GAUSSIAN_KERNEL_PARAM_STEP_SIZE_MIN = 0.0000001;
+
+    /**
+     * Максимально допустимое значение величины изменения параметра Гауссова ядра в процессе кросс-валидации
+     */
+    public static final double GAUSSIAN_KERNEL_PARAM_STEP_SIZE_MAX = GAUSSIAN_KERNEL_PARAM_MAX_VALUE;
 
     //-------------------------------------------------------------------------
 
@@ -110,12 +130,6 @@ public interface CrossValidatorParameterFactory {
     public static final int SAMPLES_TO_GENERATE_COUNT_DEFAULT_UPPER_BOUND = Integer.MAX_VALUE;
 
     /**
-     * Значение по умолчанию величины изменения параметра, задающего количество генерируемых выборок,
-     * в процессе кросс-валидации
-     */
-    public static final int SAMPLES_TO_GENERATE_COUNT_DEFAULT_STEP_SIZE = 1;
-
-    /**
      * Минимально допустимое значение параметра, задающего количество генерируемых выборок
      */
     public static final int SAMPLES_TO_GENERATE_COUNT_MIN = 1;
@@ -124,6 +138,24 @@ public interface CrossValidatorParameterFactory {
      * Максимально допустимое значение параметра, задающего количество генерируемых выборок
      */
     public static final int SAMPLES_TO_GENERATE_COUNT_MAX = Integer.MAX_VALUE;
+
+    /**
+     * Значение по умолчанию величины изменения параметра, задающего количество генерируемых выборок,
+     * в процессе кросс-валидации
+     */
+    public static final int SAMPLES_TO_GENERATE_COUNT_DEFAULT_STEP_SIZE = 1;
+
+    /**
+     * Минимально допустимое значение величины изменения параметра, задающего количество генерируемых выборок,
+     * в процессе кросс-валидации
+     */
+    public static final int SAMPLES_TO_GENERATE_COUNT_STEP_SIZE_MIN = 1;
+
+    /**
+     * Максимально допустимое значение величины изменения параметра, задающего количество генерируемых выборок,
+     * в процессе кросс-валидации
+     */
+    public static final int SAMPLES_TO_GENERATE_COUNT_STEP_SIZE_MAX = SAMPLES_TO_GENERATE_COUNT_MAX;
 
     //-------------------------------------------------------------------------
 
@@ -148,12 +180,6 @@ public interface CrossValidatorParameterFactory {
     public static final int SAMPLE_SIZE_DEFAULT_UPPER_BOUND = Short.MAX_VALUE;
 
     /**
-     * Значение по умолчанию величины изменения параметра, задающего количество объектов в генерируемой выборке,
-     * в процессе кросс-валидации
-     */
-    public static final int SAMPLE_SIZE_DEFAULT_STEP_SIZE = 2;
-
-    /**
      * Минимально допустимое значение параметра, задающего количество объектов в генерируемой выборке.
      * Оно должно удовлетворять следующим условиям:
      * 1) В каждой выборке должно присутствовать объектов, принадлежащих не менее 2-м классам
@@ -166,6 +192,24 @@ public interface CrossValidatorParameterFactory {
      * Максимально допустимое значение параметра, задающего количество объектов в генерируемой выборке
      */
     public static final int SAMPLE_SIZE_MAX = Integer.MAX_VALUE;
+
+    /**
+     * Значение по умолчанию величины изменения параметра, задающего количество объектов в генерируемой выборке,
+     * в процессе кросс-валидации
+     */
+    public static final int SAMPLE_SIZE_DEFAULT_STEP_SIZE = 2;
+
+    /**
+     * Минимально допустимое значение величины изменения параметра, задающего количество объектов в генерируемой выборке,
+     * в процессе кросс-валидации
+     */
+    public static final int SAMPLE_SIZE_STEP_SIZE_MIN = 2;
+
+    /**
+     * Минимально допустимое значение величины изменения параметра, задающего количество объектов в генерируемой выборке,
+     * в процессе кросс-валидации
+     */
+    public static final int SAMPLE_SIZE_STEP_SIZE_MAX = SAMPLE_SIZE_MAX;
 
     //-------------------------------------------------------------------------
 
@@ -192,12 +236,6 @@ public interface CrossValidatorParameterFactory {
     public static final int TRAINING_TESTING_SETS_SIZE_RATIO_DEFAULT_UPPER_BOUND = 100;
 
     /**
-     * Значение по умолчанию величины изменения параметра, задающего соотношение количества объектов,
-     * входящих в обучающей и тестирующей выборках, в процессе кросс-валидации
-     */
-    public static final int TRAINING_TESTING_SETS_SIZE_RATIO_DEFAULT_STEP_SIZE = 1;
-
-    /**
      * Минимально допустимое значение параметра, задающего соотношение количества объектов, входящих в обучающей
      * и тестирующей выборкахе
      */
@@ -208,6 +246,24 @@ public interface CrossValidatorParameterFactory {
      * и тестирующей выборках
      */
     public static final int TRAINING_TESTING_SETS_SIZE_RATIO_MAX = 100;
+
+    /**
+     * Значение по умолчанию величины изменения параметра, задающего соотношение количества объектов,
+     * входящих в обучающей и тестирующей выборках, в процессе кросс-валидации
+     */
+    public static final int TRAINING_TESTING_SETS_SIZE_RATIO_DEFAULT_STEP_SIZE = 1;
+
+    /**
+     * Минимальное допустимое величины изменения параметра, задающего соотношение количества объектов,
+     * входящих в обучающей и тестирующей выборках, в процессе кросс-валидации
+     */
+    public static final int TRAINING_TESTING_SETS_SIZE_RATIO_STEP_SIZE_MIN = 1;
+
+    /**
+     * Максимально допустимое величины изменения параметра, задающего соотношение количества объектов,
+     * входящих в обучающей и тестирующей выборках, в процессе кросс-валидации
+     */
+    public static final int TRAINING_TESTING_SETS_SIZE_RATIO_STEP_SIZE_MAX = 50;
 
     //-------------------------------------------------------------------------
 
@@ -234,12 +290,6 @@ public interface CrossValidatorParameterFactory {
     public static final int PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_DEFAULT_UPPER_BOUND = 100;
 
     /**
-     * Значение по умолчанию величины изменения параметра, задающего соотношение количества точных
-     * и интервальных экспертных оценок, в процессе кросс-валидации
-     */
-    public static final int PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_DEFAULT_STEP_SIZE = 1;
-
-    /**
      * Минимально допустимое значение параметра, задающего соотношение количества точных и интервальных экспертных оценок
      */
     public static final int PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_MIN = 0;
@@ -248,6 +298,24 @@ public interface CrossValidatorParameterFactory {
      * Максимально допустимое значение параметра, задающего соотношение количества точных и интервальных экспертных оценок
      */
     public static final int PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_MAX = 100;
+
+    /**
+     * Значение по умолчанию величины изменения параметра, задающего соотношение количества точных
+     * и интервальных экспертных оценок, в процессе кросс-валидации
+     */
+    public static final int PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_DEFAULT_STEP_SIZE = 1;
+
+    /**
+     * Минимально допустимое значение величины изменения параметра, задающего соотношение количества точных
+     * и интервальных экспертных оценок, в процессе кросс-валидации
+     */
+    public static final int PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_STEP_SIZE_MIN = 1;
+
+    /**
+     * Максимально допустимое значение величины изменения параметра, задающего соотношение количества точных
+     * и интервальных экспертных оценок, в процессе кросс-валидации
+     */
+    public static final int PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_STEP_SIZE_MAX = 50;
 
     //-------------------------------------------------------------------------
 
@@ -261,16 +329,19 @@ public interface CrossValidatorParameterFactory {
     /**
      * Создание параметра постоянной стоимости с заданным значением
      *
-     * @param value      значение параметра
-     * @param lowerBound значение нижней границы интервального значения параметра
-     * @param upperBound значение верхней границы интервального значения параметра
-     * @param stepSize   величина изменения значения параметра в процессе кросс-валидации
+     * @param value       значение параметра
+     * @param lowerBound  значение нижней границы интервального значения параметра
+     * @param upperBound  значение верхней границы интервального значения параметра
+     * @param stepSize    величина изменения значения параметра в процессе кросс-валидации
+     * @param stepSizeMin минимально допустимая величина изменения значения параметра в процессе кросс-валидации
+     * @param stepSizeMax максимально допустимая величина изменения значения параметра в процессе кросс-валидации
      * @return параметр средства кросс-валидации
      * @throws IllegalArgumentException если заданное значение параметра меньше минимально допустимого
      *                                  или больше максимально допустимого
      */
     CrossValidatorParameter<Double> constantCostParameter(double value, double lowerBound,
-                                                          double upperBound, double stepSize);
+                                                          double upperBound, double stepSize,
+                                                          double stepSizeMin, double stepSizeMax);
 
     //-------------------------------------------------------------------------
 
@@ -284,16 +355,19 @@ public interface CrossValidatorParameterFactory {
     /**
      * Создание параметра Гауссова ядра с заданным значением
      *
-     * @param value      значение параметра
-     * @param lowerBound значение нижней границы интервального значения параметра
-     * @param upperBound значение верхней границы интервального значения параметра
-     * @param stepSize   величина изменения значения параметра в процессе кросс-валидации
+     * @param value       значение параметра
+     * @param lowerBound  значение нижней границы интервального значения параметра
+     * @param upperBound  значение верхней границы интервального значения параметра
+     * @param stepSize    величина изменения значения параметра в процессе кросс-валидации
+     * @param stepSizeMin минимально допустимая величина изменения значения параметра в процессе кросс-валидации
+     * @param stepSizeMax максимально допустимая величина изменения значения параметра в процессе кросс-валидации
      * @return параметр средства кросс-валидации
      * @throws IllegalArgumentException если заданное значение параметра меньше минимально допустимого
      *                                  или больше максимально допустимого
      */
     CrossValidatorParameter<Double> gaussianKernelParameter(double value, double lowerBound,
-                                                            double upperBound, double stepSize);
+                                                            double upperBound, double stepSize,
+                                                            double stepSizeMin, double stepSizeMax);
 
     //-------------------------------------------------------------------------
 
@@ -307,16 +381,19 @@ public interface CrossValidatorParameterFactory {
     /**
      * Создание параметра, задающего количество генерируемых выборок, с заданным значением
      *
-     * @param value      значение параметра
-     * @param lowerBound значение нижней границы интервального значения параметра
-     * @param upperBound значение верхней границы интервального значения параметра
-     * @param stepSize   величина изменения значения параметра в процессе кросс-валидации
+     * @param value       значение параметра
+     * @param lowerBound  значение нижней границы интервального значения параметра
+     * @param upperBound  значение верхней границы интервального значения параметра
+     * @param stepSize    величина изменения значения параметра в процессе кросс-валидации
+     * @param stepSizeMin минимально допустимая величина изменения значения параметра в процессе кросс-валидации
+     * @param stepSizeMax максимально допустимая величина изменения значения параметра в процессе кросс-валидации
      * @return параметр средства кросс-валидации
      * @throws IllegalArgumentException если заданное значение параметра меньше минимально допустимого
      *                                  или больше максимально допустимого
      */
     CrossValidatorParameter<Integer> samplesToGenerateCount(int value, int lowerBound,
-                                                            int upperBound, int stepSize);
+                                                            int upperBound, int stepSize,
+                                                            int stepSizeMin, int stepSizeMax);
 
     //-------------------------------------------------------------------------
 
@@ -330,16 +407,19 @@ public interface CrossValidatorParameterFactory {
     /**
      * Создание параметра, задающего количество объектов в генерируемой выборке, с заданным значением
      *
-     * @param value      значение параметра
-     * @param lowerBound значение нижней границы интервального значения параметра
-     * @param upperBound значение верхней границы интервального значения параметра
-     * @param stepSize   величина изменения значения параметра в процессе кросс-валидации
+     * @param value       значение параметра
+     * @param lowerBound  значение нижней границы интервального значения параметра
+     * @param upperBound  значение верхней границы интервального значения параметра
+     * @param stepSize    величина изменения значения параметра в процессе кросс-валидации
+     * @param stepSizeMin минимально допустимая величина изменения значения параметра в процессе кросс-валидации
+     * @param stepSizeMax максимально допустимая величина изменения значения параметра в процессе кросс-валидации
      * @return параметр средства кросс-валидации
      * @throws IllegalArgumentException если заданное значение параметра меньше минимально допустимого
      *                                  или больше максимально допустимого
      */
     CrossValidatorParameter<Integer> sampleSize(int value, int lowerBound,
-                                                int upperBound, int stepSize);
+                                                int upperBound, int stepSize,
+                                                int stepSizeMin, int stepSizeMax);
 
     //-------------------------------------------------------------------------
 
@@ -365,16 +445,19 @@ public interface CrossValidatorParameterFactory {
      * 100 - тестирующая выборка имеет минимально допустимое количество объектов,
      * равное <code>UnclassifiedData.MIN_NUMBER_OF_CLASSES</code>;
      *
-     * @param value      значение параметра
-     * @param lowerBound значение нижней границы интервального значения параметра
-     * @param upperBound значение верхней границы интервального значения параметра
-     * @param stepSize   величина изменения значения параметра в процессе кросс-валидации
+     * @param value       значение параметра
+     * @param lowerBound  значение нижней границы интервального значения параметра
+     * @param upperBound  значение верхней границы интервального значения параметра
+     * @param stepSize    величина изменения значения параметра в процессе кросс-валидации
+     * @param stepSizeMin минимально допустимая величина изменения значения параметра в процессе кросс-валидации
+     * @param stepSizeMax максимально допустимая величина изменения значения параметра в процессе кросс-валидации
      * @return параметр средства кросс-валидации
      * @throws IllegalArgumentException если заданное значение параметра меньше минимально допустимого
      *                                  или больше максимально допустимого
      */
     CrossValidatorParameter<Integer> trainingTestingSetsSizeRatio(int value, int lowerBound,
-                                                                  int upperBound, int stepSize);
+                                                                  int upperBound, int stepSize,
+                                                                  int stepSizeMin, int stepSizeMax);
 
     //-------------------------------------------------------------------------
 
@@ -389,21 +472,25 @@ public interface CrossValidatorParameterFactory {
     /**
      * Создание параметра, задающего соотношение количества точных и интервальных экспертных оценок, с заданным значением
      *
-     * @param value      значение параметра
-     * @param lowerBound значение нижней границы интервального значения параметра
-     * @param upperBound значение верхней границы интервального значения параметра
-     * @param stepSize   величина изменения значения параметра в процессе кросс-валидации
+     * @param value       значение параметра
+     * @param lowerBound  значение нижней границы интервального значения параметра
+     * @param upperBound  значение верхней границы интервального значения параметра
+     * @param stepSize    величина изменения значения параметра в процессе кросс-валидации
+     * @param stepSizeMin минимально допустимая величина изменения значения параметра в процессе кросс-валидации
+     * @param stepSizeMax максимально допустимая величина изменения значения параметра в процессе кросс-валидации
      * @return параметр средства кросс-валидации
      * @throws IllegalArgumentException если заданное значение параметра меньше минимально допустимого
      *                                  или больше максимально допустимого
      */
     CrossValidatorParameter<Integer> preciseIntervalJudgmentsCountRatio(int value, int lowerBound,
-                                                                        int upperBound, int stepSize);
+                                                                        int upperBound, int stepSize,
+                                                                        int stepSizeMin, int stepSizeMax);
 
     //-------------------------------------------------------------------------
 
     /**
      * Получение множества параметров средства кросс-валидации классификатора со значениями по умолчанию
+     *
      * @return непустое множество параметров средства кросс-валидации классификатора
      */
     Set<CrossValidatorParameter<?>> defaultValues();

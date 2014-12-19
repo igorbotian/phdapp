@@ -23,7 +23,8 @@ class DefaultCrossValidatorParameterImpl<T> extends AbstractClassifierParameterF
     private final MutableClassifierParameter<T> stepSize;
 
     public DefaultCrossValidatorParameterImpl(String name, Class<T> valueClass, T value, T lowerBound, T upperBound,
-                                              T minValue, T maxValue, T stepSize, Comparator<T> comparator) {
+                                              T minValue, T maxValue, T stepSize, T stepSizeMin, T stepSizeMax,
+                                              Comparator<T> comparator) {
         this.name = Objects.requireNonNull(name);
 
         if (name.isEmpty()) {
@@ -31,9 +32,12 @@ class DefaultCrossValidatorParameterImpl<T> extends AbstractClassifierParameterF
         }
 
         this.value = newMutableParameter(name, valueClass, value, minValue, maxValue, comparator);
-        this.lowerBound = newMutableParameter(name + LOWER_BOUND_SUFFIX, valueClass, lowerBound, minValue, maxValue, comparator);
-        this.upperBound = newMutableParameter(name + UPPER_BOUND_SUFFIX, valueClass, upperBound, minValue, maxValue, comparator);
-        this.stepSize = newMutableParameter(name + STEP_SIZE_SUFFIX, valueClass, stepSize, minValue, maxValue, comparator);
+        this.lowerBound
+                = newMutableParameter(name + LOWER_BOUND_SUFFIX, valueClass, lowerBound, minValue, maxValue, comparator);
+        this.upperBound
+                = newMutableParameter(name + UPPER_BOUND_SUFFIX, valueClass, upperBound, minValue, maxValue, comparator);
+        this.stepSize
+                = newMutableParameter(name + STEP_SIZE_SUFFIX, valueClass, stepSize, stepSizeMin, stepSizeMax, comparator);
     }
 
     @Override

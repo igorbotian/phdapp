@@ -28,8 +28,10 @@ import javax.swing.*;
 public class DoubleRangeSpinner extends NumberRangeSpinner<Double> {
 
     public DoubleRangeSpinner(String description, double lowerValue, double lowerMin, double lowerMax,
-                              double upperValue, double upperMin, double upperMax, double stepSize) {
+                              double upperValue, double upperMin, double upperMax,
+                              double stepSize, double stepSizeMin, double stepSizeMax) {
         super(description, new SpinnerNumberModel(lowerValue, lowerMin, lowerMax, stepSize),
-                new SpinnerNumberModel(upperValue, upperMin, upperMax, stepSize));
+                new SpinnerNumberModel(upperValue, upperMin, upperMax, stepSize),
+                new SpinnerNumberModel(stepSize, stepSizeMin, stepSizeMax, stepSize));
     }
 }

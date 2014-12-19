@@ -31,14 +31,19 @@ public abstract class NumberRangeSpinner <T extends Number> extends JPanel {
     private JLabel label;
     private JSpinner minSpinner;
     private JSpinner maxSpinner;
+    private JSpinner stepSizeSpinner;
 
-    public NumberRangeSpinner(String description, SpinnerModel minSpinnerModel, SpinnerModel maxSpinnerModel) {
+    public NumberRangeSpinner(String description, SpinnerModel minSpinnerModel,
+                              SpinnerModel maxSpinnerModel, SpinnerModel stepSizeSpinnerModel) {
+
         this.label = new JLabel(description + ":");
         this.minSpinner = new JSpinner(Objects.requireNonNull(minSpinnerModel));
         this.maxSpinner = new JSpinner(Objects.requireNonNull(maxSpinnerModel));
+        this.stepSizeSpinner = new JSpinner(Objects.requireNonNull(stepSizeSpinnerModel));
+
+        // TODO check bounds
 
         layoutComponents();
-        initListeners();
     }
 
     private void layoutComponents() {
@@ -47,35 +52,85 @@ public abstract class NumberRangeSpinner <T extends Number> extends JPanel {
         add(minSpinner);
         add(new JLabel("..."));
         add(maxSpinner);
+        add(new JLabel("<html>&#916;:</html>"));
+        add(stepSizeSpinner);
     }
 
-    private void initListeners() {
-        // TODO check min/max
-    }
-
+    /**
+     * Получение значения нижней границы интервального значения параметра
+     * @return значение нижней границы интервального значения параметра
+     */
     @SuppressWarnings("unchecked")
     public T getMinValue() {
         return (T) minSpinner.getValue();
     }
 
+    /**
+     * Получение значения верхней границы интервального значения параметра
+     * @return значение верхней границы интервального значения параметра
+     */
     @SuppressWarnings("unchecked")
     public T getMaxValue() {
         return (T) maxSpinner.getValue();
     }
 
+    /**
+     * Получение шага изменения значения параметра
+     * @return шага измненения значения параметра
+     */
+    @SuppressWarnings("unchecked")
+    public T getStepSize() {
+        return (T) stepSizeSpinner.getValue();
+    }
+
+    /**
+     * Задание значения нижней границы интервального значения параметра
+     * @param value новое значение нижней границы интервального значения параметра
+     */
     public void setMinValue(T value) {
         minSpinner.setValue(value);
     }
 
+    /**
+     * Задание значения верхней границы интервального значения параметра
+     * @param value новое значение верхней границы интервального значения параметра
+     */
     public void setMaxValue(T value) {
         maxSpinner.setValue(value);
     }
 
-    public void addMinValueChangeListener(ChangeListener listener) {
-        minSpinner.addChangeListener(listener);
+    /**
+     * Задание шага изменения значения параметра
+     * @param value новое значение шага изменения значения параметра
+     */
+    public void setStepSize(T value) {
+        stepSizeSpinner.setValue(value);
     }
 
+    /**
+     * Добавление "слушателя" изменения значения нижней границы интервального значения параметра
+     * @param listener "слушатель" типа <code>ChangeListener</code>
+     * @throws NullPointerException если "слушатель" не задан
+     */
+    public void addMinValueChangeListener(ChangeListener listener) {
+        minSpinner.addChangeListener(Objects.requireNonNull(listener));
+    }
+
+    /**
+     * Добавление "слушателя" изменения значения верхней границы интервального значения параметра
+     * @param listener "слушатель" типа <code>ChangeListener</code>
+     * @throws NullPointerException если "слушатель" не задан
+     */
     public void addMaxValueChangeListener(ChangeListener listener) {
-        maxSpinner.addChangeListener(listener);
+        maxSpinner.addChangeListener(Objects.requireNonNull(listener));
+    }
+
+    /**
+     * Добавление "слушателя" изменения значения шага изменения значения параметра
+     * @param listener "слушатель" типа <code>ChangeListener</code>
+     * @throws NullPointerException если "слушатель" не задан
+     */
+    public void addStepSizeChangeListener(ChangeListener listener) {
+        stepSizeSpinner.addChangeListener(Objects.requireNonNull(listener));
     }
 }
