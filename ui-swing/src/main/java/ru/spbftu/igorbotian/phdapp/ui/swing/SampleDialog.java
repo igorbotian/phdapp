@@ -46,11 +46,6 @@ public class SampleDialog extends PhDAppDialog {
         super(owner);
 
         this.canvasDirector = uiHelper.sampleCanvasDirector();
-        int numberOfPoints = uiHelper.widgets().preciseSampleSizeSpinner().getValue();
-
-        if (canvasDirector.numberOfPoints() != numberOfPoints) {
-            canvasDirector.regeneratePoints(numberOfPoints);
-        }
 
         initComponents();
         layoutComponents();

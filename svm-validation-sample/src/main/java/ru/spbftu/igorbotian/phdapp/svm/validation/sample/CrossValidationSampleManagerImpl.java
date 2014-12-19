@@ -3,6 +3,7 @@ package ru.spbftu.igorbotian.phdapp.svm.validation.sample;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import ru.spbftu.igorbotian.phdapp.common.*;
+import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidatorParameterFactory;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.MathDataFactory;
 
@@ -27,9 +28,11 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
     private CrossValidationSampleGenerator sampleGenerator;
 
     @Inject
-    public CrossValidationSampleManagerImpl(DataFactory dataFactory, MathDataFactory mathDataFactory) {
+    public CrossValidationSampleManagerImpl(DataFactory dataFactory, MathDataFactory mathDataFactory,
+                                            ApplicationConfiguration appConfig) {
         this.dataFactory = Objects.requireNonNull(dataFactory);
-        sampleGenerator = new CrossValidationSampleGeneratorImpl(dataFactory, Objects.requireNonNull(mathDataFactory));
+        sampleGenerator = new CrossValidationSampleGeneratorImpl(dataFactory,
+                Objects.requireNonNull(mathDataFactory), Objects.requireNonNull(appConfig));
     }
 
     @Override
@@ -43,8 +46,7 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
     public ClassifiedData generateSample(int sampleSize) throws CrossValidationSampleException {
         checkSampleSize(sampleSize);
 
-        int eachGroupSize = (sampleSize % 2 == 0) ? sampleSize / 2 : (sampleSize + 1) / 2;
-        sampleGenerator.regeneratePoints(eachGroupSize);
+        sampleGenerator.regeneratePoints(sampleSize);
 
         Set<DataClass> dataClasses = Stream.of(
                 sampleGenerator.firstSupportingPoint().dataClass(),
@@ -93,7 +95,7 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
         int firstSetSize = (int) Math.ceil(sample.objects().size() * ratio / 100);
         int secondSetSize = sample.objects().size() - firstSetSize;
 
-        if(secondSetSize < UnclassifiedData.MIN_NUMBER_OF_CLASSES) {
+        if (secondSetSize < UnclassifiedData.MIN_NUMBER_OF_CLASSES) {
             // проверка на минимально допустимый размер тестирующей/обучающей выборки
             secondSetSize = UnclassifiedData.MIN_NUMBER_OF_CLASSES;
             firstSetSize = sample.objects().size() - secondSetSize;
@@ -168,7 +170,7 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
      * заданного множества объектов
      */
     private Pair<ClassifiedData, ClassifiedData> divideSampleIntoTwoGroups(ClassifiedData sample,
-       Pair<Set<ClassifiedObject>, Set<ClassifiedObject>> smallestValidSets, int firstGroupSize)
+                                                                           Pair<Set<ClassifiedObject>, Set<ClassifiedObject>> smallestValidSets, int firstGroupSize)
             throws CrossValidationSampleException {
 
         Set<ClassifiedObject> firstGroup = new HashSet<>(smallestValidSets.first);
@@ -177,24 +179,24 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
         int i = 0;
 
         // фомирование первой группы
-        while(i < firstGroupSize) {
+        while (i < firstGroupSize) {
             assert (it.hasNext());
             ClassifiedObject obj = it.next();
 
-            if(smallestValidSets.first.contains(obj)) {
+            if (smallestValidSets.first.contains(obj)) {
                 i++; // первая группа уже содержит этот объект
-            } else if(!smallestValidSets.second.contains(obj)) {
+            } else if (!smallestValidSets.second.contains(obj)) {
                 firstGroup.add(obj);
                 i++;
             }
         }
 
         // фомирование второй группы
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             assert (it.hasNext());
             ClassifiedObject obj = it.next();
 
-            if(!smallestValidSets.first.contains(obj)
+            if (!smallestValidSets.first.contains(obj)
                     && !smallestValidSets.second.contains(obj)) {
                 secondGroup.add(obj);
             }
@@ -226,9 +228,9 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
         Map<DataClass, LinkedList<ClassifiedObject>> smallestGroups = extractSmallestGroups(sampleItemsByClasses);
         boolean putNextObjectToFirstGroup = true;
 
-        for(DataClass clazz : smallestGroups.keySet()) {
-            for(ClassifiedObject obj : smallestGroups.get(clazz)) {
-                if(putNextObjectToFirstGroup) {
+        for (DataClass clazz : smallestGroups.keySet()) {
+            for (ClassifiedObject obj : smallestGroups.get(clazz)) {
+                if (putNextObjectToFirstGroup) {
                     firstGroup.add(obj);
                 } else {
                     secondGroup.add(obj);
@@ -252,14 +254,14 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
         Iterator<DataClass> classIt = sampleItemsByClasses.keySet().iterator();
         int i = 0;
 
-        while(i < CrossValidatorParameterFactory.SAMPLE_SIZE_MIN) {
+        while (i < CrossValidatorParameterFactory.SAMPLE_SIZE_MIN) {
             Iterator<ClassifiedObject> objIt = sampleItemsByClasses.get(classIt.next()).iterator();
             int j = 0;
 
-            while(j < UnclassifiedData.MIN_NUMBER_OF_CLASSES) {
-                if(objIt.hasNext()) {
+            while (j < UnclassifiedData.MIN_NUMBER_OF_CLASSES) {
+                if (objIt.hasNext()) {
                     ClassifiedObject obj = objIt.next();
-                    if(!smallestGroups.containsKey(obj.dataClass())) {
+                    if (!smallestGroups.containsKey(obj.dataClass())) {
                         smallestGroups.put(obj.dataClass(), new LinkedList<>());
                     }
 

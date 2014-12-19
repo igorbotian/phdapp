@@ -93,6 +93,6 @@ class CrossValidationSampleCanvasDirectorImpl implements CrossValidationSampleCa
 
     @Override
     public void regeneratePoints(int count) {
-        sampleGenerator.regeneratePoints(count / 2);
+        sampleGenerator.regeneratePoints(count);
     }
 }

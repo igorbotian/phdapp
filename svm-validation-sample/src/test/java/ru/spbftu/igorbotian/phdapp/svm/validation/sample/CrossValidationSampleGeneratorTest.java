@@ -20,13 +20,17 @@ package ru.spbftu.igorbotian.phdapp.svm.validation.sample;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import ru.spbftu.igorbotian.phdapp.common.DataModule;
+import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
+import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfigurationModule;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.Line;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.Point;
 
+import java.nio.file.Paths;
 import java.util.Set;
 import java.util.function.BiFunction;
 
@@ -42,6 +46,7 @@ public class CrossValidationSampleGeneratorTest {
     public void setUp() {
         Injector injector = Guice.createInjector(
                 new DataModule(),
+                new ApplicationConfigurationModule(Paths.get(".")),
                 new SvmValidationSampleManagementModule()
         );
 
@@ -53,8 +58,8 @@ public class CrossValidationSampleGeneratorTest {
         for (int count : NUMBERS_OF_POINTS) {
             sampleGenerator.regeneratePoints(count);
             Assert.assertEquals(count, sampleGenerator.numberOfPoints());
-            Assert.assertEquals(count, sampleGenerator.firstSetOfPoints().size());
-            Assert.assertEquals(count, sampleGenerator.secondSetOfPoints().size());
+            Assert.assertEquals(count / 2, sampleGenerator.firstSetOfPoints().size());
+            Assert.assertEquals(count / 2, sampleGenerator.secondSetOfPoints().size());
         }
     }
 

@@ -9,8 +9,10 @@ import ru.spbftu.igorbotian.phdapp.common.ClassifiedData;
 import ru.spbftu.igorbotian.phdapp.common.ClassifiedObject;
 import ru.spbftu.igorbotian.phdapp.common.DataModule;
 import ru.spbftu.igorbotian.phdapp.common.Pair;
+import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfigurationModule;
 import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidatorParameterFactory;
 
+import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,6 +30,7 @@ public class CrossValidationSampleManagerTest {
     public void setUp() {
         Injector injector = Guice.createInjector(
                 new DataModule(),
+                new ApplicationConfigurationModule(Paths.get(".")),
                 new SvmValidationSampleManagementModule()
         );
         sampleManager = injector.getInstance(CrossValidationSampleManager.class);

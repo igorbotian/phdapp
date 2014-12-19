@@ -252,6 +252,7 @@ project(':svm-validation-sample') {
     dependencies {
         compile(
                 project(':common'),
+                project(':conf-app'),
                 project(':svm'),
                 project(':svm-interval'),
                 project(':svm-validation'),

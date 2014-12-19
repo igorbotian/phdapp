@@ -18,9 +18,10 @@
 
 package ru.spbftu.igorbotian.phdapp.svm.validation.sample;
 
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import ru.spbftu.igorbotian.phdapp.common.DataFactory;
+import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
+import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidatorParameterFactory;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.*;
 
 import java.util.Collections;
@@ -33,11 +34,6 @@ import java.util.Set;
  */
 @Singleton
 class CrossValidationSampleGeneratorImpl implements CrossValidationSampleGenerator {
-
-    /**
-     * Количество случайных точек по умолчанию, которое необходимо сгенерировать вокруг каждой опорной точки
-     */
-    private static final int DEFAULT_POINTS_COUNT = 50;
 
     /**
      * Расстояние между двумя опорными точками
@@ -84,10 +80,11 @@ class CrossValidationSampleGeneratorImpl implements CrossValidationSampleGenerat
      */
     private Set<Point> secondSet = new HashSet<>();
 
-    @Inject
-    public CrossValidationSampleGeneratorImpl(DataFactory dataFactory, MathDataFactory mathDataFactory) {
+    public CrossValidationSampleGeneratorImpl(DataFactory dataFactory, MathDataFactory mathDataFactory,
+                                              ApplicationConfiguration appConfig) {
         Objects.requireNonNull(dataFactory);
         Objects.requireNonNull(mathDataFactory);
+        Objects.requireNonNull(appConfig);
 
         this.mathDataFactory = mathDataFactory;
 
@@ -100,8 +97,15 @@ class CrossValidationSampleGeneratorImpl implements CrossValidationSampleGenerat
         ).toCartesian();
 
         separatingLine = determineSeparatingLine(firstPoint, secondPoint);
+        regeneratePoints(numberOfPointsToGenerate(appConfig));
+    }
 
-        regeneratePoints(DEFAULT_POINTS_COUNT);
+    private int numberOfPointsToGenerate(ApplicationConfiguration appConfig) {
+        if (appConfig.hasParam(CrossValidatorParameterFactory.SAMPLE_SIZE_ID)) {
+            return appConfig.getInt(CrossValidatorParameterFactory.SAMPLE_SIZE_ID);
+        }
+
+        return CrossValidatorParameterFactory.SAMPLE_SIZE_DEFAULT_VALUE;
     }
 
     /*
@@ -123,10 +127,14 @@ class CrossValidationSampleGeneratorImpl implements CrossValidationSampleGenerat
 
     @Override
     public synchronized void regeneratePoints(int count) {
+        if(count % 2 != 0) {
+            count++;
+        }
+
         secondSet.clear();
         firstSet.clear();
-        firstSet = generateRandomPoints(count, firstPoint);
-        secondSet = generateRandomPoints(count, secondPoint);
+        firstSet = generateRandomPoints(count / 2, firstPoint);
+        secondSet = generateRandomPoints(count / 2, secondPoint);
         numberOfPoints = count;
     }
 
