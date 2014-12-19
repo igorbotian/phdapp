@@ -7,6 +7,7 @@ import ru.spbftu.igorbotian.phdapp.utils.ShutdownHook;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
@@ -63,9 +64,28 @@ class ApplicationConfigurationImpl extends PropertiesBasedConfiguration implemen
             }
         }
 
-        CONF_FILE = configFolder.resolve(CONF_FILE_NAME);
+        CONF_FILE = resolveConfigFile(configFolder, CONF_FILE_NAME);
         LOGGER.info("Path to configuration file: " + CONF_FILE.toAbsolutePath().toString());
-        loadConfiguration();
+
+        if(Files.exists(CONF_FILE)) {
+            loadConfiguration();
+        } else{
+            LOGGER.info("Configuration file does not exist");
+        }
+    }
+
+    private Path resolveConfigFile(Path configFolder, String configFileName) {
+        Path configFile = configFolder.resolve(configFileName);
+
+        try {
+            if(Files.exists(configFile)) {
+                configFile = configFile.toRealPath(LinkOption.NOFOLLOW_LINKS);
+            }
+        } catch(IOException e) {
+            LOGGER.error("Failed to obtain a real configuration path", e);
+        }
+
+        return configFile;
     }
 
     @Override
