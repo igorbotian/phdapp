@@ -151,7 +151,7 @@ public interface CrossValidatorParameterFactory {
      * Значение по умолчанию величины изменения параметра, задающего количество объектов в генерируемой выборке,
      * в процессе кросс-валидации
      */
-    public static final int SAMPLE_SIZE_DEFAULT_STEP_SIZE = 1;
+    public static final int SAMPLE_SIZE_DEFAULT_STEP_SIZE = 2;
 
     /**
      * Минимально допустимое значение параметра, задающего количество объектов в генерируемой выборке.
