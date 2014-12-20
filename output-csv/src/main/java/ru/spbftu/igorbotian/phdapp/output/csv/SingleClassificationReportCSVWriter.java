@@ -19,6 +19,7 @@
 package ru.spbftu.igorbotian.phdapp.output.csv;
 
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
+import ru.spbftu.igorbotian.phdapp.svm.ClassifierParameter;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.SingleClassificationReport;
 
 import java.io.IOException;
@@ -32,11 +33,6 @@ import java.util.Objects;
  */
 class SingleClassificationReportCSVWriter implements ReportCSVWriter<SingleClassificationReport> {
 
-    private static final String SAMPLE_SIZE_LABEL = "sampleSize";
-    private static final String CONSTANT_COST_PARAMETER_LABEL = "constantCostParameter";
-    private static final String GAUSSIAN_KERNEL_PARAMETER_LABEL = "gaussianKernelParameter";
-    private static final String TRAINING_TESTING_SETS_SIZE_RATIO_LABEL = "trainingTestingSetsSizeRatio";
-    private static final String PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_LABEL = "preciseIntervalJudgmentsCountRatio";
     private static final String ACCURACY_LABEL = "accuracy";
     private static final String PRECISION_LABEL = "precision";
     private static final String RECALL_LABEL = "recall";
@@ -60,34 +56,56 @@ class SingleClassificationReportCSVWriter implements ReportCSVWriter<SingleClass
         CSVWriter csv = new CSVWriter(writer);
 
         if (includeHeader) {
-            writeHeaderTo(csv);
+            writeHeaderTo(report, csv);
         }
 
         writeContentsTo(report, csv);
     }
 
-    void writeHeaderTo(CSVWriter csv) throws IOException {
-        csv.writeLine(localization.getLabel(SAMPLE_SIZE_LABEL),
-                localization.getLabel(CONSTANT_COST_PARAMETER_LABEL),
-                localization.getLabel(GAUSSIAN_KERNEL_PARAMETER_LABEL),
-                localization.getLabel(TRAINING_TESTING_SETS_SIZE_RATIO_LABEL),
-                localization.getLabel(PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_LABEL),
-                localization.getLabel(ACCURACY_LABEL),
-                localization.getLabel(PRECISION_LABEL),
-                localization.getLabel(RECALL_LABEL)
-        );
+    void writeHeaderTo(SingleClassificationReport report, CSVWriter csv) throws IOException {
+        String[] headerItems = new String[report.classifierParameters().size() + report.crossValidatorParameters().size()];
+        int i = 0;
+
+        for(ClassifierParameter<?> param : report.classifierParameters()) {
+            headerItems[i] = localization.getLabel(param.name());
+            i++;
+        }
+
+        for(ClassifierParameter<?> param : report.classifierParameters()) {
+            headerItems[i] = localization.getLabel(param.name());
+            i++;
+        }
+
+        headerItems[i] = localization.getLabel(ACCURACY_LABEL);
+        i++;
+        headerItems[i] = localization.getLabel(PRECISION_LABEL);
+        i++;
+        headerItems[i] = localization.getLabel(RECALL_LABEL);
+
+        csv.writeLine(headerItems);
     }
 
     private void writeContentsTo(SingleClassificationReport report, CSVWriter csv) throws IOException {
-        csv.writeLine(
-                Integer.toString(report.sampleSize()),
-                Float.toString(report.constantCostParameter()),
-                Float.toString(report.gaussianKernelParameter()),
-                Float.toString(report.judgedSampleItemsRatio()),
-                Float.toString(report.preciseIntervalSampleItemsRatio()),
-                Float.toString(report.accuracy()),
-                Float.toString(report.precision()),
-                Float.toString(report.recall())
-        );
+        String[] lineItems = new String[report.classifierParameters().size()
+                + report.crossValidatorParameters().size() + 3 /* accuracy, precision, recall */];
+        int i = 0;
+
+        for(ClassifierParameter<?> param : report.classifierParameters()) {
+            lineItems[i] = param.value().toString();
+            i++;
+        }
+
+        for(ClassifierParameter<?> param : report.classifierParameters()) {
+            lineItems[i] = param.value().toString();
+            i++;
+        }
+
+        lineItems[i] = Float.toString(report.accuracy());
+        i++;
+        lineItems[i] = Float.toString(report.precision());
+        i++;
+        lineItems[i] = Float.toString(report.recall());
+
+        csv.writeLine(lineItems);
     }
 }

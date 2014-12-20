@@ -19,6 +19,8 @@
 package ru.spbftu.igorbotian.phdapp.output.summary;
 
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
+import ru.spbftu.igorbotian.phdapp.svm.ClassifierParameter;
+import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidatorParameter;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.SingleClassificationReport;
 
 import java.io.IOException;
@@ -32,11 +34,6 @@ import java.util.Objects;
  */
 class SingleClassificationReportSummaryWriterImpl implements ReportSummaryWriter<SingleClassificationReport> {
 
-    private static final String SAMPLE_SIZE_LABEL = "sampleSize";
-    private static final String CONSTANT_COST_PARAMETER_LABEL = "constantCostParameter";
-    private static final String GAUSSIAN_KERNEL_PARAMETER_LABEL = "gaussianKernelParameter";
-    private static final String TRAINING_TESTING_SETS_SIZE_RATIO_LABEL = "trainingTestingSetsSizeRatio";
-    private static final String PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_LABEL = "preciseIntervalJudgmentsCountRatio";
     private static final String ACCURACY_LABEL = "accuracy";
     private static final String PRECISION_LABEL = "precision";
     private static final String RECALL_LABEL = "recall";
@@ -58,12 +55,15 @@ class SingleClassificationReportSummaryWriterImpl implements ReportSummaryWriter
         Objects.requireNonNull(writer);
 
         SummaryWriter summary = new SummaryWriter(writer);
-        summary.writeItem(localization.getLabel(SAMPLE_SIZE_LABEL), report.sampleSize());
-        summary.writeItem(localization.getLabel(CONSTANT_COST_PARAMETER_LABEL), report.constantCostParameter());
-        summary.writeItem(localization.getLabel(GAUSSIAN_KERNEL_PARAMETER_LABEL), report.gaussianKernelParameter());
-        summary.writeItem(localization.getLabel(TRAINING_TESTING_SETS_SIZE_RATIO_LABEL), report.judgedSampleItemsRatio());
-        summary.writeItem(localization.getLabel(PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_LABEL),
-                report.preciseIntervalSampleItemsRatio());
+
+        for (ClassifierParameter<?> param : report.classifierParameters()) {
+            summary.writeItem(localization.getLabel(param.name()), param.value().toString());
+        }
+
+        for (CrossValidatorParameter<?> param : report.crossValidatorParameters()) {
+            summary.writeItem(localization.getLabel(param.name()), param.value().toString());
+        }
+
         summary.writeItem(localization.getLabel(ACCURACY_LABEL), report.accuracy());
         summary.writeItem(localization.getLabel(PRECISION_LABEL), report.precision());
         summary.writeItem(localization.getLabel(RECALL_LABEL), report.recall());

@@ -1,6 +1,10 @@
 package ru.spbftu.igorbotian.phdapp.svm.validation.report;
 
+import ru.spbftu.igorbotian.phdapp.svm.ClassifierParameter;
+import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidatorParameter;
+
 import java.util.List;
+import java.util.Set;
 
 /**
  * Реализация фабрики различных отчётов по работе классификатора
@@ -10,16 +14,12 @@ import java.util.List;
 class ReportFactoryImpl implements ReportFactory {
 
     @Override
-    public SingleClassificationReport newSingleClassificationReport(int sampleSize,
-                                                                    float constantCostParameter,
-                                                                    float gaussianKernelParameter,
-                                                                    float judgedSampleItemsRatio,
-                                                                    float preciseIntervalSampleItemsRatio,
+    public SingleClassificationReport newSingleClassificationReport(Set<? extends ClassifierParameter<?>> classifierParams,
+                                                                    Set<? extends CrossValidatorParameter<?>> crossValidatorParams,
                                                                     float accuracy,
                                                                     float precision,
                                                                     float recall) {
-        return new SingleClassificationReportImpl(sampleSize, constantCostParameter, gaussianKernelParameter,
-                judgedSampleItemsRatio, preciseIntervalSampleItemsRatio, accuracy, precision, recall);
+        return new SingleClassificationReportImpl(classifierParams, crossValidatorParams, accuracy, precision, recall);
     }
 
     @Override

@@ -1,46 +1,26 @@
 package ru.spbftu.igorbotian.phdapp.svm.validation.report;
 
+import ru.spbftu.igorbotian.phdapp.svm.ClassifierParameter;
+import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidatorParameter;
+
+import java.util.Set;
+
 /**
  * Отчёт, содержащий метрики по работе классификатора с заданными параметрами
  */
 public interface SingleClassificationReport extends Report {
 
     /**
-     * Получение количества элементов в выборке (уникальные элементы из обучающей и тестирующей выборки)
-     *
-     * @return положительное целое число
+     * Получение множества значений параметров классификатора, использовавшихся в процессе кросс-валидации
+     * @return множество значений параметров классификатора
      */
-    int sampleSize();
+    Set<? extends ClassifierParameter<?>> classifierParameters();
 
     /**
-     * Получение значения постоянного параметра "стоимости" <code>С</code>
-     *
-     * @return вещественное число
+     * Получение множества значений параметров кросс-валидатора, при которых происходила кросс-валидация
+     * @return множество значений параметров кросс-валидатора
      */
-    float constantCostParameter();
-
-    /**
-     * Получение значения параметра Гауссова ядра
-     *
-     * @return вещественное число
-     */
-    float gaussianKernelParameter();
-
-    /**
-     * Получение количества элементов выборки, входящих хотя бы в одно предпочтение
-     * (имеющих хотя бы одну экспертную оценку), выраженного в процентном соотношении
-     *
-     * @return вещественное число в диапазоне [0.0;1.0]
-     */
-    float judgedSampleItemsRatio();
-
-    /**
-     * Получение процентного соотношения точных/интервальных предпочтений в обучающей выборке.
-     * 0% - обучающая выборка состоит только из точных предпочтений, 100% - только из интервальных предпочтений.
-     *
-     * @return вещественное число в диапазоне [0.0;1.0]
-     */
-    float preciseIntervalSampleItemsRatio();
+    Set<? extends CrossValidatorParameter<?>> crossValidatorParameters();
 
     /**
      * Получение значения метрики <i>Accuracy</i>.

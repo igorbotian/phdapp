@@ -104,10 +104,12 @@ class MultiClassificationReportCSVWriter implements ReportCSVWriter<MultiClassif
                 Integer.toString(report.numberOfClassifications())
         );
 
-        singleReportWriter.writeHeaderTo(writer);
+        if(!report.classifications().isEmpty()) {
+            singleReportWriter.writeHeaderTo(report.classifications().get(0), writer);
 
-        for (SingleClassificationReport iterationReport : report.classifications()) {
-            singleReportWriter.writeTo(iterationReport, writer, false);
+            for (SingleClassificationReport iterationReport : report.classifications()) {
+                singleReportWriter.writeTo(iterationReport, writer, false);
+            }
         }
     }
 }

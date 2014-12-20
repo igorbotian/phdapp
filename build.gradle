@@ -241,7 +241,8 @@ project(':svm-validation-report') {
     dependencies {
         compile(
                 project(':ioc'),
-                project(':svm')
+                project(':svm'),
+                project(':svm-validation')
         )
     }
 }
