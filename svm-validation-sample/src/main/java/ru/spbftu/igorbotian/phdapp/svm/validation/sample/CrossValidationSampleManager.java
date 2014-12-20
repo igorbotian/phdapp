@@ -1,8 +1,12 @@
 package ru.spbftu.igorbotian.phdapp.svm.validation.sample;
 
 import ru.spbftu.igorbotian.phdapp.common.ClassifiedData;
+import ru.spbftu.igorbotian.phdapp.common.ClassifiedObject;
 import ru.spbftu.igorbotian.phdapp.common.Pair;
 import ru.spbftu.igorbotian.phdapp.common.PairwiseTrainingSet;
+
+import java.util.Set;
+import java.util.function.BiFunction;
 
 /**
  * Средство формирования выборки для кросс-валидации классификатора
@@ -53,11 +57,17 @@ public interface CrossValidationSampleManager {
      *                              100 - выборка состоит только из интервальных оценок)
      * @param maxJudgementGroupSize максимально допустимое количество объектов в одной из двух частей интервальной
      *                              экспертной оценки (положительное целое число, большее двух)
+     * @param expertFunction        функция, определящая экспертную оценку для заданных наборов объектов;
+     *                              возвращает 1, если первая группа объектов предпочтительнее второй;
+     *                              возвращает -1, если вторая группа предпочтительнее первой
      * @return обучающая выборка
      * @throws CrossValidationSampleException в случае генерации обучающей выборки
      * @throws NullPointerException           если набор данных не задан
      * @throws IllegalArgumentException       если процентное соотношение выходит за пределы допустимых значений
      */
-    PairwiseTrainingSet generateTrainingSet(ClassifiedData source, int ratio, int maxJudgementGroupSize)
+    PairwiseTrainingSet generateTrainingSet(ClassifiedData source, int ratio, int maxJudgementGroupSize,
+                                            BiFunction<Set<? extends ClassifiedObject>,
+                                                    Set<? extends ClassifiedObject>,
+                                                    Integer> expertFunction)
             throws CrossValidationSampleException;
 }

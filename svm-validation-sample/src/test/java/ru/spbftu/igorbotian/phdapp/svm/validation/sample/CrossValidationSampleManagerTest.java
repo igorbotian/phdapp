@@ -118,7 +118,8 @@ public class CrossValidationSampleManagerTest {
             throws CrossValidationSampleException {
 
         ClassifiedData sample = sampleManager.generateSample(sampleSize);
-        PairwiseTrainingSet trainingSet = sampleManager.generateTrainingSet(sample, ratio, maxJudgementGroupSize);
+        PairwiseTrainingSet trainingSet = sampleManager.generateTrainingSet(sample, ratio, maxJudgementGroupSize,
+                (f, s) -> 1 /* any */);
         int intervalJudgementsCount = numberOfIntervalJudgements(trainingSet);
         int preciseJudgementsCount = numberOfPreciseJudgements(trainingSet);
 

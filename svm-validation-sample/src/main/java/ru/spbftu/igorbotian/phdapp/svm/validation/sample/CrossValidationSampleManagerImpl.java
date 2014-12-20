@@ -6,10 +6,10 @@ import ru.spbftu.igorbotian.phdapp.common.*;
 import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidatorParameterFactory;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.MathDataFactory;
-import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.Point;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.UniformedRandom;
 
 import java.util.*;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -29,18 +29,13 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
      */
     private CrossValidationSampleGenerator sampleGenerator;
 
-    /**
-     * Фабрика математических примитивов
-     */
-    private MathDataFactory mathDataFactory;
-
     @Inject
     public CrossValidationSampleManagerImpl(DataFactory dataFactory, MathDataFactory mathDataFactory,
                                             ApplicationConfiguration appConfig) {
         this.dataFactory = Objects.requireNonNull(dataFactory);
-        this.mathDataFactory = Objects.requireNonNull(mathDataFactory);
 
-        sampleGenerator = new CrossValidationSampleGeneratorImpl(dataFactory, mathDataFactory,
+        sampleGenerator = new CrossValidationSampleGeneratorImpl(dataFactory,
+                Objects.requireNonNull(mathDataFactory),
                 Objects.requireNonNull(appConfig));
     }
 
@@ -306,7 +301,10 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
     //-------------------------------------------------------------------------
 
     @Override
-    public PairwiseTrainingSet generateTrainingSet(ClassifiedData source, int ratio, int maxJudgementGroupSize)
+    public PairwiseTrainingSet generateTrainingSet(ClassifiedData source, int ratio, int maxJudgementGroupSize,
+                                                   BiFunction<Set<? extends ClassifiedObject>,
+                                                           Set<? extends ClassifiedObject>,
+                                                           Integer> expertFunction)
             throws CrossValidationSampleException {
 
         Objects.requireNonNull(source);
@@ -316,8 +314,8 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
         Pair<Map<DataClass, LinkedList<ClassifiedObject>>, Map<DataClass, LinkedList<ClassifiedObject>>>
                 sampleItemsByClasses = divideIntoPreciseAndIntervalJudgements(source, ratio);
         PairwiseTrainingSet intervalJudgements = composeSetOfIntervalJudgements(sampleItemsByClasses.first,
-                UnclassifiedData.MIN_NUMBER_OF_CLASSES, maxJudgementGroupSize);
-        PairwiseTrainingSet preciseJudgements = composeSetOfPreciseJudgements(sampleItemsByClasses.second);
+                UnclassifiedData.MIN_NUMBER_OF_CLASSES, maxJudgementGroupSize, expertFunction);
+        PairwiseTrainingSet preciseJudgements = composeSetOfPreciseJudgements(sampleItemsByClasses.second, expertFunction);
 
         return combinePairwiseTrainingSets(intervalJudgements, preciseJudgements);
     }
@@ -369,7 +367,7 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
          * Из нечётного количества точных экспертных оценок невозможно сформировать пары, поэтому уменьшаем количество
          * нечётных экспертных оценок
          */
-        if(preciseJudgementsSetSize % 2 != 0) {
+        if (preciseJudgementsSetSize % 2 != 0) {
             preciseJudgementsSetSize++;
         }
 
@@ -437,23 +435,29 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
     /**
      * Формирование множества точных экспертных оценок на базе заданной выборки с чётным количеством объектов
      */
-    private PairwiseTrainingSet composeSetOfPreciseJudgements(Map<DataClass, LinkedList<ClassifiedObject>> sample)
+    private PairwiseTrainingSet composeSetOfPreciseJudgements(Map<DataClass, LinkedList<ClassifiedObject>> sample,
+                                                              BiFunction<Set<? extends ClassifiedObject>,
+                                                                      Set<? extends ClassifiedObject>,
+                                                                      Integer> expertFunction)
             throws CrossValidationSampleException {
 
-        return composeSetOfIntervalJudgements(sample, 1, 1); // каждая оценка связана ровно с двумя объектами
+        return composeSetOfIntervalJudgements(sample, 1, 1, expertFunction); // каждая оценка связана ровно с двумя объектами
     }
 
     /**
      * Формирование множества интервальных экспертных оценок на базе заданной выборки с чётным количеством объектов.
      */
     private PairwiseTrainingSet composeSetOfIntervalJudgements(Map<DataClass, LinkedList<ClassifiedObject>> sample,
-                                                               int minJudgementGroupSize, int maxJudgementGroupSize)
+                                                               int minJudgementGroupSize, int maxJudgementGroupSize,
+                                                               BiFunction<Set<? extends ClassifiedObject>,
+                                                                       Set<? extends ClassifiedObject>,
+                                                                       Integer> expertFunction)
             throws CrossValidationSampleException {
 
         Set<PairwiseTrainingObject> trainingSetItems = new HashSet<>();
 
         // проверка для точных экспертных оценок
-        if(maxJudgementGroupSize == 1) {
+        if (maxJudgementGroupSize == 1) {
             assert (sample.size() % 2 == 0);
         }
 
@@ -477,7 +481,7 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
              * Иначе может возникнуть ситуация, когда в одной группе будут отобраны все объекты, а в другой - нет,
              * и нельзя будет при следующей итерации сформировать новую экспертную оценку.
              */
-            if(sample.size() == 2
+            if (sample.size() == 2
                     && sample.get(classes.get(0)).size() <= maxJudgementGroupSize
                     && sample.get(classes.get(1)).size() <= maxJudgementGroupSize) {
                 minGroupSize = maxJudgementGroupSize;
@@ -485,7 +489,8 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
 
             trainingSetItems.add(newPairwiseTrainingSetItem(
                     grabJudgementGroup(sample.get(classes.get(firstIndex)), minGroupSize, maxJudgementGroupSize),
-                    grabJudgementGroup(sample.get(classes.get(secondIndex)), minGroupSize, maxJudgementGroupSize)
+                    grabJudgementGroup(sample.get(classes.get(secondIndex)), minGroupSize, maxJudgementGroupSize),
+                    expertFunction
             ));
 
             Stream.of(firstIndex, secondIndex).forEach(i -> {
@@ -510,7 +515,7 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
      * Объекты сформированной группы удаляются из исходного списка объектов
      */
     private Set<? extends ClassifiedObject> grabJudgementGroup(LinkedList<ClassifiedObject> items,
-                                                     int minJudgementGroupSize, int maxJudgementGroupSize) {
+                                                               int minJudgementGroupSize, int maxJudgementGroupSize) {
         assert !items.isEmpty();
 
         Set<ClassifiedObject> judgementGroup = new HashSet<>();
@@ -532,55 +537,24 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
      * Создание экспертной оценки на основе двух групп объектов, имеющих два различных класса
      */
     private PairwiseTrainingObject newPairwiseTrainingSetItem(Set<? extends ClassifiedObject> firstGroup,
-                                                              Set<? extends ClassifiedObject> secondGroup)
+                                                              Set<? extends ClassifiedObject> secondGroup,
+                                                              BiFunction<Set<? extends ClassifiedObject>,
+                                                                      Set<? extends ClassifiedObject>,
+                                                                      Integer> expertFunction)
             throws CrossValidationSampleException {
 
-        Set<Point> firstPoints = toSetOfPoints(firstGroup);
-        Set<Point> secondPoints = toSetOfPoints(secondGroup);
-        Point averageFirstPoint = averagePointOf(firstPoints);
-        Point averageSecondPoint = averagePointOf(secondPoints);
+        Set<? extends ClassifiedObject> preferable;
+        Set<? extends ClassifiedObject> inferior;
 
-        return firstPointIsCloserToSecondSupportingPoint(averageFirstPoint, averageSecondPoint)
-                ? dataFactory.newPairwiseTrainingObject(firstGroup, secondGroup)
-                : dataFactory.newPairwiseTrainingObject(secondGroup, firstGroup);
-    }
-
-    /**
-     * Переход к поддерживаемому типу данных для кросс-валидации
-     */
-    private Set<Point> toSetOfPoints(Set<? extends ClassifiedObject> set) throws CrossValidationSampleException {
-        Set<Point> points = new HashSet<>();
-
-        for (ClassifiedObject obj : set) {
-            if (obj instanceof Point) {
-                points.add((Point) obj);
-            } else {
-                throw new CrossValidationSampleException("Only data of Point class is supported " +
-                        "by the cross-validation mechanism at this moment");
-            }
+        if (1 == expertFunction.apply(firstGroup, secondGroup)) {
+            preferable = firstGroup;
+            inferior = secondGroup;
+        } else {
+            preferable = secondGroup;
+            inferior = firstGroup;
         }
 
-        return points;
-    }
-
-    /**
-     * Вычисление точки, имеющей среднее значение координат из набор заданных точек
-     */
-    private Point averagePointOf(Set<Point> points) {
-        long sumX = 0;
-        long sumY = 0;
-
-        for (Point point : points) {
-            sumX += point.x();
-            sumY += point.y();
-        }
-
-        return mathDataFactory.newPoint(sumX / points.size(), sumY / points.size());
-    }
-
-    private boolean firstPointIsCloserToSecondSupportingPoint(Point first, Point second) {
-        Point supportingPoint = sampleGenerator.secondSupportingPoint();
-        return (first.distanceTo(supportingPoint) < second.distanceTo(supportingPoint));
+        return dataFactory.newPairwiseTrainingObject(preferable, inferior);
     }
 
     /**
