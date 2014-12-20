@@ -2,13 +2,13 @@ package ru.spbftu.igorbotian.phdapp.svm.validation;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import ru.spbftu.igorbotian.phdapp.common.DataFactory;
 import ru.spbftu.igorbotian.phdapp.svm.IntervalClassifierParameterFactory;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.MultiClassificationReport;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.ReportFactory;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.SingleClassificationReport;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.CrossValidationSampleManager;
-
-import java.util.Objects;
+import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.MathDataFactory;
 
 /**
  * Реализация фабрики средств кросс-валидации попарного классификатора
@@ -27,10 +27,12 @@ class IntervalPairwiseClassifierCrossValidatorsImpl implements IntervalPairwiseC
     public IntervalPairwiseClassifierCrossValidatorsImpl(CrossValidationSampleManager sampleManager,
                                                          IntervalClassifierParameterFactory classifierParameterFactory,
                                                          CrossValidatorParameterFactory crossValidatorParameterFactory,
-                                                         ReportFactory reportFactory) {
+                                                         ReportFactory reportFactory,
+                                                         MathDataFactory mathDataFactory,
+                                                         DataFactory dataFactory) {
 
         this.precisionValidator = new PrecisionValidator(sampleManager, classifierParameterFactory,
-                crossValidatorParameterFactory, reportFactory);
+                crossValidatorParameterFactory, reportFactory, mathDataFactory, dataFactory);
     }
 
     @Override
