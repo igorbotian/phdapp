@@ -13,15 +13,18 @@ import java.util.Objects;
 class MultiClassificationReportImpl implements MultiClassificationReport {
 
     private final List<SingleClassificationReport> classifications;
-    private float avgAccuracy;
-    private float minAccuracy;
-    private float maxAccuracy;
-    private float avgPrecision;
-    private float minPrecision;
-    private float maxPrecision;
-    private float avgRecall;
-    private float minRecall;
-    private float maxRecall;
+    private double avgAccuracy;
+    private double minAccuracy;
+    private double maxAccuracy;
+    private double avgPrecision;
+    private double minPrecision;
+    private double maxPrecision;
+    private double avgRecall;
+    private double minRecall;
+    private double maxRecall;
+    private double avgFMeasure;
+    private double minFMeasure;
+    private double maxFMeasure;
     private int indexOfMaxPrecisionClassification;
     private int indexOfMinPrecisionClassification;
 
@@ -31,15 +34,18 @@ class MultiClassificationReportImpl implements MultiClassificationReport {
         }
 
         this.classifications = Collections.unmodifiableList(Objects.requireNonNull(classifications));
-        float accuracySum = 0.0f;
-        float minAccuracy = 1.0f;
-        float maxAccuracy = 0.0f;
-        float precisionSum = 0.0f;
-        float minPrecision = 1.0f;
-        float maxPrecision = 0.0f;
-        float recallSum = 0.0f;
-        float minRecall = 1.0f;
-        float maxRecall = 0.0f;
+        double accuracySum = 0.0;
+        double minAccuracy = 1.0;
+        double maxAccuracy = 0.0;
+        double precisionSum = 0.0;
+        double minPrecision = 1.0;
+        double maxPrecision = 0.0;
+        double recallSum = 0.0;
+        double minRecall = 1.0;
+        double maxRecall = 0.0;
+        double fMeasureSum = 0.0;
+        double minFMeasure = 1.0;
+        double maxFMeasure = 0.0;
 
         int indexOfMaxPrecisionClassification = 0;
         int indexOfMinPrecisionClassification = 0;
@@ -79,6 +85,16 @@ class MultiClassificationReportImpl implements MultiClassificationReport {
             if (report.recall() < minRecall) {
                 minRecall = report.recall();
             }
+
+            fMeasureSum += report.fMeasure();
+
+            if (report.fMeasure() > maxFMeasure) {
+                maxFMeasure = report.fMeasure();
+            }
+
+            if (report.fMeasure() < minFMeasure) {
+                minFMeasure = report.fMeasure();
+            }
         }
 
         this.avgAccuracy = accuracySum / this.classifications.size();
@@ -90,6 +106,9 @@ class MultiClassificationReportImpl implements MultiClassificationReport {
         this.avgRecall = recallSum / this.classifications.size();
         this.minRecall = minRecall;
         this.maxRecall = maxRecall;
+        this.avgFMeasure = fMeasureSum / this.classifications.size();
+        this.minFMeasure = minFMeasure;
+        this.maxFMeasure = maxFMeasure;
         this.indexOfMaxPrecisionClassification = indexOfMaxPrecisionClassification;
         this.indexOfMinPrecisionClassification = indexOfMinPrecisionClassification;
     }
@@ -100,48 +119,63 @@ class MultiClassificationReportImpl implements MultiClassificationReport {
     }
 
     @Override
-    public float averageAccuracy() {
+    public double averageAccuracy() {
         return avgAccuracy;
     }
 
     @Override
-    public float minAccuracy() {
+    public double minAccuracy() {
         return minAccuracy;
     }
 
     @Override
-    public float maxAccuracy() {
+    public double maxAccuracy() {
         return maxAccuracy;
     }
 
     @Override
-    public float averagePrecision() {
+    public double averagePrecision() {
         return avgPrecision;
     }
 
     @Override
-    public float minPrecision() {
+    public double minPrecision() {
         return minPrecision;
     }
 
     @Override
-    public float maxPrecision() {
+    public double maxPrecision() {
         return maxPrecision;
     }
 
     @Override
-    public float averageRecall() {
+    public double averageRecall() {
         return avgRecall;
     }
 
     @Override
-    public float minRecall() {
+    public double minRecall() {
         return minRecall;
     }
 
     @Override
-    public float maxRecall() {
+    public double maxRecall() {
         return maxRecall;
+    }
+
+    @Override
+    public double averageFMeasure() {
+        return avgFMeasure;
+    }
+
+    @Override
+    public double minFMeasure() {
+        return minFMeasure;
+    }
+
+    @Override
+    public double maxFMeasure() {
+        return maxFMeasure;
     }
 
     @Override

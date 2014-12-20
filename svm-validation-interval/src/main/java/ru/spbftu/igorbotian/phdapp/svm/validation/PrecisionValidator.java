@@ -170,13 +170,11 @@ class PrecisionValidator extends AbstractPairwiseClassifierCrossValidator<Single
         private final float accuracy;
         private final float precision;
         private final float recall;
-        private final float fMeasure;
 
-        private Metrics(float accuracy, float precision, float recall, float fMeasure) {
+        private Metrics(float accuracy, float precision, float recall) {
             this.accuracy = accuracy;
             this.precision = precision;
             this.recall = recall;
-            this.fMeasure = fMeasure;
         }
 
         public static Metrics forData(Map<String, ClassifiedObject> realObjects,
@@ -190,18 +188,18 @@ class PrecisionValidator extends AbstractPairwiseClassifierCrossValidator<Single
                 DataClass realClass = realObjects.get(objId).dataClass();
                 DataClass givenClass = classifiedObjects.get(objId).dataClass();
 
-                if(!metrics.containsKey(realClass)) {
+                if (!metrics.containsKey(realClass)) {
                     metrics.put(realClass, new MetricsPerClass());
                 }
 
-                if(!metrics.containsKey(givenClass)) {
+                if (!metrics.containsKey(givenClass)) {
                     metrics.put(givenClass, new MetricsPerClass());
                 }
 
                 MetricsPerClass metricsPerRealClass = metrics.get(realClass);
                 MetricsPerClass metricsPerGivenClass = metrics.get(givenClass);
 
-                if(realClass.equals(givenClass)) {
+                if (realClass.equals(givenClass)) {
                     metricsPerRealClass.truePositives++;
                 } else {
                     metricsPerRealClass.falseNegatives++;
@@ -212,8 +210,7 @@ class PrecisionValidator extends AbstractPairwiseClassifierCrossValidator<Single
             return new Metrics(
                     averageValue(metrics, MetricsPerClass::accuracy),
                     averageValue(metrics, MetricsPerClass::precision),
-                    averageValue(metrics, MetricsPerClass::recall),
-                    averageValue(metrics, MetricsPerClass::fMeasure)
+                    averageValue(metrics, MetricsPerClass::recall)
             );
         }
 
@@ -242,10 +239,6 @@ class PrecisionValidator extends AbstractPairwiseClassifierCrossValidator<Single
 
         public float recall() {
             return recall;
-        }
-
-        public float fMeasure() {
-            return fMeasure;
         }
     }
 
@@ -290,13 +283,6 @@ class PrecisionValidator extends AbstractPairwiseClassifierCrossValidator<Single
          */
         public float recall() {
             return truePositives / (truePositives + falseNegatives);
-        }
-
-        /**
-         * Получение значения меры Ван Ризбергена
-         */
-        public float fMeasure() {
-            return 2 * precision() * recall() / (precision() + recall());
         }
     }
 }

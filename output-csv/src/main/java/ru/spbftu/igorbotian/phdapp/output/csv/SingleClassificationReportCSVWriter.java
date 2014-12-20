@@ -100,11 +100,11 @@ class SingleClassificationReportCSVWriter implements ReportCSVWriter<SingleClass
             i++;
         }
 
-        lineItems[i] = Float.toString(report.accuracy());
+        lineItems[i] = Double.toString(report.accuracy());
         i++;
-        lineItems[i] = Float.toString(report.precision());
+        lineItems[i] = Double.toString(report.precision());
         i++;
-        lineItems[i] = Float.toString(report.recall());
+        lineItems[i] = Double.toString(report.recall());
 
         csv.writeLine(lineItems);
     }

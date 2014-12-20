@@ -37,63 +37,84 @@ public interface MultiClassificationReport extends Report {
      *
      * @return вещественное значение в диапазоне [0.0;1.0]
      */
-    float averageAccuracy();
+    double averageAccuracy();
 
     /**
      * Минимальное значение метрики <code>Accuracy</code>
      *
      * @return вещественное значение в диапазоне [0.0;1.0]
      */
-    float minAccuracy();
+    double minAccuracy();
 
     /**
      * Максимальное значение метрики <code>Accuracy</code>
      *
      * @return вещественное значение в диапазоне [0.0;1.0]
      */
-    float maxAccuracy();
+    double maxAccuracy();
 
     /**
      * Среднее значение метрики <code>Precision</code>
      *
      * @return вещественное значение в диапазоне [0.0;1.0]
      */
-    float averagePrecision();
+    double averagePrecision();
 
     /**
      * Минимальное значение метрики <code>Precision</code>
      *
      * @return вещественное значение в диапазоне [0.0;1.0]
      */
-    float minPrecision();
+    double minPrecision();
 
     /**
      * Максимальное значение метрики <code>Precision</code>
      *
      * @return вещественное значение в диапазоне [0.0;1.0]
      */
-    float maxPrecision();
+    double maxPrecision();
 
     /**
      * Среднее значение метрики <code>Recall</code>
      *
      * @return вещественное значение в диапазоне [0.0;1.0]
      */
-    float averageRecall();
+    double averageRecall();
 
     /**
      * Минимальное значение метрики <code>Recall</code>
      *
      * @return вещественное значение в диапазоне [0.0;1.0]
      */
-    float minRecall();
+    double minRecall();
 
     /**
      * Максимальное значение метрики <code>Recall</code>
      *
      * @return вещественное значение в диапазоне [0.0;1.0]
      */
-    float maxRecall();
+    double maxRecall();
+
+    /**
+     * Среднее значение метрики <code>Мера Ризбергена</code>
+     *
+     * @return вещественное число
+     */
+    double averageFMeasure();
+
+    /**
+     * Минимальное значение метрики <code>Мера Ризбергена</code>
+     *
+     * @return вещественное число
+     */
+    double minFMeasure();
+
+    /**
+     * Максимальное значение метрики <code>Мера Ризбергена</code>
+     *
+     * @return вещественное число
+     */
+    double maxFMeasure();
 
     /**
      * Получение значений параметров, при которых точность классификации является наихудшей среди заданных наборов параметров

@@ -92,15 +92,15 @@ class MultiClassificationReportCSVWriter implements ReportCSVWriter<MultiClassif
         assert (writer != null);
 
         writer.writeLine(
-                Float.toString(report.averageAccuracy()),
-                Float.toString(report.minAccuracy()),
-                Float.toString(report.maxAccuracy()),
-                Float.toString(report.averagePrecision()),
-                Float.toString(report.minPrecision()),
-                Float.toString(report.maxPrecision()),
-                Float.toString(report.averageRecall()),
-                Float.toString(report.minRecall()),
-                Float.toString(report.maxRecall()),
+                Double.toString(report.averageAccuracy()),
+                Double.toString(report.minAccuracy()),
+                Double.toString(report.maxAccuracy()),
+                Double.toString(report.averagePrecision()),
+                Double.toString(report.minPrecision()),
+                Double.toString(report.maxPrecision()),
+                Double.toString(report.averageRecall()),
+                Double.toString(report.minRecall()),
+                Double.toString(report.maxRecall()),
                 Integer.toString(report.numberOfClassifications())
         );
 
