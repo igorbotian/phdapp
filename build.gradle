@@ -327,7 +327,7 @@ dependencies {
 apply plugin: 'application'
 
 mainClassName = phdAppMainClassName
-applicationDefaultJvmArgs = ["-Dphdapp.conf.folder=../conf", "-Xdock:name=Classifier"]
+applicationDefaultJvmArgs = ["-Dphdapp.conf.folder=../conf", "-Xdock:name=Classifier", "-ea"]
 
 startScripts {
     classpath += files('src/dist/lib/conf')
