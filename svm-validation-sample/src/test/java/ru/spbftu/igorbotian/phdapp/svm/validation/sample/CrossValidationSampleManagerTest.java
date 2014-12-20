@@ -5,10 +5,7 @@ import com.google.inject.Injector;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import ru.spbftu.igorbotian.phdapp.common.ClassifiedData;
-import ru.spbftu.igorbotian.phdapp.common.ClassifiedObject;
-import ru.spbftu.igorbotian.phdapp.common.DataModule;
-import ru.spbftu.igorbotian.phdapp.common.Pair;
+import ru.spbftu.igorbotian.phdapp.common.*;
 import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfigurationModule;
 import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidatorParameterFactory;
 
@@ -103,5 +100,62 @@ public class CrossValidationSampleManagerTest {
         ClassifiedData sample = sampleManager.generateSample(anySize);
         sampleManager.divideSampleIntoTwoGroups(sample,
                 CrossValidatorParameterFactory.TRAINING_TESTING_SETS_SIZE_RATIO_MAX + 1);
+    }
+
+    @Test
+    public void testGenerateTrainingSet() throws CrossValidationSampleException {
+        int maxJudgementGroupSize = 5; /* any */
+
+        testGenerateTrainingSet(10, 0, maxJudgementGroupSize, new int[] {0}, 5);
+        // 50% от 10 это 5 объектов точных оценок - нечётное => +1 -=> 3 точных оценки
+        testGenerateTrainingSet(10, 50, maxJudgementGroupSize, new int[] {1}, 3);
+        testGenerateTrainingSet(10, 60, maxJudgementGroupSize, new int[] {1}, 2);
+        testGenerateTrainingSet(10, 100, maxJudgementGroupSize, new int[] {1, 2, 3}, 0);
+    }
+
+    private void testGenerateTrainingSet(int sampleSize, int ratio, int maxJudgementGroupSize,
+                                         int[] possibleIntervalJudgementsCounts, int expectedPreciseJudgementsCount)
+            throws CrossValidationSampleException {
+
+        ClassifiedData sample = sampleManager.generateSample(sampleSize);
+        PairwiseTrainingSet trainingSet = sampleManager.generateTrainingSet(sample, ratio, maxJudgementGroupSize);
+        int intervalJudgementsCount = numberOfIntervalJudgements(trainingSet);
+        int preciseJudgementsCount = numberOfPreciseJudgements(trainingSet);
+
+        Assert.assertEquals(expectedPreciseJudgementsCount, preciseJudgementsCount);
+
+        boolean intervalJudgementsCountIsRight = false;
+
+        for(int possibleIntervalJudgementsCount : possibleIntervalJudgementsCounts) {
+            if(possibleIntervalJudgementsCount == intervalJudgementsCount) {
+                intervalJudgementsCountIsRight = true;
+            }
+        }
+
+        Assert.assertTrue(intervalJudgementsCountIsRight);
+    }
+
+    private int numberOfPreciseJudgements(PairwiseTrainingSet set) {
+        int count = 0;
+
+        for(PairwiseTrainingObject obj : set.objects()) {
+            if(obj.preferable().size() == 1 && obj.inferior().size() == 1) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    private int numberOfIntervalJudgements(PairwiseTrainingSet set) {
+        int count = 0;
+
+        for(PairwiseTrainingObject obj : set.objects()) {
+            if(obj.preferable().size() > 1 || obj.inferior().size() > 1) {
+                count++;
+            }
+        }
+
+        return count;
     }
 }

@@ -6,6 +6,8 @@ import ru.spbftu.igorbotian.phdapp.common.*;
 import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidatorParameterFactory;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.MathDataFactory;
+import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.Point;
+import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.UniformedRandom;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,12 +29,19 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
      */
     private CrossValidationSampleGenerator sampleGenerator;
 
+    /**
+     * Фабрика математических примитивов
+     */
+    private MathDataFactory mathDataFactory;
+
     @Inject
     public CrossValidationSampleManagerImpl(DataFactory dataFactory, MathDataFactory mathDataFactory,
                                             ApplicationConfiguration appConfig) {
         this.dataFactory = Objects.requireNonNull(dataFactory);
-        sampleGenerator = new CrossValidationSampleGeneratorImpl(dataFactory,
-                Objects.requireNonNull(mathDataFactory), Objects.requireNonNull(appConfig));
+        this.mathDataFactory = Objects.requireNonNull(mathDataFactory);
+
+        sampleGenerator = new CrossValidationSampleGeneratorImpl(dataFactory, mathDataFactory,
+                Objects.requireNonNull(appConfig));
     }
 
     @Override
@@ -170,7 +179,8 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
      * заданного множества объектов
      */
     private Pair<ClassifiedData, ClassifiedData> divideSampleIntoTwoGroups(ClassifiedData sample,
-                                                                           Pair<Set<ClassifiedObject>, Set<ClassifiedObject>> smallestValidSets, int firstGroupSize)
+                                                                           Pair<Set<ClassifiedObject>, Set<ClassifiedObject>> smallestValidSets,
+                                                                           int firstGroupSize)
             throws CrossValidationSampleException {
 
         Set<ClassifiedObject> firstGroup = new HashSet<>(smallestValidSets.first);
@@ -291,5 +301,298 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
         }
 
         return classes;
+    }
+
+    //-------------------------------------------------------------------------
+
+    @Override
+    public PairwiseTrainingSet generateTrainingSet(ClassifiedData source, int ratio, int maxJudgementGroupSize)
+            throws CrossValidationSampleException {
+
+        Objects.requireNonNull(source);
+        checkPreciseIntervalJudgementsCountRatio(ratio);
+        checkMaxJudgementPartSize(maxJudgementGroupSize);
+
+        Pair<Map<DataClass, LinkedList<ClassifiedObject>>, Map<DataClass, LinkedList<ClassifiedObject>>>
+                sampleItemsByClasses = divideIntoPreciseAndIntervalJudgements(source, ratio);
+        PairwiseTrainingSet intervalJudgements = composeSetOfIntervalJudgements(sampleItemsByClasses.first,
+                UnclassifiedData.MIN_NUMBER_OF_CLASSES, maxJudgementGroupSize);
+        PairwiseTrainingSet preciseJudgements = composeSetOfPreciseJudgements(sampleItemsByClasses.second);
+
+        return combinePairwiseTrainingSets(intervalJudgements, preciseJudgements);
+    }
+
+    /**
+     * Проверка того, что процентное соотношение между интервальными и точными экспертными оценками имеет допустимое значение
+     */
+    private void checkPreciseIntervalJudgementsCountRatio(int ratio) {
+        if (ratio < CrossValidatorParameterFactory.PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_MIN) {
+            throw new IllegalArgumentException(
+                    String.format("Ratio of the precise/interval judgements count (%d) cannot have a value lesser " +
+                                    "than the minimum (%d)", ratio,
+                            CrossValidatorParameterFactory.PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_MIN));
+        }
+
+        if (CrossValidatorParameterFactory.PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_MAX - ratio < 0) {
+            throw new IllegalArgumentException(
+                    String.format("Ratio of the precise/interval judgements count (%d) cannot have a value greater " +
+                                    "than the maximum (%d)", ratio,
+                            CrossValidatorParameterFactory.PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_MAX));
+        }
+    }
+
+    /**
+     * Проверка того, что максимально допустимый размер одной из двух частей интервальной экспертной оценки имеет
+     * минимально допустимое значение
+     */
+    private void checkMaxJudgementPartSize(int size) {
+        if (size < UnclassifiedData.MIN_NUMBER_OF_CLASSES) {
+            throw new IllegalArgumentException(String.format("Maximum value of an interval judgement (%d) " +
+                            "cannot have a value lesser than the minimum (%d)",
+                    size, UnclassifiedData.MIN_NUMBER_OF_CLASSES));
+        }
+    }
+
+    /**
+     * Разделение классифицированных данных на две части: одна для формирования интервальных экспертных оценок,
+     * а другая - для точных
+     */
+    private Pair<Map<DataClass, LinkedList<ClassifiedObject>>, Map<DataClass, LinkedList<ClassifiedObject>>>
+    divideIntoPreciseAndIntervalJudgements(ClassifiedData source, int ratio) {
+
+        int objectsCount = source.objects().size();
+        assert (objectsCount % 2 == 0);
+
+        int preciseJudgementsSetSize = (int) Math.floor(objectsCount * (100.0 - ratio) / 100.0);
+
+        /*
+         * Из нечётного количества точных экспертных оценок невозможно сформировать пары, поэтому уменьшаем количество
+         * нечётных экспертных оценок
+         */
+        if(preciseJudgementsSetSize % 2 != 0) {
+            preciseJudgementsSetSize++;
+        }
+
+        Map<DataClass, LinkedList<ClassifiedObject>> sourceByClasses = groupSampleItemsByClasses(source);
+        Map<DataClass, LinkedList<ClassifiedObject>> preciseJudgementObjects = new HashMap<>();
+        Map<DataClass, LinkedList<ClassifiedObject>> intervalJudgementObjects = new HashMap<>();
+        int preciseJudgementObjectsCount = 0;
+
+        /*
+         * Заполняем сначала выборку для точных экспертных оценок.
+         * Объекты, что остались на этом шаге, помещаем в выборку интервальных оценок.
+         */
+        while (preciseJudgementObjectsCount < preciseJudgementsSetSize) {
+            for (ClassifiedObject obj : popFirstObjects(sourceByClasses)) {
+                DataClass clazz = obj.dataClass();
+
+                if (preciseJudgementObjectsCount < preciseJudgementsSetSize) {
+                    if (!preciseJudgementObjects.containsKey(clazz)) {
+                        preciseJudgementObjects.put(clazz, new LinkedList<>());
+                    }
+
+                    preciseJudgementObjects.get(clazz).add(obj);
+                    preciseJudgementObjectsCount++;
+                } else {
+                    if (!intervalJudgementObjects.containsKey(clazz)) {
+                        intervalJudgementObjects.put(clazz, new LinkedList<>());
+                    }
+
+                    intervalJudgementObjects.get(clazz).add(obj);
+                }
+            }
+        }
+
+        /*
+         * Все оставшиеся элементы помещаем в выборку для интервальных экспертных оценок
+         */
+        for (Map.Entry<DataClass, LinkedList<ClassifiedObject>> entry : sourceByClasses.entrySet()) {
+            if (!intervalJudgementObjects.containsKey(entry.getKey())) {
+                intervalJudgementObjects.put(entry.getKey(), new LinkedList<>());
+            }
+
+            intervalJudgementObjects.get(entry.getKey()).addAll(entry.getValue());
+        }
+
+        return new Pair<>(intervalJudgementObjects, preciseJudgementObjects);
+    }
+
+    /**
+     * Возвращает первые объектов из списков по каждому классу
+     */
+    private List<ClassifiedObject> popFirstObjects(Map<DataClass, LinkedList<ClassifiedObject>> sample) {
+        int sampleSize = sample.size();
+        List<ClassifiedObject> firstObjects = new ArrayList<>(sampleSize);
+        sample.forEach((clazz, items) -> firstObjects.add(items.pop()));
+
+        for (ClassifiedObject obj : firstObjects) {
+            if (sample.get(obj.dataClass()).isEmpty()) {
+                sample.remove(obj.dataClass());
+            }
+        }
+
+        return firstObjects;
+    }
+
+    /**
+     * Формирование множества точных экспертных оценок на базе заданной выборки с чётным количеством объектов
+     */
+    private PairwiseTrainingSet composeSetOfPreciseJudgements(Map<DataClass, LinkedList<ClassifiedObject>> sample)
+            throws CrossValidationSampleException {
+
+        return composeSetOfIntervalJudgements(sample, 1, 1); // каждая оценка связана ровно с двумя объектами
+    }
+
+    /**
+     * Формирование множества интервальных экспертных оценок на базе заданной выборки с чётным количеством объектов.
+     */
+    private PairwiseTrainingSet composeSetOfIntervalJudgements(Map<DataClass, LinkedList<ClassifiedObject>> sample,
+                                                               int minJudgementGroupSize, int maxJudgementGroupSize)
+            throws CrossValidationSampleException {
+
+        Set<PairwiseTrainingObject> trainingSetItems = new HashSet<>();
+
+        // проверка для точных экспертных оценок
+        if(maxJudgementGroupSize == 1) {
+            assert (sample.size() % 2 == 0);
+        }
+
+        while (!sample.isEmpty()) {
+            assert (sample.size() != 1);
+
+            List<DataClass> classes = listOfMapKeys(sample);
+            List<Integer> indexes = UniformedRandom.nextIntegerSequence(0, classes.size() - 1);
+            assert (indexes.size() >= 2);
+
+            int firstIndex = indexes.get(0);
+            int secondIndex = indexes.get(1);
+
+            int minGroupSize = minJudgementGroupSize;
+
+            /*
+             * Возможна ситуация, когда при формировании групп для экспертной оценки в исходной выборке остаётся
+             * лишь группы объектов двух классов, причём количество элементов в каждой из них не больше максимально
+             * допустимого.
+             * В этом случае необходимо добавить все элементы групп объектов в группы для экспертной оценки.
+             * Иначе может возникнуть ситуация, когда в одной группе будут отобраны все объекты, а в другой - нет,
+             * и нельзя будет при следующей итерации сформировать новую экспертную оценку.
+             */
+            if(sample.size() == 2
+                    && sample.get(classes.get(0)).size() <= maxJudgementGroupSize
+                    && sample.get(classes.get(1)).size() <= maxJudgementGroupSize) {
+                minGroupSize = maxJudgementGroupSize;
+            }
+
+            trainingSetItems.add(newPairwiseTrainingSetItem(
+                    grabJudgementGroup(sample.get(classes.get(firstIndex)), minGroupSize, maxJudgementGroupSize),
+                    grabJudgementGroup(sample.get(classes.get(secondIndex)), minGroupSize, maxJudgementGroupSize)
+            ));
+
+            Stream.of(firstIndex, secondIndex).forEach(i -> {
+                if (sample.get(classes.get(i)).isEmpty()) {
+                    sample.remove(classes.get(i));
+                }
+            });
+        }
+
+        return dataFactory.newPairwiseTrainingSet(trainingSetItems);
+    }
+
+    private <K, V> List<K> listOfMapKeys(Map<K, V> map) {
+        List<K> list = new ArrayList<>(map.size());
+        map.keySet().forEach(list::add);
+        return list;
+    }
+
+    /**
+     * Формирование группы элементов для экспертной оценки со случайным количеством элементов из заданного диапазона
+     * на основе списка объектов.
+     * Объекты сформированной группы удаляются из исходного списка объектов
+     */
+    private Set<? extends ClassifiedObject> grabJudgementGroup(LinkedList<ClassifiedObject> items,
+                                                     int minJudgementGroupSize, int maxJudgementGroupSize) {
+        assert !items.isEmpty();
+
+        Set<ClassifiedObject> judgementGroup = new HashSet<>();
+        int size = UniformedRandom.nextInteger(minJudgementGroupSize, maxJudgementGroupSize);
+        assert size > 0;
+
+        if (items.size() < size) {
+            size = items.size();
+        }
+
+        for (int i = 0; i < size; i++) {
+            judgementGroup.add(items.pop());
+        }
+
+        return judgementGroup;
+    }
+
+    /**
+     * Создание экспертной оценки на основе двух групп объектов, имеющих два различных класса
+     */
+    private PairwiseTrainingObject newPairwiseTrainingSetItem(Set<? extends ClassifiedObject> firstGroup,
+                                                              Set<? extends ClassifiedObject> secondGroup)
+            throws CrossValidationSampleException {
+
+        Set<Point> firstPoints = toSetOfPoints(firstGroup);
+        Set<Point> secondPoints = toSetOfPoints(secondGroup);
+        Point averageFirstPoint = averagePointOf(firstPoints);
+        Point averageSecondPoint = averagePointOf(secondPoints);
+
+        return firstPointIsCloserToSecondSupportingPoint(averageFirstPoint, averageSecondPoint)
+                ? dataFactory.newPairwiseTrainingObject(firstGroup, secondGroup)
+                : dataFactory.newPairwiseTrainingObject(secondGroup, firstGroup);
+    }
+
+    /**
+     * Переход к поддерживаемому типу данных для кросс-валидации
+     */
+    private Set<Point> toSetOfPoints(Set<? extends ClassifiedObject> set) throws CrossValidationSampleException {
+        Set<Point> points = new HashSet<>();
+
+        for (ClassifiedObject obj : set) {
+            if (obj instanceof Point) {
+                points.add((Point) obj);
+            } else {
+                throw new CrossValidationSampleException("Only data of Point class is supported " +
+                        "by the cross-validation mechanism at this moment");
+            }
+        }
+
+        return points;
+    }
+
+    /**
+     * Вычисление точки, имеющей среднее значение координат из набор заданных точек
+     */
+    private Point averagePointOf(Set<Point> points) {
+        long sumX = 0;
+        long sumY = 0;
+
+        for (Point point : points) {
+            sumX += point.x();
+            sumY += point.y();
+        }
+
+        return mathDataFactory.newPoint(sumX / points.size(), sumY / points.size());
+    }
+
+    private boolean firstPointIsCloserToSecondSupportingPoint(Point first, Point second) {
+        Point supportingPoint = sampleGenerator.secondSupportingPoint();
+        return (first.distanceTo(supportingPoint) < second.distanceTo(supportingPoint));
+    }
+
+    /**
+     * Объединенение нескольких обучающих выборок
+     */
+    private PairwiseTrainingSet combinePairwiseTrainingSets(PairwiseTrainingSet... sets) {
+        Set<PairwiseTrainingObject> objects = new HashSet<>();
+
+        for (PairwiseTrainingSet set : sets) {
+            objects.addAll(set.objects());
+        }
+
+        return dataFactory.newPairwiseTrainingSet(objects);
     }
 }
