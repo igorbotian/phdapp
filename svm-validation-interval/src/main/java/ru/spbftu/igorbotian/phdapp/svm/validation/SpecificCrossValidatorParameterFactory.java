@@ -43,6 +43,13 @@ class SpecificCrossValidatorParameterFactory implements CrossValidatorParameterF
     }
 
     @Override
+    public CrossValidatorParameter<Double> constantCostParameter(double value) {
+        CrossValidatorParameter<Double> param = constantCostParameter();
+        return constantCostParameter(value, param.lowerBound().value(), param.upperBound().value(),
+                param.stepSize().value(), param.stepSize().minValue(), param.stepSize().maxValue());
+    }
+
+    @Override
     public CrossValidatorParameter<Double> constantCostParameter(double value, double lowerBound,
                                                                  double upperBound, double stepSize,
                                                                  double stepSizeMin, double stepSizeMax) {
@@ -53,6 +60,13 @@ class SpecificCrossValidatorParameterFactory implements CrossValidatorParameterF
     @Override
     public CrossValidatorParameter<Double> gaussianKernelParameter() {
         return getParamById(CrossValidatorParameterFactory.GAUSSIAN_KERNEL_PARAM_ID);
+    }
+
+    @Override
+    public CrossValidatorParameter<Double> gaussianKernelParameter(double value) {
+        CrossValidatorParameter<Double> param = gaussianKernelParameter();
+        return gaussianKernelParameter(value, param.lowerBound().value(), param.upperBound().value(),
+                param.stepSize().value(), param.stepSize().minValue(), param.stepSize().maxValue());
     }
 
     @Override
@@ -69,6 +83,13 @@ class SpecificCrossValidatorParameterFactory implements CrossValidatorParameterF
     }
 
     @Override
+    public CrossValidatorParameter<Integer> samplesToGenerateCount(int value) {
+        CrossValidatorParameter<Integer> param = samplesToGenerateCount();
+        return samplesToGenerateCount(value, param.lowerBound().value(), param.upperBound().value(),
+                param.stepSize().value(), param.stepSize().minValue(), param.stepSize().maxValue());
+    }
+
+    @Override
     public CrossValidatorParameter<Integer> samplesToGenerateCount(int value, int lowerBound,
                                                                    int upperBound, int stepSize,
                                                                    int stepSizeMin, int stepSizeMax) {
@@ -79,6 +100,13 @@ class SpecificCrossValidatorParameterFactory implements CrossValidatorParameterF
     @Override
     public CrossValidatorParameter<Integer> sampleSize() {
         return getParamById(CrossValidatorParameterFactory.SAMPLE_SIZE_ID);
+    }
+
+    @Override
+    public CrossValidatorParameter<Integer> sampleSize(int value) {
+        CrossValidatorParameter<Integer> param = sampleSize();
+        return sampleSize(value, param.lowerBound().value(), param.upperBound().value(),
+                param.stepSize().value(), param.stepSize().minValue(), param.stepSize().maxValue());
     }
 
     @Override
@@ -94,6 +122,13 @@ class SpecificCrossValidatorParameterFactory implements CrossValidatorParameterF
     }
 
     @Override
+    public CrossValidatorParameter<Integer> trainingTestingSetsSizeRatio(int value) {
+        CrossValidatorParameter<Integer> param = trainingTestingSetsSizeRatio();
+        return trainingTestingSetsSizeRatio(value, param.lowerBound().value(), param.upperBound().value(),
+                param.stepSize().value(), param.stepSize().minValue(), param.stepSize().maxValue());
+    }
+
+    @Override
     public CrossValidatorParameter<Integer> trainingTestingSetsSizeRatio(int value, int lowerBound,
                                                                          int upperBound, int stepSize,
                                                                          int stepSizeMin, int stepSizeMax) {
@@ -104,6 +139,13 @@ class SpecificCrossValidatorParameterFactory implements CrossValidatorParameterF
     @Override
     public CrossValidatorParameter<Integer> preciseIntervalJudgmentsCountRatio() {
         return getParamById(CrossValidatorParameterFactory.PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_ID);
+    }
+
+    @Override
+    public CrossValidatorParameter<Integer> preciseIntervalJudgmentsCountRatio(int value) {
+        CrossValidatorParameter<Integer> param = preciseIntervalJudgmentsCountRatio();
+        return preciseIntervalJudgmentsCountRatio(value, param.lowerBound().value(), param.upperBound().value(),
+                param.stepSize().value(), param.stepSize().minValue(), param.stepSize().maxValue());
     }
 
     @Override

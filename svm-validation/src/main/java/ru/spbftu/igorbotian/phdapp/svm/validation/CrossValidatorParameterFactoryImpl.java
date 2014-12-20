@@ -12,8 +12,13 @@ class CrossValidatorParameterFactoryImpl implements CrossValidatorParameterFacto
 
     @Override
     public CrossValidatorParameter<Double> constantCostParameter() {
+        return constantCostParameter(CONSTANT_COST_PARAM_DEFAULT_VALUE);
+    }
+
+    @Override
+    public CrossValidatorParameter<Double> constantCostParameter(double value) {
         return constantCostParameter(
-                CONSTANT_COST_PARAM_DEFAULT_VALUE,
+                value,
                 CONSTANT_COST_PARAM_DEFAULT_LOWER_BOUND,
                 CONSTANT_COST_PARAM_DEFAULT_UPPER_BOUND,
                 CONSTANT_COST_PARAM_DEFAULT_STEP_SIZE,
@@ -33,8 +38,13 @@ class CrossValidatorParameterFactoryImpl implements CrossValidatorParameterFacto
 
     @Override
     public CrossValidatorParameter<Double> gaussianKernelParameter() {
+        return gaussianKernelParameter(GAUSSIAN_KERNEL_PARAM_DEFAULT_VALUE);
+    }
+
+    @Override
+    public CrossValidatorParameter<Double> gaussianKernelParameter(double value) {
         return gaussianKernelParameter(
-                GAUSSIAN_KERNEL_PARAM_DEFAULT_VALUE,
+                value,
                 GAUSSIAN_KERNEL_PARAM_DEFAULT_LOWER_BOUND,
                 GAUSSIAN_KERNEL_PARAM_DEFAULT_UPPER_BOUND,
                 GAUSSIAN_KERNEL_PARAM_DEFAULT_STEP_SIZE,
@@ -54,8 +64,13 @@ class CrossValidatorParameterFactoryImpl implements CrossValidatorParameterFacto
 
     @Override
     public CrossValidatorParameter<Integer> samplesToGenerateCount() {
+        return samplesToGenerateCount(SAMPLES_TO_GENERATE_COUNT_DEFAULT_VALUE);
+    }
+
+    @Override
+    public CrossValidatorParameter<Integer> samplesToGenerateCount(int value) {
         return samplesToGenerateCount(
-                SAMPLES_TO_GENERATE_COUNT_DEFAULT_VALUE,
+                value,
                 SAMPLES_TO_GENERATE_COUNT_DEFAULT_LOWER_BOUND,
                 SAMPLES_TO_GENERATE_COUNT_DEFAULT_UPPER_BOUND,
                 SAMPLES_TO_GENERATE_COUNT_DEFAULT_STEP_SIZE,
@@ -75,8 +90,13 @@ class CrossValidatorParameterFactoryImpl implements CrossValidatorParameterFacto
 
     @Override
     public CrossValidatorParameter<Integer> sampleSize() {
+        return sampleSize(SAMPLE_SIZE_DEFAULT_VALUE);
+    }
+
+    @Override
+    public CrossValidatorParameter<Integer> sampleSize(int value) {
         return sampleSize(
-                SAMPLE_SIZE_DEFAULT_VALUE,
+                value,
                 SAMPLE_SIZE_DEFAULT_LOWER_BOUND,
                 SAMPLE_SIZE_DEFAULT_UPPER_BOUND,
                 SAMPLE_SIZE_DEFAULT_STEP_SIZE,
@@ -95,8 +115,13 @@ class CrossValidatorParameterFactoryImpl implements CrossValidatorParameterFacto
 
     @Override
     public CrossValidatorParameter<Integer> trainingTestingSetsSizeRatio() {
+        return trainingTestingSetsSizeRatio(TRAINING_TESTING_SETS_SIZE_RATIO_DEFAULT_VALUE);
+    }
+
+    @Override
+    public CrossValidatorParameter<Integer> trainingTestingSetsSizeRatio(int value) {
         return trainingTestingSetsSizeRatio(
-                TRAINING_TESTING_SETS_SIZE_RATIO_DEFAULT_VALUE,
+                value,
                 TRAINING_TESTING_SETS_SIZE_RATIO_DEFAULT_LOWER_BOUND,
                 TRAINING_TESTING_SETS_SIZE_RATIO_DEFAULT_UPPER_BOUND,
                 TRAINING_TESTING_SETS_SIZE_RATIO_DEFAULT_STEP_SIZE,
@@ -116,8 +141,13 @@ class CrossValidatorParameterFactoryImpl implements CrossValidatorParameterFacto
 
     @Override
     public CrossValidatorParameter<Integer> preciseIntervalJudgmentsCountRatio() {
+        return preciseIntervalJudgmentsCountRatio(PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_DEFAULT_VALUE);
+    }
+
+    @Override
+    public CrossValidatorParameter<Integer> preciseIntervalJudgmentsCountRatio(int value) {
         return preciseIntervalJudgmentsCountRatio(
-                PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_DEFAULT_VALUE,
+                value,
                 PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_DEFAULT_LOWER_BOUND,
                 PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_DEFAULT_UPPER_BOUND,
                 PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_DEFAULT_STEP_SIZE,

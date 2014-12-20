@@ -84,6 +84,18 @@ abstract class AbstractPairwiseClassifierCrossValidator<R extends Report>
     }
 
     /**
+     * Создание экземпляра фабрики параметров средства кросс-валидации на базе существующего с учётом новых значений
+     * для заданных параметров
+     * @param paramsFactory экземпляр фабрики, используемый для получения исходных значений параметров
+     * @param specificParams параметры, имеющие новые значения
+     * @return экземпляр фабрики параметров средства кросс-валидации
+     */
+    protected CrossValidatorParameterFactory override(CrossValidatorParameterFactory paramsFactory,
+                                                                      Set<CrossValidatorParameter<?>> specificParams) {
+        return new SpecificCrossValidatorParameterFactory(paramsFactory, specificParams);
+    }
+
+    /**
      * Кросс-валидация заданного попарного классификатора с заданными параметрами кросс-валидации
      *
      * @param classifier               попарный классификатор, подлежащий кросс-валидации
