@@ -37,6 +37,7 @@ class SingleClassificationReportSummaryWriterImpl implements ReportSummaryWriter
     private static final String ACCURACY_LABEL = "accuracy";
     private static final String PRECISION_LABEL = "precision";
     private static final String RECALL_LABEL = "recall";
+    private static final String F_MEASURE_LABEL = "fMeasure";
 
     private final Localization localization;
 
@@ -67,5 +68,6 @@ class SingleClassificationReportSummaryWriterImpl implements ReportSummaryWriter
         summary.writeItem(localization.getLabel(ACCURACY_LABEL), report.accuracy());
         summary.writeItem(localization.getLabel(PRECISION_LABEL), report.precision());
         summary.writeItem(localization.getLabel(RECALL_LABEL), report.recall());
+        summary.writeItem(localization.getLabel(F_MEASURE_LABEL), report.fMeasure());
     }
 }

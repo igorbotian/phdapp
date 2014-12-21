@@ -43,6 +43,9 @@ class MultiClassificationReportSummaryWriterImpl implements ReportSummaryWriter<
     private static final String AVERAGE_RECALL_LABEL = "averageRecall";
     private static final String MIN_RECALL_LABEL = "minRecall";
     private static final String MAX_RECALL_LABEL = "maxRecall";
+    private static final String AVERAGE_F_MEASURE_LABEL = "averageFMeasure";
+    private static final String MIN_F_MEASURE_LABEL = "minFMeasure";
+    private static final String MAX_F_MEASURE_LABEL = "maxFMeasure";
     private static final String NUMBER_OF_ITERATIONS_LABEL = "numberOfClassifications";
     private static final String MIN_PRECISION_CLASSIFICATION_LABEL = "minPrecisionClassificationLabel";
     private static final String MAX_PRECISION_CLASSIFICATION_LABEL = "maxPrecisionClassificationLabel";
@@ -77,6 +80,9 @@ class MultiClassificationReportSummaryWriterImpl implements ReportSummaryWriter<
         summary.writeItem(localization.getLabel(AVERAGE_RECALL_LABEL), report.averageRecall());
         summary.writeItem(localization.getLabel(MIN_RECALL_LABEL), report.minRecall());
         summary.writeItem(localization.getLabel(MAX_RECALL_LABEL), report.maxRecall());
+        summary.writeItem(localization.getLabel(AVERAGE_F_MEASURE_LABEL), report.averageFMeasure());
+        summary.writeItem(localization.getLabel(MIN_F_MEASURE_LABEL), report.minFMeasure());
+        summary.writeItem(localization.getLabel(MAX_F_MEASURE_LABEL), report.maxFMeasure());
         summary.writeItem(localization.getLabel(NUMBER_OF_ITERATIONS_LABEL), report.numberOfClassifications());
 
         summary.writeEmptyLine();

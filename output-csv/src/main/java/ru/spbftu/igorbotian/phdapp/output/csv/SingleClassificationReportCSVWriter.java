@@ -36,6 +36,7 @@ class SingleClassificationReportCSVWriter implements ReportCSVWriter<SingleClass
     private static final String ACCURACY_LABEL = "accuracy";
     private static final String PRECISION_LABEL = "precision";
     private static final String RECALL_LABEL = "recall";
+    private static final String F_MEASURE_LABEL = "fMeasure";
 
     private final Localization localization;
 
@@ -81,13 +82,15 @@ class SingleClassificationReportCSVWriter implements ReportCSVWriter<SingleClass
         headerItems[i] = localization.getLabel(PRECISION_LABEL);
         i++;
         headerItems[i] = localization.getLabel(RECALL_LABEL);
+        i++;
+        headerItems[i] = localization.getLabel(F_MEASURE_LABEL);
 
         csv.writeLine(headerItems);
     }
 
     private void writeContentsTo(SingleClassificationReport report, CSVWriter csv) throws IOException {
         String[] lineItems = new String[report.classifierParameters().size()
-                + report.crossValidatorParameters().size() + 3 /* accuracy, precision, recall */];
+                + report.crossValidatorParameters().size() + 4 /* accuracy, precision, recall, f-measure */];
         int i = 0;
 
         for(ClassifierParameter<?> param : report.classifierParameters()) {
@@ -105,6 +108,8 @@ class SingleClassificationReportCSVWriter implements ReportCSVWriter<SingleClass
         lineItems[i] = Double.toString(report.precision());
         i++;
         lineItems[i] = Double.toString(report.recall());
+        i++;
+        lineItems[i] = Double.toString(report.fMeasure());
 
         csv.writeLine(lineItems);
     }

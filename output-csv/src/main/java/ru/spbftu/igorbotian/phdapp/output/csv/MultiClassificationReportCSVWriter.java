@@ -41,6 +41,9 @@ class MultiClassificationReportCSVWriter implements ReportCSVWriter<MultiClassif
     private static final String AVERAGE_RECALL_LABEL = "averageRecall";
     private static final String MIN_RECALL_LABEL = "minRecall";
     private static final String MAX_RECALL_LABEL = "maxRecall";
+    private static final String AVERAGE_F_MEASURE_LABEL = "averageFMeasure";
+    private static final String MIN_F_MEASURE_LABEL = "minFMeasure";
+    private static final String MAX_F_MEASURE_LABEL = "maxFMeasure";
     private static final String NUMBER_OF_ITERATIONS_LABEL = "numberOfClassifications";
 
     private final Localization localization;
@@ -83,6 +86,9 @@ class MultiClassificationReportCSVWriter implements ReportCSVWriter<MultiClassif
                 localization.getLabel(AVERAGE_RECALL_LABEL),
                 localization.getLabel(MIN_RECALL_LABEL),
                 localization.getLabel(MAX_RECALL_LABEL),
+                localization.getLabel(AVERAGE_F_MEASURE_LABEL),
+                localization.getLabel(MIN_F_MEASURE_LABEL),
+                localization.getLabel(MAX_F_MEASURE_LABEL),
                 localization.getLabel(NUMBER_OF_ITERATIONS_LABEL)
         );
     }
@@ -101,6 +107,9 @@ class MultiClassificationReportCSVWriter implements ReportCSVWriter<MultiClassif
                 Double.toString(report.averageRecall()),
                 Double.toString(report.minRecall()),
                 Double.toString(report.maxRecall()),
+                Double.toString(report.averageFMeasure()),
+                Double.toString(report.minFMeasure()),
+                Double.toString(report.maxFMeasure()),
                 Integer.toString(report.numberOfClassifications())
         );
 
