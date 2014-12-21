@@ -24,9 +24,9 @@ public interface ReportFactory {
      */
     SingleClassificationReport newSingleClassificationReport(Set<? extends ClassifierParameter<?>> classifierParams,
                                                              Set<? extends CrossValidatorParameter<?>> crossValidatorParams,
-                                                             final float accuracy,
-                                                             final float precision,
-                                                             final float recall);
+                                                             float accuracy,
+                                                             float precision,
+                                                             float recall);
 
     /**
      * Создание сводного отчёта по работе классификатора на основе ряда одиночных классификаций

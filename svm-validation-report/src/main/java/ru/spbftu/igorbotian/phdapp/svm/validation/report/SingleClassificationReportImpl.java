@@ -13,31 +13,36 @@ import java.util.Set;
  */
 class SingleClassificationReportImpl implements SingleClassificationReport {
 
-    private final double accuracy;
-    private final double precision;
-    private final double recall;
+    private final float accuracy;
+    private final float precision;
+    private final float recall;
     private final Set<? extends ClassifierParameter<?>> classifierParams;
     private final Set<? extends CrossValidatorParameter<?>> crossValidatorParams;
 
     public SingleClassificationReportImpl(Set<? extends ClassifierParameter<?>> classifierParams,
                                           Set<? extends CrossValidatorParameter<?>> crossValidatorParams,
-                                          final double accuracy,
-                                          final double precision,
-                                          final double recall) {
-        this.accuracy = checkLimits(accuracy, 0.0, 1.0);
-        this.precision = checkLimits(precision, 0.0, 1.0);
-        this.recall = checkLimits(recall, 0.0, 1.0);
+                                          float accuracy,
+                                          float precision,
+                                          float recall) {
+
+        this.accuracy = round(checkLimits(accuracy, 0.0f, 1.0f));
+        this.precision = round(checkLimits(precision, 0.0f, 1.0f));
+        this.recall = round(checkLimits(recall, 0.0f, 1.0f));
         this.classifierParams = Collections.unmodifiableSet(classifierParams);
         this.crossValidatorParams = Collections.unmodifiableSet(crossValidatorParams);
     }
 
-    private double checkLimits(double n, double min, double max) {
+    private float checkLimits(float n, float min, float max) {
         if (min > n || n > max) {
             throw new IllegalArgumentException(String.format("A given number (%.5f) should be in range of [%.5f;%.5f]",
                     n, min, max));
         }
 
         return n;
+    }
+
+    private float round(float f) {
+        return Float.valueOf(ROUNDED_DECIMAL_FORMAT.format(f));
     }
 
     @Override
@@ -51,22 +56,22 @@ class SingleClassificationReportImpl implements SingleClassificationReport {
     }
 
     @Override
-    public double accuracy() {
+    public float accuracy() {
         return accuracy;
     }
 
     @Override
-    public double precision() {
+    public float precision() {
         return precision;
     }
 
     @Override
-    public double recall() {
+    public float recall() {
         return recall;
     }
 
     @Override
-    public double fMeasure() {
+    public float fMeasure() {
         return 2 * (precision * recall) / (precision + recall);
     }
 }

@@ -13,39 +13,39 @@ import java.util.Objects;
 class MultiClassificationReportImpl implements MultiClassificationReport {
 
     private final List<SingleClassificationReport> classifications;
-    private double avgAccuracy;
-    private double minAccuracy;
-    private double maxAccuracy;
-    private double avgPrecision;
-    private double minPrecision;
-    private double maxPrecision;
-    private double avgRecall;
-    private double minRecall;
-    private double maxRecall;
-    private double avgFMeasure;
-    private double minFMeasure;
-    private double maxFMeasure;
+    private float avgAccuracy;
+    private float minAccuracy;
+    private float maxAccuracy;
+    private float avgPrecision;
+    private float minPrecision;
+    private float maxPrecision;
+    private float avgRecall;
+    private float minRecall;
+    private float maxRecall;
+    private float avgFMeasure;
+    private float minFMeasure;
+    private float maxFMeasure;
     private int indexOfMaxPrecisionClassification;
     private int indexOfMinPrecisionClassification;
 
-    MultiClassificationReportImpl(List<SingleClassificationReport> classifications) {
+    public MultiClassificationReportImpl(List<SingleClassificationReport> classifications) {
         if (classifications.isEmpty()) {
             throw new IllegalArgumentException("At least one classification should have been done");
         }
 
         this.classifications = Collections.unmodifiableList(Objects.requireNonNull(classifications));
-        double accuracySum = 0.0;
-        double minAccuracy = 1.0;
-        double maxAccuracy = 0.0;
-        double precisionSum = 0.0;
-        double minPrecision = 1.0;
-        double maxPrecision = 0.0;
-        double recallSum = 0.0;
-        double minRecall = 1.0;
-        double maxRecall = 0.0;
-        double fMeasureSum = 0.0;
-        double minFMeasure = 1.0;
-        double maxFMeasure = 0.0;
+        float accuracySum = 0.0f;
+        float minAccuracy = 1.0f;
+        float maxAccuracy = 0.0f;
+        float precisionSum = 0.0f;
+        float minPrecision = 1.0f;
+        float maxPrecision = 0.0f;
+        float recallSum = 0.0f;
+        float minRecall = 1.0f;
+        float maxRecall = 0.0f;
+        float fMeasureSum = 0.0f;
+        float minFMeasure = 1.0f;
+        float maxFMeasure = 0.0f;
 
         int indexOfMaxPrecisionClassification = 0;
         int indexOfMinPrecisionClassification = 0;
@@ -97,20 +97,24 @@ class MultiClassificationReportImpl implements MultiClassificationReport {
             }
         }
 
-        this.avgAccuracy = accuracySum / this.classifications.size();
-        this.minAccuracy = minAccuracy;
-        this.maxAccuracy = maxAccuracy;
-        this.avgPrecision = precisionSum / this.classifications.size();
-        this.minPrecision = minPrecision;
-        this.maxPrecision = maxPrecision;
-        this.avgRecall = recallSum / this.classifications.size();
-        this.minRecall = minRecall;
-        this.maxRecall = maxRecall;
-        this.avgFMeasure = fMeasureSum / this.classifications.size();
-        this.minFMeasure = minFMeasure;
-        this.maxFMeasure = maxFMeasure;
+        this.avgAccuracy = round(accuracySum / this.classifications.size());
+        this.minAccuracy = round(minAccuracy);
+        this.maxAccuracy = round(maxAccuracy);
+        this.avgPrecision = round(precisionSum / this.classifications.size());
+        this.minPrecision = round(minPrecision);
+        this.maxPrecision = round(maxPrecision);
+        this.avgRecall = round(recallSum / this.classifications.size());
+        this.minRecall = round(minRecall);
+        this.maxRecall = round(maxRecall);
+        this.avgFMeasure = round(fMeasureSum / this.classifications.size());
+        this.minFMeasure = round(minFMeasure);
+        this.maxFMeasure = round(maxFMeasure);
         this.indexOfMaxPrecisionClassification = indexOfMaxPrecisionClassification;
         this.indexOfMinPrecisionClassification = indexOfMinPrecisionClassification;
+    }
+
+    private float round(float f) {
+        return Float.valueOf(ROUNDED_DECIMAL_FORMAT.format(f));
     }
 
     @Override
@@ -119,62 +123,62 @@ class MultiClassificationReportImpl implements MultiClassificationReport {
     }
 
     @Override
-    public double averageAccuracy() {
+    public float averageAccuracy() {
         return avgAccuracy;
     }
 
     @Override
-    public double minAccuracy() {
+    public float minAccuracy() {
         return minAccuracy;
     }
 
     @Override
-    public double maxAccuracy() {
+    public float maxAccuracy() {
         return maxAccuracy;
     }
 
     @Override
-    public double averagePrecision() {
+    public float averagePrecision() {
         return avgPrecision;
     }
 
     @Override
-    public double minPrecision() {
+    public float minPrecision() {
         return minPrecision;
     }
 
     @Override
-    public double maxPrecision() {
+    public float maxPrecision() {
         return maxPrecision;
     }
 
     @Override
-    public double averageRecall() {
+    public float averageRecall() {
         return avgRecall;
     }
 
     @Override
-    public double minRecall() {
+    public float minRecall() {
         return minRecall;
     }
 
     @Override
-    public double maxRecall() {
+    public float maxRecall() {
         return maxRecall;
     }
 
     @Override
-    public double averageFMeasure() {
+    public float averageFMeasure() {
         return avgFMeasure;
     }
 
     @Override
-    public double minFMeasure() {
+    public float minFMeasure() {
         return minFMeasure;
     }
 
     @Override
-    public double maxFMeasure() {
+    public float maxFMeasure() {
         return maxFMeasure;
     }
 

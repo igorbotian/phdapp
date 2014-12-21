@@ -37,84 +37,84 @@ public interface MultiClassificationReport extends Report {
      *
      * @return вещественное значение в диапазоне [0.0;1.0]
      */
-    double averageAccuracy();
+    float averageAccuracy();
 
     /**
      * Минимальное значение метрики <code>Accuracy</code>
      *
      * @return вещественное значение в диапазоне [0.0;1.0]
      */
-    double minAccuracy();
+    float minAccuracy();
 
     /**
      * Максимальное значение метрики <code>Accuracy</code>
      *
      * @return вещественное значение в диапазоне [0.0;1.0]
      */
-    double maxAccuracy();
+    float maxAccuracy();
 
     /**
      * Среднее значение метрики <code>Precision</code>
      *
      * @return вещественное значение в диапазоне [0.0;1.0]
      */
-    double averagePrecision();
+    float averagePrecision();
 
     /**
      * Минимальное значение метрики <code>Precision</code>
      *
      * @return вещественное значение в диапазоне [0.0;1.0]
      */
-    double minPrecision();
+    float minPrecision();
 
     /**
      * Максимальное значение метрики <code>Precision</code>
      *
      * @return вещественное значение в диапазоне [0.0;1.0]
      */
-    double maxPrecision();
+    float maxPrecision();
 
     /**
      * Среднее значение метрики <code>Recall</code>
      *
      * @return вещественное значение в диапазоне [0.0;1.0]
      */
-    double averageRecall();
+    float averageRecall();
 
     /**
      * Минимальное значение метрики <code>Recall</code>
      *
      * @return вещественное значение в диапазоне [0.0;1.0]
      */
-    double minRecall();
+    float minRecall();
 
     /**
      * Максимальное значение метрики <code>Recall</code>
      *
      * @return вещественное значение в диапазоне [0.0;1.0]
      */
-    double maxRecall();
+    float maxRecall();
 
     /**
      * Среднее значение метрики <code>Мера Ризбергена</code>
      *
      * @return вещественное число
      */
-    double averageFMeasure();
+    float averageFMeasure();
 
     /**
      * Минимальное значение метрики <code>Мера Ризбергена</code>
      *
      * @return вещественное число
      */
-    double minFMeasure();
+    float minFMeasure();
 
     /**
      * Максимальное значение метрики <code>Мера Ризбергена</code>
      *
      * @return вещественное число
      */
-    double maxFMeasure();
+    float maxFMeasure();
 
     /**
      * Получение значений параметров, при которых точность классификации является наихудшей среди заданных наборов параметров

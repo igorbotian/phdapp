@@ -33,7 +33,7 @@ public interface SingleClassificationReport extends Report {
      *
      * @return вещественное число в диапазоне [0.0; 1.0]
      */
-    double accuracy();
+    float accuracy();
 
     /**
      * Получение значения метрики <i>Precision</i>.
@@ -44,7 +44,7 @@ public interface SingleClassificationReport extends Report {
      *
      * @return вещественное число в диапазоне [0.0; 1.0]
      */
-    double precision();
+    float precision();
 
     /**
      * Получение значения метрики <i>Recall</i>.
@@ -55,12 +55,12 @@ public interface SingleClassificationReport extends Report {
      *
      * @return вещественное число в диапазоне [0.0; 1.0]
      */
-    double recall();
+    float recall();
 
     /**
      * Получение значения метрики <i>Мера Ван Ризбергена</i>.
      * Она равна удвоенному частному произведения <i>Recall</i> и <i>Precision</i> к их сумме
      * @return вещественное число
      */
-    double fMeasure();
+    float fMeasure();
 }
