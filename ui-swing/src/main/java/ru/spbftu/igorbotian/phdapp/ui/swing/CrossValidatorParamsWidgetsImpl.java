@@ -58,51 +58,62 @@ class CrossValidatorParamsWidgetsImpl implements CrossValidatorParamsWidgets {
 
         CrossValidatorParamsFrameDirector director = uiHelper.crossValidatorParamsFrameDirector();
 
-        preciseConstantCostParamSpinner = preciseDoubleSpinner(director.constantCostParameter());
-        intervalConstantCostParamSpinner = doubleRangeSpinner(director.constantCostParameter());
+        preciseConstantCostParamSpinner = preciseDoubleSpinner(director.constantCostParameter(),
+                CONSTANT_COST_PARAMETER_STEP_SIZE);
+        intervalConstantCostParamSpinner = doubleRangeSpinner(director.constantCostParameter(),
+                CONSTANT_COST_PARAMETER_STEP_SIZE);
 
-        preciseGaussianKernelParamSpinner = preciseDoubleSpinner(director.gaussianKernelParameter());
-        intervalGaussianKernelParamSpinner = doubleRangeSpinner(director.gaussianKernelParameter());
+        preciseGaussianKernelParamSpinner = preciseDoubleSpinner(director.gaussianKernelParameter(),
+                GAUSSIAN_KERNEL_PARAMETER_STEP_SIZE);
+        intervalGaussianKernelParamSpinner = doubleRangeSpinner(director.gaussianKernelParameter(),
+                GAUSSIAN_KERNEL_PARAMETER_STEP_SIZE);
 
-        samplesToGenerateCountSpinner = preciseIntegerSpinner(director.samplesToGenerateCount());
+        samplesToGenerateCountSpinner = preciseIntegerSpinner(director.samplesToGenerateCount(),
+                SAMPLES_TO_GENERATE_COUNT_STEP_SIZE);
 
-        preciseSampleSizeSpinner = preciseIntegerSpinner(director.sampleSize());
-        intervalSampleSizeSpinner = integerRangeSpinner(director.sampleSize());
+        preciseSampleSizeSpinner = preciseIntegerSpinner(director.sampleSize(),
+                SAMPLE_SIZE_STEP_SIZE);
+        intervalSampleSizeSpinner = integerRangeSpinner(director.sampleSize(),
+                SAMPLES_TO_GENERATE_COUNT_STEP_SIZE);
 
-        preciseTrainingTestingSetsSizeRatioSpinner = preciseIntegerSpinner(director.trainingTestingSetsSizeRatio());
-        intervalTrainingTestingSetsSizeRatioSpinner = integerRangeSpinner(director.trainingTestingSetsSizeRatio());
+        preciseTrainingTestingSetsSizeRatioSpinner = preciseIntegerSpinner(director.trainingTestingSetsSizeRatio(),
+                TRAINING_TESTING_SETS_SIZE_RATIO_STEP_SIZE);
+        intervalTrainingTestingSetsSizeRatioSpinner = integerRangeSpinner(director.trainingTestingSetsSizeRatio(),
+                TRAINING_TESTING_SETS_SIZE_RATIO_STEP_SIZE);
 
         precisePreciseIntervalJudgmentsCountRatioSpinner
-                = preciseIntegerSpinner(director.preciseIntervalJudgmentsCountRatio());
+                = preciseIntegerSpinner(director.preciseIntervalJudgmentsCountRatio(),
+                PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_STEP_SIZE);
         intervalPreciseIntervalJudgmentsCountRatioSpinner
-                = integerRangeSpinner(director.preciseIntervalJudgmentsCountRatio());
+                = integerRangeSpinner(director.preciseIntervalJudgmentsCountRatio(),
+                PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_STEP_SIZE);
     }
 
-    private IntegerSpinner preciseIntegerSpinner(MutableCrossValidatorParameter<Integer> parameter) {
+    private IntegerSpinner preciseIntegerSpinner(MutableCrossValidatorParameter<Integer> parameter, int uiStepSize) {
         IntegerSpinner spinner = new IntegerSpinner(
                 uiHelper.getLabel(parameter.name()),
                 parameter.value().value(),
                 parameter.value().minValue(),
                 parameter.value().maxValue(),
-                parameter.stepSize().value()
+                uiStepSize
         );
         spinner.addChangeListener(e -> parameter.value().setValue(spinner.getValue()));
         return spinner;
     }
 
-    private DoubleSpinner preciseDoubleSpinner(MutableCrossValidatorParameter<Double> parameter) {
+    private DoubleSpinner preciseDoubleSpinner(MutableCrossValidatorParameter<Double> parameter, double uiStepSize) {
         DoubleSpinner spinner = new DoubleSpinner(
                 uiHelper.getLabel(parameter.name()),
                 parameter.value().value(),
                 parameter.value().minValue(),
                 parameter.value().maxValue(),
-                parameter.stepSize().value()
+                uiStepSize
         );
         spinner.addChangeListener(e -> parameter.value().setValue(spinner.getValue()));
         return spinner;
     }
 
-    private IntegerRangeSpinner integerRangeSpinner(MutableCrossValidatorParameter<Integer> parameter) {
+    private IntegerRangeSpinner integerRangeSpinner(MutableCrossValidatorParameter<Integer> parameter, int uiStepSize) {
         IntegerRangeSpinner spinner = new IntegerRangeSpinner(
                 uiHelper.getLabel(parameter.name()),
                 parameter.lowerBound().value(),
@@ -113,7 +124,8 @@ class CrossValidatorParamsWidgetsImpl implements CrossValidatorParamsWidgets {
                 parameter.upperBound().maxValue(),
                 parameter.stepSize().value(),
                 parameter.stepSize().minValue(),
-                parameter.stepSize().maxValue()
+                parameter.stepSize().maxValue(),
+                uiStepSize
         );
 
         spinner.addMinValueChangeListener(e -> parameter.lowerBound().setValue(spinner.getMinValue()));
@@ -123,7 +135,7 @@ class CrossValidatorParamsWidgetsImpl implements CrossValidatorParamsWidgets {
         return spinner;
     }
 
-    private DoubleRangeSpinner doubleRangeSpinner(MutableCrossValidatorParameter<Double> parameter) {
+    private DoubleRangeSpinner doubleRangeSpinner(MutableCrossValidatorParameter<Double> parameter, double uiStepSize) {
         DoubleRangeSpinner spinner = new DoubleRangeSpinner(
                 uiHelper.getLabel(parameter.name()),
                 parameter.lowerBound().value(),
@@ -134,7 +146,8 @@ class CrossValidatorParamsWidgetsImpl implements CrossValidatorParamsWidgets {
                 parameter.upperBound().maxValue(),
                 parameter.stepSize().value(),
                 parameter.stepSize().minValue(),
-                parameter.stepSize().maxValue()
+                parameter.stepSize().maxValue(),
+                uiStepSize
         );
 
         spinner.addMinValueChangeListener(e -> parameter.lowerBound().setValue(spinner.getMinValue()));

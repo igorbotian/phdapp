@@ -31,6 +31,37 @@ import ru.spbftu.igorbotian.phdapp.ui.swing.widget.IntegerSpinner;
 interface CrossValidatorParamsWidgets {
 
     /**
+     * Величина изменения шага для параметра постоянной стоимости
+     */
+    public static final double CONSTANT_COST_PARAMETER_STEP_SIZE = 1.0;
+
+    /**
+     * Величина изменения шага для параметра Гауссова ядра
+     */
+    public static final double GAUSSIAN_KERNEL_PARAMETER_STEP_SIZE = 0.05;
+
+    /**
+     * Величина изменения шага для параметра, задающего количество генерируемых выборок
+     */
+    public static final int SAMPLES_TO_GENERATE_COUNT_STEP_SIZE = 1;
+
+    /**
+     * Величина изменения шага для параметра, задающего количество объектов в генерируемой выборке
+     */
+    public static final int SAMPLE_SIZE_STEP_SIZE = 1;
+
+    /**
+     * Величина изменения шага для параметра, задающего соотношение количества объектов,
+     * входящих в обучающей и тестирующей выборках
+     */
+    public static final int TRAINING_TESTING_SETS_SIZE_RATIO_STEP_SIZE = 1;
+
+    /**
+     * Величина изменения шага для параметра, задающего соотношение количества точных и интервальных экспертных оценок
+     */
+    public static final int PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_STEP_SIZE = 1;
+
+    /**
      * Заданное значение коэффициента С
      */
     DoubleSpinner preciseConstantCostParamSpinner();

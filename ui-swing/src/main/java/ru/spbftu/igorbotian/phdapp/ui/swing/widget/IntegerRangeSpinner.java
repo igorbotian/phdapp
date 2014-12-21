@@ -29,9 +29,9 @@ public class IntegerRangeSpinner extends NumberRangeSpinner<Integer> {
 
     public IntegerRangeSpinner(String description, int lowerValue, int lowerMin, int lowerMax,
                                int upperValue, int upperMin, int upperMax,
-                               int stepSize, int stepSizeMin, int stepSizeMax) {
-        super(description, new SpinnerNumberModel(lowerValue, lowerMin, lowerMax, stepSize),
-                new SpinnerNumberModel(upperValue, upperMin, upperMax, stepSize),
-                new SpinnerNumberModel(stepSize, stepSizeMin, stepSizeMax, stepSize));
+                               int stepSize, int stepSizeMin, int stepSizeMax, int uiStepSize) {
+        super(description, new SpinnerNumberModel(lowerValue, lowerMin, lowerMax, uiStepSize),
+                new SpinnerNumberModel(upperValue, upperMin, upperMax, uiStepSize),
+                new SpinnerNumberModel(stepSize, stepSizeMin, stepSizeMax, uiStepSize));
     }
 }
