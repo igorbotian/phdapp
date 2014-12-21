@@ -19,6 +19,7 @@
 package ru.spbftu.igorbotian.phdapp.ui.swing.widget;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.util.Objects;
@@ -43,17 +44,49 @@ public abstract class NumberRangeSpinner <T extends Number> extends JPanel {
 
         // TODO check bounds
 
+        adjustSpinnerTextFieldColumns(this.minSpinner, getMinValue());
+        adjustSpinnerTextFieldColumns(this.maxSpinner, getMaxValue());
+        adjustSpinnerTextFieldColumns(this.stepSizeSpinner, getStepSize());
+
+        this.minSpinner.addChangeListener(e -> adjustSpinnerTextFieldColumns(this.minSpinner, getMinValue()));
+        this.maxSpinner.addChangeListener(e -> adjustSpinnerTextFieldColumns(this.maxSpinner, getMaxValue()));
+        this.stepSizeSpinner.addChangeListener(e -> adjustSpinnerTextFieldColumns(this.stepSizeSpinner, getStepSize()));
+
         layoutComponents();
     }
 
     private void layoutComponents() {
-        setLayout(new FlowLayout(FlowLayout.LEADING));
-        add(label);
-        add(minSpinner);
-        add(new JLabel("..."));
-        add(maxSpinner);
-        add(new JLabel("<html>&#916;:</html>"));
-        add(stepSizeSpinner);
+        setLayout(new GridBagLayout());
+
+        GridBagConstraints gbConstraints = new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0, GridBagConstraints.WEST,
+                GridBagConstraints.NONE, new Insets(0, 0, 0, 5), 0, 0);
+        add(label, gbConstraints);
+
+        gbConstraints.gridx++;
+        add(minSpinner, gbConstraints);
+
+        gbConstraints.gridx++;
+        add(new JLabel("..."), gbConstraints);
+
+        gbConstraints.gridx++;
+        add(maxSpinner, gbConstraints);
+
+        gbConstraints.gridx++;
+        add(new JLabel("<html>&#916;:</html>"), gbConstraints);
+
+        gbConstraints.gridx++;
+        add(stepSizeSpinner, gbConstraints);
+
+        gbConstraints.gridx++;
+        gbConstraints.fill = GridBagConstraints.HORIZONTAL;
+        gbConstraints.weightx = 1.0;
+        add(new JPanel(), gbConstraints);
+    }
+
+    private void adjustSpinnerTextFieldColumns(JSpinner spinner, T value) {
+        JFormattedTextField textField = ((JSpinner.DefaultEditor) spinner.getEditor()).getTextField();
+        textField.setColumns(value.toString().length());
+        revalidate();
     }
 
     /**

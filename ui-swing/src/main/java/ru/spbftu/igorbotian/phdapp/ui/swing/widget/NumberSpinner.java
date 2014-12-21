@@ -19,6 +19,7 @@
 package ru.spbftu.igorbotian.phdapp.ui.swing.widget;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.util.Objects;
@@ -35,13 +36,32 @@ public abstract class NumberSpinner<T extends Number> extends JPanel {
         this.spinner = new JSpinner(Objects.requireNonNull(spinnerModel));
         this.label = new JLabel(description + ":");
 
+        adjustSpinnerTextFieldColumns();
+        this.spinner.addChangeListener(e -> adjustSpinnerTextFieldColumns());
+
         layoutComponents();
     }
 
     private void layoutComponents() {
-        setLayout(new FlowLayout(FlowLayout.LEFT));
-        add(label);
-        add(spinner);
+        setLayout(new GridBagLayout());
+
+        GridBagConstraints gbConstraints = new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0, GridBagConstraints.WEST,
+                GridBagConstraints.NONE, new Insets(0, 0, 0, 5), 0, 0);
+        add(label, gbConstraints);
+
+        gbConstraints.gridx++;
+        add(spinner, gbConstraints);
+
+        gbConstraints.gridx++;
+        gbConstraints.fill = GridBagConstraints.HORIZONTAL;
+        gbConstraints.weightx = 1.0;
+        add(new JPanel(), gbConstraints);
+    }
+
+    private void adjustSpinnerTextFieldColumns() {
+        JFormattedTextField textField = ((JSpinner.DefaultEditor) spinner.getEditor()).getTextField();
+        textField.setColumns(getValue().toString().length());
+        revalidate();
     }
 
     @SuppressWarnings("unchecked")
