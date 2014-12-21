@@ -25,7 +25,7 @@ public interface IntervalPairwiseClassifierCrossValidators {
     PairwiseClassifierCrossValidator<MultiClassificationReport> averagePrecisionValidator();
 
     /**
-     * Средство анализа зависимости точности классификации от размера обучающей выборки
+     * Средство анализа зависимости точности классификации от размера выборки
      *
      * @return средство кросс-валидации для данного действия
      */

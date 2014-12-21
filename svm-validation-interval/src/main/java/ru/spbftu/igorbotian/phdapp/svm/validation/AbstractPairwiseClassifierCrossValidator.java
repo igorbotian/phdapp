@@ -92,7 +92,28 @@ abstract class AbstractPairwiseClassifierCrossValidator<R extends Report>
      */
     protected CrossValidatorParameterFactory override(CrossValidatorParameterFactory paramsFactory,
                                                                       Set<CrossValidatorParameter<?>> specificParams) {
+        Objects.requireNonNull(paramsFactory);
+        Objects.requireNonNull(specificParams);
+
         return new SpecificCrossValidatorParameterFactory(paramsFactory, specificParams);
+    }
+
+    /**
+     * Создание набора параметров классификатора на базе существующего с учётом новых значений для заданных параметров
+     * @param params набор параметров классификатора
+     * @param specificParams параметры, имеющие новые значения
+     * @return набор параметров классификатора
+     */
+    protected Set<? extends ClassifierParameter<?>> override(Set<? extends ClassifierParameter<?>> params,
+                                                             Set<? extends ClassifierParameter<?>> specificParams) {
+        Objects.requireNonNull(params);
+        Objects.requireNonNull(specificParams);
+
+        Set<ClassifierParameter<?>> result = new HashSet<>(params);
+        specificParams.forEach(specificParam -> result.removeIf(param -> param.name().equals(specificParam.name())));
+        specificParams.forEach(result::add);
+
+        return result;
     }
 
     /**

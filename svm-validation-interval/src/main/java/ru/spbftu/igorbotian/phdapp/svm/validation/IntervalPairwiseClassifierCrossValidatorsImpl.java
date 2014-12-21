@@ -21,7 +21,33 @@ class IntervalPairwiseClassifierCrossValidatorsImpl implements IntervalPairwiseC
     /**
      * Средство кросс-валидации, ориентированное на значение точности единичной попарной классификации
      */
-    private final PairwiseClassifierCrossValidator<SingleClassificationReport> precisionValidator;
+    private final PrecisionValidator precisionValidator;
+
+    /**
+     * Средство кросс-валидации, ориентированное на среднее значение точности серии попарных классификаций
+     */
+    private final AveragePrecisionValidator averagePrecisionValidator;
+
+    /**
+     * Средство анализа зависимости точности классификации от размера обучающей выборки
+     */
+    private final PrecisionDependenceOnSampleSizeAnalyzer precisionDependenceOnSampleSizeAnalyzer;
+
+    /**
+     * Средство анализа завимимости точности классификации от процентного соотношения количества точных/интервальных
+     * экспертных оценок
+     */
+    private final PreciseIntervalJudgementsRatioAnalyzer preciseIntervalJudgementsRatioAnalyzer;
+
+    /**
+     * Средство анализа завимимости точности классификации от параметров классификации
+     */
+    private final PrecisionDependenceOnClassifierParametersAnalyzer precisionDependenceOnClassifierParametersAnalyzer;
+
+    /**
+     * Средство анализа завимимости точности классификации от размера обучающей выборки
+     */
+    private final TrainingSetSizeRatioAnalyzer trainingSetSizeRatioAnalyzer;
 
     @Inject
     public IntervalPairwiseClassifierCrossValidatorsImpl(CrossValidationSampleManager sampleManager,
@@ -33,6 +59,18 @@ class IntervalPairwiseClassifierCrossValidatorsImpl implements IntervalPairwiseC
 
         this.precisionValidator = new PrecisionValidator(sampleManager, classifierParameterFactory,
                 crossValidatorParameterFactory, reportFactory, mathDataFactory, dataFactory);
+        this.averagePrecisionValidator = new AveragePrecisionValidator(sampleManager, classifierParameterFactory,
+                crossValidatorParameterFactory, reportFactory, precisionValidator);
+        this.precisionDependenceOnSampleSizeAnalyzer = new PrecisionDependenceOnSampleSizeAnalyzer(sampleManager,
+                classifierParameterFactory, crossValidatorParameterFactory, reportFactory, precisionValidator);
+        this.preciseIntervalJudgementsRatioAnalyzer
+                = new PreciseIntervalJudgementsRatioAnalyzer(sampleManager,
+                classifierParameterFactory, crossValidatorParameterFactory, reportFactory, precisionValidator);
+        this.precisionDependenceOnClassifierParametersAnalyzer = new PrecisionDependenceOnClassifierParametersAnalyzer(
+                sampleManager, classifierParameterFactory, crossValidatorParameterFactory, reportFactory,
+                precisionValidator);
+        this.trainingSetSizeRatioAnalyzer = new TrainingSetSizeRatioAnalyzer(sampleManager, classifierParameterFactory,
+                crossValidatorParameterFactory, reportFactory, precisionValidator);
     }
 
     @Override
@@ -42,26 +80,26 @@ class IntervalPairwiseClassifierCrossValidatorsImpl implements IntervalPairwiseC
 
     @Override
     public PairwiseClassifierCrossValidator<MultiClassificationReport> averagePrecisionValidator() {
-        return null; // TODO
+        return averagePrecisionValidator;
     }
 
     @Override
     public PairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnSampleSizeAnalyzer() {
-        return null; // TODO
+        return precisionDependenceOnSampleSizeAnalyzer;
     }
 
     @Override
     public PairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnTrainingSetSizeAnalyzer() {
-        return null; // TODO
+        return trainingSetSizeRatioAnalyzer;
     }
 
     @Override
     public PairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnClassifierParametersAnalyzer() {
-        return null; // TODO
+        return precisionDependenceOnClassifierParametersAnalyzer;
     }
 
     @Override
     public PairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnPreciseIntervalJudgementsRatioAnalyzer() {
-        return null; // TODO
+        return preciseIntervalJudgementsRatioAnalyzer;
     }
 }
