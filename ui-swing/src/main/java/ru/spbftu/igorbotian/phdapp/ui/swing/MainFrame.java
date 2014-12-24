@@ -22,6 +22,7 @@ import ru.spbftu.igorbotian.phdapp.svm.validation.report.Report;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.util.Enumeration;
 import java.util.function.Supplier;
@@ -166,9 +167,10 @@ class MainFrame extends PhDAppFrame {
 
     private JPanel describe(JRadioButton button, String description) {
         JLabel descriptionLabel = new JLabel(
-                "<html><p style=\"text-align: center;\">" + description.replaceAll("\\n", "<br/>") + "</p></html>",
+                "<html><p style=\"text-align: left;\">" + description.replaceAll("\\n", "<br/>") + "</p></html>",
                 JLabel.CENTER);
         descriptionLabel.setEnabled(false);
+        descriptionLabel.setHorizontalAlignment(SwingConstants.LEFT);
         descriptionLabel.setFont(button.getFont().deriveFont(Font.PLAIN, button.getFont().getSize() - 1));
 
         JPanel pane = new JPanel();
@@ -198,9 +200,7 @@ class MainFrame extends PhDAppFrame {
 
             if (precisionActionRadioButton == button) {
                 JButton viewSampleButton = new JButton(uiHelper.getLabel(VIEW_SAMPLE_LABEL) + "...");
-                viewSampleButton.addActionListener(e -> {
-                    new SampleDialog(MainFrame.this).setVisible(true);
-                });
+                viewSampleButton.addActionListener(e -> new SampleDialog(MainFrame.this).setVisible(true));
 
                 JComponent[] widgets = new JComponent[]{
                         uiHelper.widgets().preciseConstantCostParamSpinner(),
