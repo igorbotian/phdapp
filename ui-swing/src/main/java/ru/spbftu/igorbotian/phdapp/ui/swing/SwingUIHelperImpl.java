@@ -20,10 +20,7 @@ package ru.spbftu.igorbotian.phdapp.ui.swing;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import ru.spbftu.igorbotian.phdapp.ui.common.CrossValidatorResultsFrameDirector;
-import ru.spbftu.igorbotian.phdapp.ui.common.CrossValidatorParamsFrameDirector;
-import ru.spbftu.igorbotian.phdapp.ui.common.CrossValidationSampleCanvasDirector;
-import ru.spbftu.igorbotian.phdapp.ui.common.UIHelper;
+import ru.spbftu.igorbotian.phdapp.ui.common.*;
 
 import java.util.Objects;
 
@@ -37,11 +34,20 @@ class SwingUIHelperImpl implements SwingUIHelper {
 
     private UIHelper uiHelper;
     private CrossValidatorParamsWidgets widgets;
+    private SwingMainFrameDirector mainFrameDirector;
 
     @Inject
-    public SwingUIHelperImpl(UIHelper uiHelper, CrossValidatorParamsWidgets widgets) {
+    public SwingUIHelperImpl(UIHelper uiHelper, CrossValidatorParamsWidgets widgets,
+                             SwingMainFrameDirector mainFrameDirector) {
+
         this.uiHelper = Objects.requireNonNull(uiHelper);
         this.widgets = Objects.requireNonNull(widgets);
+        this.mainFrameDirector = Objects.requireNonNull(mainFrameDirector);
+    }
+
+    @Override
+    public SwingMainFrameDirector mainFrameDirector() {
+        return mainFrameDirector;
     }
 
     @Override

@@ -36,6 +36,11 @@ public interface UIHelper {
     String getLabel(String label);
 
     /**
+     * Получение модели главного окна приложения
+     */
+    MainFrameDirector mainFrameDirector();
+
+    /**
      * Получение модели компонента, отвечающего за отображение выборки для классификации
      */
     CrossValidationSampleCanvasDirector sampleCanvasDirector();

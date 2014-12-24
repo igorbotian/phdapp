@@ -35,18 +35,16 @@ class SwingUserInterface implements UserInterface {
     private static Logger LOGGER = Logger.getLogger(SwingUserInterface.class);
 
     private final SwingUIHelper uiHelper;
-    private final SwingMainFrameDirector mainFrameDirector;
 
     @Inject
-    public SwingUserInterface(SwingUIHelper uiHelper, SwingMainFrameDirector mainFrameDirector) {
+    public SwingUserInterface(SwingUIHelper uiHelper) {
         this.uiHelper = Objects.requireNonNull(uiHelper);
-        this.mainFrameDirector = Objects.requireNonNull(mainFrameDirector);
     }
 
     @Override
     public void showMainWindow() {
         setLookAndFeel();
-        SwingUtilities.invokeLater(() -> new MainFrame(uiHelper, mainFrameDirector).setVisible(true));
+        SwingUtilities.invokeLater(() -> new MainFrame(uiHelper).setVisible(true));
     }
 
     private void setLookAndFeel() {

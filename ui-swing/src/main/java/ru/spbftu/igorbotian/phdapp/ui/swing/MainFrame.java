@@ -24,7 +24,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.Enumeration;
-import java.util.Objects;
 
 /**
  * Главное окно программы
@@ -73,10 +72,10 @@ class MainFrame extends PhDAppFrame {
      */
     private final SwingMainFrameDirector director;
 
-    public MainFrame(SwingUIHelper uiHelper, SwingMainFrameDirector director) {
+    public MainFrame(SwingUIHelper uiHelper) {
         super(uiHelper);
-        this.director = Objects.requireNonNull(director);
-        this.director.setMainFrame(this);
+        this.director = uiHelper.mainFrameDirector();
+        SwingUtilities.invokeLater(() -> director.setMainFrame(MainFrame.this));
 
         initComponents();
         layoutComponents();
@@ -223,7 +222,8 @@ class MainFrame extends PhDAppFrame {
             }
 
             if (action != null) {
-                director.performAction(action);
+                final UserAction userAction = action;
+                SwingUtilities.invokeLater(() -> director.performAction(userAction));
             }
         }
     }

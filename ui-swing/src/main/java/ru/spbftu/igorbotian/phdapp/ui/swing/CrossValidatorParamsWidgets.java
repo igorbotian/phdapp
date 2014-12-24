@@ -24,11 +24,11 @@ import ru.spbftu.igorbotian.phdapp.ui.swing.widget.IntegerRangeSpinner;
 import ru.spbftu.igorbotian.phdapp.ui.swing.widget.IntegerSpinner;
 
 /**
- * Средство для формирования виджетов для задания параметров классификации.
+ * Средство для формирования виджетов для задания параметров средства кросс-валидации.
  * Введённые пользователем значения сохраняются по завершению работы программы
  * и задаются по умолчанию при следующей работе приложения.
  */
-interface CrossValidatorParamsWidgets {
+public interface CrossValidatorParamsWidgets {
 
     /**
      * Величина изменения шага для параметра постоянной стоимости

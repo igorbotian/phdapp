@@ -75,6 +75,13 @@ class UIHelperImpl implements UIHelper {
     }
 
     @Override
+    public MainFrameDirector mainFrameDirector() {
+        return action -> {
+            // nothing
+        };
+    }
+
+    @Override
     public CrossValidationSampleCanvasDirector sampleCanvasDirector() {
         return sampleCanvasDirector;
     }

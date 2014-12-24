@@ -23,9 +23,18 @@ import ru.spbftu.igorbotian.phdapp.ui.common.UIHelper;
 /**
  * Дополнение к <code>UIHelper</code>, содержащее общие элементы пользовательского интерфейса, реализованные с помощью
  * библиотеки Swing
+ *
  * @see ru.spbftu.igorbotian.phdapp.ui.common.UIHelper
  */
 public interface SwingUIHelper extends UIHelper {
 
+    /**
+     * Получение модели реализации главного окна приложения с помощью библиотеки Swing
+     */
+    SwingMainFrameDirector mainFrameDirector();
+
+    /**
+     * Получение средства для формирования виджетов для задания параметров средства кросс-валидации
+     */
     CrossValidatorParamsWidgets widgets();
 }
