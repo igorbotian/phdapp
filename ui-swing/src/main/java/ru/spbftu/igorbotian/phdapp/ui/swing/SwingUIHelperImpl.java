@@ -71,7 +71,7 @@ class SwingUIHelperImpl implements SwingUIHelper {
     }
 
     @Override
-    public CrossValidatorResultsFrameDirector crossValidationResultsFrameDirector() {
-        return uiHelper.crossValidationResultsFrameDirector();
+    public CrossValidationResultWindowDirector crossValidationResultWindowDirector() {
+        return uiHelper.crossValidationResultWindowDirector();
     }
 }

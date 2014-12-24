@@ -30,25 +30,22 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.StringTokenizer;
+import java.util.*;
 
 /**
- * Реализация интерфейса <code>CrossValidatorResultsFrameDirector</code>
+ * Реализация интерфейса <code>CrossValidationResultWindowDirector</code>
  *
- * @see CrossValidatorResultsFrameDirector
+ * @see CrossValidationResultWindowDirector
  */
-class CrossValidatorResultsFrameDirectorImpl implements CrossValidatorResultsFrameDirector {
+class CrossValidationResultWindowDirectorImpl implements CrossValidationResultWindowDirector {
 
-    private final Logger LOGGER = Logger.getLogger(CrossValidatorResultsFrameDirectorImpl.class);
+    private final Logger LOGGER = Logger.getLogger(CrossValidationResultWindowDirectorImpl.class);
 
     private final ReportSummaryWriterFactory reportSummaryWriterFactory;
     private final ReportCSVWriterFactory reportCSVWriterFactory;
 
-    public CrossValidatorResultsFrameDirectorImpl(ReportSummaryWriterFactory reportSummaryWriterFactory,
-                                                  ReportCSVWriterFactory reportCSVWriterFactory) {
+    public CrossValidationResultWindowDirectorImpl(ReportSummaryWriterFactory reportSummaryWriterFactory,
+                                                   ReportCSVWriterFactory reportCSVWriterFactory) {
 
         this.reportSummaryWriterFactory = Objects.requireNonNull(reportSummaryWriterFactory);
         this.reportCSVWriterFactory = Objects.requireNonNull(reportCSVWriterFactory);
@@ -61,23 +58,12 @@ class CrossValidatorResultsFrameDirectorImpl implements CrossValidatorResultsFra
             StringWriter writer = new StringWriter();
             ReportSummaryWriter<R> summaryWriter = reportSummaryWriterFactory.get((Class<R>) report.getClass());
             summaryWriter.writeTo(report, new PrintWriter(writer));
-            return divideByLines(writer.toString());
+            return Arrays.asList(writer.toString().split("\\n"));
         } catch (IOException e) {
             LOGGER.error("Unable to obtain report summary", e);
         }
 
         return new ArrayList<>();
-    }
-
-    private List<String> divideByLines(String str) {
-        List<String> lines = new ArrayList<>();
-        StringTokenizer tokenizer = new StringTokenizer(str, "\n");
-
-        while (tokenizer.hasMoreElements()) {
-            lines.add((String) tokenizer.nextElement());
-        }
-
-        return lines;
     }
 
     @Override

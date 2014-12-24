@@ -25,7 +25,6 @@ import ru.spbftu.igorbotian.phdapp.locale.Localization;
 import ru.spbftu.igorbotian.phdapp.output.csv.ReportCSVWriterFactory;
 import ru.spbftu.igorbotian.phdapp.output.summary.ReportSummaryWriterFactory;
 import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidatorParameterFactory;
-import ru.spbftu.igorbotian.phdapp.svm.validation.sample.CrossValidationSampleGenerator;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.CrossValidationSampleManager;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.MathDataFactory;
 
@@ -43,7 +42,7 @@ class UIHelperImpl implements UIHelper {
 
     private final CrossValidationSampleCanvasDirector sampleCanvasDirector;
     private final CrossValidatorParamsFrameDirector crossValidatorParamsFrameDirector;
-    private final CrossValidatorResultsFrameDirector crossValidatorResultsFrameDirector;
+    private final CrossValidationResultWindowDirector crossValidationResultWindowDirector;
 
     @Inject
     public UIHelperImpl(Localization localization,
@@ -65,8 +64,8 @@ class UIHelperImpl implements UIHelper {
         sampleCanvasDirector = new CrossValidationSampleCanvasDirectorImpl(sampleManager, mathDataFactory);
         crossValidatorParamsFrameDirector
                 = new CrossValidatorParamsFrameDirectorImpl(configuration, crossValidatorParameterFactory);
-        crossValidatorResultsFrameDirector =
-                new CrossValidatorResultsFrameDirectorImpl(reportSummaryWriterFactory, reportCSVWriterFactory);
+        crossValidationResultWindowDirector =
+                new CrossValidationResultWindowDirectorImpl(reportSummaryWriterFactory, reportCSVWriterFactory);
     }
 
     @Override
@@ -92,7 +91,7 @@ class UIHelperImpl implements UIHelper {
     }
 
     @Override
-    public CrossValidatorResultsFrameDirector crossValidationResultsFrameDirector() {
-        return crossValidatorResultsFrameDirector;
+    public CrossValidationResultWindowDirector crossValidationResultWindowDirector() {
+        return crossValidationResultWindowDirector;
     }
 }

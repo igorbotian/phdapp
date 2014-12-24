@@ -53,5 +53,5 @@ public interface UIHelper {
     /**
      * Получение модели окна, отображающего результаты кросс-валидации
      */
-    CrossValidatorResultsFrameDirector crossValidationResultsFrameDirector();
+    CrossValidationResultWindowDirector crossValidationResultWindowDirector();
 }
