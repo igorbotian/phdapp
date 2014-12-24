@@ -18,15 +18,12 @@
 
 package ru.spbftu.igorbotian.phdapp.ui.swing;
 
-import ru.spbftu.igorbotian.phdapp.svm.validation.report.Report;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Objects;
-import java.util.function.Supplier;
 
 /**
  * Диалог задания значений указанных параметров классификации
@@ -37,16 +34,13 @@ public class ClassifierParamsFrame extends PhDAppFrame {
     private static final String NEXT_LABEL = "next";
 
     private final PhDAppFrame mainFrame;
-    private final Supplier<Report> reportSupplier;
     private JButton backButton;
     private JButton nextButton;
 
-    public ClassifierParamsFrame(SwingUIHelper uiHelper, PhDAppFrame mainFrame, Supplier<Report> reportSupplier,
-                                 JComponent... paramWidgets) {
+    public ClassifierParamsFrame(SwingUIHelper uiHelper, PhDAppFrame mainFrame, JComponent... paramWidgets) {
         super(uiHelper);
 
         this.mainFrame = Objects.requireNonNull(mainFrame);
-        this.reportSupplier = Objects.requireNonNull(reportSupplier);
 
         initComponents();
         layoutComponents(Objects.requireNonNull(paramWidgets));

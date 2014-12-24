@@ -18,14 +18,13 @@
 
 package ru.spbftu.igorbotian.phdapp.ui.swing;
 
-import ru.spbftu.igorbotian.phdapp.svm.validation.report.Report;
+import ru.spbftu.igorbotian.phdapp.ui.common.UserAction;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.util.Enumeration;
-import java.util.function.Supplier;
+import java.util.Objects;
 
 /**
  * Главное окно программы
@@ -51,7 +50,6 @@ class MainFrame extends PhDAppFrame {
     private static final String INTERVAL_JUDGEMENTS_RATIO_LABEL = "determinePrecisionDependenceOnIntervalJudgementsRatio";
     private static final String INTERVAL_JUDGEMENTS_RATIO_ACTION_LABEL = "determinePrecisionDependenceOnIntervalJudgementsRatioAction";
     private static final String NEXT_LABEL = "next";
-    private static final String VIEW_SAMPLE_LABEL = "viewSample";
 
     private JMenuBar menuBar;
 
@@ -70,8 +68,15 @@ class MainFrame extends PhDAppFrame {
 
     private JButton nextButton;
 
-    public MainFrame(SwingUIHelper uiHelper) {
+    /**
+     * Модель главного окна
+     */
+    private final SwingMainFrameDirector director;
+
+    public MainFrame(SwingUIHelper uiHelper, SwingMainFrameDirector director) {
         super(uiHelper);
+        this.director = Objects.requireNonNull(director);
+        this.director.setMainFrame(this);
 
         initComponents();
         layoutComponents();
@@ -165,6 +170,9 @@ class MainFrame extends PhDAppFrame {
         setResizable(false);
     }
 
+    /**
+     * Добавление к заданному переключателю для выбора пользовательского действия описания ниже него
+     */
     private JPanel describe(JRadioButton button, String description) {
         JLabel descriptionLabel = new JLabel(
                 "<html><p style=\"text-align: left;\">" + description.replaceAll("\\n", "<br/>") + "</p></html>",
@@ -198,105 +206,25 @@ class MainFrame extends PhDAppFrame {
                 continue;
             }
 
+            UserAction action = null;
+
             if (precisionActionRadioButton == button) {
-                JButton viewSampleButton = new JButton(uiHelper.getLabel(VIEW_SAMPLE_LABEL) + "...");
-                viewSampleButton.addActionListener(e -> new SampleDialog(MainFrame.this).setVisible(true));
-
-                JComponent[] widgets = new JComponent[]{
-                        uiHelper.widgets().preciseConstantCostParamSpinner(),
-                        uiHelper.widgets().preciseGaussianKernelParamSpinner(),
-                        uiHelper.widgets().preciseTrainingTestingSetsSizeRatioSpinner(),
-                        uiHelper.widgets().precisePreciseIntervalJudgmentsCountRatioSpinner(),
-                        viewSampleButton
-                };
-
-                doAction(this::calculatePrecisionOnGivenParams, widgets);
+                action = UserAction.CALCULATE_PRECISION;
             } else if (averagePrecisionActionRadioButton == button) {
-                JComponent[] widgets = new JComponent[]{
-                        uiHelper.widgets().preciseSampleSizeSpinner(),
-                        uiHelper.widgets().preciseSamplesToGenerateCountSpinner(),
-                        uiHelper.widgets().preciseConstantCostParamSpinner(),
-                        uiHelper.widgets().preciseGaussianKernelParamSpinner(),
-                        uiHelper.widgets().preciseTrainingTestingSetsSizeRatioSpinner(),
-                        uiHelper.widgets().precisePreciseIntervalJudgmentsCountRatioSpinner()
-                };
-
-                doAction(this::calculateAveragePrecisionOnMultipleIterations, widgets);
+                action = UserAction.CALCULATE_AVERAGE_PRECISION;
             } else if (sampleSizeActionRadioButton == button) {
-                JComponent[] widgets = new JComponent[]{
-                        uiHelper.widgets().intervalSampleSizeSpinner(),
-                        uiHelper.widgets().preciseSamplesToGenerateCountSpinner(),
-                        uiHelper.widgets().preciseConstantCostParamSpinner(),
-                        uiHelper.widgets().preciseGaussianKernelParamSpinner(),
-                        uiHelper.widgets().preciseTrainingTestingSetsSizeRatioSpinner(),
-                        uiHelper.widgets().precisePreciseIntervalJudgmentsCountRatioSpinner()
-                };
-
-                doAction(this::calculatePrecisionOnDifferentSampleSizes, widgets);
+                action = UserAction.ANALYZE_PRECISION_ON_SAMPLE_SIZE_DEPENDENCE;
             } else if (judgementsCountActionRadioButton == button) {
-                JComponent[] widgets = new JComponent[]{
-                        uiHelper.widgets().preciseSampleSizeSpinner(),
-                        uiHelper.widgets().preciseSamplesToGenerateCountSpinner(),
-                        uiHelper.widgets().preciseConstantCostParamSpinner(),
-                        uiHelper.widgets().preciseGaussianKernelParamSpinner(),
-                        uiHelper.widgets().intervalTrainingTestingSetsSizeRatioSpinner(),
-                        uiHelper.widgets().precisePreciseIntervalJudgmentsCountRatioSpinner()
-                };
-
-                doAction(this::calculatePrecisionOnDifferentNumberOfJudgedSampleItems, widgets);
+                action = UserAction.ANALYZE_PRECISION_ON_TRAINING_TESTING_SETS_SIZE_RATIO_DEPENDENCE;
             } else if (parametersActionRadioButton == button) {
-                JComponent[] widgets = new JComponent[]{
-                        uiHelper.widgets().preciseSampleSizeSpinner(),
-                        uiHelper.widgets().preciseSamplesToGenerateCountSpinner(),
-                        uiHelper.widgets().intervalConstantCostParamSpinner(),
-                        uiHelper.widgets().intervalGaussianKernelParamSpinner(),
-                        uiHelper.widgets().preciseTrainingTestingSetsSizeRatioSpinner(),
-                        uiHelper.widgets().precisePreciseIntervalJudgmentsCountRatioSpinner()
-                };
-
-                doAction(this::calculatePrecisionOnDifferentParams, widgets);
+                action = UserAction.ANALYZE_PRECISION_ON_CLASSIFIER_PARAMS_DEPENDENCE;
             } else if (intervalJudgementsActionRadioButton == button) {
-                JComponent[] widgets = new JComponent[]{
-                        uiHelper.widgets().preciseSampleSizeSpinner(),
-                        uiHelper.widgets().preciseSamplesToGenerateCountSpinner(),
-                        uiHelper.widgets().preciseConstantCostParamSpinner(),
-                        uiHelper.widgets().preciseGaussianKernelParamSpinner(),
-                        uiHelper.widgets().preciseTrainingTestingSetsSizeRatioSpinner(),
-                        uiHelper.widgets().intervalPreciseIntervalJudgmentsCountRatioSpinner()
-                };
+                action = UserAction.ANALYZE_PRECISION_ON_PRECISE_INTERVAL_SETS_SIZE_RATIO_DEPENDENCE;
+            }
 
-                doAction(this::calculatePrecisionOnDifferentPreciseIntervalSampleItemsRatio, widgets);
+            if (action != null) {
+                director.performAction(action);
             }
         }
-    }
-
-    private void doAction(Supplier<Report> reportSupplier, JComponent... widgets) {
-        ClassifierParamsFrame nextPage = new ClassifierParamsFrame(uiHelper, this, reportSupplier, widgets);
-        setVisible(false);
-        nextPage.setVisible(true);
-    }
-
-    private Report calculatePrecisionOnGivenParams() {
-        return null; // TODO
-    }
-
-    private Report calculateAveragePrecisionOnMultipleIterations() {
-        return null; // TODO
-    }
-
-    private Report calculatePrecisionOnDifferentSampleSizes() {
-        return null; // TODO
-    }
-
-    private Report calculatePrecisionOnDifferentNumberOfJudgedSampleItems() {
-        return null; // TODO
-    }
-
-    private Report calculatePrecisionOnDifferentParams() {
-        return null; // TODO
-    }
-
-    private Report calculatePrecisionOnDifferentPreciseIntervalSampleItemsRatio() {
-        return null; // TODO
     }
 }
