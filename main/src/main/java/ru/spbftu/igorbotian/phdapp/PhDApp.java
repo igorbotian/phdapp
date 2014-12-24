@@ -36,7 +36,6 @@ import ru.spbftu.igorbotian.phdapp.svm.validation.SvmValidationCommonsModule;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.SvmValidationReportManagementModule;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.SvmValidationSampleManagementModule;
 import ru.spbftu.igorbotian.phdapp.ui.UserInterface;
-import ru.spbftu.igorbotian.phdapp.ui.common.CommonUserInterfaceModule;
 import ru.spbftu.igorbotian.phdapp.ui.swing.SwingUserInterfaceModule;
 import ru.spbftu.igorbotian.phdapp.utils.ShutdownHooks;
 import ru.spbftu.igorbotian.phdapp.utils.UtilsModule;
@@ -78,7 +77,6 @@ public class PhDApp {
             new SvmIntervalClassifierValidationModule(),
             new CSVOutputDataManagementModule(),
             new SummaryOutputDataManagementModule(),
-            new CommonUserInterfaceModule(),
             new SwingUserInterfaceModule(),
             new UtilsModule()
     ).collect(Collectors.toSet());

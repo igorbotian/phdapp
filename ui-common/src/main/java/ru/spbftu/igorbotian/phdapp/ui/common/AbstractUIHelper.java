@@ -24,7 +24,10 @@ import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
 import ru.spbftu.igorbotian.phdapp.output.csv.ReportCSVWriterFactory;
 import ru.spbftu.igorbotian.phdapp.output.summary.ReportSummaryWriterFactory;
+import ru.spbftu.igorbotian.phdapp.svm.PairwiseClassifier;
 import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidatorParameterFactory;
+import ru.spbftu.igorbotian.phdapp.svm.validation.PairwiseClassifierCrossValidator;
+import ru.spbftu.igorbotian.phdapp.svm.validation.report.Report;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.CrossValidationSampleManager;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.MathDataFactory;
 
@@ -36,22 +39,24 @@ import java.util.Objects;
  * @see ru.spbftu.igorbotian.phdapp.ui.common.UIHelper
  */
 @Singleton
-class UIHelperImpl implements UIHelper {
+public abstract class AbstractUIHelper implements UIHelper {
 
     private final Localization localization;
 
     private final CrossValidationSampleCanvasDirector sampleCanvasDirector;
     private final CrossValidatorParamsFrameDirector crossValidatorParamsFrameDirector;
     private final CrossValidationResultWindowDirector crossValidationResultWindowDirector;
+    private final CrossValidationProgressWindowDirector crossValidationProgressWindowDirector;
 
     @Inject
-    public UIHelperImpl(Localization localization,
-                        ApplicationConfiguration configuration,
-                        CrossValidationSampleManager sampleManager,
-                        ReportSummaryWriterFactory reportSummaryWriterFactory,
-                        ReportCSVWriterFactory reportCSVWriterFactory,
-                        CrossValidatorParameterFactory crossValidatorParameterFactory,
-                        MathDataFactory mathDataFactory) {
+    public AbstractUIHelper(Localization localization,
+                            ApplicationConfiguration configuration,
+                            CrossValidationSampleManager sampleManager,
+                            ReportSummaryWriterFactory reportSummaryWriterFactory,
+                            ReportCSVWriterFactory reportCSVWriterFactory,
+                            CrossValidatorParameterFactory crossValidatorParameterFactory,
+                            MathDataFactory mathDataFactory,
+                            PairwiseClassifier classifier) {
 
         Objects.requireNonNull(localization);
         Objects.requireNonNull(configuration);
@@ -59,6 +64,7 @@ class UIHelperImpl implements UIHelper {
         Objects.requireNonNull(reportSummaryWriterFactory);
         Objects.requireNonNull(reportCSVWriterFactory);
         Objects.requireNonNull(crossValidatorParameterFactory);
+        Objects.requireNonNull(classifier);
 
         this.localization = localization;
         sampleCanvasDirector = new CrossValidationSampleCanvasDirectorImpl(sampleManager, mathDataFactory);
@@ -66,18 +72,13 @@ class UIHelperImpl implements UIHelper {
                 = new CrossValidatorParamsFrameDirectorImpl(configuration, crossValidatorParameterFactory);
         crossValidationResultWindowDirector =
                 new CrossValidationResultWindowDirectorImpl(reportSummaryWriterFactory, reportCSVWriterFactory);
+        crossValidationProgressWindowDirector =
+                new CrossValidationProgressWindowDirectorImpl(this, classifier);
     }
 
     @Override
     public String getLabel(String label) {
         return localization.getLabel(label);
-    }
-
-    @Override
-    public MainFrameDirector mainFrameDirector() {
-        return action -> {
-            // nothing
-        };
     }
 
     @Override
@@ -93,5 +94,10 @@ class UIHelperImpl implements UIHelper {
     @Override
     public CrossValidationResultWindowDirector crossValidationResultWindowDirector() {
         return crossValidationResultWindowDirector;
+    }
+
+    @Override
+    public CrossValidationProgressWindowDirector crossValidationProgressWindowDirector() {
+        return crossValidationProgressWindowDirector;
     }
 }

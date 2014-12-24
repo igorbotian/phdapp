@@ -1,6 +1,5 @@
 package ru.spbftu.igorbotian.phdapp.ui.swing;
 
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.apache.log4j.Logger;
 import ru.spbftu.igorbotian.phdapp.svm.validation.IntervalPairwiseClassifierCrossValidators;
@@ -41,7 +40,6 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
      */
     private PairwiseClassifierCrossValidator<? extends Report> selectedCrossValidator;
 
-    @Inject
     public MainFrameDirectorImpl(SwingUIHelper uiHelper, IntervalPairwiseClassifierCrossValidators crossValidators) {
         this.uiHelper = uiHelper;
         this.crossValidators = Objects.requireNonNull(crossValidators);

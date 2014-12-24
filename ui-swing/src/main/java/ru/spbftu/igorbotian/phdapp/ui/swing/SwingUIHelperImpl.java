@@ -20,7 +20,16 @@ package ru.spbftu.igorbotian.phdapp.ui.swing;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import ru.spbftu.igorbotian.phdapp.ui.common.*;
+import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
+import ru.spbftu.igorbotian.phdapp.locale.Localization;
+import ru.spbftu.igorbotian.phdapp.output.csv.ReportCSVWriterFactory;
+import ru.spbftu.igorbotian.phdapp.output.summary.ReportSummaryWriterFactory;
+import ru.spbftu.igorbotian.phdapp.svm.PairwiseClassifier;
+import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidatorParameterFactory;
+import ru.spbftu.igorbotian.phdapp.svm.validation.IntervalPairwiseClassifierCrossValidators;
+import ru.spbftu.igorbotian.phdapp.svm.validation.sample.CrossValidationSampleManager;
+import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.MathDataFactory;
+import ru.spbftu.igorbotian.phdapp.ui.common.AbstractUIHelper;
 
 import java.util.Objects;
 
@@ -30,19 +39,27 @@ import java.util.Objects;
  * @see ru.spbftu.igorbotian.phdapp.ui.common.UIHelper
  */
 @Singleton
-class SwingUIHelperImpl implements SwingUIHelper {
+class SwingUIHelperImpl extends AbstractUIHelper implements SwingUIHelper {
 
-    private UIHelper uiHelper;
     private CrossValidatorParamsWidgets widgets;
     private SwingMainFrameDirector mainFrameDirector;
 
     @Inject
-    public SwingUIHelperImpl(UIHelper uiHelper, CrossValidatorParamsWidgets widgets,
-                             SwingMainFrameDirector mainFrameDirector) {
+    public SwingUIHelperImpl(Localization localization,
+                             ApplicationConfiguration configuration,
+                             CrossValidationSampleManager sampleManager,
+                             ReportSummaryWriterFactory reportSummaryWriterFactory,
+                             ReportCSVWriterFactory reportCSVWriterFactory,
+                             CrossValidatorParameterFactory crossValidatorParameterFactory,
+                             MathDataFactory mathDataFactory,
+                             PairwiseClassifier classifier,
+                             IntervalPairwiseClassifierCrossValidators validators) {
 
-        this.uiHelper = Objects.requireNonNull(uiHelper);
-        this.widgets = Objects.requireNonNull(widgets);
-        this.mainFrameDirector = Objects.requireNonNull(mainFrameDirector);
+        super(localization, configuration, sampleManager, reportSummaryWriterFactory, reportCSVWriterFactory,
+                crossValidatorParameterFactory, mathDataFactory, classifier);
+
+        this.widgets = new CrossValidatorParamsWidgetsImpl(this);
+        this.mainFrameDirector = new MainFrameDirectorImpl(this, validators);
     }
 
     @Override
@@ -53,25 +70,5 @@ class SwingUIHelperImpl implements SwingUIHelper {
     @Override
     public CrossValidatorParamsWidgets widgets() {
         return widgets;
-    }
-
-    @Override
-    public String getLabel(String label) {
-        return uiHelper.getLabel(label);
-    }
-
-    @Override
-    public CrossValidationSampleCanvasDirector sampleCanvasDirector() {
-        return uiHelper.sampleCanvasDirector();
-    }
-
-    @Override
-    public CrossValidatorParamsFrameDirector crossValidatorParamsFrameDirector() {
-        return uiHelper.crossValidatorParamsFrameDirector();
-    }
-
-    @Override
-    public CrossValidationResultWindowDirector crossValidationResultWindowDirector() {
-        return uiHelper.crossValidationResultWindowDirector();
     }
 }

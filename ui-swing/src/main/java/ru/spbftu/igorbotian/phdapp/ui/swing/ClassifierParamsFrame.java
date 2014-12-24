@@ -18,6 +18,9 @@
 
 package ru.spbftu.igorbotian.phdapp.ui.swing;
 
+import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidationProgressListener;
+import ru.spbftu.igorbotian.phdapp.svm.validation.report.Report;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -32,6 +35,7 @@ public class ClassifierParamsFrame extends PhDAppFrame {
 
     private static final String BACK_LABEL = "back";
     private static final String NEXT_LABEL = "next";
+    private static final String ERROR_LABEL = "error";
 
     private final PhDAppFrame mainFrame;
     private JButton backButton;
@@ -108,6 +112,33 @@ public class ClassifierParamsFrame extends PhDAppFrame {
     }
 
     public void goToNextPage() {
-        goToPreviousPage(); // TODO
+        uiHelper.crossValidationProgressWindowDirector().addProgressListener(new CrossValidationProgressListener() {
+
+            @Override
+            public void crossValidationContinued(int percentsCompleted) {
+                //
+            }
+
+            @Override
+            public void crossValidationCompleted(Report report) {
+                showResultsWindow(report);
+            }
+
+            @Override
+            public void crossValidationFailed(Exception reason) {
+                JOptionPane.showMessageDialog(ClassifierParamsFrame.this, reason.getMessage(),
+                        uiHelper.getLabel(ERROR_LABEL), JOptionPane.ERROR_MESSAGE);
+            }
+        });
+        uiHelper.crossValidationProgressWindowDirector().validate();
+    }
+
+    private void showResultsWindow(final Report report) {
+        SwingUtilities.invokeLater(() -> {
+            CrossValidationResultWindow window
+                    = new CrossValidationResultWindow(ClassifierParamsFrame.this, uiHelper, report);
+            setVisible(false);
+            window.setVisible(true);
+        });
     }
 }

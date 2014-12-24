@@ -31,8 +31,6 @@ public class SwingUserInterfaceModule extends PhDAppModule {
     @Override
     protected void configure() {
         bind(SwingUIHelper.class).to(SwingUIHelperImpl.class);
-        bind(SwingMainFrameDirector.class).to(MainFrameDirectorImpl.class);
-        bind(CrossValidatorParamsWidgets.class).to(CrossValidatorParamsWidgetsImpl.class);
         bind(UserInterface.class).to(SwingUserInterface.class);
     }
 }
