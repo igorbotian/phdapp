@@ -2,8 +2,8 @@ package ru.spbftu.igorbotian.phdapp.ui.swing;
 
 import com.google.inject.Singleton;
 import org.apache.log4j.Logger;
+import ru.spbftu.igorbotian.phdapp.svm.validation.AsyncPairwiseClassifierCrossValidator;
 import ru.spbftu.igorbotian.phdapp.svm.validation.IntervalPairwiseClassifierCrossValidators;
-import ru.spbftu.igorbotian.phdapp.svm.validation.PairwiseClassifierCrossValidator;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.Report;
 import ru.spbftu.igorbotian.phdapp.ui.common.UserAction;
 
@@ -38,7 +38,7 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
     /**
      * Средство кросс-валидации, выбранное пользователем
      */
-    private PairwiseClassifierCrossValidator<? extends Report> selectedCrossValidator;
+    private AsyncPairwiseClassifierCrossValidator<? extends Report> selectedCrossValidator;
 
     public MainFrameDirectorImpl(SwingUIHelper uiHelper, IntervalPairwiseClassifierCrossValidators crossValidators) {
         this.uiHelper = uiHelper;
@@ -51,7 +51,7 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
     }
 
     @Override
-    public PairwiseClassifierCrossValidator<? extends Report> selectedCrossValidator() {
+    public AsyncPairwiseClassifierCrossValidator<? extends Report> selectedCrossValidator() {
         return selectedCrossValidator;
     }
 
@@ -87,7 +87,7 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                         viewSampleButton
                 };
 
-                selectedCrossValidator = crossValidators.precisionValidator();
+                selectedCrossValidator = crossValidators.asyncPrecisionValidator();
                 break;
             case CALCULATE_AVERAGE_PRECISION:
                 widgets = new JComponent[]{
@@ -99,7 +99,7 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                         uiHelper.widgets().precisePreciseIntervalJudgmentsCountRatioSpinner()
                 };
 
-                selectedCrossValidator = crossValidators.averagePrecisionValidator();
+                selectedCrossValidator = crossValidators.asyncAveragePrecisionValidator();
                 break;
             case ANALYZE_PRECISION_ON_SAMPLE_SIZE_DEPENDENCE:
                 widgets = new JComponent[]{
@@ -111,7 +111,7 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                         uiHelper.widgets().precisePreciseIntervalJudgmentsCountRatioSpinner()
                 };
 
-                selectedCrossValidator = crossValidators.precisionDependenceOnSampleSizeAnalyzer();
+                selectedCrossValidator = crossValidators.asyncPrecisionDependenceOnSampleSizeAnalyzer();
                 break;
             case ANALYZE_PRECISION_ON_TRAINING_TESTING_SETS_SIZE_RATIO_DEPENDENCE:
                 widgets = new JComponent[]{
@@ -123,7 +123,7 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                         uiHelper.widgets().precisePreciseIntervalJudgmentsCountRatioSpinner()
                 };
 
-                selectedCrossValidator = crossValidators.precisionDependenceOnTrainingSetSizeAnalyzer();
+                selectedCrossValidator = crossValidators.asyncPrecisionDependenceOnTrainingSetSizeAnalyzer();
                 break;
             case ANALYZE_PRECISION_ON_CLASSIFIER_PARAMS_DEPENDENCE:
                 widgets = new JComponent[]{
@@ -135,7 +135,7 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                         uiHelper.widgets().precisePreciseIntervalJudgmentsCountRatioSpinner()
                 };
 
-                selectedCrossValidator = crossValidators.precisionDependenceOnClassifierParametersAnalyzer();
+                selectedCrossValidator = crossValidators.asyncPrecisionDependenceOnClassifierParametersAnalyzer();
                 break;
             case ANALYZE_PRECISION_ON_PRECISE_INTERVAL_SETS_SIZE_RATIO_DEPENDENCE:
                 widgets = new JComponent[]{
@@ -147,7 +147,7 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                         uiHelper.widgets().intervalPreciseIntervalJudgmentsCountRatioSpinner()
                 };
 
-                selectedCrossValidator = crossValidators.precisionDependenceOnPreciseIntervalJudgementsRatioAnalyzer();
+                selectedCrossValidator = crossValidators.asyncPrecisionDependenceOnPreciseIntervalJudgementsRatioAnalyzer();
                 break;
             default:
                 LOGGER.error("Unsupported user action detected: " + action);

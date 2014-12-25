@@ -51,6 +51,12 @@ public class TrainingSetSizeRatioAnalyzer extends AbstractPairwiseClassifierCros
                     specificClassifierParams,
                     override(specificValidatorParams, Collections.singleton(ratioParam))
             ));
+            fireCrossValidationContinued(100 * ((i - lowerBound) / (upperBound - lowerBound)));
+
+            if (processInterrupted()) {
+                fireCrossValidationInterrupted();
+                return reportFactory.newMultiClassificationReport(iterations);
+            }
         }
 
         return reportFactory.newMultiClassificationReport(iterations);

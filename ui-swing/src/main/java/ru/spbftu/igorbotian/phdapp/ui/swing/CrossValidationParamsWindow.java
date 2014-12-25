@@ -19,6 +19,7 @@
 package ru.spbftu.igorbotian.phdapp.ui.swing;
 
 import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidationProgressListener;
+import ru.spbftu.igorbotian.phdapp.svm.validation.PairwiseClassifierCrossValidator;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.Report;
 
 import javax.swing.*;
@@ -122,17 +123,30 @@ public class CrossValidationParamsWindow extends JFrame {
         uiHelper.crossValidationProgressWindowDirector().addProgressListener(new CrossValidationProgressListener() {
 
             @Override
-            public void crossValidationContinued(int percentsCompleted) {
+            public <R extends Report> void crossValidationStarted(PairwiseClassifierCrossValidator<R> validator) {
                 //
             }
 
             @Override
-            public void crossValidationCompleted(Report report) {
+            public <R extends Report> void crossValidationContinued(PairwiseClassifierCrossValidator<R> validator,
+                                                                    int percentsCompleted) {
+                //
+            }
+
+            @Override
+            public <R extends Report> void crossValidationInterrupted(PairwiseClassifierCrossValidator<R> validator) {
+                //
+            }
+
+            @Override
+            public <R extends Report> void crossValidationCompleted(PairwiseClassifierCrossValidator<R> validator,
+                                                                    Report report) {
                 showResultsWindow(report);
             }
 
             @Override
-            public void crossValidationFailed(Exception reason) {
+            public <R extends Report> void crossValidationFailed(PairwiseClassifierCrossValidator<R> validator,
+                                                                 Throwable reason) {
                 uiHelper.errorDialog().show(CrossValidationParamsWindow.this, reason);
             }
         });

@@ -110,7 +110,13 @@ public class PhDApp {
             start();
             logger.info("Application modules successfully initialized");
         } catch (Throwable e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            String message = e.getMessage();
+
+            if(e.getCause() != null) {
+                message += "\r\nReason: " + e.getCause().getMessage();
+            }
+
+            JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
             logger.fatal("Unhandled exception caught. Exiting application", e);
         }

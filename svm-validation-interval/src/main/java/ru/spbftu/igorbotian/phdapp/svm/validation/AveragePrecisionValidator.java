@@ -9,10 +9,7 @@ import ru.spbftu.igorbotian.phdapp.svm.validation.report.SingleClassificationRep
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.CrossValidationSampleException;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.CrossValidationSampleManager;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Средство кросс-валидации, ориентированное на среднее значение точности серии попарных классификаций
@@ -44,6 +41,12 @@ class AveragePrecisionValidator extends AbstractPairwiseClassifierCrossValidator
 
         for (int i = 0; i < samplesToGenerateCount; i++) {
             iterations.add(precisionValidator.validate(classifier, specificValidatorParams.defaultValues()));
+            fireCrossValidationContinued(100 * (i / samplesToGenerateCount));
+
+            if (processInterrupted()) {
+                fireCrossValidationInterrupted();
+                return reportFactory.newMultiClassificationReport(iterations);
+            }
         }
 
         return reportFactory.newMultiClassificationReport(iterations);

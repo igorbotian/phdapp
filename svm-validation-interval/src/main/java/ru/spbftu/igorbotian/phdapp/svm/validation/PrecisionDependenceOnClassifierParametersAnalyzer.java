@@ -9,7 +9,7 @@ import ru.spbftu.igorbotian.phdapp.svm.validation.report.SingleClassificationRep
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.CrossValidationSampleException;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.CrossValidationSampleManager;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -58,7 +58,10 @@ class PrecisionDependenceOnClassifierParametersAnalyzer
         double gkpUpperBound = gaussianKernelParam.upperBound().value();
         double gkpStepSize = gaussianKernelParam.stepSize().value();
 
-        List<SingleClassificationReport> iterations = new LinkedList<>();
+        int numberOfIterations = (int) (((ppUpperBound - ppLowerBound) % ppStepSize)
+                * ((gkpUpperBound - gkpLowerBound) % gkpStepSize));
+        int iterationsCompleted = 0;
+        List<SingleClassificationReport> iterations = new ArrayList<>(numberOfIterations);
 
         for (double ccp = ppLowerBound; ccp <= ppUpperBound; ccp += ppStepSize) {
             for (double gkp = gkpLowerBound; gkp <= gkpUpperBound; gkp += gkpStepSize) {
@@ -71,6 +74,13 @@ class PrecisionDependenceOnClassifierParametersAnalyzer
                                         Stream.of(ccpParam, gkpParam).collect(Collectors.toSet())),
                                 specificValidatorParams)
                 );
+                iterationsCompleted++;
+                fireCrossValidationContinued(100 * (iterationsCompleted / numberOfIterations));
+
+                if (processInterrupted()) {
+                    fireCrossValidationInterrupted();
+                    return reportFactory.newMultiClassificationReport(iterations);
+                }
 
             }
         }

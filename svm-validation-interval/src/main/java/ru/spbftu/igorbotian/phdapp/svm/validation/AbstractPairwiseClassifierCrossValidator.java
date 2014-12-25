@@ -1,5 +1,6 @@
 package ru.spbftu.igorbotian.phdapp.svm.validation;
 
+import org.apache.log4j.Logger;
 import ru.spbftu.igorbotian.phdapp.svm.ClassifierParameter;
 import ru.spbftu.igorbotian.phdapp.svm.IntervalClassifierParameterFactory;
 import ru.spbftu.igorbotian.phdapp.svm.PairwiseClassifier;
@@ -11,12 +12,16 @@ import ru.spbftu.igorbotian.phdapp.svm.validation.sample.CrossValidationSampleMa
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Абстрактная реализация средства кросс-валидации попарного классификатора
  */
 abstract class AbstractPairwiseClassifierCrossValidator<R extends Report>
-        implements PairwiseClassifierCrossValidator<R> {
+        implements AsyncPairwiseClassifierCrossValidator<R> {
+
+    private static final Logger LOGGER = Logger.getLogger(AbstractPairwiseClassifierCrossValidator.class);
 
     /**
      * Средство формирования выборки для кросс-валидации
@@ -38,6 +43,16 @@ abstract class AbstractPairwiseClassifierCrossValidator<R extends Report>
      */
     protected final ReportFactory reportFactory;
 
+    /**
+     * Получатели уведомлений о ходе кросс-валидации
+     */
+    private final Set<CrossValidationProgressListener> progressListeners = new CopyOnWriteArraySet<>();
+
+    /**
+     * Флаг прерванности процесса кросс-валидации
+     */
+    private final AtomicBoolean processInterrupted = new AtomicBoolean(false);
+
     protected AbstractPairwiseClassifierCrossValidator(CrossValidationSampleManager sampleManager,
                                                        IntervalClassifierParameterFactory classifierParameterFactory,
                                                        CrossValidatorParameterFactory crossValidatorParameterFactory,
@@ -47,6 +62,75 @@ abstract class AbstractPairwiseClassifierCrossValidator<R extends Report>
         this.classifierParameterFactory = Objects.requireNonNull(classifierParameterFactory);
         this.crossValidatorParameterFactory = Objects.requireNonNull(crossValidatorParameterFactory);
         this.reportFactory = Objects.requireNonNull(reportFactory);
+    }
+
+    @Override
+    public void addProgressListener(CrossValidationProgressListener listener) {
+        progressListeners.add(Objects.requireNonNull(listener));
+    }
+
+    @Override
+    public void interrupt() throws CrossValidationException {
+        processInterrupted.set(true);
+    }
+
+    /**
+     * Получении информации о том, был ли прерван процесс валидации
+     */
+    protected boolean processInterrupted() {
+        return processInterrupted.get();
+    }
+
+    /**
+     * Уведомление о том, что процесс кросс-валидации начался
+     */
+    protected void fireCrossValidationStarted() {
+        progressListeners.forEach(listener -> listener.crossValidationStarted(this));
+    }
+
+    /**
+     * Уведомление о том, что кросс-валидация выполнена на заданное количество процентов
+     */
+    protected void fireCrossValidationContinued(int percents) {
+        if (percents < 0 || percents > 100) {
+            throw new IllegalArgumentException("Percents completed value is out of range: " + percents);
+        }
+
+        progressListeners.forEach(listener -> listener.crossValidationStarted(this));
+    }
+
+    /**
+     * Уведомление о том, что процесс кросс-валидации был прерван
+     */
+    protected void fireCrossValidationInterrupted() {
+        progressListeners.forEach(listener -> listener.crossValidationInterrupted(this));
+    }
+
+    /**
+     * Уведомление о том, что произошла указанная ошибка в процессе кросс-валидации
+     */
+    protected void fireCrossValidationFailed(Throwable reason) {
+        progressListeners.forEach(listener -> listener.crossValidationFailed(this, Objects.requireNonNull(reason)));
+    }
+
+    /**
+     * Уведомление о том, что процесс кросс-валидации завершён с указанными результатами
+     */
+    protected void fireCrossValidationCompleted(R report) {
+        progressListeners.forEach(listener -> listener.crossValidationCompleted(this, Objects.requireNonNull(report)));
+    }
+
+    @Override
+    public void validateAsync(PairwiseClassifier classifier, Set<? extends CrossValidatorParameter<?>> validatorParams) {
+        try {
+            processInterrupted.set(false);
+            fireCrossValidationStarted();
+            R report = validate(classifier, validatorParams);
+            fireCrossValidationCompleted(report);
+        } catch (Throwable e) {
+            LOGGER.error("An error occurred during cross-validation", e);
+            fireCrossValidationFailed(e);
+        }
     }
 
     @Override
@@ -86,12 +170,13 @@ abstract class AbstractPairwiseClassifierCrossValidator<R extends Report>
     /**
      * Создание экземпляра фабрики параметров средства кросс-валидации на базе существующего с учётом новых значений
      * для заданных параметров
-     * @param paramsFactory экземпляр фабрики, используемый для получения исходных значений параметров
+     *
+     * @param paramsFactory  экземпляр фабрики, используемый для получения исходных значений параметров
      * @param specificParams параметры, имеющие новые значения
      * @return экземпляр фабрики параметров средства кросс-валидации
      */
     protected CrossValidatorParameterFactory override(CrossValidatorParameterFactory paramsFactory,
-                                                                      Set<CrossValidatorParameter<?>> specificParams) {
+                                                      Set<CrossValidatorParameter<?>> specificParams) {
         Objects.requireNonNull(paramsFactory);
         Objects.requireNonNull(specificParams);
 
@@ -100,7 +185,8 @@ abstract class AbstractPairwiseClassifierCrossValidator<R extends Report>
 
     /**
      * Создание набора параметров классификатора на базе существующего с учётом новых значений для заданных параметров
-     * @param params набор параметров классификатора
+     *
+     * @param params         набор параметров классификатора
      * @param specificParams параметры, имеющие новые значения
      * @return набор параметров классификатора
      */

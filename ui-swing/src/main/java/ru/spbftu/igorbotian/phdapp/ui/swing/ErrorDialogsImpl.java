@@ -16,6 +16,7 @@ import java.util.Objects;
 class ErrorDialogsImpl implements ErrorDialogs {
 
     private static final String ERROR_LABEL = "error";
+    private static final String REASON_LABEL = "reason";
 
     /**
      * Общие элементы пользовательского интерфейса
@@ -34,8 +35,15 @@ class ErrorDialogsImpl implements ErrorDialogs {
     }
 
     @Override
-    public void show(Window owner, Exception e) {
-        show(owner, Objects.requireNonNull(e.getMessage()));
+    public void show(Window owner, Throwable e) {
+        Objects.requireNonNull(e);
+        String message = e.getMessage();
+
+        if(e.getCause() != null) {
+            message += String.format("\r\n%s: %s", uiHelper.getLabel(REASON_LABEL), e.getCause().getMessage());
+        }
+
+        show(owner, message);
     }
 
     @Override
@@ -44,7 +52,7 @@ class ErrorDialogsImpl implements ErrorDialogs {
     }
 
     @Override
-    public void show(Exception e) {
-        show(Objects.requireNonNull(e.getMessage()));
+    public void show(Throwable e) {
+        show(null, e);
     }
 }

@@ -50,6 +50,12 @@ class PrecisionDependenceOnSampleSizeAnalyzer extends AbstractPairwiseClassifier
                     specificClassifierParams,
                     override(specificValidatorParams, Collections.singleton(sampleSizeParam))
             ));
+            fireCrossValidationContinued(100 * ((i - lowerBound) / (upperBound - lowerBound)));
+
+            if (processInterrupted()) {
+                fireCrossValidationInterrupted();
+                return reportFactory.newMultiClassificationReport(iterations);
+            }
         }
 
         return reportFactory.newMultiClassificationReport(iterations);

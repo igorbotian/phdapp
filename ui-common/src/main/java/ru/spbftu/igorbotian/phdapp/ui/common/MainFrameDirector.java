@@ -1,5 +1,6 @@
 package ru.spbftu.igorbotian.phdapp.ui.common;
 
+import ru.spbftu.igorbotian.phdapp.svm.validation.AsyncPairwiseClassifierCrossValidator;
 import ru.spbftu.igorbotian.phdapp.svm.validation.PairwiseClassifierCrossValidator;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.Report;
 
@@ -17,5 +18,5 @@ public interface MainFrameDirector {
     /**
      * Получение средства для проведения выбранного пользователем варианта кросс-валидации
      */
-    PairwiseClassifierCrossValidator<? extends Report> selectedCrossValidator();
+    AsyncPairwiseClassifierCrossValidator<? extends Report> selectedCrossValidator();
 }

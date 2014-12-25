@@ -79,7 +79,17 @@ class IntervalPairwiseClassifierCrossValidatorsImpl implements IntervalPairwiseC
     }
 
     @Override
+    public AsyncPairwiseClassifierCrossValidator<SingleClassificationReport> asyncPrecisionValidator() {
+        return precisionValidator;
+    }
+
+    @Override
     public PairwiseClassifierCrossValidator<MultiClassificationReport> averagePrecisionValidator() {
+        return averagePrecisionValidator;
+    }
+
+    @Override
+    public AsyncPairwiseClassifierCrossValidator<MultiClassificationReport> asyncAveragePrecisionValidator() {
         return averagePrecisionValidator;
     }
 
@@ -89,7 +99,17 @@ class IntervalPairwiseClassifierCrossValidatorsImpl implements IntervalPairwiseC
     }
 
     @Override
+    public AsyncPairwiseClassifierCrossValidator<MultiClassificationReport> asyncPrecisionDependenceOnSampleSizeAnalyzer() {
+        return precisionDependenceOnSampleSizeAnalyzer;
+    }
+
+    @Override
     public PairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnTrainingSetSizeAnalyzer() {
+        return trainingSetSizeRatioAnalyzer;
+    }
+
+    @Override
+    public AsyncPairwiseClassifierCrossValidator<MultiClassificationReport> asyncPrecisionDependenceOnTrainingSetSizeAnalyzer() {
         return trainingSetSizeRatioAnalyzer;
     }
 
@@ -99,7 +119,17 @@ class IntervalPairwiseClassifierCrossValidatorsImpl implements IntervalPairwiseC
     }
 
     @Override
+    public AsyncPairwiseClassifierCrossValidator<MultiClassificationReport> asyncPrecisionDependenceOnClassifierParametersAnalyzer() {
+        return precisionDependenceOnClassifierParametersAnalyzer;
+    }
+
+    @Override
     public PairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnPreciseIntervalJudgementsRatioAnalyzer() {
+        return preciseIntervalJudgementsRatioAnalyzer;
+    }
+
+    @Override
+    public AsyncPairwiseClassifierCrossValidator<MultiClassificationReport> asyncPrecisionDependenceOnPreciseIntervalJudgementsRatioAnalyzer() {
         return preciseIntervalJudgementsRatioAnalyzer;
     }
 }

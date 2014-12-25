@@ -23,7 +23,7 @@ public interface ErrorDialogs {
      * @param e ошибка
      * @throws NullPointerException если сообщение об ошибке не задано
      */
-    void show(Window owner, Exception e);
+    void show(Window owner, Throwable e);
 
     /**
      * Показ окна с заданного сообщения об ошибке
@@ -39,5 +39,5 @@ public interface ErrorDialogs {
      * @param e ошибка
      * @throws NullPointerException если сообщение об ошибке не задано
      */
-    void show(Exception e);
+    void show(Throwable e);
 }

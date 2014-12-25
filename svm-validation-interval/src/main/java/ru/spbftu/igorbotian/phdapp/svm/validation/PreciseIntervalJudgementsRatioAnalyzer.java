@@ -24,10 +24,10 @@ class PreciseIntervalJudgementsRatioAnalyzer
     private final PrecisionValidator precisionValidator;
 
     public PreciseIntervalJudgementsRatioAnalyzer(CrossValidationSampleManager sampleManager,
-                                                     IntervalClassifierParameterFactory classifierParameterFactory,
-                                                     CrossValidatorParameterFactory crossValidatorParameterFactory,
-                                                     ReportFactory reportFactory,
-                                                     PrecisionValidator precisionValidator) {
+                                                  IntervalClassifierParameterFactory classifierParameterFactory,
+                                                  CrossValidatorParameterFactory crossValidatorParameterFactory,
+                                                  ReportFactory reportFactory,
+                                                  PrecisionValidator precisionValidator) {
         super(sampleManager, classifierParameterFactory, crossValidatorParameterFactory, reportFactory);
         this.precisionValidator = Objects.requireNonNull(precisionValidator);
     }
@@ -44,7 +44,7 @@ class PreciseIntervalJudgementsRatioAnalyzer
         int stepSize = ratio.stepSize().value();
         List<SingleClassificationReport> iterations = new ArrayList<>((upperBound - lowerBound) / stepSize);
 
-        for(int i = lowerBound; i <= upperBound; i += stepSize) {
+        for (int i = lowerBound; i <= upperBound; i += stepSize) {
             CrossValidatorParameter<Integer> ratioParam = specificValidatorParams.preciseIntervalJudgmentsCountRatio(i);
 
             iterations.add(precisionValidator.validate(
@@ -52,6 +52,12 @@ class PreciseIntervalJudgementsRatioAnalyzer
                     specificClassifierParams,
                     override(specificValidatorParams, Collections.singleton(ratioParam))
             ));
+            fireCrossValidationContinued(100 * ((i - lowerBound) / (upperBound - lowerBound)));
+
+            if (processInterrupted()) {
+                fireCrossValidationInterrupted();
+                return reportFactory.newMultiClassificationReport(iterations);
+            }
         }
 
         return reportFactory.newMultiClassificationReport(iterations);
