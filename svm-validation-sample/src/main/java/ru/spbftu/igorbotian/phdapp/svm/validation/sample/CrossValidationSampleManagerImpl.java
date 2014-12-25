@@ -462,42 +462,80 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
         }
 
         while (!sample.isEmpty()) {
-            assert (sample.size() != 1);
-
-            List<DataClass> classes = listOfMapKeys(sample);
-            List<Integer> indexes = UniformedRandom.nextIntegerSequence(0, classes.size() - 1);
-            assert (indexes.size() >= 2);
-
-            int firstIndex = indexes.get(0);
-            int secondIndex = indexes.get(1);
-
-            int minGroupSize = minJudgementGroupSize;
 
             /*
-             * Возможна ситуация, когда при формировании групп для экспертной оценки в исходной выборке остаётся
-             * лишь группы объектов двух классов, причём количество элементов в каждой из них не больше максимально
-             * допустимого.
-             * В этом случае необходимо добавить все элементы групп объектов в группы для экспертной оценки.
-             * Иначе может возникнуть ситуация, когда в одной группе будут отобраны все объекты, а в другой - нет,
-             * и нельзя будет при следующей итерации сформировать новую экспертную оценку.
+             * Если среди доступных элементов остались элементы лишь одного класса, то уже среди них составляются пары
              */
-            if (sample.size() == 2
-                    && sample.get(classes.get(0)).size() <= maxJudgementGroupSize
-                    && sample.get(classes.get(1)).size() <= maxJudgementGroupSize) {
-                minGroupSize = maxJudgementGroupSize;
-            }
+            if (sample.size() == 1) {
+                DataClass clazz = sample.keySet().iterator().next();
+                LinkedList<ClassifiedObject> items = sample.get(clazz);
+                int minGroupSize = minJudgementGroupSize;
+                int maxGroupSize = maxJudgementGroupSize;
 
-            trainingSetItems.add(newPairwiseTrainingSetItem(
-                    grabJudgementGroup(sample.get(classes.get(firstIndex)), minGroupSize, maxJudgementGroupSize),
-                    grabJudgementGroup(sample.get(classes.get(secondIndex)), minGroupSize, maxJudgementGroupSize),
-                    expertFunction
-            ));
-
-            Stream.of(firstIndex, secondIndex).forEach(i -> {
-                if (sample.get(classes.get(i)).isEmpty()) {
-                    sample.remove(classes.get(i));
+                /*
+                 * Если вдруг при следующем шаге останется лишь один элемент, то намеренно понижаем кол-во отбираемых
+                 * элементов на текущем шаге
+                 */
+                if(items.size() - 2 * maxJudgementGroupSize == 1) {
+                    maxGroupSize = maxJudgementGroupSize - 1;
+                    minGroupSize = maxGroupSize;
                 }
-            });
+
+                /*
+                 * Не даём отобрать все оставшиеся элементы для первой группы в паре
+                 */
+                if(items.size() < maxJudgementGroupSize) {
+                    minGroupSize = 1;
+                    maxGroupSize = items.size() - 1;
+                }
+
+                trainingSetItems.add(newPairwiseTrainingSetItem(
+                        grabJudgementGroup(items, minGroupSize, maxGroupSize),
+                        grabJudgementGroup(items, minGroupSize, maxGroupSize),
+                        expertFunction
+                ));
+
+                if (items.isEmpty()) {
+                    sample.remove(clazz);
+                }
+            } else {
+                List<DataClass> classes = listOfMapKeys(sample);
+                List<Integer> indexes = UniformedRandom.nextIntegerSequence(0, classes.size() - 1);
+                assert (indexes.size() >= 2);
+
+                int firstIndex = indexes.get(0);
+                int secondIndex = indexes.get(1);
+
+                int minGroupSize = minJudgementGroupSize;
+
+                /*
+                 * Возможна ситуация, когда при формировании групп для экспертной оценки в исходной выборке остаётся
+                 * лишь группы объектов двух классов, причём количество элементов в каждой из них не больше максимально
+                 * допустимого.
+                 * В этом случае необходимо добавить все элементы групп объектов в группы для экспертной оценки.
+                 * Иначе может возникнуть ситуация, когда в одной группе будут отобраны все объекты, а в другой - нет,
+                 * и нельзя будет при следующей итерации сформировать новую экспертную оценку.
+                 */
+                if (sample.size() == 2
+                        && sample.get(classes.get(0)).size() <= maxJudgementGroupSize
+                        && sample.get(classes.get(1)).size() <= maxJudgementGroupSize) {
+                    minGroupSize = maxJudgementGroupSize;
+                }
+
+                trainingSetItems.add(newPairwiseTrainingSetItem(
+                        grabJudgementGroup(sample.get(classes.get(firstIndex)), minGroupSize, maxJudgementGroupSize),
+                        grabJudgementGroup(sample.get(classes.get(secondIndex)), minGroupSize, maxJudgementGroupSize),
+                        expertFunction
+                ));
+
+                Stream.of(firstIndex, secondIndex).forEach(i -> {
+                    DataClass clazz = classes.get(i);
+
+                    if (sample.containsKey(clazz) && sample.get(clazz).isEmpty()) {
+                        sample.remove(classes.get(i));
+                    }
+                });
+            }
         }
 
         return dataFactory.newPairwiseTrainingSet(trainingSetItems);

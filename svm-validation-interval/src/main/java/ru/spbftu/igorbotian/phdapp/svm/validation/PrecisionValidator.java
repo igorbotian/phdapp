@@ -72,12 +72,39 @@ class PrecisionValidator extends AbstractPairwiseClassifierCrossValidator<Single
      * Функция, определяющая экспертную оценку для заданных групп объектов
      */
     private Integer judgePoints(Set<? extends ClassifiedObject> firstGroup, Set<? extends ClassifiedObject> secondGroup) {
+        if(bothGroupsBelongToSameClass(firstGroup, secondGroup)) {
+            return 0;
+        }
+
         Set<Point> firstPoints = toSetOfPoints(firstGroup);
         Set<Point> secondPoints = toSetOfPoints(secondGroup);
         Point averageFirstPoint = averagePointOf(firstPoints);
         Point averageSecondPoint = averagePointOf(secondPoints);
 
         return firstPointIsCloserToSecondSupportingPoint(averageFirstPoint, averageSecondPoint) ? 1 : -1;
+    }
+
+    /**
+     * Проверка на то, что обе группы состоят из объектов одинакового класса
+     */
+    private boolean bothGroupsBelongToSameClass(Set<? extends ClassifiedObject> firstGroup,
+                                                Set<? extends ClassifiedObject> secondGroup) {
+
+        DataClass clazz = firstGroup.iterator().next().dataClass();
+
+        for(ClassifiedObject obj : firstGroup) {
+            if(!obj.dataClass().equals(clazz)) {
+                return false;
+            }
+        }
+
+        for(ClassifiedObject obj : secondGroup) {
+            if(!obj.dataClass().equals(clazz)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**

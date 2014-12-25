@@ -47,16 +47,14 @@ class IntervalPairwiseClassifier implements PairwiseClassifier {
     }
 
     private ClassifiedData classifyRandomly(UnclassifiedData unclassifiedData) throws DataException {
-        Set<DataClass> classes = new HashSet<>();
         Set<ClassifiedObject> classifiedObjects = new HashSet<>();
 
         for (UnclassifiedObject obj : unclassifiedData.objects()) {
             DataClass clazz = chooseRandomClass(unclassifiedData.classes());
-            classes.add(clazz);
             classifiedObjects.add(dataFactory.newClassifiedObject(obj.id(), obj.parameters(), clazz));
         }
 
-        return dataFactory.newClassifiedData(classes, classifiedObjects);
+        return dataFactory.newClassifiedData(unclassifiedData.classes(), classifiedObjects);
     }
 
     private DataClass chooseRandomClass(Set<? extends DataClass> classes) {
@@ -76,6 +74,6 @@ class IntervalPairwiseClassifier implements PairwiseClassifier {
 
     // нижняя граница включается, нижняя - нет
     private int randomInt(int lowerBound, int upperBound) {
-        return lowerBound + (int) (Math.random() * (upperBound - lowerBound));
+        return lowerBound + (int) (Math.random() * (upperBound - lowerBound + 1));
     }
 }

@@ -43,7 +43,7 @@ class UnclassifiedDataImpl implements UnclassifiedData {
         Objects.requireNonNull(objects);
 
         if (classes.size() < MIN_NUMBER_OF_CLASSES) {
-            throw new DataException("Number of classes cannot be less than 2");
+            throw new DataException("Number of classes cannot be less than " + MIN_NUMBER_OF_CLASSES);
         }
 
         if (objects.isEmpty()) {
