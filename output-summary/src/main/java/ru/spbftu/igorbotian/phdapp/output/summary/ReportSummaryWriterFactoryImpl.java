@@ -35,6 +35,14 @@ class ReportSummaryWriterFactoryImpl implements ReportSummaryWriterFactory {
     @Override
     @SuppressWarnings("unchecked")
     public <R extends Report> ReportSummaryWriter<R> get(Class<R> reportClass) {
-        return summaryWriters.get(Objects.requireNonNull(reportClass));
+        Objects.requireNonNull(reportClass);
+                
+        for(Class<? extends Report> clazz : summaryWriters.keySet()) {
+            if(clazz.isAssignableFrom(reportClass)) {
+                return summaryWriters.get(clazz);
+            }
+        }
+
+        return null;
     }
 }

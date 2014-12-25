@@ -35,6 +35,13 @@ class ReportCSVWriterFactoryImpl implements ReportCSVWriterFactory {
     @SuppressWarnings("unchecked")
     public <R extends Report> ReportCSVWriter<R> get(Class<R> reportClass) {
         Objects.requireNonNull(reportClass);
-        return csvWriters.get(reportClass);
+
+        for(Class<? extends Report> clazz : csvWriters.keySet()) {
+            if(clazz.isAssignableFrom(reportClass)) {
+                return csvWriters.get(clazz);
+            }
+        }
+
+        return null;
     }
 }
