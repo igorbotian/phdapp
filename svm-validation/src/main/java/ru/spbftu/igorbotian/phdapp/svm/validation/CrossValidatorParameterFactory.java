@@ -23,12 +23,12 @@ public interface CrossValidatorParameterFactory {
     /**
      * Значение по умолчанию нижней границы интервального значения штрафного параметра
      */
-    public static final double PENALTY_PARAM_DEFAULT_LOWER_BOUND = 1;
+    public static final double PENALTY_PARAM_DEFAULT_LOWER_BOUND = 0.1;
 
     /**
      * Значение по умолчанию верхней границы интервального значения штрафного параметра
      */
-    public static final double PENALTY_PARAM_DEFAULT_UPPER_BOUND = 1000;
+    public static final double PENALTY_PARAM_DEFAULT_UPPER_BOUND = 32;
 
     /**
      * Минимально допустимое значение штрафного параметра
@@ -43,12 +43,12 @@ public interface CrossValidatorParameterFactory {
     /**
      * Значение по умолчанию величины изменения штрафного параметра в процессе кросс-валидации
      */
-    public static final double PENALTY_PARAM_DEFAULT_STEP_SIZE = 1;
+    public static final double PENALTY_PARAM_DEFAULT_STEP_SIZE = 0.1;
 
     /**
      * Минимально допустимое значение величины изменения штрафного параметра в процессе кросс-валидации
      */
-    public static final double PENALTY_PARAM_STEP_SIZE_MIN = 1;
+    public static final double PENALTY_PARAM_STEP_SIZE_MIN = 0.001;
 
     /**
      * Максимально допустимое значение величины изменения штрафного параметра в процессе кросс-валидации
@@ -71,12 +71,12 @@ public interface CrossValidatorParameterFactory {
     /**
      * Значение по умолчанию нижней границы интервального значения параметра Гауссова ядра
      */
-    public static final double GAUSSIAN_KERNEL_PARAM_DEFAULT_LOWER_BOUND = 0.001;
+    public static final double GAUSSIAN_KERNEL_PARAM_DEFAULT_LOWER_BOUND = 0.1;
 
     /**
      * Значение по умолчанию верхней границы интервального значения параметра Гауссова ядра
      */
-    public static final double GAUSSIAN_KERNEL_PARAM_DEFAULT_UPPER_BOUND = 10;
+    public static final double GAUSSIAN_KERNEL_PARAM_DEFAULT_UPPER_BOUND = 32;
 
     /**
      * Минимально допустимое значение параметра Гауссова ядра
@@ -93,12 +93,12 @@ public interface CrossValidatorParameterFactory {
     /**
      * Значение по умолчанию величины изменения параметра Гауссова ядра в процессе кросс-валидации
      */
-    public static final double GAUSSIAN_KERNEL_PARAM_DEFAULT_STEP_SIZE = 0.05;
+    public static final double GAUSSIAN_KERNEL_PARAM_DEFAULT_STEP_SIZE = 0.1;
 
     /**
-     * Максимально допустимое значение величины изменения параметра Гауссова ядра в процессе кросс-валидации
+     * Минимально допустимое значение величины изменения параметра Гауссова ядра в процессе кросс-валидации
      */
-    public static final double GAUSSIAN_KERNEL_PARAM_STEP_SIZE_MIN = 0.0000001;
+    public static final double GAUSSIAN_KERNEL_PARAM_STEP_SIZE_MIN = 0.001;
 
     /**
      * Максимально допустимое значение величины изменения параметра Гауссова ядра в процессе кросс-валидации

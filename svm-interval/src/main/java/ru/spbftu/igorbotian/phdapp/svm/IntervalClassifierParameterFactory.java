@@ -15,7 +15,7 @@ public interface IntervalClassifierParameterFactory {
     /**
      * Значение по умолчанию штрафного параметра
      */
-    public static final double PENALTY_PARAM_DEFAULT_VALUE = 100.0;
+    public static final double PENALTY_PARAM_DEFAULT_VALUE = 1.0;
 
     /**
      * Минимально допустимое значение штрафного параметра

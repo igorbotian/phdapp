@@ -33,12 +33,12 @@ public interface CrossValidatorParamsWidgets {
     /**
      * Величина изменения шага для штрафного параметра
      */
-    public static final double PENALTY_PARAMETER_STEP_SIZE = 1.0;
+    public static final double PENALTY_PARAMETER_STEP_SIZE = 0.1;
 
     /**
      * Величина изменения шага для параметра Гауссова ядра
      */
-    public static final double GAUSSIAN_KERNEL_PARAMETER_STEP_SIZE = 0.05;
+    public static final double GAUSSIAN_KERNEL_PARAMETER_STEP_SIZE = 0.1;
 
     /**
      * Величина изменения шага для параметра, задающего количество генерируемых выборок
@@ -48,7 +48,7 @@ public interface CrossValidatorParamsWidgets {
     /**
      * Величина изменения шага для параметра, задающего количество объектов в генерируемой выборке
      */
-    public static final int SAMPLE_SIZE_STEP_SIZE = 1;
+    public static final int SAMPLE_SIZE_STEP_SIZE = 2;
 
     /**
      * Величина изменения шага для параметра, задающего соотношение количества объектов,
