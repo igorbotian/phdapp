@@ -32,14 +32,12 @@ import java.awt.*;
 public class SampleDialog extends PhDAppDialog {
 
     private static final String SAMPLE_LABEL = "sample";
-    private static final String REGENERATE_LABEL = "regenerate";
     private static final String CLOSE_LABEL = "close";
 
     private final CrossValidationSampleCanvasDirector canvasDirector;
 
     private IntegerSpinner sampleSizeSpinner;
     private CrossValidationSampleCanvas sampleCanvas;
-    private JButton regenerateButton;
     private JButton closeButton;
 
     public SampleDialog(PhDAppFrame owner) {
@@ -61,7 +59,6 @@ public class SampleDialog extends PhDAppDialog {
         sampleCanvas.setPreferredSize(new Dimension(480, 480));
         sampleCanvas.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
 
-        regenerateButton = new JButton(uiHelper.getLabel(REGENERATE_LABEL));
         closeButton = new JButton(uiHelper.getLabel(CLOSE_LABEL));
     }
 
@@ -69,7 +66,6 @@ public class SampleDialog extends PhDAppDialog {
         JPanel buttonPane = new JPanel();
         buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.LINE_AXIS));
         buttonPane.add(Box.createHorizontalGlue());
-        buttonPane.add(regenerateButton);
         buttonPane.add(closeButton);
 
         int margin = 20;
@@ -102,11 +98,6 @@ public class SampleDialog extends PhDAppDialog {
     }
 
     private void initListeners() {
-        regenerateButton.addActionListener(e -> {
-            canvasDirector.regeneratePoints(canvasDirector.numberOfPoints());
-            sampleCanvas.repaint();
-        });
-
         sampleSizeSpinner.addChangeListener(e -> {
             canvasDirector.regeneratePoints(sampleSizeSpinner.getValue());
             sampleCanvas.repaint();
