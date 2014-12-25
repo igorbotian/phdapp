@@ -20,6 +20,7 @@ package ru.spbftu.igorbotian.phdapp.output.csv;
 
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
 import ru.spbftu.igorbotian.phdapp.svm.ClassifierParameter;
+import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidatorParameter;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.SingleClassificationReport;
 
 import java.io.IOException;
@@ -72,7 +73,7 @@ class SingleClassificationReportCSVWriter implements ReportCSVWriter<SingleClass
             i++;
         }
 
-        for(ClassifierParameter<?> param : report.classifierParameters()) {
+        for(CrossValidatorParameter<?> param : report.crossValidatorParameters()) {
             headerItems[i] = localization.getLabel(param.name());
             i++;
         }
@@ -98,8 +99,8 @@ class SingleClassificationReportCSVWriter implements ReportCSVWriter<SingleClass
             i++;
         }
 
-        for(ClassifierParameter<?> param : report.classifierParameters()) {
-            lineItems[i] = param.value().toString();
+        for(CrossValidatorParameter<?> param : report.crossValidatorParameters()) {
+            lineItems[i] = param.value().value().toString();
             i++;
         }
 

@@ -29,7 +29,7 @@ import java.util.Objects;
  */
 public class CSVWriter extends PrintWriter {
 
-    private static final String LINE_BREAK = "\\r\\n"; // cross-platform
+    private static final String LINE_BREAK = "\r\n"; // cross-platform
 
     public CSVWriter(Writer out) {
         super(out);

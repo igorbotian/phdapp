@@ -62,7 +62,7 @@ class SingleClassificationReportSummaryWriterImpl implements ReportSummaryWriter
         }
 
         for (CrossValidatorParameter<?> param : report.crossValidatorParameters()) {
-            summary.writeItem(localization.getLabel(param.name()), param.value().toString());
+            summary.writeItem(localization.getLabel(param.name()), param.value().value().toString());
         }
 
         summary.writeItem(localization.getLabel(ACCURACY_LABEL), report.accuracy());

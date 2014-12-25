@@ -29,7 +29,7 @@ import java.util.Objects;
  */
 public class SummaryWriter extends PrintWriter {
 
-    private static final String LINE_BREAK = "\\r\\n"; // cross-platform
+    private static final String LINE_BREAK = "\r\n"; // cross-platform
 
     public SummaryWriter(Writer out) {
         super(out);
