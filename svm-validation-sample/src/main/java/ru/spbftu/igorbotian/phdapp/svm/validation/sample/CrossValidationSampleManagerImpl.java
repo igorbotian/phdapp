@@ -476,7 +476,8 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
                  * Если вдруг при следующем шаге останется лишь один элемент, то намеренно понижаем кол-во отбираемых
                  * элементов на текущем шаге
                  */
-                if(items.size() - 2 * maxJudgementGroupSize == 1) {
+                if(items.size() - 2 * maxJudgementGroupSize == 1
+                        || items.size() - maxJudgementGroupSize == 1) {
                     maxGroupSize = maxJudgementGroupSize - 1;
                     minGroupSize = maxGroupSize;
                 }
@@ -484,16 +485,21 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
                 /*
                  * Не даём отобрать все оставшиеся элементы для первой группы в паре
                  */
-                if(items.size() < maxJudgementGroupSize) {
-                    minGroupSize = 1;
-                    maxGroupSize = items.size() - 1;
+                if(items.size() <= maxJudgementGroupSize) {
+                    Set<? extends ClassifiedObject> firstGroup = new HashSet<>(items.subList(0, 1));
+                    Set<? extends ClassifiedObject> secondGroup = new HashSet<>(items.subList(1, items.size()));
+
+                    items.removeAll(firstGroup);
+                    items.removeAll(secondGroup);
+                } else {
+                    trainingSetItems.add(newPairwiseTrainingSetItem(
+                            grabJudgementGroup(items, minGroupSize, maxGroupSize),
+                            grabJudgementGroup(items, minGroupSize, maxGroupSize),
+                            expertFunction
+                    ));
                 }
 
-                trainingSetItems.add(newPairwiseTrainingSetItem(
-                        grabJudgementGroup(items, minGroupSize, maxGroupSize),
-                        grabJudgementGroup(items, minGroupSize, maxGroupSize),
-                        expertFunction
-                ));
+                assert (items.size() != 1);
 
                 if (items.isEmpty()) {
                     sample.remove(clazz);

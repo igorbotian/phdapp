@@ -72,6 +72,6 @@ class SingleClassificationReportImpl implements SingleClassificationReport {
 
     @Override
     public float fMeasure() {
-        return 2 * (precision * recall) / (precision + recall);
+        return (precision == 0 && recall == 0) ? 0.0f : 2 * (precision * recall) / (precision + recall);
     }
 }

@@ -46,9 +46,9 @@ public final class UniformedRandom {
      * @throws java.lang.IllegalArgumentException если нижний предел по значению больше верхнего
      */
     public static int nextInteger(int min, int max) {
-        if (min > max) {
+        if (min - max > 0) {
             throw new IllegalArgumentException(String.format("A lower bound (%d) cannot be greater " +
-                    "than an upper bound (%df)", min, max));
+                    "than an upper bound (%d)", min, max));
         }
 
         return (min == max) ? min : random.nextInt(max - min + 1) + min;
