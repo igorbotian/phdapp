@@ -35,7 +35,7 @@ import java.util.Objects;
 @Singleton
 class CrossValidatorParamsFrameDirectorImpl implements CrossValidatorParamsFrameDirector {
 
-    private final MutableCrossValidatorParameter<Double> constantCostParameter;
+    private final MutableCrossValidatorParameter<Double> penaltyParameter;
 
     private final MutableCrossValidatorParameter<Double> gaussianKernelParameter;
 
@@ -54,7 +54,7 @@ class CrossValidatorParamsFrameDirectorImpl implements CrossValidatorParamsFrame
                                                  CrossValidatorParameterFactory crossValidatorParameterFactory) {
 
         this.appConfig = Objects.requireNonNull(appConfig);
-        constantCostParameter = newDoubleParameter(crossValidatorParameterFactory.constantCostParameter());
+        penaltyParameter = newDoubleParameter(crossValidatorParameterFactory.penaltyParameter());
         gaussianKernelParameter = newDoubleParameter(crossValidatorParameterFactory.gaussianKernelParameter());
         samplesToGenerateCount = newIntegerParameter(crossValidatorParameterFactory.samplesToGenerateCount());
         sampleSize = newIntegerParameter(crossValidatorParameterFactory.sampleSize());
@@ -73,8 +73,8 @@ class CrossValidatorParamsFrameDirectorImpl implements CrossValidatorParamsFrame
     }
 
     @Override
-    public MutableCrossValidatorParameter<Double> constantCostParameter() {
-        return constantCostParameter;
+    public MutableCrossValidatorParameter<Double> penaltyParameter() {
+        return penaltyParameter;
     }
 
     @Override

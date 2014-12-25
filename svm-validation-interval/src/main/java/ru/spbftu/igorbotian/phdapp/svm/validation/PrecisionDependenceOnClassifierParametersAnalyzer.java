@@ -48,10 +48,10 @@ class PrecisionDependenceOnClassifierParametersAnalyzer
                                                  CrossValidatorParameterFactory specificValidatorParams)
             throws CrossValidationSampleException, CrossValidationException {
 
-        CrossValidatorParameter<Double> constantCostParam = specificValidatorParams.constantCostParameter();
-        double ccpLowerBound = constantCostParam.lowerBound().value();
-        double ccpUpperBound = constantCostParam.upperBound().value();
-        double ccpStepSize = constantCostParam.stepSize().value();
+        CrossValidatorParameter<Double> penaltyParam = specificValidatorParams.penaltyParameter();
+        double ppLowerBound = penaltyParam.lowerBound().value();
+        double ppUpperBound = penaltyParam.upperBound().value();
+        double ppStepSize = penaltyParam.stepSize().value();
 
         CrossValidatorParameter<Double> gaussianKernelParam = specificValidatorParams.gaussianKernelParameter();
         double gkpLowerBound = gaussianKernelParam.lowerBound().value();
@@ -60,9 +60,9 @@ class PrecisionDependenceOnClassifierParametersAnalyzer
 
         List<SingleClassificationReport> iterations = new LinkedList<>();
 
-        for (double ccp = ccpLowerBound; ccp <= ccpUpperBound; ccp += ccpStepSize) {
+        for (double ccp = ppLowerBound; ccp <= ppUpperBound; ccp += ppStepSize) {
             for (double gkp = gkpLowerBound; gkp <= gkpUpperBound; gkp += gkpStepSize) {
-                ClassifierParameter<Double> ccpParam = classifierParameterFactory.constantCostParameter(ccp);
+                ClassifierParameter<Double> ccpParam = classifierParameterFactory.penaltyParameter(ccp);
                 ClassifierParameter<Double> gkpParam = classifierParameterFactory.gaussianKernelParameter(gkp);
 
                 iterations.add(precisionValidator.validate(

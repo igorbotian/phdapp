@@ -80,7 +80,7 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                 viewSampleButton.addActionListener(e -> new SampleDialog(mainFrame).setVisible(true));
 
                 widgets = new JComponent[]{
-                        uiHelper.widgets().preciseConstantCostParamSpinner(),
+                        uiHelper.widgets().precisePenaltyParamSpinner(),
                         uiHelper.widgets().preciseGaussianKernelParamSpinner(),
                         uiHelper.widgets().preciseTrainingTestingSetsSizeRatioSpinner(),
                         uiHelper.widgets().precisePreciseIntervalJudgmentsCountRatioSpinner(),
@@ -93,7 +93,7 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                 widgets = new JComponent[]{
                         uiHelper.widgets().preciseSampleSizeSpinner(),
                         uiHelper.widgets().preciseSamplesToGenerateCountSpinner(),
-                        uiHelper.widgets().preciseConstantCostParamSpinner(),
+                        uiHelper.widgets().precisePenaltyParamSpinner(),
                         uiHelper.widgets().preciseGaussianKernelParamSpinner(),
                         uiHelper.widgets().preciseTrainingTestingSetsSizeRatioSpinner(),
                         uiHelper.widgets().precisePreciseIntervalJudgmentsCountRatioSpinner()
@@ -105,7 +105,7 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                 widgets = new JComponent[]{
                         uiHelper.widgets().intervalSampleSizeSpinner(),
                         uiHelper.widgets().preciseSamplesToGenerateCountSpinner(),
-                        uiHelper.widgets().preciseConstantCostParamSpinner(),
+                        uiHelper.widgets().precisePenaltyParamSpinner(),
                         uiHelper.widgets().preciseGaussianKernelParamSpinner(),
                         uiHelper.widgets().preciseTrainingTestingSetsSizeRatioSpinner(),
                         uiHelper.widgets().precisePreciseIntervalJudgmentsCountRatioSpinner()
@@ -117,7 +117,7 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                 widgets = new JComponent[]{
                         uiHelper.widgets().preciseSampleSizeSpinner(),
                         uiHelper.widgets().preciseSamplesToGenerateCountSpinner(),
-                        uiHelper.widgets().preciseConstantCostParamSpinner(),
+                        uiHelper.widgets().precisePenaltyParamSpinner(),
                         uiHelper.widgets().preciseGaussianKernelParamSpinner(),
                         uiHelper.widgets().intervalTrainingTestingSetsSizeRatioSpinner(),
                         uiHelper.widgets().precisePreciseIntervalJudgmentsCountRatioSpinner()
@@ -129,7 +129,7 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                 widgets = new JComponent[]{
                         uiHelper.widgets().preciseSampleSizeSpinner(),
                         uiHelper.widgets().preciseSamplesToGenerateCountSpinner(),
-                        uiHelper.widgets().intervalConstantCostParamSpinner(),
+                        uiHelper.widgets().intervalPenaltyParamSpinner(),
                         uiHelper.widgets().intervalGaussianKernelParamSpinner(),
                         uiHelper.widgets().preciseTrainingTestingSetsSizeRatioSpinner(),
                         uiHelper.widgets().precisePreciseIntervalJudgmentsCountRatioSpinner()
@@ -141,7 +141,7 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                 widgets = new JComponent[]{
                         uiHelper.widgets().preciseSampleSizeSpinner(),
                         uiHelper.widgets().preciseSamplesToGenerateCountSpinner(),
-                        uiHelper.widgets().preciseConstantCostParamSpinner(),
+                        uiHelper.widgets().precisePenaltyParamSpinner(),
                         uiHelper.widgets().preciseGaussianKernelParamSpinner(),
                         uiHelper.widgets().preciseTrainingTestingSetsSizeRatioSpinner(),
                         uiHelper.widgets().intervalPreciseIntervalJudgmentsCountRatioSpinner()

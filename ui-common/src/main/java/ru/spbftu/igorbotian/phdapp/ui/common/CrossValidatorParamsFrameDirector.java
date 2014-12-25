@@ -26,11 +26,11 @@ import ru.spbftu.igorbotian.phdapp.svm.validation.MutableCrossValidatorParameter
 public interface CrossValidatorParamsFrameDirector {
 
     /**
-     * Получение значения параметра постоянной стоимости
+     * Получение значения штрафного параметра
      *
      * @return параметр классификатора со значением вещественного типа
      */
-    MutableCrossValidatorParameter<Double> constantCostParameter();
+    MutableCrossValidatorParameter<Double> penaltyParameter();
 
     /**
      * Получение значения параметра Гауссова ядра

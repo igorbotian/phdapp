@@ -38,22 +38,22 @@ class SpecificCrossValidatorParameterFactory implements CrossValidatorParameterF
     }
 
     @Override
-    public CrossValidatorParameter<Double> constantCostParameter() {
-        return getParamById(CrossValidatorParameterFactory.CONSTANT_COST_PARAM_ID);
+    public CrossValidatorParameter<Double> penaltyParameter() {
+        return getParamById(CrossValidatorParameterFactory.PENALTY_PARAM_ID);
     }
 
     @Override
-    public CrossValidatorParameter<Double> constantCostParameter(double value) {
-        CrossValidatorParameter<Double> param = constantCostParameter();
-        return constantCostParameter(value, param.lowerBound().value(), param.upperBound().value(),
+    public CrossValidatorParameter<Double> penaltyParameter(double value) {
+        CrossValidatorParameter<Double> param = penaltyParameter();
+        return penaltyParameter(value, param.lowerBound().value(), param.upperBound().value(),
                 param.stepSize().value(), param.stepSize().minValue(), param.stepSize().maxValue());
     }
 
     @Override
-    public CrossValidatorParameter<Double> constantCostParameter(double value, double lowerBound,
-                                                                 double upperBound, double stepSize,
-                                                                 double stepSizeMin, double stepSizeMax) {
-        return parameterFactory.constantCostParameter(value, lowerBound, upperBound,
+    public CrossValidatorParameter<Double> penaltyParameter(double value, double lowerBound,
+                                                            double upperBound, double stepSize,
+                                                            double stepSizeMin, double stepSizeMax) {
+        return parameterFactory.penaltyParameter(value, lowerBound, upperBound,
                 stepSize, stepSizeMin, stepSizeMax);
     }
 

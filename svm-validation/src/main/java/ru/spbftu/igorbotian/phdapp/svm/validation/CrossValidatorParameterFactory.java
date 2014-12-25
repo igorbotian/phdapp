@@ -10,52 +10,50 @@ import java.util.Set;
 public interface CrossValidatorParameterFactory {
 
     /**
-     * Идентификатор параметра постоянной стоимости
+     * Идентификатор штрафного параметра
      */
-    public static final String CONSTANT_COST_PARAM_ID = IntervalClassifierParameterFactory.CONSTANT_COST_PARAM_ID;
+    public static final String PENALTY_PARAM_ID = IntervalClassifierParameterFactory.PENALTY_PARAM_ID;
 
     /**
-     * Значение по умолчанию параметра постоянной стоимости
+     * Значение по умолчанию штрафного параметра
      */
-    public static final double CONSTANT_COST_PARAM_DEFAULT_VALUE
-            = IntervalClassifierParameterFactory.CONSTANT_COST_PARAM_DEFAULT_VALUE;
+    public static final double PENALTY_PARAM_DEFAULT_VALUE
+            = IntervalClassifierParameterFactory.PENALTY_PARAM_DEFAULT_VALUE;
 
     /**
-     * Значение по умолчанию нижней границы интервального значения параметра постоянной стоимости
+     * Значение по умолчанию нижней границы интервального значения штрафного параметра
      */
-    public static final double CONSTANT_COST_PARAM_DEFAULT_LOWER_BOUND = 1;
+    public static final double PENALTY_PARAM_DEFAULT_LOWER_BOUND = 1;
 
     /**
-     * Значение по умолчанию верхней границы интервального значения параметра постоянной стоимости
+     * Значение по умолчанию верхней границы интервального значения штрафного параметра
      */
-    public static final double CONSTANT_COST_PARAM_DEFAULT_UPPER_BOUND = 1000;
+    public static final double PENALTY_PARAM_DEFAULT_UPPER_BOUND = 1000;
 
     /**
-     * Минимально допустимое значение параметра постоянной стоимости
+     * Минимально допустимое значение штрафного параметра
      */
-    public static final double CONSTANT_COST_PARAM_MIN_VALUE
-            = IntervalClassifierParameterFactory.CONSTANT_COST_PARAM_MIN_VALUE;
+    public static final double PENALTY_PARAM_MIN_VALUE = IntervalClassifierParameterFactory.PENALTY_PARAM_MIN_VALUE;
 
     /**
-     * Максимально допустимое значение параметра постоянной стоимости
+     * Максимально допустимое значение штрафного параметра
      */
-    public static final double CONSTANT_COST_PARAM_MAX_VALUE
-            = IntervalClassifierParameterFactory.CONSTANT_COST_PARAM_MAX_VALUE;
+    public static final double PENALTY_PARAM_MAX_VALUE = IntervalClassifierParameterFactory.PENALTY_PARAM_MAX_VALUE;
 
     /**
-     * Значение по умолчанию величины изменения параметра постоянной стоимости в процессе кросс-валидации
+     * Значение по умолчанию величины изменения штрафного параметра в процессе кросс-валидации
      */
-    public static final double CONSTANT_COST_PARAM_DEFAULT_STEP_SIZE = 1;
+    public static final double PENALTY_PARAM_DEFAULT_STEP_SIZE = 1;
 
     /**
-     * Минимально допустимое значение величины изменения параметра постоянной стоимости в процессе кросс-валидации
+     * Минимально допустимое значение величины изменения штрафного параметра в процессе кросс-валидации
      */
-    public static final double CONSTANT_COST_PARAM_STEP_SIZE_MIN = 1;
+    public static final double PENALTY_PARAM_STEP_SIZE_MIN = 1;
 
     /**
-     * Максимально допустимое значение величины изменения параметра постоянной стоимости в процессе кросс-валидации
+     * Максимально допустимое значение величины изменения штрафного параметра в процессе кросс-валидации
      */
-    public static final double CONSTANT_COST_PARAM_STEP_SIZE_MAX = CONSTANT_COST_PARAM_MAX_VALUE;
+    public static final double PENALTY_PARAM_STEP_SIZE_MAX = PENALTY_PARAM_MAX_VALUE;
 
     //-------------------------------------------------------------------------
 
@@ -320,24 +318,24 @@ public interface CrossValidatorParameterFactory {
     //-------------------------------------------------------------------------
 
     /**
-     * Создание параметра постоянной стоимости со значениями по умолчанию
+     * Создание штрафного параметра со значениями по умолчанию
      *
      * @return параметр средства кросс-валидации
      */
-    CrossValidatorParameter<Double> constantCostParameter();
+    CrossValidatorParameter<Double> penaltyParameter();
 
     /**
-     * Создание параметра постоянной стоимости с заданным значением
+     * Создание штрафного параметра с заданным значением
      *
      * @param value значение параметра
      * @return параметр средства кросс-валидации
      * @throws IllegalArgumentException если заданное значение параметра меньше минимально допустимого
      *                                  или больше максимально допустимого
      */
-    CrossValidatorParameter<Double> constantCostParameter(double value);
+    CrossValidatorParameter<Double> penaltyParameter(double value);
 
     /**
-     * Создание параметра постоянной стоимости с заданным значением
+     * Создание штрафного параметра с заданным значением
      *
      * @param value       значение параметра
      * @param lowerBound  значение нижней границы интервального значения параметра
@@ -349,9 +347,9 @@ public interface CrossValidatorParameterFactory {
      * @throws IllegalArgumentException если заданное значение параметра меньше минимально допустимого
      *                                  или больше максимально допустимого
      */
-    CrossValidatorParameter<Double> constantCostParameter(double value, double lowerBound,
-                                                          double upperBound, double stepSize,
-                                                          double stepSizeMin, double stepSizeMax);
+    CrossValidatorParameter<Double> penaltyParameter(double value, double lowerBound,
+                                                     double upperBound, double stepSize,
+                                                     double stepSizeMin, double stepSizeMax);
 
     //-------------------------------------------------------------------------
 

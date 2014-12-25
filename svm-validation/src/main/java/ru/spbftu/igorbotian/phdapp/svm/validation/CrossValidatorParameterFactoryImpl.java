@@ -11,28 +11,28 @@ class CrossValidatorParameterFactoryImpl implements CrossValidatorParameterFacto
 
 
     @Override
-    public CrossValidatorParameter<Double> constantCostParameter() {
-        return constantCostParameter(CONSTANT_COST_PARAM_DEFAULT_VALUE);
+    public CrossValidatorParameter<Double> penaltyParameter() {
+        return penaltyParameter(PENALTY_PARAM_DEFAULT_VALUE);
     }
 
     @Override
-    public CrossValidatorParameter<Double> constantCostParameter(double value) {
-        return constantCostParameter(
+    public CrossValidatorParameter<Double> penaltyParameter(double value) {
+        return penaltyParameter(
                 value,
-                CONSTANT_COST_PARAM_DEFAULT_LOWER_BOUND,
-                CONSTANT_COST_PARAM_DEFAULT_UPPER_BOUND,
-                CONSTANT_COST_PARAM_DEFAULT_STEP_SIZE,
-                CONSTANT_COST_PARAM_STEP_SIZE_MIN,
-                CONSTANT_COST_PARAM_STEP_SIZE_MAX
+                PENALTY_PARAM_DEFAULT_LOWER_BOUND,
+                PENALTY_PARAM_DEFAULT_UPPER_BOUND,
+                PENALTY_PARAM_DEFAULT_STEP_SIZE,
+                PENALTY_PARAM_STEP_SIZE_MIN,
+                PENALTY_PARAM_STEP_SIZE_MAX
         );
     }
 
     @Override
-    public CrossValidatorParameter<Double> constantCostParameter(double value, double lowerBound,
-                                                                 double upperBound, double stepSize,
-                                                                 double stepSizeMin, double stepSizeMax) {
-        return new DefaultCrossValidatorParameterImpl<>(CONSTANT_COST_PARAM_ID, Double.class,
-                value, lowerBound, upperBound, CONSTANT_COST_PARAM_MIN_VALUE, CONSTANT_COST_PARAM_MAX_VALUE,
+    public CrossValidatorParameter<Double> penaltyParameter(double value, double lowerBound,
+                                                            double upperBound, double stepSize,
+                                                            double stepSizeMin, double stepSizeMax) {
+        return new DefaultCrossValidatorParameterImpl<>(PENALTY_PARAM_ID, Double.class,
+                value, lowerBound, upperBound, PENALTY_PARAM_MIN_VALUE, PENALTY_PARAM_MAX_VALUE,
                 stepSize, stepSizeMin, stepSizeMax, Double::compare);
     }
 
@@ -168,7 +168,7 @@ class CrossValidatorParameterFactoryImpl implements CrossValidatorParameterFacto
     @Override
     public Set<CrossValidatorParameter<?>> defaultValues() {
         return Stream.of(
-                constantCostParameter(),
+                penaltyParameter(),
                 gaussianKernelParameter(),
                 samplesToGenerateCount(),
                 sampleSize(),

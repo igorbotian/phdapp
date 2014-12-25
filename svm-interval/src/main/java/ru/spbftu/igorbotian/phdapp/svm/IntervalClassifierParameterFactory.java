@@ -8,24 +8,24 @@ import java.util.Set;
 public interface IntervalClassifierParameterFactory {
 
     /**
-     * Идентификатор параметра постоянной стоимости
+     * Идентификатор штрафного параметра
      */
-    public static final String CONSTANT_COST_PARAM_ID = "constantCostParameter";
+    public static final String PENALTY_PARAM_ID = "penaltyParameter";
 
     /**
-     * Значение по умолчанию параметра постоянной стоимости
+     * Значение по умолчанию штрафного параметра
      */
-    public static final double CONSTANT_COST_PARAM_DEFAULT_VALUE = 100.0;
+    public static final double PENALTY_PARAM_DEFAULT_VALUE = 100.0;
 
     /**
-     * Минимально допустимое значение параметра постоянной стоимости
+     * Минимально допустимое значение штрафного параметра
      */
-    public static final double CONSTANT_COST_PARAM_MIN_VALUE = (double) Integer.MIN_VALUE;
+    public static final double PENALTY_PARAM_MIN_VALUE = (double) Integer.MIN_VALUE;
 
     /**
-     * Максимально допустимое значение параметра постоянной стоимости
+     * Максимально допустимое значение штрафного параметра
      */
-    public static final double CONSTANT_COST_PARAM_MAX_VALUE = (double) Integer.MAX_VALUE;
+    public static final double PENALTY_PARAM_MAX_VALUE = (double) Integer.MAX_VALUE;
 
     //-------------------------------------------------------------------------
 
@@ -52,21 +52,21 @@ public interface IntervalClassifierParameterFactory {
     //-------------------------------------------------------------------------
 
     /**
-     * Создание параметра постоянной стоимости со значением по умолчанию (<code>CONSTANT_COST_PARAM_DEFAULT_VALUE</code>)
+     * Создание штрафного параметра со значением по умолчанию (<code>PENALTY_PARAM_DEFAULT_VALUE</code>)
      *
      * @return параметр классификатора со значением вещественного типа
      */
-    ClassifierParameter<Double> constantCostParameter();
+    ClassifierParameter<Double> penaltyParameter();
 
     /**
-     * Создание параметра постоянной стоимости с заданным значением
+     * Создание штрафного параметра с заданным значением
      *
      * @param value значение параметра (допустимые значения:
-     *              от <code>CONSTANT_COST_PARAM_MIN_VALUE</code> до <code>CONSTANT_COST_PARAM_MAX_VALUE</code>
+     *              от <code>PENALTY_PARAM_MIN_VALUE</code> до <code>PENALTY_PARAM_MAX_VALUE</code>
      * @return параметр классификатора со значением вещественного типа
      * @throws IllegalArgumentException если значение меньше минимально допустимого или больше максимально допустимого
      */
-    ClassifierParameter<Double> constantCostParameter(double value);
+    ClassifierParameter<Double> penaltyParameter(double value);
 
     //-------------------------------------------------------------------------
 

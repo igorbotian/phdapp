@@ -13,19 +13,19 @@ class IntervalClassifierParameterFactoryImpl extends AbstractClassifierParameter
         implements IntervalClassifierParameterFactory {
 
     @Override
-    public MutableClassifierParameter<Double> constantCostParameter() {
-        return constantCostParameter(CONSTANT_COST_PARAM_DEFAULT_VALUE);
+    public MutableClassifierParameter<Double> penaltyParameter() {
+        return penaltyParameter(PENALTY_PARAM_DEFAULT_VALUE);
     }
 
     @Override
-    public MutableClassifierParameter<Double> constantCostParameter(double value) {
-        if (value < CONSTANT_COST_PARAM_MIN_VALUE || value > CONSTANT_COST_PARAM_MAX_VALUE) {
-            throw new IllegalArgumentException("Constant cost parameter value can't be less than the minimum " +
+    public MutableClassifierParameter<Double> penaltyParameter(double value) {
+        if (value < PENALTY_PARAM_MIN_VALUE || value > PENALTY_PARAM_MAX_VALUE) {
+            throw new IllegalArgumentException("Penalty parameter value can't be less than the minimum " +
                     "or greater than the maximum");
         }
 
-        return super.newMutableParameter(CONSTANT_COST_PARAM_ID, Double.class,
-                value, CONSTANT_COST_PARAM_MIN_VALUE, CONSTANT_COST_PARAM_MAX_VALUE, Double::compare);
+        return super.newMutableParameter(PENALTY_PARAM_ID, Double.class,
+                value, PENALTY_PARAM_MIN_VALUE, PENALTY_PARAM_MAX_VALUE, Double::compare);
     }
 
     @Override
@@ -47,7 +47,7 @@ class IntervalClassifierParameterFactoryImpl extends AbstractClassifierParameter
     @Override
     public Set<ClassifierParameter<?>> defaultValues() {
         return Stream.of(
-                constantCostParameter(),
+                penaltyParameter(),
                 gaussianKernelParameter()
         ).collect(Collectors.toSet());
     }

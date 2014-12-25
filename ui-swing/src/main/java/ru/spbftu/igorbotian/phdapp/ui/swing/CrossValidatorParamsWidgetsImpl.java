@@ -37,8 +37,8 @@ class CrossValidatorParamsWidgetsImpl implements CrossValidatorParamsWidgets {
 
     private final UIHelper uiHelper;
 
-    private DoubleSpinner preciseConstantCostParamSpinner;
-    private DoubleRangeSpinner intervalConstantCostParamSpinner;
+    private DoubleSpinner precisePenaltyParamSpinner;
+    private DoubleRangeSpinner intervalPenaltyParamSpinner;
     private DoubleSpinner preciseGaussianKernelParamSpinner;
     private DoubleRangeSpinner intervalGaussianKernelParamSpinner;
     private IntegerSpinner samplesToGenerateCountSpinner;
@@ -54,10 +54,8 @@ class CrossValidatorParamsWidgetsImpl implements CrossValidatorParamsWidgets {
 
         CrossValidatorParamsFrameDirector director = uiHelper.crossValidatorParamsFrameDirector();
 
-        preciseConstantCostParamSpinner = preciseDoubleSpinner(director.constantCostParameter(),
-                CONSTANT_COST_PARAMETER_STEP_SIZE);
-        intervalConstantCostParamSpinner = doubleRangeSpinner(director.constantCostParameter(),
-                CONSTANT_COST_PARAMETER_STEP_SIZE);
+        precisePenaltyParamSpinner = preciseDoubleSpinner(director.penaltyParameter(), PENALTY_PARAMETER_STEP_SIZE);
+        intervalPenaltyParamSpinner = doubleRangeSpinner(director.penaltyParameter(), PENALTY_PARAMETER_STEP_SIZE);
 
         preciseGaussianKernelParamSpinner = preciseDoubleSpinner(director.gaussianKernelParameter(),
                 GAUSSIAN_KERNEL_PARAMETER_STEP_SIZE);
@@ -154,13 +152,13 @@ class CrossValidatorParamsWidgetsImpl implements CrossValidatorParamsWidgets {
     }
 
     @Override
-    public DoubleSpinner preciseConstantCostParamSpinner() {
-        return preciseConstantCostParamSpinner;
+    public DoubleSpinner precisePenaltyParamSpinner() {
+        return precisePenaltyParamSpinner;
     }
 
     @Override
-    public DoubleRangeSpinner intervalConstantCostParamSpinner() {
-        return intervalConstantCostParamSpinner;
+    public DoubleRangeSpinner intervalPenaltyParamSpinner() {
+        return intervalPenaltyParamSpinner;
     }
 
     @Override

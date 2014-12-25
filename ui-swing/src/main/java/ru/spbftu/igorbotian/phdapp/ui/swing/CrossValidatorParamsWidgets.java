@@ -31,9 +31,9 @@ import ru.spbftu.igorbotian.phdapp.ui.swing.widget.IntegerSpinner;
 public interface CrossValidatorParamsWidgets {
 
     /**
-     * Величина изменения шага для параметра постоянной стоимости
+     * Величина изменения шага для штрафного параметра
      */
-    public static final double CONSTANT_COST_PARAMETER_STEP_SIZE = 1.0;
+    public static final double PENALTY_PARAMETER_STEP_SIZE = 1.0;
 
     /**
      * Величина изменения шага для параметра Гауссова ядра
@@ -62,22 +62,22 @@ public interface CrossValidatorParamsWidgets {
     public static final int PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_STEP_SIZE = 1;
 
     /**
-     * Заданное значение коэффициента С
+     * Заданное значение штрафного параметра
      */
-    DoubleSpinner preciseConstantCostParamSpinner();
+    DoubleSpinner precisePenaltyParamSpinner();
 
     /**
-     * Заданный диапазон значений коэффициента С
+     * Заданный диапазон значений  штрафного параметра
      */
-    DoubleRangeSpinner intervalConstantCostParamSpinner();
+    DoubleRangeSpinner intervalPenaltyParamSpinner();
 
     /**
-     * Заданное значение коэффициента Сигма
+     * Заданное значение параметра Гауссова ядра
      */
     DoubleSpinner preciseGaussianKernelParamSpinner();
 
     /**
-     * Заданный диапазон значений коэффициента Сигма
+     * Заданный диапазон значений параметра Гауссова ядра
      */
     DoubleRangeSpinner intervalGaussianKernelParamSpinner();
 

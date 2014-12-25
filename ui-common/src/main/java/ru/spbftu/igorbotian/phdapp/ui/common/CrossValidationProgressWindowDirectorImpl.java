@@ -46,7 +46,7 @@ class CrossValidationProgressWindowDirectorImpl implements CrossValidationProgre
 
         try {
             final Report report = validator.validate(classifier, Stream.of(
-                    uiHelper.crossValidatorParamsFrameDirector().constantCostParameter(),
+                    uiHelper.crossValidatorParamsFrameDirector().penaltyParameter(),
                     uiHelper.crossValidatorParamsFrameDirector().gaussianKernelParameter(),
                     uiHelper.crossValidatorParamsFrameDirector().samplesToGenerateCount(),
                     uiHelper.crossValidatorParamsFrameDirector().sampleSize(),
