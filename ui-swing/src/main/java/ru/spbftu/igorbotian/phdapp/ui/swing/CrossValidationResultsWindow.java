@@ -70,11 +70,14 @@ public class CrossValidationResultsWindow extends JFrame {
 
         reportSummaryTextArea = new JTextArea();
         reportSummaryTextArea.setEditable(false);
-        uiHelper.crossValidationResultWindowDirector().getReportSummary(report).forEach(reportSummaryTextArea::append);
+        uiHelper.crossValidationResultWindowDirector().getReportSummary(report).forEach(line -> {
+            reportSummaryTextArea.append(line);
+            reportSummaryTextArea.append("\n");
+        });
 
         exportToCSVButton = new JButton(uiHelper.getLabel(EXPORT_TO_CSV_LABEL) + "...");
         backButton = new JButton("< " + uiHelper.getLabel(BACK_LABEL));
-        exitButton = new JButton(uiHelper.getLabel(EXIT_LABEL) + " >");
+        exitButton = new JButton(uiHelper.getLabel(EXIT_LABEL));
     }
 
     private void layoutComponents() {
@@ -94,6 +97,8 @@ public class CrossValidationResultsWindow extends JFrame {
         contentPane.add(buttonPanel, BorderLayout.PAGE_END);
 
         setContentPane(contentPane);
+        setMinimumSize(new Dimension(640, 480));
+        setMaximumSize(new Dimension(800, 600));
         pack();
         setLocationRelativeTo(null);
         setResizable(false);

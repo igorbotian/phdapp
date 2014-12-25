@@ -58,7 +58,7 @@ class CrossValidationResultsWindowDirectorImpl implements CrossValidationResults
             StringWriter writer = new StringWriter();
             ReportSummaryWriter<R> summaryWriter = reportSummaryWriterFactory.get((Class<R>) report.getClass());
             summaryWriter.writeTo(report, new PrintWriter(writer));
-            return Arrays.asList(writer.toString().split("\\n"));
+            return Arrays.asList(writer.toString().split("\n"));
         } catch (IOException e) {
             LOGGER.error("Unable to obtain report summary", e);
         }
