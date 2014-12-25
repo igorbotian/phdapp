@@ -24,11 +24,12 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  * Диалог "О программе"
  */
-class AboutDialog extends PhDAppDialog {
+class AboutDialog extends JDialog {
 
     private static final String APP_ICON_RESOURCE = "window_icon.png";
     private static final String ABOUT_LABEL = "about";
@@ -65,8 +66,12 @@ class AboutDialog extends PhDAppDialog {
     private JLabel copyrightLabel;
     private JButton okButton;
 
-    public AboutDialog(PhDAppFrame owner) {
+    private final SwingUIHelper uiHelper;
+
+    public AboutDialog(JFrame owner, SwingUIHelper uiHelper) {
         super(owner);
+
+        this.uiHelper = Objects.requireNonNull(uiHelper);
 
         initComponents();
         layoutComponents();

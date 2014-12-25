@@ -24,11 +24,12 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.Enumeration;
+import java.util.Objects;
 
 /**
  * Главное окно программы
  */
-class MainFrame extends PhDAppFrame {
+class MainFrame extends JFrame {
 
     private static final String WINDOW_ICON_RESOURCE = "window_icon.png";
     private static final String WINDOW_TITLE_LABEL = "appName";
@@ -68,14 +69,13 @@ class MainFrame extends PhDAppFrame {
     private JButton nextButton;
 
     /**
-     * Модель главного окна
+     * Общие элементы пользовательского интерфейса
      */
-    private final SwingMainFrameDirector director;
+    private final SwingUIHelper uiHelper;
 
     public MainFrame(SwingUIHelper uiHelper) {
-        super(uiHelper);
-        this.director = uiHelper.mainFrameDirector();
-        SwingUtilities.invokeLater(() -> director.setMainFrame(MainFrame.this));
+        this.uiHelper = Objects.requireNonNull(uiHelper);
+        SwingUtilities.invokeLater(() -> uiHelper.mainFrameDirector().setMainFrame(MainFrame.this));
 
         initComponents();
         layoutComponents();
@@ -191,7 +191,7 @@ class MainFrame extends PhDAppFrame {
 
     private void initListeners() {
         exitMenuItem.addActionListener(e -> System.exit(0));
-        aboutMenuItem.addActionListener(e -> new AboutDialog(MainFrame.this).setVisible(true));
+        aboutMenuItem.addActionListener(e -> new AboutDialog(MainFrame.this, uiHelper).setVisible(true));
         nextButton.addActionListener(e -> goToNextPage());
     }
 
@@ -223,7 +223,7 @@ class MainFrame extends PhDAppFrame {
 
             if (action != null) {
                 final UserAction userAction = action;
-                SwingUtilities.invokeLater(() -> director.performAction(userAction));
+                SwingUtilities.invokeLater(() -> uiHelper.mainFrameDirector().performAction(userAction));
             }
         }
     }

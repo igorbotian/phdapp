@@ -19,7 +19,7 @@
 package ru.spbftu.igorbotian.phdapp.ui.swing;
 
 import ru.spbftu.igorbotian.phdapp.svm.validation.MutableCrossValidatorParameter;
-import ru.spbftu.igorbotian.phdapp.ui.common.CrossValidatorParamsFrameDirector;
+import ru.spbftu.igorbotian.phdapp.ui.common.CrossValidationParamsWindowDirector;
 import ru.spbftu.igorbotian.phdapp.ui.common.UIHelper;
 import ru.spbftu.igorbotian.phdapp.ui.swing.widget.DoubleRangeSpinner;
 import ru.spbftu.igorbotian.phdapp.ui.swing.widget.DoubleSpinner;
@@ -33,7 +33,7 @@ import java.util.Objects;
  * Введённые пользователем значения сохраняются по завершению работы программы
  * и задаются по умолчанию при следующей работе приложения.
  */
-class CrossValidatorParamsWidgetsImpl implements CrossValidatorParamsWidgets {
+class CrossValidationParamsWidgetsImpl implements CrossValidationParamsWidgets {
 
     private final UIHelper uiHelper;
 
@@ -49,10 +49,10 @@ class CrossValidatorParamsWidgetsImpl implements CrossValidatorParamsWidgets {
     private IntegerSpinner precisePreciseIntervalJudgmentsCountRatioSpinner;
     private IntegerRangeSpinner intervalPreciseIntervalJudgmentsCountRatioSpinner;
 
-    public CrossValidatorParamsWidgetsImpl(UIHelper uiHelper) {
+    public CrossValidationParamsWidgetsImpl(UIHelper uiHelper) {
         this.uiHelper = Objects.requireNonNull(uiHelper);
 
-        CrossValidatorParamsFrameDirector director = uiHelper.crossValidatorParamsFrameDirector();
+        CrossValidationParamsWindowDirector director = uiHelper.crossValidatorParamsFrameDirector();
 
         precisePenaltyParamSpinner = preciseDoubleSpinner(director.penaltyParameter(), PENALTY_PARAMETER_STEP_SIZE);
         intervalPenaltyParamSpinner = doubleRangeSpinner(director.penaltyParameter(), PENALTY_PARAMETER_STEP_SIZE);

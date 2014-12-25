@@ -23,7 +23,7 @@ import ru.spbftu.igorbotian.phdapp.svm.validation.MutableCrossValidatorParameter
 /**
  * Модель окна, отображающего компоненты для задания параметров кросс-валидации
  */
-public interface CrossValidatorParamsFrameDirector {
+public interface CrossValidationParamsWindowDirector {
 
     /**
      * Получение значения штрафного параметра

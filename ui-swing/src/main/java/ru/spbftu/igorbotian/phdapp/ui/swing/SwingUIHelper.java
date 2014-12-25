@@ -36,5 +36,5 @@ public interface SwingUIHelper extends UIHelper {
     /**
      * Получение средства для формирования виджетов для задания параметров средства кросс-валидации
      */
-    CrossValidatorParamsWidgets widgets();
+    CrossValidationParamsWidgets widgets();
 }

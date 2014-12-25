@@ -15,7 +15,7 @@ public interface CrossValidationProgressWindowDirector {
     /**
      * Начало процесса валидации с заданными параметрами.
      * Предполагается, что средство валидации было выбрано посредством <code>MainWindowDirector</code>,
-     * а параметры валидации были заданы посредством <code>CrossValidatorParamsFrameDirector</code>
+     * а параметры валидации были заданы посредством <code>CrossValidationParamsWindowDirector</code>
      *
      * @throws IllegalStateException если средство валидации не было выбрано пользователем
      */

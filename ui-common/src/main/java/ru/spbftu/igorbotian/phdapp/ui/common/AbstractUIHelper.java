@@ -26,8 +26,6 @@ import ru.spbftu.igorbotian.phdapp.output.csv.ReportCSVWriterFactory;
 import ru.spbftu.igorbotian.phdapp.output.summary.ReportSummaryWriterFactory;
 import ru.spbftu.igorbotian.phdapp.svm.PairwiseClassifier;
 import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidatorParameterFactory;
-import ru.spbftu.igorbotian.phdapp.svm.validation.PairwiseClassifierCrossValidator;
-import ru.spbftu.igorbotian.phdapp.svm.validation.report.Report;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.CrossValidationSampleManager;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.MathDataFactory;
 
@@ -44,8 +42,8 @@ public abstract class AbstractUIHelper implements UIHelper {
     private final Localization localization;
 
     private final CrossValidationSampleCanvasDirector sampleCanvasDirector;
-    private final CrossValidatorParamsFrameDirector crossValidatorParamsFrameDirector;
-    private final CrossValidationResultWindowDirector crossValidationResultWindowDirector;
+    private final CrossValidationParamsWindowDirector crossValidationParamsWindowDirector;
+    private final CrossValidationResultsWindowDirector crossValidationResultsWindowDirector;
     private final CrossValidationProgressWindowDirector crossValidationProgressWindowDirector;
 
     @Inject
@@ -68,10 +66,10 @@ public abstract class AbstractUIHelper implements UIHelper {
 
         this.localization = localization;
         sampleCanvasDirector = new CrossValidationSampleCanvasDirectorImpl(sampleManager, mathDataFactory);
-        crossValidatorParamsFrameDirector
-                = new CrossValidatorParamsFrameDirectorImpl(configuration, crossValidatorParameterFactory);
-        crossValidationResultWindowDirector =
-                new CrossValidationResultWindowDirectorImpl(reportSummaryWriterFactory, reportCSVWriterFactory);
+        crossValidationParamsWindowDirector
+                = new CrossValidationParamsWindowDirectorImpl(configuration, crossValidatorParameterFactory);
+        crossValidationResultsWindowDirector =
+                new CrossValidationResultsWindowDirectorImpl(reportSummaryWriterFactory, reportCSVWriterFactory);
         crossValidationProgressWindowDirector =
                 new CrossValidationProgressWindowDirectorImpl(this, classifier);
     }
@@ -87,13 +85,13 @@ public abstract class AbstractUIHelper implements UIHelper {
     }
 
     @Override
-    public CrossValidatorParamsFrameDirector crossValidatorParamsFrameDirector() {
-        return crossValidatorParamsFrameDirector;
+    public CrossValidationParamsWindowDirector crossValidatorParamsFrameDirector() {
+        return crossValidationParamsWindowDirector;
     }
 
     @Override
-    public CrossValidationResultWindowDirector crossValidationResultWindowDirector() {
-        return crossValidationResultWindowDirector;
+    public CrossValidationResultsWindowDirector crossValidationResultWindowDirector() {
+        return crossValidationResultsWindowDirector;
     }
 
     @Override

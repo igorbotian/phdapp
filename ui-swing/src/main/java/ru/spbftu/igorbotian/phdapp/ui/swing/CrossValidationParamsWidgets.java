@@ -28,7 +28,7 @@ import ru.spbftu.igorbotian.phdapp.ui.swing.widget.IntegerSpinner;
  * Введённые пользователем значения сохраняются по завершению работы программы
  * и задаются по умолчанию при следующей работе приложения.
  */
-public interface CrossValidatorParamsWidgets {
+public interface CrossValidationParamsWidgets {
 
     /**
      * Величина изменения шага для штрафного параметра

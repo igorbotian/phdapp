@@ -25,11 +25,12 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.util.Objects;
 
 /**
  * Диалоговое окно, в котором отображается расположение элементов выборки для классификатора
  */
-public class SampleDialog extends PhDAppDialog {
+public class SampleDialog extends JDialog {
 
     private static final String SAMPLE_LABEL = "sample";
     private static final String CLOSE_LABEL = "close";
@@ -40,10 +41,16 @@ public class SampleDialog extends PhDAppDialog {
     private CrossValidationSampleCanvas sampleCanvas;
     private JButton closeButton;
 
-    public SampleDialog(PhDAppFrame owner) {
+    /**
+     * Общие элементы пользовательского интерфейса
+     */
+    private final SwingUIHelper uiHelper;
+
+    public SampleDialog(JFrame owner, SwingUIHelper uiHelper) {
         super(owner);
 
-        this.canvasDirector = uiHelper.sampleCanvasDirector();
+        this.uiHelper = Objects.requireNonNull(uiHelper);
+        this.canvasDirector = this.uiHelper.sampleCanvasDirector();
 
         initComponents();
         layoutComponents();

@@ -28,12 +28,12 @@ import ru.spbftu.igorbotian.phdapp.svm.validation.MutableCrossValidatorParameter
 import java.util.Objects;
 
 /**
- * Реализация интерфейса <code>CrossValidatorParamsFrameDirector</code>
+ * Реализация интерфейса <code>CrossValidationParamsWindowDirector</code>
  *
- * @see CrossValidatorParamsFrameDirector
+ * @see CrossValidationParamsWindowDirector
  */
 @Singleton
-class CrossValidatorParamsFrameDirectorImpl implements CrossValidatorParamsFrameDirector {
+class CrossValidationParamsWindowDirectorImpl implements CrossValidationParamsWindowDirector {
 
     private final MutableCrossValidatorParameter<Double> penaltyParameter;
 
@@ -50,8 +50,8 @@ class CrossValidatorParamsFrameDirectorImpl implements CrossValidatorParamsFrame
     private final ApplicationConfiguration appConfig;
 
     @Inject
-    public CrossValidatorParamsFrameDirectorImpl(ApplicationConfiguration appConfig,
-                                                 CrossValidatorParameterFactory crossValidatorParameterFactory) {
+    public CrossValidationParamsWindowDirectorImpl(ApplicationConfiguration appConfig,
+                                                   CrossValidatorParameterFactory crossValidatorParameterFactory) {
 
         this.appConfig = Objects.requireNonNull(appConfig);
         penaltyParameter = newDoubleParameter(crossValidatorParameterFactory.penaltyParameter());

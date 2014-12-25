@@ -29,22 +29,23 @@ import java.awt.event.WindowEvent;
 import java.util.Objects;
 
 /**
- * Диалог задания значений указанных параметров классификации
+ * Диалог задания значений указанных параметров кросс-валидации
  */
-public class ClassifierParamsFrame extends PhDAppFrame {
+public class CrossValidationParamsWindow extends JFrame {
 
+    private static final String CROSS_VALIDATION_PARAMS_LABEL = "crossValidationParams";
     private static final String BACK_LABEL = "back";
     private static final String NEXT_LABEL = "next";
     private static final String ERROR_LABEL = "error";
 
-    private final PhDAppFrame mainFrame;
+    private final SwingUIHelper uiHelper;
+    private final Window previousWindow;
     private JButton backButton;
     private JButton nextButton;
 
-    public ClassifierParamsFrame(SwingUIHelper uiHelper, PhDAppFrame mainFrame, JComponent... paramWidgets) {
-        super(uiHelper);
-
-        this.mainFrame = Objects.requireNonNull(mainFrame);
+    public CrossValidationParamsWindow(Window previousWindow, SwingUIHelper uiHelper, JComponent... paramWidgets) {
+        this.uiHelper = Objects.requireNonNull(uiHelper);
+        this.previousWindow = Objects.requireNonNull(previousWindow);
 
         initComponents();
         layoutComponents(Objects.requireNonNull(paramWidgets));
@@ -52,8 +53,7 @@ public class ClassifierParamsFrame extends PhDAppFrame {
     }
 
     private void initComponents() {
-        setTitle(mainFrame.getTitle());
-        setIconImage(mainFrame.getIconImage());
+        setTitle(uiHelper.getLabel(CROSS_VALIDATION_PARAMS_LABEL));
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         backButton = new JButton("< " + uiHelper.getLabel(BACK_LABEL));
@@ -107,7 +107,7 @@ public class ClassifierParamsFrame extends PhDAppFrame {
 
     public void goToPreviousPage() {
         setVisible(false);
-        mainFrame.setVisible(true);
+        previousWindow.setVisible(true);
         dispose();
     }
 
@@ -126,7 +126,7 @@ public class ClassifierParamsFrame extends PhDAppFrame {
 
             @Override
             public void crossValidationFailed(Exception reason) {
-                JOptionPane.showMessageDialog(ClassifierParamsFrame.this, reason.getMessage(),
+                JOptionPane.showMessageDialog(CrossValidationParamsWindow.this, reason.getMessage(),
                         uiHelper.getLabel(ERROR_LABEL), JOptionPane.ERROR_MESSAGE);
             }
         });
@@ -135,8 +135,8 @@ public class ClassifierParamsFrame extends PhDAppFrame {
 
     private void showResultsWindow(final Report report) {
         SwingUtilities.invokeLater(() -> {
-            CrossValidationResultWindow window
-                    = new CrossValidationResultWindow(ClassifierParamsFrame.this, uiHelper, report);
+            CrossValidationResultsWindow window
+                    = new CrossValidationResultsWindow(CrossValidationParamsWindow.this, uiHelper, report);
             setVisible(false);
             window.setVisible(true);
         });

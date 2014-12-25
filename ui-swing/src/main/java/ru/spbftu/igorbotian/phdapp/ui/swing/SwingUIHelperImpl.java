@@ -31,8 +31,6 @@ import ru.spbftu.igorbotian.phdapp.svm.validation.sample.CrossValidationSampleMa
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.MathDataFactory;
 import ru.spbftu.igorbotian.phdapp.ui.common.AbstractUIHelper;
 
-import java.util.Objects;
-
 /**
  * Реализация интерфейса <code>UIHelper</code>
  *
@@ -41,7 +39,7 @@ import java.util.Objects;
 @Singleton
 class SwingUIHelperImpl extends AbstractUIHelper implements SwingUIHelper {
 
-    private CrossValidatorParamsWidgets widgets;
+    private CrossValidationParamsWidgets widgets;
     private SwingMainFrameDirector mainFrameDirector;
 
     @Inject
@@ -58,7 +56,7 @@ class SwingUIHelperImpl extends AbstractUIHelper implements SwingUIHelper {
         super(localization, configuration, sampleManager, reportSummaryWriterFactory, reportCSVWriterFactory,
                 crossValidatorParameterFactory, mathDataFactory, classifier);
 
-        this.widgets = new CrossValidatorParamsWidgetsImpl(this);
+        this.widgets = new CrossValidationParamsWidgetsImpl(this);
         this.mainFrameDirector = new MainFrameDirectorImpl(this, validators);
     }
 
@@ -68,7 +66,7 @@ class SwingUIHelperImpl extends AbstractUIHelper implements SwingUIHelper {
     }
 
     @Override
-    public CrossValidatorParamsWidgets widgets() {
+    public CrossValidationParamsWidgets widgets() {
         return widgets;
     }
 }

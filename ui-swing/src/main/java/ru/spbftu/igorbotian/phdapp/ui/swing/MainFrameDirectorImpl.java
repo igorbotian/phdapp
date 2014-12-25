@@ -77,7 +77,7 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
         switch (action) {
             case CALCULATE_PRECISION:
                 JButton viewSampleButton = new JButton(uiHelper.getLabel(VIEW_SAMPLE_LABEL) + "...");
-                viewSampleButton.addActionListener(e -> new SampleDialog(mainFrame).setVisible(true));
+                viewSampleButton.addActionListener(e -> new SampleDialog(mainFrame, uiHelper).setVisible(true));
 
                 widgets = new JComponent[]{
                         uiHelper.widgets().precisePenaltyParamSpinner(),
@@ -157,7 +157,7 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
     }
 
     private void performAction(MainFrame mainFrame, JComponent... widgets) {
-        ClassifierParamsFrame nextPage = new ClassifierParamsFrame(uiHelper, mainFrame, widgets);
+        CrossValidationParamsWindow nextPage = new CrossValidationParamsWindow(mainFrame, uiHelper, widgets);
         mainFrame.setVisible(false);
         nextPage.setVisible(true);
     }

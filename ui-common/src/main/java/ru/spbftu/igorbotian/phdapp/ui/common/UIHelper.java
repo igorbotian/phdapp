@@ -48,12 +48,12 @@ public interface UIHelper {
     /**
      * Получение модели окна, отображающего компоненты для задания параметров кросс-валидации
      */
-    CrossValidatorParamsFrameDirector crossValidatorParamsFrameDirector();
+    CrossValidationParamsWindowDirector crossValidatorParamsFrameDirector();
 
     /**
      * Получение модели окна, отображающего результаты кросс-валидации
      */
-    CrossValidationResultWindowDirector crossValidationResultWindowDirector();
+    CrossValidationResultsWindowDirector crossValidationResultWindowDirector();
 
     /**
      * Получение модели окна, отображающего прогресс выполнения кросс-валидации классификатора с заданными параметрами

@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * Модель окна, отображающего результаты кросс-валидации классификатора
  */
-public interface CrossValidationResultWindowDirector {
+public interface CrossValidationResultsWindowDirector {
 
     /**
      * Получение строк сводки для указанных результатов кросс-валидации

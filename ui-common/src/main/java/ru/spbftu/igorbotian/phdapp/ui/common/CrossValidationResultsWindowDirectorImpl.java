@@ -33,19 +33,19 @@ import java.nio.file.Path;
 import java.util.*;
 
 /**
- * Реализация интерфейса <code>CrossValidationResultWindowDirector</code>
+ * Реализация интерфейса <code>CrossValidationResultsWindowDirector</code>
  *
- * @see CrossValidationResultWindowDirector
+ * @see CrossValidationResultsWindowDirector
  */
-class CrossValidationResultWindowDirectorImpl implements CrossValidationResultWindowDirector {
+class CrossValidationResultsWindowDirectorImpl implements CrossValidationResultsWindowDirector {
 
-    private final Logger LOGGER = Logger.getLogger(CrossValidationResultWindowDirectorImpl.class);
+    private final Logger LOGGER = Logger.getLogger(CrossValidationResultsWindowDirectorImpl.class);
 
     private final ReportSummaryWriterFactory reportSummaryWriterFactory;
     private final ReportCSVWriterFactory reportCSVWriterFactory;
 
-    public CrossValidationResultWindowDirectorImpl(ReportSummaryWriterFactory reportSummaryWriterFactory,
-                                                   ReportCSVWriterFactory reportCSVWriterFactory) {
+    public CrossValidationResultsWindowDirectorImpl(ReportSummaryWriterFactory reportSummaryWriterFactory,
+                                                    ReportCSVWriterFactory reportCSVWriterFactory) {
 
         this.reportSummaryWriterFactory = Objects.requireNonNull(reportSummaryWriterFactory);
         this.reportCSVWriterFactory = Objects.requireNonNull(reportCSVWriterFactory);

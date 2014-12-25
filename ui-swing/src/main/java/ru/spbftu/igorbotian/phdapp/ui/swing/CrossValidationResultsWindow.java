@@ -12,7 +12,7 @@ import java.util.Objects;
 /**
  * Окно для отображения результатов кросс-валидации
  */
-public class CrossValidationResultWindow extends JFrame {
+public class CrossValidationResultsWindow extends JFrame {
 
     private static final String CROSS_VALIDATION_RESULTS_LABEL = "crossValidationResults";
     private static final String EXPORT_TO_CSV_LABEL = "exportToCSV";
@@ -54,7 +54,7 @@ public class CrossValidationResultWindow extends JFrame {
      */
     private JButton exitButton;
 
-    public CrossValidationResultWindow(Window previousWindow, SwingUIHelper uiHelper, Report report) {
+    public CrossValidationResultsWindow(Window previousWindow, SwingUIHelper uiHelper, Report report) {
         this.previousWindow = Objects.requireNonNull(previousWindow);
         this.uiHelper = Objects.requireNonNull(uiHelper);
         this.report = Objects.requireNonNull(report);
