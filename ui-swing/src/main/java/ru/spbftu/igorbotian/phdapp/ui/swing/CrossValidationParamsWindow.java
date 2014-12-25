@@ -36,10 +36,17 @@ public class CrossValidationParamsWindow extends JFrame {
     private static final String CROSS_VALIDATION_PARAMS_LABEL = "crossValidationParams";
     private static final String BACK_LABEL = "back";
     private static final String NEXT_LABEL = "next";
-    private static final String ERROR_LABEL = "error";
 
+    /**
+     * Общие элементы пользовательского интерфейса
+     */
     private final SwingUIHelper uiHelper;
+
+    /**
+     * Окно, из которого перешёл пользователь к данному
+     */
     private final Window previousWindow;
+
     private JButton backButton;
     private JButton nextButton;
 
@@ -126,10 +133,10 @@ public class CrossValidationParamsWindow extends JFrame {
 
             @Override
             public void crossValidationFailed(Exception reason) {
-                JOptionPane.showMessageDialog(CrossValidationParamsWindow.this, reason.getMessage(),
-                        uiHelper.getLabel(ERROR_LABEL), JOptionPane.ERROR_MESSAGE);
+                uiHelper.errorDialog().show(CrossValidationParamsWindow.this, reason);
             }
         });
+
         uiHelper.crossValidationProgressWindowDirector().validate();
     }
 

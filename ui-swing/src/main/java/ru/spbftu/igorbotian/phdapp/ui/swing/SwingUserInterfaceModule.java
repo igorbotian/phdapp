@@ -20,6 +20,8 @@ package ru.spbftu.igorbotian.phdapp.ui.swing;
 
 import ru.spbftu.igorbotian.phdapp.ioc.PhDAppModule;
 import ru.spbftu.igorbotian.phdapp.ui.UserInterface;
+import ru.spbftu.igorbotian.phdapp.ui.common.ErrorDialogs;
+import ru.spbftu.igorbotian.phdapp.ui.common.UIHelper;
 
 /**
  * Модуль пользовательского интерфейса программы на основе библиотеки Swing
@@ -30,7 +32,9 @@ public class SwingUserInterfaceModule extends PhDAppModule {
 
     @Override
     protected void configure() {
+        bind(UIHelper.class).to(SwingUIHelperImpl.class);
         bind(SwingUIHelper.class).to(SwingUIHelperImpl.class);
         bind(UserInterface.class).to(SwingUserInterface.class);
+        bind(ErrorDialogs.class).to(ErrorDialogsImpl.class);
     }
 }

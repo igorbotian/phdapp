@@ -59,4 +59,9 @@ public interface UIHelper {
      * Получение модели окна, отображающего прогресс выполнения кросс-валидации классификатора с заданными параметрами
      */
     CrossValidationProgressWindowDirector crossValidationProgressWindowDirector();
+
+    /**
+     * Получение доступа к механизму оповещения пользователя о произошедших ошибках
+     */
+    ErrorDialogs errorDialog();
 }

@@ -30,6 +30,9 @@ import ru.spbftu.igorbotian.phdapp.svm.validation.IntervalPairwiseClassifierCros
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.CrossValidationSampleManager;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.MathDataFactory;
 import ru.spbftu.igorbotian.phdapp.ui.common.AbstractUIHelper;
+import ru.spbftu.igorbotian.phdapp.ui.common.ErrorDialogs;
+
+import java.util.Objects;
 
 /**
  * Реализация интерфейса <code>UIHelper</code>
@@ -39,8 +42,9 @@ import ru.spbftu.igorbotian.phdapp.ui.common.AbstractUIHelper;
 @Singleton
 class SwingUIHelperImpl extends AbstractUIHelper implements SwingUIHelper {
 
-    private CrossValidationParamsWidgets widgets;
-    private SwingMainFrameDirector mainFrameDirector;
+    private final CrossValidationParamsWidgets widgets;
+    private final SwingMainFrameDirector mainFrameDirector;
+    private final ErrorDialogs errorDialogs;
 
     @Inject
     public SwingUIHelperImpl(Localization localization,
@@ -51,13 +55,15 @@ class SwingUIHelperImpl extends AbstractUIHelper implements SwingUIHelper {
                              CrossValidatorParameterFactory crossValidatorParameterFactory,
                              MathDataFactory mathDataFactory,
                              PairwiseClassifier classifier,
-                             IntervalPairwiseClassifierCrossValidators validators) {
+                             IntervalPairwiseClassifierCrossValidators validators,
+                             ErrorDialogs errorDialogs) {
 
         super(localization, configuration, sampleManager, reportSummaryWriterFactory, reportCSVWriterFactory,
                 crossValidatorParameterFactory, mathDataFactory, classifier);
 
         this.widgets = new CrossValidationParamsWidgetsImpl(this);
         this.mainFrameDirector = new MainFrameDirectorImpl(this, validators);
+        this.errorDialogs = Objects.requireNonNull(errorDialogs);
     }
 
     @Override
@@ -68,5 +74,10 @@ class SwingUIHelperImpl extends AbstractUIHelper implements SwingUIHelper {
     @Override
     public CrossValidationParamsWidgets widgets() {
         return widgets;
+    }
+
+    @Override
+    public ErrorDialogs errorDialog() {
+        return errorDialogs;
     }
 }

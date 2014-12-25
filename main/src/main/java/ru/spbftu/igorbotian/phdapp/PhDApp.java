@@ -40,6 +40,7 @@ import ru.spbftu.igorbotian.phdapp.ui.swing.SwingUserInterfaceModule;
 import ru.spbftu.igorbotian.phdapp.utils.ShutdownHooks;
 import ru.spbftu.igorbotian.phdapp.utils.UtilsModule;
 
+import javax.swing.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -109,6 +110,7 @@ public class PhDApp {
             start();
             logger.info("Application modules successfully initialized");
         } catch (Throwable e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
             logger.fatal("Unhandled exception caught. Exiting application", e);
         }
