@@ -97,21 +97,21 @@ public class CrossValidationParamsWindow extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
-                goToPreviousPage();
+                goToPreviousWindow();
             }
         });
 
-        backButton.addActionListener(e -> goToPreviousPage());
-        nextButton.addActionListener(e -> goToNextPage());
+        backButton.addActionListener(e -> goToPreviousWindow());
+        nextButton.addActionListener(e -> goToNextWindow());
     }
 
-    public void goToPreviousPage() {
+    public void goToPreviousWindow() {
         setVisible(false);
         previousWindow.setVisible(true);
         dispose();
     }
 
-    public void goToNextPage() {
+    public void goToNextWindow() {
         uiHelper.crossValidationProgressWindowDirector().addProgressListener(new CrossValidationProgressListener() {
 
             @Override

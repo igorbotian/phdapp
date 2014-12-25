@@ -192,10 +192,10 @@ class MainFrame extends JFrame {
     private void initListeners() {
         exitMenuItem.addActionListener(e -> System.exit(0));
         aboutMenuItem.addActionListener(e -> new AboutDialog(MainFrame.this, uiHelper).setVisible(true));
-        nextButton.addActionListener(e -> goToNextPage());
+        nextButton.addActionListener(e -> goToNextWindow());
     }
 
-    private void goToNextPage() {
+    private void goToNextWindow() {
         Enumeration<AbstractButton> buttons = actionsGroup.getElements();
 
         while (buttons.hasMoreElements()) {
