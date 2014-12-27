@@ -203,7 +203,8 @@ project(':svm-interval') {
         compile(
                 project(':common'),
                 project(':ioc'),
-                project(':svm')
+                project(':svm'),
+                project(':utils')
         )
     }
 }

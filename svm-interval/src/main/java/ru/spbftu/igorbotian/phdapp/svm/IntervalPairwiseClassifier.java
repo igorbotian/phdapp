@@ -4,9 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import ru.spbftu.igorbotian.phdapp.common.*;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Попарный классификатор, поддерживающий интервальные экспертные оценки
@@ -48,32 +46,17 @@ class IntervalPairwiseClassifier implements PairwiseClassifier {
 
     private ClassifiedData classifyRandomly(UnclassifiedData unclassifiedData) throws DataException {
         Set<ClassifiedObject> classifiedObjects = new HashSet<>();
+        List<DataClass> classes = new ArrayList<>(unclassifiedData.classes());
 
         for (UnclassifiedObject obj : unclassifiedData.objects()) {
-            DataClass clazz = chooseRandomClass(unclassifiedData.classes());
+            DataClass clazz = chooseRandomClass(classes);
             classifiedObjects.add(dataFactory.newClassifiedObject(obj.id(), obj.parameters(), clazz));
         }
 
         return dataFactory.newClassifiedData(unclassifiedData.classes(), classifiedObjects);
     }
 
-    private DataClass chooseRandomClass(Set<? extends DataClass> classes) {
-        int chosenClassIndex = randomInt(0, classes.size() - 1);
-        int i = 0;
-
-        for (DataClass clazz : classes) {
-            if (i == chosenClassIndex) {
-                return clazz;
-            }
-
-            i++;
-        }
-
-        throw new IllegalStateException("Random class hasn't been chosen");
-    }
-
-    // нижняя граница включается, нижняя - нет
-    private int randomInt(int lowerBound, int upperBound) {
-        return lowerBound + (int) (Math.random() * (upperBound - lowerBound + 1));
+    private DataClass chooseRandomClass(List<DataClass> classes) {
+        return classes.get(UniformedRandom.nextInteger(0, classes.size() - 1));
     }
 }
