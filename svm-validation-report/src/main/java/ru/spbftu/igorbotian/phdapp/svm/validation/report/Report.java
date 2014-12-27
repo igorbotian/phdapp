@@ -18,15 +18,13 @@
 
 package ru.spbftu.igorbotian.phdapp.svm.validation.report;
 
-import java.text.DecimalFormat;
-
 /**
  * Отчёт, содержащие различные метрики по работе классиификатора
  */
 public interface Report {
 
     /**
-     * Формат представления вещественных чисел (в округлённом виде)
+     * Количество знаков после запятой для вещественных чисел в отчётах
      */
-    public static DecimalFormat ROUNDED_DECIMAL_FORMAT = new DecimalFormat("#.##");
+    public static final int REAL_VALUES_FRACTION_SIZE = 2;
 }

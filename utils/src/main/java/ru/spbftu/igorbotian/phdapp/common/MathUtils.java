@@ -55,4 +55,27 @@ public final class MathUtils {
 
         return toMin + ((src - fromMin) / (fromMax - fromMin)) * (toMax - toMin);
     }
+
+    /**
+     * Округление заданного вещественного числа до указанного количества знаков после запятой
+     * @param number вещественное число
+     * @param fractionalPartSize количество знаков после запятой (> 0)
+     * @return округлённое исходное число
+     * @throws IllegalArgumentException если значение количества знаков после запятой имеет неположительное значение
+     */
+    public static float round(float number, int fractionalPartSize) {
+        return (float) round((double) number, fractionalPartSize);
+    }
+
+    /**
+     * Округление заданного вещественного числа до указанного количества знаков после запятой
+     * @param number вещественное число
+     * @param fractionalPartSize количество знаков после запятой (> 0)
+     * @return округлённое исходное число
+     * @throws IllegalArgumentException если значение количества знаков после запятой имеет неположительное значение
+     */
+    public static double round(double number, int fractionalPartSize) {
+        int c = (int) Math.pow(10.0, fractionalPartSize);
+        return Math.floor(number * c) / c;
+    }
 }

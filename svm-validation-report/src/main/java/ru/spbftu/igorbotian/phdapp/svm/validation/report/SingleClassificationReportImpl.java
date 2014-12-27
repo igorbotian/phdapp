@@ -1,5 +1,6 @@
 package ru.spbftu.igorbotian.phdapp.svm.validation.report;
 
+import ru.spbftu.igorbotian.phdapp.common.MathUtils;
 import ru.spbftu.igorbotian.phdapp.svm.ClassifierParameter;
 import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidatorParameter;
 
@@ -42,7 +43,7 @@ class SingleClassificationReportImpl implements SingleClassificationReport {
     }
 
     private float round(float f) {
-        return Float.valueOf(ROUNDED_DECIMAL_FORMAT.format(f));
+        return MathUtils.round(f, REAL_VALUES_FRACTION_SIZE);
     }
 
     @Override

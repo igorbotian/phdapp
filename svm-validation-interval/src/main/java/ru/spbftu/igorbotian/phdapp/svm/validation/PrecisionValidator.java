@@ -247,13 +247,13 @@ class PrecisionValidator extends AbstractPairwiseClassifierCrossValidator<Single
         private static float averageValue(Map<DataClass, MetricsPerClass> metrics, Function<MetricsPerClass,
                 Float> metricGetter) {
 
-            double metricSum = 0.0;
+            float metricSum = 0.0f;
 
             for (DataClass clazz : metrics.keySet()) {
                 metricSum += metricGetter.apply(metrics.get(clazz));
             }
 
-            return (float) (metricSum / metrics.size());
+            return metricSum / metrics.size();
         }
 
         public float accuracy() {
@@ -295,21 +295,21 @@ class PrecisionValidator extends AbstractPairwiseClassifierCrossValidator<Single
          * Получение значения метрики Accuracy для заданного класса
          */
         public float accuracy() {
-            return truePositives / (truePositives + falsePositives);
+            return (float) truePositives / ((float) truePositives + (float) falsePositives);
         }
 
         /**
          * Получение значения метрики Precision для заданного класса
          */
         public float precision() {
-            return truePositives / (truePositives + falsePositives);
+            return (float) truePositives / ((float) truePositives + (float) falsePositives);
         }
 
         /**
          * Получение значения метрики Recall для заданного класса
          */
         public float recall() {
-            return truePositives / (truePositives + falseNegatives);
+            return (float) truePositives / ((float) truePositives + (float) falseNegatives);
         }
     }
 }
