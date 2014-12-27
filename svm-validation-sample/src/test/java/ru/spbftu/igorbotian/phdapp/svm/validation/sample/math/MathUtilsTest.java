@@ -20,11 +20,12 @@ package ru.spbftu.igorbotian.phdapp.svm.validation.sample.math;
 
 import org.junit.Assert;
 import org.junit.Test;
+import ru.spbftu.igorbotian.phdapp.common.MathUtils;
 
 /**
  * Модульные тесты для класса <code>MathUtils</code>
  *
- * @see MathUtils
+ * @see ru.spbftu.igorbotian.phdapp.common.MathUtils
  */
 public class MathUtilsTest {
 

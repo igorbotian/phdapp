@@ -16,7 +16,7 @@
  * @author Igor Botian <igor.botian@gmail.com>
  */
 
-package ru.spbftu.igorbotian.phdapp.svm.validation.sample.math;
+package ru.spbftu.igorbotian.phdapp.common;
 
 import java.util.Random;
 

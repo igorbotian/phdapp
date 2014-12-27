@@ -18,6 +18,7 @@
 
 package ru.spbftu.igorbotian.phdapp.ui.swing;
 
+import ru.spbftu.igorbotian.phdapp.common.MathUtils;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.*;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.Point;
 import ru.spbftu.igorbotian.phdapp.ui.common.CrossValidationSampleCanvasDirector;

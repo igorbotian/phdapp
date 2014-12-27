@@ -1,4 +1,4 @@
-package ru.spbftu.igorbotian.phdapp.svm.validation.sample.math;
+package ru.spbftu.igorbotian.phdapp.common;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -6,7 +6,7 @@ import ru.spbftu.igorbotian.phdapp.common.*;
 import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidatorParameterFactory;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.MathDataFactory;
-import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.UniformedRandom;
+import ru.spbftu.igorbotian.phdapp.common.UniformedRandom;
 
 import java.util.*;
 import java.util.function.BiFunction;

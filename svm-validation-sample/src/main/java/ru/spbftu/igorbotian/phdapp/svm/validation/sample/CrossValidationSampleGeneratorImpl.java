@@ -20,6 +20,8 @@ package ru.spbftu.igorbotian.phdapp.svm.validation.sample;
 
 import com.google.inject.Singleton;
 import ru.spbftu.igorbotian.phdapp.common.DataFactory;
+import ru.spbftu.igorbotian.phdapp.common.ExponentialRandom;
+import ru.spbftu.igorbotian.phdapp.common.UniformedRandom;
 import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidatorParameterFactory;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.*;

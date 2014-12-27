@@ -20,13 +20,14 @@ package ru.spbftu.igorbotian.phdapp.svm.validation.sample.math;
 
 import org.junit.Assert;
 import org.junit.Test;
+import ru.spbftu.igorbotian.phdapp.common.ExponentialRandom;
 
 import java.util.Arrays;
 
 /**
  * Модульные тесты для класса <code>ExponentialRandom</code>
  *
- * @see ExponentialRandom
+ * @see ru.spbftu.igorbotian.phdapp.common.ExponentialRandom
  */
 public class ExponentialRandomTest {
 
