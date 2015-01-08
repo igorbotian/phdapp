@@ -18,10 +18,6 @@
 
 package ru.spbftu.igorbotian.phdapp.ui.swing;
 
-import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidationProgressListener;
-import ru.spbftu.igorbotian.phdapp.svm.validation.PairwiseClassifierCrossValidator;
-import ru.spbftu.igorbotian.phdapp.svm.validation.report.Report;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -49,11 +45,6 @@ public class CrossValidationParamsWindow extends JFrame {
     private final Window previousWindow;
 
     /**
-     * Получатель уведомлений о ходе процесса кросс-валидации
-     */
-    private final CrossValidationListener crossValidationListener;
-
-    /**
      * Кнопка для перехода к предыдущему окну
      */
     private JButton backButton;
@@ -66,7 +57,6 @@ public class CrossValidationParamsWindow extends JFrame {
     public CrossValidationParamsWindow(Window previousWindow, SwingUIHelper uiHelper, JComponent... paramWidgets) {
         this.uiHelper = Objects.requireNonNull(uiHelper);
         this.previousWindow = Objects.requireNonNull(previousWindow);
-        this.crossValidationListener = new CrossValidationListener();
 
         initComponents();
         layoutComponents(Objects.requireNonNull(paramWidgets));
@@ -133,50 +123,9 @@ public class CrossValidationParamsWindow extends JFrame {
     }
 
     public void goToNextWindow() {
-        uiHelper.crossValidationProgressWindowDirector().addProgressListener(crossValidationListener);
-        uiHelper.crossValidationProgressWindowDirector().validate();
-    }
-
-    private void showResultsWindow(final Report report) {
-        SwingUtilities.invokeLater(() -> {
-            CrossValidationResultsWindow window
-                    = new CrossValidationResultsWindow(CrossValidationParamsWindow.this, uiHelper, report);
-            setVisible(false);
-            window.setVisible(true);
-        });
-    }
-
-    /**
-     * Получатель уведомлений о ходе процесса кросс-валидации
-     */
-    private class CrossValidationListener implements CrossValidationProgressListener {
-
-        @Override
-        public <R extends Report> void crossValidationStarted(PairwiseClassifierCrossValidator<R> validator) {
-            //
-        }
-
-        @Override
-        public <R extends Report> void crossValidationContinued(PairwiseClassifierCrossValidator<R> validator,
-        int percentsCompleted) {
-            //
-        }
-
-        @Override
-        public <R extends Report> void crossValidationInterrupted(PairwiseClassifierCrossValidator<R> validator) {
-            //
-        }
-
-        @Override
-        public <R extends Report> void crossValidationCompleted(PairwiseClassifierCrossValidator<R> validator,
-                Report report) {
-            showResultsWindow(report);
-        }
-
-        @Override
-        public <R extends Report> void crossValidationFailed(PairwiseClassifierCrossValidator<R> validator,
-                Throwable reason) {
-            uiHelper.errorDialog().show(CrossValidationParamsWindow.this, reason);
-        }
+        setVisible(false);
+        CrossValidationProgressWindow progressWindow = new CrossValidationProgressWindow(this, uiHelper);
+        SwingUtilities.invokeLater(() -> uiHelper.crossValidationProgressWindowDirector().validate());
+        progressWindow.setVisible(true);
     }
 }

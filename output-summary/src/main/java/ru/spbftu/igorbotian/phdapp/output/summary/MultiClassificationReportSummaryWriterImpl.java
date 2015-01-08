@@ -86,11 +86,11 @@ class MultiClassificationReportSummaryWriterImpl implements ReportSummaryWriter<
         summary.writeItem(localization.getLabel(NUMBER_OF_ITERATIONS_LABEL), report.numberOfClassifications());
 
         summary.writeEmptyLine();
-        summary.writeHeader(MAX_PRECISION_CLASSIFICATION_LABEL + ":");
+        summary.writeHeader(localization.getLabel(MAX_PRECISION_CLASSIFICATION_LABEL) + ":");
         singleReportWriter.writeTo(report.max(), summary);
 
         summary.writeEmptyLine();
-        summary.writeHeader(MIN_PRECISION_CLASSIFICATION_LABEL + ":");
+        summary.writeHeader(localization.getLabel(MIN_PRECISION_CLASSIFICATION_LABEL) + ":");
         singleReportWriter.writeTo(report.min(), summary);
     }
 }

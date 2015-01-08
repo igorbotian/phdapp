@@ -21,6 +21,14 @@ public interface AsyncPairwiseClassifierCrossValidator<R extends Report> extends
     void addProgressListener(CrossValidationProgressListener listener);
 
     /**
+     * Удаление получателя уведомлений о ходе кросс-валидации, зарегистрированного ранее
+     *
+     * @param listener получатель уведомлений
+     * @throws NullPointerException если получатель не задан
+     */
+    void removeProgressListener(CrossValidationProgressListener listener);
+
+    /**
      * Асинхронная кросс-валидация заданного попарного классификатора с заданными параметрами кросс-валидации.
      * Только в этом случае будут рассылаться уведомления о ходе кросс-валидации.
      *

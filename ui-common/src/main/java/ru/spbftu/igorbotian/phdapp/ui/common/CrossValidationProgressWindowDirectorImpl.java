@@ -3,6 +3,7 @@ package ru.spbftu.igorbotian.phdapp.ui.common;
 import com.google.inject.Inject;
 import ru.spbftu.igorbotian.phdapp.svm.PairwiseClassifier;
 import ru.spbftu.igorbotian.phdapp.svm.validation.AsyncPairwiseClassifierCrossValidator;
+import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidationException;
 import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidationProgressListener;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.Report;
 
@@ -30,6 +31,11 @@ class CrossValidationProgressWindowDirectorImpl implements CrossValidationProgre
     }
 
     @Override
+    public void removeProgressListener(CrossValidationProgressListener listener) {
+        selectedValidator().removeProgressListener(listener);
+    }
+
+    @Override
     public void validate() {
         selectedValidator().validateAsync(classifier, Stream.of(
                 uiHelper.crossValidatorParamsFrameDirector().penaltyParameter(),
@@ -50,5 +56,10 @@ class CrossValidationProgressWindowDirectorImpl implements CrossValidationProgre
         }
 
         return validator;
+    }
+
+    @Override
+    public void cancelValidation() throws CrossValidationException {
+        selectedValidator().interrupt();
     }
 }

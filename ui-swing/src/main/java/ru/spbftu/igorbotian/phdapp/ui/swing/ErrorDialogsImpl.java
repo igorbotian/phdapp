@@ -30,13 +30,12 @@ class ErrorDialogsImpl implements ErrorDialogs {
 
     @Override
     public void show(Window owner, String message) {
-        JOptionPane.showMessageDialog(owner, Objects.requireNonNull(message),
+        JOptionPane.showMessageDialog(owner, message != null ? message : "",
                 uiHelper.getLabel(ERROR_LABEL), JOptionPane.ERROR_MESSAGE);
     }
 
     @Override
     public void show(Window owner, Throwable e) {
-        Objects.requireNonNull(e);
         String message = e.getMessage();
 
         if(e.getCause() != null) {

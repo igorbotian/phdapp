@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -70,6 +71,11 @@ abstract class AbstractPairwiseClassifierCrossValidator<R extends Report>
     }
 
     @Override
+    public void removeProgressListener(CrossValidationProgressListener listener) {
+        progressListeners.remove(Objects.requireNonNull(listener));
+    }
+
+    @Override
     public void interrupt() throws CrossValidationException {
         processInterrupted.set(true);
     }
@@ -122,15 +128,17 @@ abstract class AbstractPairwiseClassifierCrossValidator<R extends Report>
 
     @Override
     public void validateAsync(PairwiseClassifier classifier, Set<? extends CrossValidatorParameter<?>> validatorParams) {
-        try {
-            processInterrupted.set(false);
-            fireCrossValidationStarted();
-            R report = validate(classifier, validatorParams);
-            fireCrossValidationCompleted(report);
-        } catch (Throwable e) {
-            LOGGER.error("An error occurred during cross-validation", e);
-            fireCrossValidationFailed(e);
-        }
+        Executors.newSingleThreadExecutor().submit(() -> {
+            try {
+                processInterrupted.set(false);
+                fireCrossValidationStarted();
+                R report = validate(classifier, validatorParams);
+                fireCrossValidationCompleted(report);
+            } catch (Throwable e) {
+                LOGGER.error("An error occurred during cross-validation", e);
+                fireCrossValidationFailed(e);
+            }
+        });
     }
 
     @Override
