@@ -6,7 +6,6 @@ import ru.spbftu.igorbotian.phdapp.common.*;
 import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidatorParameterFactory;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.MathDataFactory;
-import ru.spbftu.igorbotian.phdapp.common.UniformedRandom;
 
 import java.util.*;
 import java.util.function.BiFunction;
@@ -308,6 +307,7 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
             throws CrossValidationSampleException {
 
         Objects.requireNonNull(source);
+        checkSourceSize(source);
         checkPreciseIntervalJudgementsCountRatio(ratio);
         checkMaxJudgementPartSize(maxJudgementGroupSize);
 
@@ -320,6 +320,14 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
         return combinePairwiseTrainingSets(intervalJudgements, preciseJudgements);
     }
 
+    /**
+     * Проверка, что из заданного количества объектов могут быть сформированы экспертные оценки
+     */
+    private void checkSourceSize(ClassifiedData source) {
+        if(source.objects().size() == 1 || source.objects().size() == 3) {
+            throw new IllegalArgumentException(source.objects().size() + " objects cannot be divided to judgement groups");
+        }
+    }
     /**
      * Проверка того, что процентное соотношение между интервальными и точными экспертными оценками имеет допустимое значение
      */
@@ -359,7 +367,7 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
     divideIntoPreciseAndIntervalJudgements(ClassifiedData source, int ratio) {
 
         int objectsCount = source.objects().size();
-        assert (objectsCount % 2 == 0);
+        assert (objectsCount >= 2 && objectsCount % 2 == 0);
 
         int preciseJudgementsSetSize = (int) Math.floor(objectsCount * (100.0 - ratio) / 100.0);
 
@@ -367,9 +375,12 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
          * Из нечётного количества точных экспертных оценок невозможно сформировать пары, поэтому уменьшаем количество
          * нечётных экспертных оценок
          */
-        if (preciseJudgementsSetSize % 2 != 0) {
+        if (preciseJudgementsSetSize > 0 && preciseJudgementsSetSize % 2 != 0) {
             preciseJudgementsSetSize++;
         }
+
+        assert (preciseJudgementsSetSize % 2 == 0);
+        assert (objectsCount - preciseJudgementsSetSize != 1);
 
         Map<DataClass, LinkedList<ClassifiedObject>> sourceByClasses = groupSampleItemsByClasses(source);
         Map<DataClass, LinkedList<ClassifiedObject>> preciseJudgementObjects = new HashMap<>();
@@ -411,6 +422,9 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
 
             intervalJudgementObjects.get(entry.getKey()).addAll(entry.getValue());
         }
+
+        assert (intervalJudgementObjects.size() != 1);
+        assert (preciseJudgementObjects.size() != 1);
 
         return new Pair<>(intervalJudgementObjects, preciseJudgementObjects);
     }
@@ -462,86 +476,10 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
         }
 
         while (!sample.isEmpty()) {
+            Pair<Set<? extends ClassifiedObject>, Set<? extends ClassifiedObject>> pair =
+                    grabPairOfJudgementGroups(sample, minJudgementGroupSize, maxJudgementGroupSize);
 
-            /*
-             * Если среди доступных элементов остались элементы лишь одного класса, то уже среди них составляются пары
-             */
-            if (sample.size() == 1) {
-                DataClass clazz = sample.keySet().iterator().next();
-                LinkedList<ClassifiedObject> items = sample.get(clazz);
-                int minGroupSize = minJudgementGroupSize;
-                int maxGroupSize = maxJudgementGroupSize;
-
-                /*
-                 * Если вдруг при следующем шаге останется лишь один элемент, то намеренно понижаем кол-во отбираемых
-                 * элементов на текущем шаге
-                 */
-                if(items.size() - 2 * maxJudgementGroupSize == 1
-                        || items.size() - maxJudgementGroupSize == 1) {
-                    maxGroupSize = maxJudgementGroupSize - 1;
-                    minGroupSize = maxGroupSize;
-                }
-
-                /*
-                 * Не даём отобрать все оставшиеся элементы для первой группы в паре
-                 */
-                if(items.size() <= maxJudgementGroupSize) {
-                    Set<? extends ClassifiedObject> firstGroup = new HashSet<>(items.subList(0, 1));
-                    Set<? extends ClassifiedObject> secondGroup = new HashSet<>(items.subList(1, items.size()));
-
-                    items.removeAll(firstGroup);
-                    items.removeAll(secondGroup);
-                } else {
-                    trainingSetItems.add(newPairwiseTrainingSetItem(
-                            grabJudgementGroup(items, minGroupSize, maxGroupSize),
-                            grabJudgementGroup(items, minGroupSize, maxGroupSize),
-                            expertFunction
-                    ));
-                }
-
-                assert (items.size() != 1);
-
-                if (items.isEmpty()) {
-                    sample.remove(clazz);
-                }
-            } else {
-                List<DataClass> classes = listOfMapKeys(sample);
-                List<Integer> indexes = UniformedRandom.nextIntegerSequence(0, classes.size() - 1);
-                assert (indexes.size() >= 2);
-
-                int firstIndex = indexes.get(0);
-                int secondIndex = indexes.get(1);
-
-                int minGroupSize = minJudgementGroupSize;
-
-                /*
-                 * Возможна ситуация, когда при формировании групп для экспертной оценки в исходной выборке остаётся
-                 * лишь группы объектов двух классов, причём количество элементов в каждой из них не больше максимально
-                 * допустимого.
-                 * В этом случае необходимо добавить все элементы групп объектов в группы для экспертной оценки.
-                 * Иначе может возникнуть ситуация, когда в одной группе будут отобраны все объекты, а в другой - нет,
-                 * и нельзя будет при следующей итерации сформировать новую экспертную оценку.
-                 */
-                if (sample.size() == 2
-                        && sample.get(classes.get(0)).size() <= maxJudgementGroupSize
-                        && sample.get(classes.get(1)).size() <= maxJudgementGroupSize) {
-                    minGroupSize = maxJudgementGroupSize;
-                }
-
-                trainingSetItems.add(newPairwiseTrainingSetItem(
-                        grabJudgementGroup(sample.get(classes.get(firstIndex)), minGroupSize, maxJudgementGroupSize),
-                        grabJudgementGroup(sample.get(classes.get(secondIndex)), minGroupSize, maxJudgementGroupSize),
-                        expertFunction
-                ));
-
-                Stream.of(firstIndex, secondIndex).forEach(i -> {
-                    DataClass clazz = classes.get(i);
-
-                    if (sample.containsKey(clazz) && sample.get(clazz).isEmpty()) {
-                        sample.remove(classes.get(i));
-                    }
-                });
-            }
+            trainingSetItems.add(newPairwiseTrainingSetItem(pair.first, pair.second, expertFunction));
         }
 
         return dataFactory.newPairwiseTrainingSet(trainingSetItems);
@@ -551,6 +489,173 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
         List<K> list = new ArrayList<>(map.size());
         map.keySet().forEach(list::add);
         return list;
+    }
+
+    /**
+     * Формирование пары групп элементов для экспертной оценки со случайным количеством элементов из заданного диапазона
+     * на основе списка объектов.
+     * Объекты сформированной группы удаляются из исходного списка объектов
+     */
+    private Pair<Set<? extends ClassifiedObject>, Set<? extends ClassifiedObject>> grabPairOfJudgementGroups(
+            Map<DataClass, LinkedList<ClassifiedObject>> sample, int minJudgementGroupSize, int maxJudgementGroupSize) {
+
+        assert !sample.isEmpty();
+
+        Pair<Set<? extends ClassifiedObject>, Set<? extends ClassifiedObject>> pair;
+
+        if (sample.size() == 1) {
+            pair = grabPairOfJudgementGroupsOfSameClass(sample, minJudgementGroupSize, maxJudgementGroupSize);
+        } else if (sample.size() == 2) {
+            pair = grabPairOfJudgementGroupsOfTwoClasses(sample, minJudgementGroupSize, maxJudgementGroupSize);
+        } else {
+            pair = grabPairOfJudgementGroupsOfManyClasses(sample, minJudgementGroupSize, maxJudgementGroupSize);
+        }
+
+        assert (!pair.first.isEmpty());
+        assert (!pair.second.isEmpty());
+
+        Stream.of(
+                pair.first.iterator().next().dataClass(),
+                pair.second.iterator().next().dataClass()
+        ).forEach(clazz -> {
+            if (sample.containsKey(clazz) && sample.get(clazz).isEmpty()) {
+                sample.remove(clazz);
+            }
+        });
+
+        assert (sample.size() != 1 || sample.entrySet().iterator().next().getValue().size() != 1);
+
+        return pair;
+    }
+
+    /**
+     * Формирование пары групп объектов для экспертной оценки со случайным количеством элементов из заданного диапазона
+     * на основе списка объектов.
+     * При условии, что в исходном множестве представлены объекты, принадлежащее лишь одному классам.
+     */
+    private Pair<Set<? extends ClassifiedObject>, Set<? extends ClassifiedObject>> grabPairOfJudgementGroupsOfSameClass(
+            Map<DataClass, LinkedList<ClassifiedObject>> sample, int minJudgementGroupSize, int maxJudgementGroupSize) {
+
+        assert (sample.size() == 1);
+
+        int firstGroupMinSize = minJudgementGroupSize;
+        int firstGroupMaxSize = maxJudgementGroupSize;
+        int secondGroupMinSize = minJudgementGroupSize;
+        int secondGroupMaxSize = maxJudgementGroupSize;
+        LinkedList<ClassifiedObject> objects = sample.entrySet().iterator().next().getValue();
+
+        assert (objects.size() > 1); // условие возможности формирования пары
+
+        // по данному алгоритму допускается формирование группы объектов размером меньше допустимого (minJudgementGroupSize)
+        // это неизбежно
+
+        if(objects.size() <= maxJudgementGroupSize) {
+            // исключить ситуацию, когда все объекты уйдут в первую группу, а для второй ничего не останется
+            if(objects.size() > minJudgementGroupSize) {
+                firstGroupMaxSize = minJudgementGroupSize;
+                firstGroupMinSize = firstGroupMaxSize;
+                secondGroupMaxSize = objects.size() - firstGroupMaxSize;
+                secondGroupMinSize = secondGroupMaxSize;
+            } else {
+                firstGroupMaxSize = minJudgementGroupSize - 1;
+                firstGroupMinSize = firstGroupMaxSize;
+
+                secondGroupMaxSize = objects.size() - firstGroupMaxSize;
+                secondGroupMinSize = secondGroupMaxSize;
+            }
+        } else if(objects.size() <= 2 * maxJudgementGroupSize) {
+            // ещё один способ исключить ситуацию выше
+            firstGroupMinSize = firstGroupMaxSize;
+            secondGroupMinSize = secondGroupMaxSize;
+        } else if(objects.size() == 2 * maxJudgementGroupSize + 1) {
+            // исключить ситуацию, когда после данной итерации останется лишь один объект
+
+            assert (maxJudgementGroupSize > 1);
+            // мы из трёх объектов никак не сможем сформировать пары из одиночных объектов
+            // проверка на это реализована раньше (на чётность общего количества объектов)
+
+            secondGroupMaxSize--;
+
+            if(secondGroupMinSize > secondGroupMaxSize) {
+                secondGroupMinSize = secondGroupMaxSize;
+            }
+        }
+
+        Pair<Set<? extends ClassifiedObject>, Set<? extends ClassifiedObject>> pair = new Pair<>(
+                grabJudgementGroup(objects, firstGroupMinSize, firstGroupMaxSize),
+                grabJudgementGroup(objects, secondGroupMinSize, secondGroupMaxSize)
+        );
+
+        assert (objects.size() != 1);
+
+        return pair;
+    }
+
+    /**
+     * Формирование пары групп объектов для экспертной оценки со случайным количеством элементов из заданного диапазона
+     * на основе списка объектов.
+     * При условии, что в исходном множестве представлены объекты, принадлежащие лишь двум классам.
+     */
+    private Pair<Set<? extends ClassifiedObject>, Set<? extends ClassifiedObject>> grabPairOfJudgementGroupsOfTwoClasses(
+            Map<DataClass, LinkedList<ClassifiedObject>> sample, int minJudgementGroupSize, int maxJudgementGroupSize) {
+
+        assert (sample.size() == 2);
+
+        List<DataClass> classes = listOfMapKeys(sample);
+        LinkedList<ClassifiedObject> firstClassObjects = sample.get(classes.get(0));
+        LinkedList<ClassifiedObject> secondClassObjects = sample.get(classes.get(1));
+        int firstGroupMinSize = minJudgementGroupSize;
+        int firstGroupMaxSize = maxJudgementGroupSize;
+        int secondGroupMinSize = minJudgementGroupSize;
+        int secondGroupMaxSize = maxJudgementGroupSize;
+
+        if(firstClassObjects.size() <= maxJudgementGroupSize
+                && secondClassObjects.size() <= maxJudgementGroupSize) {
+            firstGroupMinSize = firstGroupMaxSize;
+            secondGroupMinSize = secondGroupMaxSize;
+        } else if(firstClassObjects.size() == maxJudgementGroupSize + 1
+                && secondClassObjects.size() <= maxJudgementGroupSize) {
+
+            assert (firstGroupMaxSize > 1);
+            // мы из трёх объектов никак не сможем сформировать пары из одиночных объектов
+            // проверка на это реализована раньше (на чётность общего количества объектов)
+
+            firstGroupMaxSize--;
+        } else if(secondClassObjects.size() == maxJudgementGroupSize + 1
+                && firstClassObjects.size() <= maxJudgementGroupSize) {
+
+            assert (secondGroupMaxSize > 1);
+            // мы из трёх объектов никак не сможем сформировать пары из одиночных объектов
+            // проверка на это реализована раньше (на чётность общего количества объектов)
+
+            secondGroupMaxSize--;
+        }
+
+        return new Pair<>(
+                grabJudgementGroup(firstClassObjects, firstGroupMinSize, firstGroupMaxSize),
+                grabJudgementGroup(secondClassObjects, secondGroupMinSize, secondGroupMaxSize)
+        );
+    }
+
+    /**
+     * Формирование пары групп объектов для экспертной оценки со случайным количеством элементов из заданного диапазона
+     * на основе списка объектов.
+     * При условии, что в исходном множестве представлены объекты, принадлежащие больше чем двум классам.
+     * (Два класса, потому что у нас пара групп объектов, которые должны иметь разные классы).
+     */
+    private Pair<Set<? extends ClassifiedObject>, Set<? extends ClassifiedObject>> grabPairOfJudgementGroupsOfManyClasses(
+            Map<DataClass, LinkedList<ClassifiedObject>> sample, int minJudgementGroupSize, int maxJudgementGroupSize) {
+
+        assert (sample.size() > 2);
+
+        List<DataClass> classes = listOfMapKeys(sample);
+        List<Integer> indexes = UniformedRandom.nextIntegerSequence(0, classes.size() - 1);
+        assert (indexes.size() >= 2);
+
+        return new Pair<>(
+                grabJudgementGroup(sample.get(classes.get(indexes.get(0))), minJudgementGroupSize, maxJudgementGroupSize),
+                grabJudgementGroup(sample.get(classes.get(indexes.get(1))), minJudgementGroupSize, maxJudgementGroupSize)
+        );
     }
 
     /**
