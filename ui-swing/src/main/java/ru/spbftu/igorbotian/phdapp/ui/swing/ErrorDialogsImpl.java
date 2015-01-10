@@ -2,6 +2,7 @@ package ru.spbftu.igorbotian.phdapp.ui.swing;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import org.apache.log4j.Logger;
 import ru.spbftu.igorbotian.phdapp.ui.common.ErrorDialogs;
 import ru.spbftu.igorbotian.phdapp.ui.common.UIHelper;
 
@@ -14,6 +15,8 @@ import java.util.Objects;
  */
 @Singleton
 class ErrorDialogsImpl implements ErrorDialogs {
+
+    private static final Logger LOGGER = Logger.getLogger(ErrorDialogsImpl.class);
 
     private static final String ERROR_LABEL = "error";
     private static final String REASON_LABEL = "reason";
@@ -36,6 +39,8 @@ class ErrorDialogsImpl implements ErrorDialogs {
 
     @Override
     public void show(Window owner, Throwable e) {
+        LOGGER.error(Objects.requireNonNull(e));
+
         String message = e.getMessage();
 
         if(e.getCause() != null) {
