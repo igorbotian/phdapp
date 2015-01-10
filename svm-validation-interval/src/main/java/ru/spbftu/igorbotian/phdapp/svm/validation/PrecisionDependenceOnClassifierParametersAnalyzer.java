@@ -75,7 +75,7 @@ class PrecisionDependenceOnClassifierParametersAnalyzer
                                 specificValidatorParams)
                 );
                 iterationsCompleted++;
-                fireCrossValidationContinued(100 * (iterationsCompleted / numberOfIterations));
+                fireCrossValidationContinued((int) (100 * ((float) iterationsCompleted / (float) numberOfIterations)));
 
                 if (processInterrupted()) {
                     fireCrossValidationInterrupted();

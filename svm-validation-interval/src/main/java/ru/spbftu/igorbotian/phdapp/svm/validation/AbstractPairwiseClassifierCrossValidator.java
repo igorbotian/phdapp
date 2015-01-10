@@ -102,7 +102,8 @@ abstract class AbstractPairwiseClassifierCrossValidator<R extends Report>
             throw new IllegalArgumentException("Percents completed value is out of range: " + percents);
         }
 
-        progressListeners.forEach(listener -> listener.crossValidationStarted(this));
+        LOGGER.info("Cross-validation process: " + percents + "% completed");
+        progressListeners.forEach(listener -> listener.crossValidationContinued(this, percents));
     }
 
     /**

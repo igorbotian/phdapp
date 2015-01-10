@@ -31,7 +31,7 @@ public class CrossValidationProgressWindow extends JDialog implements CrossValid
     private JButton cancelButton;
 
     public CrossValidationProgressWindow(Window owner, SwingUIHelper uiHelper) {
-        super(owner, uiHelper.getLabel(VALIDATION_PROCESS_LABEL) + "...", ModalityType.DOCUMENT_MODAL);
+        super(owner, uiHelper.getLabel(VALIDATION_PROCESS_LABEL) + "...", ModalityType.TOOLKIT_MODAL);
 
         this.uiHelper = Objects.requireNonNull(uiHelper);
 
@@ -48,6 +48,7 @@ public class CrossValidationProgressWindow extends JDialog implements CrossValid
         setResizable(false);
 
         progressBar = new JProgressBar(0, 100);
+        progressBar.setStringPainted(true);
         cancelButton = new JButton(uiHelper.getLabel(CANCEL_LABEL));
     }
 
@@ -76,7 +77,7 @@ public class CrossValidationProgressWindow extends JDialog implements CrossValid
 
     private void setPercentsCompleted(int percentsCompleted) {
         progressBar.setValue(percentsCompleted);
-        progressBar.setString(String.format("%d", percentsCompleted));
+        progressBar.setString(percentsCompleted + "%");
     }
 
     public void goToPreviousWindow() {

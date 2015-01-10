@@ -41,7 +41,7 @@ class AveragePrecisionValidator extends AbstractPairwiseClassifierCrossValidator
 
         for (int i = 0; i < samplesToGenerateCount; i++) {
             iterations.add(precisionValidator.validate(classifier, specificValidatorParams.defaultValues()));
-            fireCrossValidationContinued(100 * (i / samplesToGenerateCount));
+            fireCrossValidationContinued((int) (100 * ((float) i / (float) samplesToGenerateCount)));
 
             if (processInterrupted()) {
                 fireCrossValidationInterrupted();
