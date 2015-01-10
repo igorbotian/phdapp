@@ -104,7 +104,6 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
             case ANALYZE_PRECISION_ON_SAMPLE_SIZE_DEPENDENCE:
                 widgets = new JComponent[]{
                         uiHelper.widgets().intervalSampleSizeSpinner(),
-                        uiHelper.widgets().preciseSamplesToGenerateCountSpinner(),
                         uiHelper.widgets().precisePenaltyParamSpinner(),
                         uiHelper.widgets().preciseGaussianKernelParamSpinner(),
                         uiHelper.widgets().preciseTrainingTestingSetsSizeRatioSpinner(),
@@ -116,7 +115,6 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
             case ANALYZE_PRECISION_ON_TRAINING_TESTING_SETS_SIZE_RATIO_DEPENDENCE:
                 widgets = new JComponent[]{
                         uiHelper.widgets().preciseSampleSizeSpinner(),
-                        uiHelper.widgets().preciseSamplesToGenerateCountSpinner(),
                         uiHelper.widgets().precisePenaltyParamSpinner(),
                         uiHelper.widgets().preciseGaussianKernelParamSpinner(),
                         uiHelper.widgets().intervalTrainingTestingSetsSizeRatioSpinner(),
@@ -128,7 +126,6 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
             case ANALYZE_PRECISION_ON_CLASSIFIER_PARAMS_DEPENDENCE:
                 widgets = new JComponent[]{
                         uiHelper.widgets().preciseSampleSizeSpinner(),
-                        uiHelper.widgets().preciseSamplesToGenerateCountSpinner(),
                         uiHelper.widgets().intervalPenaltyParamSpinner(),
                         uiHelper.widgets().intervalGaussianKernelParamSpinner(),
                         uiHelper.widgets().preciseTrainingTestingSetsSizeRatioSpinner(),
@@ -140,7 +137,6 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
             case ANALYZE_PRECISION_ON_PRECISE_INTERVAL_SETS_SIZE_RATIO_DEPENDENCE:
                 widgets = new JComponent[]{
                         uiHelper.widgets().preciseSampleSizeSpinner(),
-                        uiHelper.widgets().preciseSamplesToGenerateCountSpinner(),
                         uiHelper.widgets().precisePenaltyParamSpinner(),
                         uiHelper.widgets().preciseGaussianKernelParamSpinner(),
                         uiHelper.widgets().preciseTrainingTestingSetsSizeRatioSpinner(),

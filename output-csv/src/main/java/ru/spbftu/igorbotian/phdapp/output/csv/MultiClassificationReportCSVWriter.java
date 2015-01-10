@@ -44,7 +44,7 @@ class MultiClassificationReportCSVWriter implements ReportCSVWriter<MultiClassif
     private static final String AVERAGE_F_MEASURE_LABEL = "averageFMeasure";
     private static final String MIN_F_MEASURE_LABEL = "minFMeasure";
     private static final String MAX_F_MEASURE_LABEL = "maxFMeasure";
-    private static final String NUMBER_OF_ITERATIONS_LABEL = "numberOfClassifications";
+    private static final String NUMBER_OF_ITERATIONS_LABEL = "numberOfIterations";
 
     private final Localization localization;
     private final SingleClassificationReportCSVWriter singleReportWriter;

@@ -68,7 +68,7 @@ class CrossValidationParamsWidgetsImpl implements CrossValidationParamsWidgets {
         preciseSampleSizeSpinner = preciseIntegerSpinner(director.sampleSize(),
                 SAMPLE_SIZE_STEP_SIZE);
         intervalSampleSizeSpinner = integerRangeSpinner(director.sampleSize(),
-                SAMPLES_TO_GENERATE_COUNT_STEP_SIZE);
+                SAMPLE_SIZE_STEP_SIZE);
 
         preciseTrainingTestingSetsSizeRatioSpinner = preciseIntegerSpinner(director.trainingTestingSetsSizeRatio(),
                 TRAINING_TESTING_SETS_SIZE_RATIO_STEP_SIZE);
@@ -123,7 +123,7 @@ class CrossValidationParamsWidgetsImpl implements CrossValidationParamsWidgets {
         );
 
         spinner.addMinValueChangeListener(e -> parameter.lowerBound().setValue(spinner.getMinValue()));
-        spinner.addMinValueChangeListener(e -> parameter.lowerBound().setValue(spinner.getMaxValue()));
+        spinner.addMaxValueChangeListener(e -> parameter.upperBound().setValue(spinner.getMaxValue()));
         spinner.addStepSizeChangeListener(e -> parameter.stepSize().setValue(spinner.getStepSize()));
 
         return spinner;
@@ -145,7 +145,7 @@ class CrossValidationParamsWidgetsImpl implements CrossValidationParamsWidgets {
         );
 
         spinner.addMinValueChangeListener(e -> parameter.lowerBound().setValue(spinner.getMinValue()));
-        spinner.addMinValueChangeListener(e -> parameter.lowerBound().setValue(spinner.getMaxValue()));
+        spinner.addMaxValueChangeListener(e -> parameter.upperBound().setValue(spinner.getMaxValue()));
         spinner.addStepSizeChangeListener(e -> parameter.stepSize().setValue(spinner.getStepSize()));
 
         return spinner;
