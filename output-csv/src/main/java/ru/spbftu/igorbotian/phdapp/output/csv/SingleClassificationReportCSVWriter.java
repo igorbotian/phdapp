@@ -65,7 +65,8 @@ class SingleClassificationReportCSVWriter implements ReportCSVWriter<SingleClass
     }
 
     void writeHeaderTo(SingleClassificationReport report, CSVWriter csv) throws IOException {
-        String[] headerItems = new String[report.classifierParameters().size() + report.crossValidatorParameters().size()];
+        String[] headerItems = new String[report.classifierParameters().size()
+                + report.crossValidatorParameters().size() + 4 /* accuracy, precision, recall, f-measure */];
         int i = 0;
 
         for(ClassifierParameter<?> param : report.classifierParameters()) {

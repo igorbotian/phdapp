@@ -38,4 +38,9 @@ public interface CrossValidationResultsWindowDirector {
      * Сохранение указанных результатов кросс-валидации в заданный файл
      */
     public <R extends Report> void exportReportToCSV(R report, Path file) throws IOException;
+
+    /**
+     * Путь к CSV-файлу, в который последний раз были экспортированы результаты кросс-валидации
+     */
+    public Path pathToLastUsedCSVFile();
 }

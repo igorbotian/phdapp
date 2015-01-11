@@ -69,7 +69,8 @@ public abstract class AbstractUIHelper implements UIHelper {
         crossValidationParamsWindowDirector
                 = new CrossValidationParamsWindowDirectorImpl(configuration, crossValidatorParameterFactory);
         crossValidationResultsWindowDirector =
-                new CrossValidationResultsWindowDirectorImpl(reportSummaryWriterFactory, reportCSVWriterFactory);
+                new CrossValidationResultsWindowDirectorImpl(reportSummaryWriterFactory, reportCSVWriterFactory,
+                        configuration);
         crossValidationProgressWindowDirector =
                 new CrossValidationProgressWindowDirectorImpl(this, classifier);
     }

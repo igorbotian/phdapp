@@ -4,9 +4,14 @@ import ru.spbftu.igorbotian.phdapp.svm.validation.report.Report;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Objects;
 
 /**
@@ -16,6 +21,7 @@ public class CrossValidationResultsWindow extends JFrame {
 
     private static final String CROSS_VALIDATION_RESULTS_LABEL = "crossValidationResults";
     private static final String EXPORT_TO_CSV_LABEL = "exportToCSV";
+    private static final String RESULTS_SUCCESSFULLY_EXPORTED_LABEL = "resultsSuccessfullyExported";
     private static final String BACK_LABEL = "back";
     private static final String EXIT_LABEL = "exit";
 
@@ -112,11 +118,34 @@ public class CrossValidationResultsWindow extends JFrame {
             }
         });
 
+        exportToCSVButton.addActionListener(e -> exportResultsToCSVFile());
         backButton.addActionListener(e -> goToPreviousWindow());
         exitButton.addActionListener(e -> System.exit(0));
     }
 
-    public void goToPreviousWindow() {
+    private void exportResultsToCSVFile() {
+        JFileChooser fileChooser = new JFileChooser(new File("."));
+        fileChooser.setMultiSelectionEnabled(false);
+        fileChooser.setFileFilter(new FileNameExtensionFilter("CSV", "csv"));
+        fileChooser.setSelectedFile(uiHelper.crossValidationResultWindowDirector().pathToLastUsedCSVFile().toFile());
+        int result = fileChooser.showSaveDialog(this);
+
+        if(result == JFileChooser.APPROVE_OPTION) {
+            exportResultsToCSVFile(Paths.get(fileChooser.getSelectedFile().getAbsolutePath()));
+            JOptionPane.showMessageDialog(this, uiHelper.getLabel(RESULTS_SUCCESSFULLY_EXPORTED_LABEL),
+                    getTitle(), JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    private void exportResultsToCSVFile(Path pathToFile) {
+        try {
+            uiHelper.crossValidationResultWindowDirector().exportReportToCSV(report, pathToFile);
+        } catch (IOException e) {
+            uiHelper.errorDialog().show(e);
+        }
+    }
+
+    private void goToPreviousWindow() {
         setVisible(false);
         previousWindow.setVisible(true);
         dispose();

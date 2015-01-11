@@ -19,6 +19,7 @@
 package ru.spbftu.igorbotian.phdapp.ui.common;
 
 import org.apache.log4j.Logger;
+import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 import ru.spbftu.igorbotian.phdapp.output.csv.ReportCSVWriter;
 import ru.spbftu.igorbotian.phdapp.output.csv.ReportCSVWriterFactory;
 import ru.spbftu.igorbotian.phdapp.output.summary.ReportSummaryWriter;
@@ -30,6 +31,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 /**
@@ -41,14 +43,20 @@ class CrossValidationResultsWindowDirectorImpl implements CrossValidationResults
 
     private final Logger LOGGER = Logger.getLogger(CrossValidationResultsWindowDirectorImpl.class);
 
+    private static final String LAST_USED_CSV_FILE_PARAM = "lastUsedCSVFile";
+    private static final String DEFAULT_LAST_USED_CSV_FILE = "results.csv";
+
     private final ReportSummaryWriterFactory reportSummaryWriterFactory;
     private final ReportCSVWriterFactory reportCSVWriterFactory;
+    private final ApplicationConfiguration appConfig;
 
     public CrossValidationResultsWindowDirectorImpl(ReportSummaryWriterFactory reportSummaryWriterFactory,
-                                                    ReportCSVWriterFactory reportCSVWriterFactory) {
+                                                    ReportCSVWriterFactory reportCSVWriterFactory,
+                                                    ApplicationConfiguration appConfig) {
 
         this.reportSummaryWriterFactory = Objects.requireNonNull(reportSummaryWriterFactory);
         this.reportCSVWriterFactory = Objects.requireNonNull(reportCSVWriterFactory);
+        this.appConfig = Objects.requireNonNull(appConfig);
     }
 
     @Override
@@ -69,8 +77,19 @@ class CrossValidationResultsWindowDirectorImpl implements CrossValidationResults
     @Override
     @SuppressWarnings("unchecked")
     public <R extends Report> void exportReportToCSV(R report, Path file) throws IOException {
+        appConfig.setString(LAST_USED_CSV_FILE_PARAM, file.toString());
+
         PrintWriter writer = new PrintWriter(new FileWriter(file.toFile(), false));
         ReportCSVWriter<R> csvWriter = reportCSVWriterFactory.get((Class<R>) report.getClass());
         csvWriter.writeTo(report, writer, true);
+    }
+
+    @Override
+    public Path pathToLastUsedCSVFile() {
+        if(!appConfig.hasParam(LAST_USED_CSV_FILE_PARAM)) {
+            appConfig.setString(LAST_USED_CSV_FILE_PARAM, DEFAULT_LAST_USED_CSV_FILE);
+        }
+
+        return Paths.get(appConfig.getString(LAST_USED_CSV_FILE_PARAM));
     }
 }
