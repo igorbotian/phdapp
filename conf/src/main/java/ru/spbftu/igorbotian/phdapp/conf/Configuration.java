@@ -45,10 +45,23 @@ public interface Configuration {
      * Получение настройки типа <code>Boolean</code>
      *
      * @param param название настройки (непустое)
-     * @return значение типа <code>Boolean</code> или <code>null</code>, если конфигурация приложения не содержит
+     * @return значение типа <code>Boolean</code> или <code>null</code>, если конфигурация приложения его не содержит
      * данной настройки
+     * @throws java.lang.IllegalArgumentException если название настройки пустое
+     * @throws java.lang.NullPointerException     если название настройки не задано
      */
     public Boolean getBoolean(String param);
+
+    /**
+     * Получение настройки типа <code>Boolean</code>
+     *
+     * @param param название настройки (непустое)
+     * @return значение типа <code>Boolean</code> или <code>defaultValue</code>, если конфигурация приложения его не содержит
+     * данной настройки
+     * @throws java.lang.IllegalArgumentException если название настройки пустое
+     * @throws java.lang.NullPointerException     если название настройки не задано
+     */
+    public Boolean getBoolean(String param, boolean defaultValue);
 
     /**
      * Задание настройки с заданными именем и значением типа <code>Boolean</code>
@@ -64,10 +77,23 @@ public interface Configuration {
      * Получение настройки типа <code>Integer</code>
      *
      * @param param название настройки (непустое)
-     * @return значение типа <code>Integer</code> или <code>null</code>, если конфигурация приложения не содержит
+     * @return значение типа <code>Integer</code> или <code>null</code>, если конфигурация приложения его не содержит
      * данной настройки
+     * @throws java.lang.IllegalArgumentException если название настройки пустое
+     * @throws java.lang.NullPointerException     если название настройки не задано
      */
-    public Integer getInt(String param);
+    public Integer getInteger(String param);
+
+    /**
+     * Получение настройки типа <code>Integer</code>
+     *
+     * @param param название настройки (непустое)
+     * @return значение типа <code>Integer</code> или <code>defaultValue</code>, если конфигурация приложения его не содержит
+     * данной настройки
+     * @throws java.lang.IllegalArgumentException если название настройки пустое
+     * @throws java.lang.NullPointerException     если название настройки не задано
+     */
+    public Integer getInteger(String param, int defaultValue);
 
     /**
      * Задание настройки с заданными именем и значением типа <code>Integer</code>
@@ -77,16 +103,29 @@ public interface Configuration {
      * @throws java.lang.IllegalArgumentException если название настройки пустое
      * @throws java.lang.NullPointerException     если название настройки не задано
      */
-    public void setInt(String param, int value);
+    public void setInteger(String param, int value);
 
     /**
      * Получение настройки типа <code>Long</code>
      *
      * @param param название настройки (непустое)
-     * @return значение типа <code>Long</code> или <code>null</code>, если конфигурация приложения не содержит
+     * @return значение типа <code>Long</code> или <code>null</code>, если конфигурация приложения его не содержит
      * данной настройки
+     * @throws java.lang.IllegalArgumentException если название настройки пустое
+     * @throws java.lang.NullPointerException     если название настройки не задано
      */
     public Long getLong(String param);
+
+    /**
+     * Получение настройки типа <code>Long</code>
+     *
+     * @param param название настройки (непустое)
+     * @return значение типа <code>Long</code> или <code>defaultValue</code>, если конфигурация приложения его не содержит
+     * данной настройки
+     * @throws java.lang.IllegalArgumentException если название настройки пустое
+     * @throws java.lang.NullPointerException     если название настройки не задано
+     */
+    public Long getLong(String param, long defaultValue);
 
     /**
      * Задание настройки с заданными именем и значением типа <code>Long</code>
@@ -102,10 +141,23 @@ public interface Configuration {
      * Получение настройки типа <code>Float</code>
      *
      * @param param название настройки (непустое)
-     * @return значение типа <code>Float</code> или <code>null</code>, если конфигурация приложения не содержит
+     * @return значение типа <code>Float</code> или <code>null</code>, если конфигурация приложения его не содержит
      * данной настройки
+     * @throws java.lang.IllegalArgumentException если название настройки пустое
+     * @throws java.lang.NullPointerException     если название настройки не задано
      */
     public Float getFloat(String param);
+
+    /**
+     * Получение настройки типа <code>Float</code>
+     *
+     * @param param название настройки (непустое)
+     * @return значение типа <code>Float</code> или <code>defaultValue</code>, если конфигурация приложения его не содержит
+     * данной настройки
+     * @throws java.lang.IllegalArgumentException если название настройки пустое
+     * @throws java.lang.NullPointerException     если название настройки не задано
+     */
+    public Float getFloat(String param, float defaultValue);
 
     /**
      * Задание настройки с заданными именем и значением типа <code>Float</code>
@@ -121,10 +173,23 @@ public interface Configuration {
      * Получение настройки типа <code>Double</code>
      *
      * @param param название настройки (непустое)
-     * @return значение типа <code>Double</code> или <code>null</code>, если конфигурация приложения не содержит
+     * @return значение типа <code>Double</code> или <code>null</code>, если конфигурация приложения его не содержит
      * данной настройки
+     * @throws java.lang.IllegalArgumentException если название настройки пустое
+     * @throws java.lang.NullPointerException     если название настройки не задано
      */
     public Double getDouble(String param);
+
+    /**
+     * Получение настройки типа <code>Double</code>
+     *
+     * @param param название настройки (непустое)
+     * @return значение типа <code>Double</code> или <code>defaultValue</code>, если конфигурация приложения его не содержит
+     * данной настройки
+     * @throws java.lang.IllegalArgumentException если название настройки пустое
+     * @throws java.lang.NullPointerException     если название настройки не задано
+     */
+    public Double getDouble(String param, double defaultValue);
 
     /**
      * Задание настройки с заданными именем и значением типа <code>Double</code>
@@ -140,10 +205,23 @@ public interface Configuration {
      * Получение настройки типа <code>String</code>
      *
      * @param param название настройки (непустое)
-     * @return значение типа <code>String</code> или <code>null</code>, если конфигурация приложения не содержит
+     * @return значение типа <code>String</code> или <code>null</code>, если конфигурация приложения его не содержит
      * данной настройки
+     * @throws java.lang.IllegalArgumentException если название настройки пустое
+     * @throws java.lang.NullPointerException     если название настройки не задано
      */
     public String getString(String param);
+
+    /**
+     * Получение настройки типа <code>String</code>
+     *
+     * @param param название настройки (непустое)
+     * @return значение типа <code>String</code> или <code>defaultValue</code>, если конфигурация приложения его не содержит
+     * данной настройки
+     * @throws java.lang.IllegalArgumentException если название настройки пустое
+     * @throws java.lang.NullPointerException     если название настройки не задано
+     */
+    public String getString(String param, String defaultValue);
 
     /**
      * Задание настройки с заданными именем и значением типа <code>String</code>

@@ -86,10 +86,6 @@ class CrossValidationResultsWindowDirectorImpl implements CrossValidationResults
 
     @Override
     public Path pathToLastUsedCSVFile() {
-        if(!appConfig.hasParam(LAST_USED_CSV_FILE_PARAM)) {
-            appConfig.setString(LAST_USED_CSV_FILE_PARAM, DEFAULT_LAST_USED_CSV_FILE);
-        }
-
-        return Paths.get(appConfig.getString(LAST_USED_CSV_FILE_PARAM));
+        return Paths.get(appConfig.getString(LAST_USED_CSV_FILE_PARAM, DEFAULT_LAST_USED_CSV_FILE));
     }
 }

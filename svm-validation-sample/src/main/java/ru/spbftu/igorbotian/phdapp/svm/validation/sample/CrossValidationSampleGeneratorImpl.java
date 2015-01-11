@@ -103,11 +103,8 @@ class CrossValidationSampleGeneratorImpl implements CrossValidationSampleGenerat
     }
 
     private int numberOfPointsToGenerate(ApplicationConfiguration appConfig) {
-        if (appConfig.hasParam(CrossValidatorParameterFactory.SAMPLE_SIZE_ID)) {
-            return appConfig.getInt(CrossValidatorParameterFactory.SAMPLE_SIZE_ID);
-        }
-
-        return CrossValidatorParameterFactory.SAMPLE_SIZE_DEFAULT_VALUE;
+        return appConfig.getInteger(CrossValidatorParameterFactory.SAMPLE_SIZE_ID,
+                CrossValidatorParameterFactory.SAMPLE_SIZE_DEFAULT_VALUE);
     }
 
     /*

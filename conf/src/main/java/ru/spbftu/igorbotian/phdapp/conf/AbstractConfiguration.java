@@ -74,6 +74,10 @@ public abstract class AbstractConfiguration implements Configuration {
     }
 
     private <T> T getValue(String param, Function<String, T> parser) {
+        return getValue(param, null, parser);
+    }
+
+    private <T> T getValue(String param, T defaultValue, Function<String, T> parser) {
         assert (parser != null);
 
         Objects.requireNonNull(param);
@@ -87,6 +91,13 @@ public abstract class AbstractConfiguration implements Configuration {
 
         if (value == null) {
             LOGGER.warn("Trying to read non-initialized configuration setting: " + param);
+
+            if(defaultValue != null) {
+                value = defaultValue.toString();
+                setValue(param, defaultValue);
+                LOGGER.info(String.format("Using a default value of the param: name = %s, value = %s",
+                        param, defaultValue.toString()));
+            }
         }
 
         return (value == null) ? null : parser.apply(value);
@@ -114,23 +125,38 @@ public abstract class AbstractConfiguration implements Configuration {
     }
 
     @Override
+    public Boolean getBoolean(String param, boolean defaultValue) {
+        return getValue(param, defaultValue, Boolean::parseBoolean);
+    }
+
+    @Override
     public void setBoolean(String param, boolean value) {
         setValue(param, value);
     }
 
     @Override
-    public Integer getInt(String param) {
+    public Integer getInteger(String param) {
         return getValue(param, Integer::parseInt);
     }
 
     @Override
-    public void setInt(String param, int value) {
+    public Integer getInteger(String param, int defaultValue) {
+        return getValue(param, defaultValue, Integer::parseInt);
+    }
+
+    @Override
+    public void setInteger(String param, int value) {
         setValue(param, value);
     }
 
     @Override
     public Long getLong(String param) {
         return getValue(param, Long::parseLong);
+    }
+
+    @Override
+    public Long getLong(String param, long defaultValue) {
+        return getValue(param, defaultValue, Long::parseLong);
     }
 
     @Override
@@ -144,6 +170,11 @@ public abstract class AbstractConfiguration implements Configuration {
     }
 
     @Override
+    public Float getFloat(String param, float defaultValue) {
+        return getValue(param, defaultValue, Float::parseFloat);
+    }
+
+    @Override
     public void setFloat(String param, float value) {
         setValue(param, value);
     }
@@ -154,6 +185,11 @@ public abstract class AbstractConfiguration implements Configuration {
     }
 
     @Override
+    public Double getDouble(String param, double defaultValue) {
+        return getValue(param, defaultValue, Double::parseDouble);
+    }
+
+    @Override
     public void setDouble(String param, double value) {
         setValue(param, value);
     }
@@ -161,6 +197,17 @@ public abstract class AbstractConfiguration implements Configuration {
     @Override
     public String getString(String param) {
         return config.get(param);
+    }
+
+    @Override
+    public String getString(String param, String defaultValue) {
+        Objects.requireNonNull(defaultValue);
+
+        if(!hasParam(param)) {
+            setString(param, defaultValue);
+        }
+
+        return getValue(param, defaultValue, String::valueOf);
     }
 
     @Override
