@@ -24,7 +24,9 @@ import ru.spbftu.igorbotian.phdapp.ui.swing.widget.IntegerSpinner;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.io.File;
 import java.util.Objects;
 
 /**
@@ -32,13 +34,19 @@ import java.util.Objects;
  */
 public class SampleDialog extends JDialog {
 
+    private static final String LOAD_LABEL = "load";
+    private static final String SAVE_LABEL = "save";
     private static final String SAMPLE_LABEL = "sample";
     private static final String CLOSE_LABEL = "close";
+
+    private static final String SAMPLE_FILE_EXTENSION = "json";
 
     private final CrossValidationSampleCanvasDirector canvasDirector;
 
     private IntegerSpinner sampleSizeSpinner;
     private CrossValidationSampleCanvas sampleCanvas;
+    private JButton loadButton;
+    private JButton saveButton;
     private JButton closeButton;
 
     /**
@@ -66,12 +74,16 @@ public class SampleDialog extends JDialog {
         sampleCanvas.setPreferredSize(new Dimension(480, 480));
         sampleCanvas.setBorder(new LineBorder(Color.LIGHT_GRAY, 1));
 
+        loadButton = new JButton(uiHelper.getLabel(LOAD_LABEL) + "...");
+        saveButton = new JButton(uiHelper.getLabel(SAVE_LABEL) + "...");
         closeButton = new JButton(uiHelper.getLabel(CLOSE_LABEL));
     }
 
     private void layoutComponents() {
         JPanel buttonPane = new JPanel();
         buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.LINE_AXIS));
+        buttonPane.add(loadButton);
+        buttonPane.add(saveButton);
         buttonPane.add(Box.createHorizontalGlue());
         buttonPane.add(closeButton);
 
@@ -110,6 +122,40 @@ public class SampleDialog extends JDialog {
             sampleCanvas.repaint();
         });
 
+        loadButton.addActionListener(e -> loadSampleFromFile());
+        saveButton.addActionListener(e -> saveSampleToFile());
         closeButton.addActionListener(e -> SampleDialog.this.dispose());
+    }
+
+    private void loadSampleFromFile() {
+        JFileChooser fileChooser = new JFileChooser(".");
+        fileChooser.setFileFilter(new FileNameExtensionFilter("JSON", SAMPLE_FILE_EXTENSION));
+        fileChooser.setMultiSelectionEnabled(false);
+
+        int result = fileChooser.showOpenDialog(this);
+
+        if(result == JFileChooser.APPROVE_OPTION) {
+            loadSampleFromFile(fileChooser.getSelectedFile());
+        }
+    }
+
+    private void loadSampleFromFile(File file) {
+        // TODO
+    }
+
+    private void saveSampleToFile() {
+        JFileChooser fileChooser = new JFileChooser(".");
+        fileChooser.setFileFilter(new FileNameExtensionFilter("JSON", SAMPLE_FILE_EXTENSION));
+        fileChooser.setMultiSelectionEnabled(false);
+
+        int result = fileChooser.showSaveDialog(this);
+
+        if(result == JFileChooser.APPROVE_OPTION) {
+            saveSampleToFile(fileChooser.getSelectedFile());
+        }
+    }
+
+    private void saveSampleToFile(File file) {
+        // TODO
     }
 }
