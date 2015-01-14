@@ -3,6 +3,7 @@ package ru.spbftu.igorbotian.phdapp.svm.validation;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import ru.spbftu.igorbotian.phdapp.common.DataFactory;
+import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 import ru.spbftu.igorbotian.phdapp.svm.IntervalClassifierParameterFactory;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.MultiClassificationReport;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.ReportFactory;
@@ -55,22 +56,23 @@ class IntervalPairwiseClassifierCrossValidatorsImpl implements IntervalPairwiseC
                                                          CrossValidatorParameterFactory crossValidatorParameterFactory,
                                                          ReportFactory reportFactory,
                                                          MathDataFactory mathDataFactory,
-                                                         DataFactory dataFactory) {
+                                                         DataFactory dataFactory,
+                                                         ApplicationConfiguration appConfig) {
 
         this.precisionValidator = new PrecisionValidator(sampleManager, classifierParameterFactory,
-                crossValidatorParameterFactory, reportFactory, mathDataFactory, dataFactory);
+                crossValidatorParameterFactory, reportFactory, mathDataFactory, dataFactory, appConfig);
         this.averagePrecisionValidator = new AveragePrecisionValidator(sampleManager, classifierParameterFactory,
-                crossValidatorParameterFactory, reportFactory, precisionValidator);
+                crossValidatorParameterFactory, reportFactory, precisionValidator, appConfig);
         this.precisionDependenceOnSampleSizeAnalyzer = new PrecisionDependenceOnSampleSizeAnalyzer(sampleManager,
-                classifierParameterFactory, crossValidatorParameterFactory, reportFactory, precisionValidator);
+                classifierParameterFactory, crossValidatorParameterFactory, reportFactory, precisionValidator, appConfig);
         this.preciseIntervalJudgementsRatioAnalyzer
                 = new PreciseIntervalJudgementsRatioAnalyzer(sampleManager,
-                classifierParameterFactory, crossValidatorParameterFactory, reportFactory, precisionValidator);
+                classifierParameterFactory, crossValidatorParameterFactory, reportFactory, precisionValidator, appConfig);
         this.precisionDependenceOnClassifierParametersAnalyzer = new PrecisionDependenceOnClassifierParametersAnalyzer(
                 sampleManager, classifierParameterFactory, crossValidatorParameterFactory, reportFactory,
-                precisionValidator);
+                precisionValidator, appConfig);
         this.trainingSetSizeRatioAnalyzer = new TrainingSetSizeRatioAnalyzer(sampleManager, classifierParameterFactory,
-                crossValidatorParameterFactory, reportFactory, precisionValidator);
+                crossValidatorParameterFactory, reportFactory, precisionValidator, appConfig);
     }
 
     @Override

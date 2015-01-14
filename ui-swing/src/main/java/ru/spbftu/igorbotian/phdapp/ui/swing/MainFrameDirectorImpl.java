@@ -96,7 +96,8 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                         uiHelper.widgets().precisePenaltyParamSpinner(),
                         uiHelper.widgets().preciseGaussianKernelParamSpinner(),
                         uiHelper.widgets().preciseTrainingTestingSetsSizeRatioSpinner(),
-                        uiHelper.widgets().precisePreciseIntervalJudgmentsCountRatioSpinner()
+                        uiHelper.widgets().precisePreciseIntervalJudgmentsCountRatioSpinner(),
+                        uiHelper.widgets().stopCrossValidationOnErrorCheckBox()
                 };
 
                 selectedCrossValidator = crossValidators.asyncAveragePrecisionValidator();
@@ -107,7 +108,8 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                         uiHelper.widgets().precisePenaltyParamSpinner(),
                         uiHelper.widgets().preciseGaussianKernelParamSpinner(),
                         uiHelper.widgets().preciseTrainingTestingSetsSizeRatioSpinner(),
-                        uiHelper.widgets().precisePreciseIntervalJudgmentsCountRatioSpinner()
+                        uiHelper.widgets().precisePreciseIntervalJudgmentsCountRatioSpinner(),
+                        uiHelper.widgets().stopCrossValidationOnErrorCheckBox()
                 };
 
                 selectedCrossValidator = crossValidators.asyncPrecisionDependenceOnSampleSizeAnalyzer();
@@ -118,7 +120,8 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                         uiHelper.widgets().precisePenaltyParamSpinner(),
                         uiHelper.widgets().preciseGaussianKernelParamSpinner(),
                         uiHelper.widgets().intervalTrainingTestingSetsSizeRatioSpinner(),
-                        uiHelper.widgets().precisePreciseIntervalJudgmentsCountRatioSpinner()
+                        uiHelper.widgets().precisePreciseIntervalJudgmentsCountRatioSpinner(),
+                        uiHelper.widgets().stopCrossValidationOnErrorCheckBox()
                 };
 
                 selectedCrossValidator = crossValidators.asyncPrecisionDependenceOnTrainingSetSizeAnalyzer();
@@ -129,7 +132,8 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                         uiHelper.widgets().intervalPenaltyParamSpinner(),
                         uiHelper.widgets().intervalGaussianKernelParamSpinner(),
                         uiHelper.widgets().preciseTrainingTestingSetsSizeRatioSpinner(),
-                        uiHelper.widgets().precisePreciseIntervalJudgmentsCountRatioSpinner()
+                        uiHelper.widgets().precisePreciseIntervalJudgmentsCountRatioSpinner(),
+                        uiHelper.widgets().stopCrossValidationOnErrorCheckBox()
                 };
 
                 selectedCrossValidator = crossValidators.asyncPrecisionDependenceOnClassifierParametersAnalyzer();
@@ -140,7 +144,8 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                         uiHelper.widgets().precisePenaltyParamSpinner(),
                         uiHelper.widgets().preciseGaussianKernelParamSpinner(),
                         uiHelper.widgets().preciseTrainingTestingSetsSizeRatioSpinner(),
-                        uiHelper.widgets().intervalPreciseIntervalJudgmentsCountRatioSpinner()
+                        uiHelper.widgets().intervalPreciseIntervalJudgmentsCountRatioSpinner(),
+                        uiHelper.widgets().stopCrossValidationOnErrorCheckBox()
                 };
 
                 selectedCrossValidator = crossValidators.asyncPrecisionDependenceOnPreciseIntervalJudgementsRatioAnalyzer();

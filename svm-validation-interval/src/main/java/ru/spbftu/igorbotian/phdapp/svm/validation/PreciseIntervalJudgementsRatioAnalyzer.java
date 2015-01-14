@@ -1,5 +1,7 @@
 package ru.spbftu.igorbotian.phdapp.svm.validation;
 
+import org.apache.log4j.Logger;
+import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 import ru.spbftu.igorbotian.phdapp.svm.ClassifierParameter;
 import ru.spbftu.igorbotian.phdapp.svm.IntervalClassifierParameterFactory;
 import ru.spbftu.igorbotian.phdapp.svm.PairwiseClassifier;
@@ -18,6 +20,8 @@ import java.util.*;
 class PreciseIntervalJudgementsRatioAnalyzer
         extends AbstractPairwiseClassifierCrossValidator<MultiClassificationReport> {
 
+    private static final Logger LOGGER = Logger.getLogger(PreciseIntervalJudgementsRatioAnalyzer.class);
+
     /**
      * Средство кросс-валидации, направленное на точность работы попарного классификатора
      */
@@ -27,8 +31,9 @@ class PreciseIntervalJudgementsRatioAnalyzer
                                                   IntervalClassifierParameterFactory classifierParameterFactory,
                                                   CrossValidatorParameterFactory crossValidatorParameterFactory,
                                                   ReportFactory reportFactory,
-                                                  PrecisionValidator precisionValidator) {
-        super(sampleManager, classifierParameterFactory, crossValidatorParameterFactory, reportFactory);
+                                                  PrecisionValidator precisionValidator,
+                                                  ApplicationConfiguration appConfig) {
+        super(sampleManager, classifierParameterFactory, crossValidatorParameterFactory, reportFactory, appConfig);
         this.precisionValidator = Objects.requireNonNull(precisionValidator);
     }
 
@@ -47,11 +52,20 @@ class PreciseIntervalJudgementsRatioAnalyzer
         for (int i = lowerBound; i <= upperBound; i += stepSize) {
             CrossValidatorParameter<Integer> ratioParam = specificValidatorParams.preciseIntervalJudgmentsCountRatio(i);
 
-            iterations.add(precisionValidator.validate(
-                    classifier,
-                    specificClassifierParams,
-                    override(specificValidatorParams, Collections.singleton(ratioParam))
-            ));
+            try {
+                iterations.add(precisionValidator.validate(
+                        classifier,
+                        specificClassifierParams,
+                        override(specificValidatorParams, Collections.singleton(ratioParam))
+                ));
+            } catch (CrossValidationSampleException | CrossValidationException e) {
+                if(stopCrossValidationOnError()) {
+                    throw e;
+                } else {
+                    LOGGER.error(e);
+                }
+            }
+
             fireCrossValidationContinued((int) (100 * (((float) i - (float) lowerBound)
                     / ((float) upperBound - (float) lowerBound))));
 

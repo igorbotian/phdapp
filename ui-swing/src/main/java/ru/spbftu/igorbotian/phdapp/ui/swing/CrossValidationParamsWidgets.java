@@ -23,6 +23,8 @@ import ru.spbftu.igorbotian.phdapp.ui.swing.widget.DoubleSpinner;
 import ru.spbftu.igorbotian.phdapp.ui.swing.widget.IntegerRangeSpinner;
 import ru.spbftu.igorbotian.phdapp.ui.swing.widget.IntegerSpinner;
 
+import javax.swing.*;
+
 /**
  * Средство для формирования виджетов для задания параметров средства кросс-валидации.
  * Введённые пользователем значения сохраняются по завершению работы программы
@@ -117,4 +119,9 @@ public interface CrossValidationParamsWidgets {
      * Заданный диапазон значений процентного соотношения точных/интервальных предпочтений для элементов выборки
      */
     IntegerRangeSpinner intervalPreciseIntervalJudgmentsCountRatioSpinner();
+
+    /**
+     * Галочка задания необходимости остановки процесса кросс-валидации при ошибке
+     */
+    JCheckBox stopCrossValidationOnErrorCheckBox();
 }

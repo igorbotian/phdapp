@@ -1,5 +1,7 @@
 package ru.spbftu.igorbotian.phdapp.svm.validation;
 
+import org.apache.log4j.Logger;
+import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 import ru.spbftu.igorbotian.phdapp.svm.ClassifierParameter;
 import ru.spbftu.igorbotian.phdapp.svm.IntervalClassifierParameterFactory;
 import ru.spbftu.igorbotian.phdapp.svm.PairwiseClassifier;
@@ -16,6 +18,8 @@ import java.util.*;
  */
 class AveragePrecisionValidator extends AbstractPairwiseClassifierCrossValidator<MultiClassificationReport> {
 
+    private static final Logger LOGGER = Logger.getLogger(AveragePrecisionValidator.class);
+
     /**
      * Средство кросс-валидации точности единичной классифации
      */
@@ -25,8 +29,9 @@ class AveragePrecisionValidator extends AbstractPairwiseClassifierCrossValidator
                                      IntervalClassifierParameterFactory classifierParameterFactory,
                                      CrossValidatorParameterFactory crossValidatorParameterFactory,
                                      ReportFactory reportFactory,
-                                     PrecisionValidator precisionValidator) {
-        super(sampleManager, classifierParameterFactory, crossValidatorParameterFactory, reportFactory);
+                                     PrecisionValidator precisionValidator,
+                                     ApplicationConfiguration appConfig) {
+        super(sampleManager, classifierParameterFactory, crossValidatorParameterFactory, reportFactory, appConfig);
         this.precisionValidator = Objects.requireNonNull(precisionValidator);
     }
 
@@ -40,7 +45,16 @@ class AveragePrecisionValidator extends AbstractPairwiseClassifierCrossValidator
         List<SingleClassificationReport> iterations = new ArrayList<>(samplesToGenerateCount);
 
         for (int i = 0; i < samplesToGenerateCount; i++) {
-            iterations.add(precisionValidator.validate(classifier, specificValidatorParams.defaultValues()));
+            try {
+                iterations.add(precisionValidator.validate(classifier, specificValidatorParams.defaultValues()));
+            } catch (CrossValidationException e) {
+                if(stopCrossValidationOnError()) {
+                    throw e;
+                } else {
+                    LOGGER.error(e);
+                }
+            }
+
             fireCrossValidationContinued((int) (100 * ((float) i / (float) samplesToGenerateCount)));
 
             if (processInterrupted()) {

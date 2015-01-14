@@ -1,6 +1,7 @@
 package ru.spbftu.igorbotian.phdapp.svm.validation;
 
 import org.apache.log4j.Logger;
+import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 import ru.spbftu.igorbotian.phdapp.svm.ClassifierParameter;
 import ru.spbftu.igorbotian.phdapp.svm.IntervalClassifierParameterFactory;
 import ru.spbftu.igorbotian.phdapp.svm.PairwiseClassifier;
@@ -24,6 +25,8 @@ abstract class AbstractPairwiseClassifierCrossValidator<R extends Report>
 
     private static final Logger LOGGER = Logger.getLogger(AbstractPairwiseClassifierCrossValidator.class);
 
+    private static final String STOP_CROSS_VALIDATION_ON_ERROR_PARAM = "stopCrossValidationOnError";
+
     /**
      * Средство формирования выборки для кросс-валидации
      */
@@ -45,6 +48,11 @@ abstract class AbstractPairwiseClassifierCrossValidator<R extends Report>
     protected final ReportFactory reportFactory;
 
     /**
+     * Конфигурация приложения
+     */
+    private final ApplicationConfiguration appConfig;
+
+    /**
      * Получатели уведомлений о ходе кросс-валидации
      */
     private final Set<CrossValidationProgressListener> progressListeners = new CopyOnWriteArraySet<>();
@@ -57,12 +65,14 @@ abstract class AbstractPairwiseClassifierCrossValidator<R extends Report>
     protected AbstractPairwiseClassifierCrossValidator(CrossValidationSampleManager sampleManager,
                                                        IntervalClassifierParameterFactory classifierParameterFactory,
                                                        CrossValidatorParameterFactory crossValidatorParameterFactory,
-                                                       ReportFactory reportFactory) {
+                                                       ReportFactory reportFactory,
+                                                       ApplicationConfiguration appConfig) {
 
         this.sampleManager = Objects.requireNonNull(sampleManager);
         this.classifierParameterFactory = Objects.requireNonNull(classifierParameterFactory);
         this.crossValidatorParameterFactory = Objects.requireNonNull(crossValidatorParameterFactory);
         this.reportFactory = Objects.requireNonNull(reportFactory);
+        this.appConfig = Objects.requireNonNull(appConfig);
     }
 
     @Override
@@ -209,6 +219,17 @@ abstract class AbstractPairwiseClassifierCrossValidator<R extends Report>
         specificParams.forEach(result::add);
 
         return result;
+    }
+
+    /**
+     * Получение информации о том, нужно ли останавливать процесс кросс-валидации при ошибке или можно переходить
+     * к следующей итерации
+     *
+     * @return <code>true</code>, если нужно остановить процесс кросс-валидации;
+     * <code>false</code>, если можно переходить к следующей итерации
+     */
+    protected boolean stopCrossValidationOnError() {
+        return appConfig.getBoolean(STOP_CROSS_VALIDATION_ON_ERROR_PARAM, false);
     }
 
     /**

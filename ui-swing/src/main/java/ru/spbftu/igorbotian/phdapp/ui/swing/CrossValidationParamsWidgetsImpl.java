@@ -18,6 +18,7 @@
 
 package ru.spbftu.igorbotian.phdapp.ui.swing;
 
+import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 import ru.spbftu.igorbotian.phdapp.svm.validation.MutableCrossValidatorParameter;
 import ru.spbftu.igorbotian.phdapp.ui.common.CrossValidationParamsWindowDirector;
 import ru.spbftu.igorbotian.phdapp.ui.common.UIHelper;
@@ -26,6 +27,7 @@ import ru.spbftu.igorbotian.phdapp.ui.swing.widget.DoubleSpinner;
 import ru.spbftu.igorbotian.phdapp.ui.swing.widget.IntegerRangeSpinner;
 import ru.spbftu.igorbotian.phdapp.ui.swing.widget.IntegerSpinner;
 
+import javax.swing.*;
 import java.util.Objects;
 
 /**
@@ -34,6 +36,8 @@ import java.util.Objects;
  * и задаются по умолчанию при следующей работе приложения.
  */
 class CrossValidationParamsWidgetsImpl implements CrossValidationParamsWidgets {
+
+    private static final String STOP_CROSS_VALIDATION_ON_ERROR_LABEL = "stopCrossValidationOnError";
 
     private final UIHelper uiHelper;
 
@@ -48,8 +52,10 @@ class CrossValidationParamsWidgetsImpl implements CrossValidationParamsWidgets {
     private IntegerRangeSpinner intervalTrainingTestingSetsSizeRatioSpinner;
     private IntegerSpinner precisePreciseIntervalJudgmentsCountRatioSpinner;
     private IntegerRangeSpinner intervalPreciseIntervalJudgmentsCountRatioSpinner;
+    private JCheckBox stopCrossValidationOnErrorCheckBox;
 
-    public CrossValidationParamsWidgetsImpl(UIHelper uiHelper) {
+    public CrossValidationParamsWidgetsImpl(UIHelper uiHelper, ApplicationConfiguration appConfig) {
+        Objects.requireNonNull(appConfig);
         this.uiHelper = Objects.requireNonNull(uiHelper);
 
         CrossValidationParamsWindowDirector director = uiHelper.crossValidatorParamsFrameDirector();
@@ -81,6 +87,12 @@ class CrossValidationParamsWidgetsImpl implements CrossValidationParamsWidgets {
         intervalPreciseIntervalJudgmentsCountRatioSpinner
                 = integerRangeSpinner(director.preciseIntervalJudgmentsCountRatio(),
                 PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_STEP_SIZE);
+
+        stopCrossValidationOnErrorCheckBox = new JCheckBox(uiHelper.getLabel(STOP_CROSS_VALIDATION_ON_ERROR_LABEL));
+        stopCrossValidationOnErrorCheckBox.setSelected(appConfig.getBoolean(STOP_CROSS_VALIDATION_ON_ERROR_LABEL, false));
+        stopCrossValidationOnErrorCheckBox.addActionListener(
+                e -> appConfig.setBoolean(STOP_CROSS_VALIDATION_ON_ERROR_LABEL, stopCrossValidationOnErrorCheckBox.isSelected())
+        );
     }
 
     private IntegerSpinner preciseIntegerSpinner(MutableCrossValidatorParameter<Integer> parameter, int uiStepSize) {
@@ -204,5 +216,10 @@ class CrossValidationParamsWidgetsImpl implements CrossValidationParamsWidgets {
     @Override
     public IntegerRangeSpinner intervalPreciseIntervalJudgmentsCountRatioSpinner() {
         return intervalPreciseIntervalJudgmentsCountRatioSpinner;
+    }
+
+    @Override
+    public JCheckBox stopCrossValidationOnErrorCheckBox() {
+        return stopCrossValidationOnErrorCheckBox;
     }
 }

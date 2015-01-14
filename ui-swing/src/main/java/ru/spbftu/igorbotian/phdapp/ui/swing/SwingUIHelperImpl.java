@@ -61,7 +61,7 @@ class SwingUIHelperImpl extends AbstractUIHelper implements SwingUIHelper {
         super(localization, configuration, sampleManager, reportSummaryWriterFactory, reportCSVWriterFactory,
                 crossValidatorParameterFactory, mathDataFactory, classifier);
 
-        this.widgets = new CrossValidationParamsWidgetsImpl(this);
+        this.widgets = new CrossValidationParamsWidgetsImpl(this, configuration);
         this.mainFrameDirector = new MainFrameDirectorImpl(this, validators);
         this.errorDialogs = Objects.requireNonNull(errorDialogs);
     }

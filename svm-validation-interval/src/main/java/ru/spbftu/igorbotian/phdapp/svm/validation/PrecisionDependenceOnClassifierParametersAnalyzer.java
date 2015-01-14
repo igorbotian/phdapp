@@ -1,5 +1,7 @@
 package ru.spbftu.igorbotian.phdapp.svm.validation;
 
+import org.apache.log4j.Logger;
+import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 import ru.spbftu.igorbotian.phdapp.svm.ClassifierParameter;
 import ru.spbftu.igorbotian.phdapp.svm.IntervalClassifierParameterFactory;
 import ru.spbftu.igorbotian.phdapp.svm.PairwiseClassifier;
@@ -22,6 +24,8 @@ import java.util.stream.Stream;
 class PrecisionDependenceOnClassifierParametersAnalyzer
         extends AbstractPairwiseClassifierCrossValidator<MultiClassificationReport> {
 
+    private static final Logger LOGGER = Logger.getLogger(PrecisionDependenceOnClassifierParametersAnalyzer.class);
+
     /**
      * Средство кросс-валидации, направленное на точность работы попарного классификатора
      */
@@ -36,8 +40,9 @@ class PrecisionDependenceOnClassifierParametersAnalyzer
                                                              IntervalClassifierParameterFactory classifierParameterFactory,
                                                              CrossValidatorParameterFactory crossValidatorParameterFactory,
                                                              ReportFactory reportFactory,
-                                                             PrecisionValidator precisionValidator) {
-        super(sampleManager, classifierParameterFactory, crossValidatorParameterFactory, reportFactory);
+                                                             PrecisionValidator precisionValidator,
+                                                             ApplicationConfiguration appConfig) {
+        super(sampleManager, classifierParameterFactory, crossValidatorParameterFactory, reportFactory, appConfig);
         this.precisionValidator = Objects.requireNonNull(precisionValidator);
         this.classifierParameterFactory = Objects.requireNonNull(classifierParameterFactory);
     }
@@ -58,8 +63,8 @@ class PrecisionDependenceOnClassifierParametersAnalyzer
         double gkpUpperBound = gaussianKernelParam.upperBound().value();
         double gkpStepSize = gaussianKernelParam.stepSize().value();
 
-        int numberOfIterations = (int) (((ppUpperBound - ppLowerBound) % ppStepSize)
-                * ((gkpUpperBound - gkpLowerBound) % gkpStepSize));
+        int numberOfIterations = (int) (((ppUpperBound - ppLowerBound) / ppStepSize)
+                * ((gkpUpperBound - gkpLowerBound) / gkpStepSize));
         int iterationsCompleted = 0;
         List<SingleClassificationReport> iterations = new ArrayList<>(numberOfIterations);
 
@@ -68,12 +73,21 @@ class PrecisionDependenceOnClassifierParametersAnalyzer
                 ClassifierParameter<Double> ccpParam = classifierParameterFactory.penaltyParameter(ccp);
                 ClassifierParameter<Double> gkpParam = classifierParameterFactory.gaussianKernelParameter(gkp);
 
-                iterations.add(precisionValidator.validate(
-                                classifier,
-                                override(specificClassifierParams,
-                                        Stream.of(ccpParam, gkpParam).collect(Collectors.toSet())),
-                                specificValidatorParams)
-                );
+                try {
+                    iterations.add(precisionValidator.validate(
+                                    classifier,
+                                    override(specificClassifierParams,
+                                            Stream.of(ccpParam, gkpParam).collect(Collectors.toSet())),
+                                    specificValidatorParams)
+                    );
+                } catch (CrossValidationSampleException | CrossValidationException e) {
+                    if(stopCrossValidationOnError()) {
+                        throw e;
+                    } else {
+                        LOGGER.error(e);
+                    }
+                }
+
                 iterationsCompleted++;
                 fireCrossValidationContinued((int) (100 * ((float) iterationsCompleted / (float) numberOfIterations)));
 

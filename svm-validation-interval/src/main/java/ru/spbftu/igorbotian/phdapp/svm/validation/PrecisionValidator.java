@@ -1,6 +1,7 @@
 package ru.spbftu.igorbotian.phdapp.svm.validation;
 
 import ru.spbftu.igorbotian.phdapp.common.*;
+import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 import ru.spbftu.igorbotian.phdapp.svm.*;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.ReportFactory;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.SingleClassificationReport;
@@ -31,9 +32,10 @@ class PrecisionValidator extends AbstractPairwiseClassifierCrossValidator<Single
                                  IntervalClassifierParameterFactory classifierParameterFactory,
                                  CrossValidatorParameterFactory crossValidatorParameterFactory,
                                  ReportFactory reportFactory, MathDataFactory mathDataFactory,
-                                 DataFactory dataFactory) {
+                                 DataFactory dataFactory,
+                                 ApplicationConfiguration appConfig) {
 
-        super(sampleManager, classifierParameterFactory, crossValidatorParameterFactory, reportFactory);
+        super(sampleManager, classifierParameterFactory, crossValidatorParameterFactory, reportFactory, appConfig);
         this.mathDataFactory = Objects.requireNonNull(mathDataFactory);
         this.dataFactory = Objects.requireNonNull(dataFactory);
     }
