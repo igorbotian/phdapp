@@ -2,6 +2,7 @@ package ru.spbftu.igorbotian.phdapp.svm.validation.sample;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import org.apache.log4j.Logger;
 import ru.spbftu.igorbotian.phdapp.common.*;
 import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidatorParameterFactory;
@@ -17,6 +18,8 @@ import java.util.stream.Stream;
  */
 @Singleton
 class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
+
+    private static final Logger LOGGER = Logger.getLogger(CrossValidationSampleManagerImpl.class);
 
     /**
      * Фабрика объектов предметной области
@@ -49,6 +52,7 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
     public ClassifiedData generateSample(int sampleSize) throws CrossValidationSampleException {
         checkSampleSize(sampleSize);
 
+        LOGGER.debug("Generating sample of size = " + sampleSize);
         sampleGenerator.regeneratePoints(sampleSize);
 
         Set<DataClass> dataClasses = Stream.of(
@@ -91,6 +95,9 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
         Objects.requireNonNull(sample);
         checkTrainingTestingSetsSizeRatio(ratio);
 
+        LOGGER.debug(String.format("Dividing sample of size %d into two groups with ratio %d",
+                sample.objects().size(), ratio));
+
         Map<DataClass, LinkedList<ClassifiedObject>> sampleByClasses = groupSampleItemsByClasses(sample);
         checkSampleIsDividable(sampleByClasses);
 
@@ -104,6 +111,7 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
             firstSetSize = sample.objects().size() - secondSetSize;
         }
 
+        LOGGER.debug(String.format("The first group size = %s and the second group size = %d", firstSetSize, secondSetSize));
         return divideSampleIntoTwoGroups(sample, smallestValidSets, firstSetSize);
     }
 
@@ -155,14 +163,14 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
         for (DataClass clazz : sampleItemsByClasses.keySet()) {
             assert !sampleItemsByClasses.get(clazz).isEmpty();
 
-            if (sampleItemsByClasses.get(clazz).size() < 2) {
+            if (sampleItemsByClasses.get(clazz).size() < UnclassifiedData.MIN_NUMBER_OF_CLASSES) {
                 result++;
             } else {
-                result += 2;
+                result += UnclassifiedData.MIN_NUMBER_OF_CLASSES;
             }
         }
 
-        if (result < 4) {
+        if (result < 2 /* две группы */ * UnclassifiedData.MIN_NUMBER_OF_CLASSES) {
             throw new CrossValidationSampleException("The sample is not dividable into training and testing sets: " +
                     "there should be objects of at least two classes in each set");
         }
@@ -173,7 +181,8 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
      * заданного множества объектов
      */
     private Pair<ClassifiedData, ClassifiedData> divideSampleIntoTwoGroups(ClassifiedData sample,
-                                                                           Pair<Set<ClassifiedObject>, Set<ClassifiedObject>> smallestValidSets,
+                                                                           Pair<Set<ClassifiedObject>,
+                                                                                   Set<ClassifiedObject>> smallestValidSets,
                                                                            int firstGroupSize)
             throws CrossValidationSampleException {
 
@@ -324,10 +333,11 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
      * Проверка, что из заданного количества объектов могут быть сформированы экспертные оценки
      */
     private void checkSourceSize(ClassifiedData source) {
-        if(source.objects().size() == 1 || source.objects().size() == 3) {
+        if (source.objects().size() == 1 || source.objects().size() == 3) {
             throw new IllegalArgumentException(source.objects().size() + " objects cannot be divided to judgement groups");
         }
     }
+
     /**
      * Проверка того, что процентное соотношение между интервальными и точными экспертными оценками имеет допустимое значение
      */
@@ -366,27 +376,27 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
     private Pair<Map<DataClass, LinkedList<ClassifiedObject>>, Map<DataClass, LinkedList<ClassifiedObject>>>
     divideIntoPreciseAndIntervalJudgements(ClassifiedData source, int ratio) throws CrossValidationSampleException {
 
-        int objectsCount = source.objects().size();
-        assert (objectsCount >= 2 && objectsCount % 2 == 0);
+        int objectCount = source.objects().size();
+        assert (objectCount >= 2 && objectCount % 2 == 0);
 
-        int preciseJudgementsSetSize = (int) Math.floor(objectsCount * (100.0 - ratio) / 100.0);
+        int preciseJudgementsSetSize = (int) Math.floor(objectCount * (100.0 - ratio) / 100.0);
 
         /*
          * Из нечётного количества точных экспертных оценок невозможно сформировать пары, поэтому уменьшаем количество
          * нечётных экспертных оценок
          */
-        if(preciseJudgementsSetSize % 2 != 0) {
-            if(preciseJudgementsSetSize < objectsCount) {
+        if (preciseJudgementsSetSize % 2 != 0) {
+            if (preciseJudgementsSetSize < objectCount) {
                 preciseJudgementsSetSize++;
             } else {
                 throw new CrossValidationSampleException("Unable to compose precise judgements from odd number of items: "
-                        + objectsCount);
+                        + objectCount);
             }
         }
 
-        if(objectsCount - preciseJudgementsSetSize == 1) {
+        if (objectCount - preciseJudgementsSetSize == 1) {
             throw new CrossValidationSampleException(String.format("Unable to divide %d items to precise/interval judgements " +
-                    "with ratio %d: there is only one item left for interval judgements", objectsCount, ratio));
+                    "with ratio %d: there is only one item left for interval judgements", objectCount, ratio));
         }
 
         Map<DataClass, LinkedList<ClassifiedObject>> sourceByClasses = groupSampleItemsByClasses(source);
@@ -440,7 +450,7 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
     private int numberOfItems(Map<DataClass, LinkedList<ClassifiedObject>> items) {
         int count = 0;
 
-        for(DataClass clazz : items.keySet()) {
+        for (DataClass clazz : items.keySet()) {
             count += items.get(clazz).size();
         }
 
@@ -448,7 +458,7 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
     }
 
     /**
-     * Возвращает первые объектов из списков по каждому классу
+     * Возвращает первые элементы из списков, составленных из объектов одного и того же класса
      */
     private List<ClassifiedObject> popFirstObjects(Map<DataClass, LinkedList<ClassifiedObject>> sample) {
         int sampleSize = sample.size();
@@ -554,7 +564,7 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
     private Pair<Set<? extends ClassifiedObject>, Set<? extends ClassifiedObject>> grabPairOfJudgementGroupsOfSameClass(
             Map<DataClass, LinkedList<ClassifiedObject>> sample, int minJudgementGroupSize, int maxJudgementGroupSize) {
 
-        assert sample.size() == 1 ;
+        assert sample.size() == 1;
 
         int firstGroupMinSize = minJudgementGroupSize;
         int firstGroupMaxSize = maxJudgementGroupSize;
@@ -567,9 +577,9 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
         // по данному алгоритму допускается формирование группы объектов размером меньше допустимого (minJudgementGroupSize)
         // это неизбежно
 
-        if(objects.size() <= maxJudgementGroupSize) {
+        if (objects.size() <= maxJudgementGroupSize) {
             // исключить ситуацию, когда все объекты уйдут в первую группу, а для второй ничего не останется
-            if(objects.size() > minJudgementGroupSize) {
+            if (objects.size() > minJudgementGroupSize) {
                 firstGroupMaxSize = minJudgementGroupSize;
                 firstGroupMinSize = firstGroupMaxSize;
                 secondGroupMaxSize = objects.size() - firstGroupMaxSize;
@@ -581,11 +591,11 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
                 secondGroupMaxSize = objects.size() - firstGroupMaxSize;
                 secondGroupMinSize = secondGroupMaxSize;
             }
-        } else if(objects.size() <= 2 * maxJudgementGroupSize) {
+        } else if (objects.size() <= 2 * maxJudgementGroupSize) {
             // ещё один способ исключить ситуацию выше
             firstGroupMinSize = firstGroupMaxSize;
             secondGroupMinSize = secondGroupMaxSize;
-        } else if(objects.size() == 2 * maxJudgementGroupSize + 1) {
+        } else if (objects.size() == 2 * maxJudgementGroupSize + 1) {
             // исключить ситуацию, когда после данной итерации останется лишь один объект
 
             assert maxJudgementGroupSize > 1;
@@ -594,7 +604,7 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
 
             secondGroupMaxSize--;
 
-            if(secondGroupMinSize > secondGroupMaxSize) {
+            if (secondGroupMinSize > secondGroupMaxSize) {
                 secondGroupMinSize = secondGroupMaxSize;
             }
         }
@@ -627,11 +637,11 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
         int secondGroupMinSize = minJudgementGroupSize;
         int secondGroupMaxSize = maxJudgementGroupSize;
 
-        if(firstClassObjects.size() <= maxJudgementGroupSize
+        if (firstClassObjects.size() <= maxJudgementGroupSize
                 && secondClassObjects.size() <= maxJudgementGroupSize) {
             firstGroupMinSize = firstGroupMaxSize;
             secondGroupMinSize = secondGroupMaxSize;
-        } else if(firstClassObjects.size() == maxJudgementGroupSize + 1
+        } else if (firstClassObjects.size() == maxJudgementGroupSize + 1
                 && secondClassObjects.size() <= maxJudgementGroupSize) {
 
             assert firstGroupMaxSize > 1;
@@ -639,7 +649,7 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
             // проверка на это реализована раньше (на чётность общего количества объектов)
 
             firstGroupMaxSize--;
-        } else if(secondClassObjects.size() == maxJudgementGroupSize + 1
+        } else if (secondClassObjects.size() == maxJudgementGroupSize + 1
                 && firstClassObjects.size() <= maxJudgementGroupSize) {
 
             assert secondGroupMaxSize > 1;

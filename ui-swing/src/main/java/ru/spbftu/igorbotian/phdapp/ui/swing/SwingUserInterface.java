@@ -53,6 +53,7 @@ class SwingUserInterface implements UserInterface {
                 System.setProperty("apple.laf.useScreenMenuBar", "true");
             }
 
+            LOGGER.debug("Setting system UI look and feel");
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
             LOGGER.warn("Unable to set system UI look and feel", e);

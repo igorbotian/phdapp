@@ -1,5 +1,6 @@
 package ru.spbftu.igorbotian.phdapp.ui.swing;
 
+import org.apache.log4j.Logger;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.Report;
 
 import javax.swing.*;
@@ -18,6 +19,8 @@ import java.util.Objects;
  * Окно для отображения результатов кросс-валидации
  */
 public class CrossValidationResultsWindow extends JFrame {
+
+    private static final Logger LOGGER = Logger.getLogger(CrossValidationResultsWindow.class);
 
     private static final String CROSS_VALIDATION_RESULTS_LABEL = "crossValidationResults";
     private static final String EXPORT_TO_CSV_LABEL = "exportToCSV";
@@ -139,7 +142,9 @@ public class CrossValidationResultsWindow extends JFrame {
 
     private void exportResultsToCSVFile(Path pathToFile) {
         try {
+            LOGGER.debug("Exporting cross-validation results to file: " + pathToFile.toString());
             uiHelper.crossValidationResultWindowDirector().exportReportToCSV(report, pathToFile);
+            LOGGER.info("Cross-validation results successfully exported to file: " + pathToFile.toString());
         } catch (IOException e) {
             uiHelper.errorDialog().show(e);
         }

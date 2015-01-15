@@ -1,5 +1,6 @@
 package ru.spbftu.igorbotian.phdapp.svm.validation;
 
+import org.apache.log4j.Logger;
 import ru.spbftu.igorbotian.phdapp.common.*;
 import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 import ru.spbftu.igorbotian.phdapp.svm.*;
@@ -17,6 +18,8 @@ import java.util.function.Function;
  * Средство кросс-валидации, направленное на точность работы попарного классификатора
  */
 class PrecisionValidator extends AbstractPairwiseClassifierCrossValidator<SingleClassificationReport> {
+
+    private static final Logger LOGGER = Logger.getLogger(PrecisionValidator.class);
 
     /**
      * Фабрика математических примитивов
@@ -48,8 +51,13 @@ class PrecisionValidator extends AbstractPairwiseClassifierCrossValidator<Single
 
         int sampleSize = specificValidatorParams.sampleSize().value().value();
         int trainingTestingSetsSizeRatio = specificValidatorParams.trainingTestingSetsSizeRatio().value().value();
-        int preciseIntervalJudgmentsCountRatio = specificValidatorParams.preciseIntervalJudgmentsCountRatio().value().value();
+        int preciseIntervalJudgementsCountRatio = specificValidatorParams.preciseIntervalJudgmentsCountRatio().value().value();
         int maxJudgementGroupSize = 5;
+
+        LOGGER.debug("Sample size = " + sampleSize);
+        LOGGER.debug("Training/testing sets size ratio = " + trainingTestingSetsSizeRatio);
+        LOGGER.debug("Precise/interval judgements count ratio = " + preciseIntervalJudgementsCountRatio);
+        LOGGER.debug("Maximum judgement group size = " + maxJudgementGroupSize);
 
         ClassifiedData sample = sampleManager.generateSample(sampleSize);
         Pair<ClassifiedData, ClassifiedData> sampleSets = sampleManager.divideSampleIntoTwoGroups(sample,
@@ -57,7 +65,7 @@ class PrecisionValidator extends AbstractPairwiseClassifierCrossValidator<Single
         ClassifiedData trainingSetData = sampleSets.first;
         ClassifiedData testingSet = sampleSets.second;
         PairwiseTrainingSet trainingSet = sampleManager.generateTrainingSet(trainingSetData,
-                preciseIntervalJudgmentsCountRatio, maxJudgementGroupSize, this::judgePoints);
+                preciseIntervalJudgementsCountRatio, maxJudgementGroupSize, this::judgePoints);
 
         try {
             classifier.train(trainingSet);

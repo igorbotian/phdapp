@@ -64,7 +64,7 @@ class JavaI18NLocalization implements Localization {
         try {
             return ResourceBundle.getBundle(LABELS_BUNDLE_NAME, Locale.getDefault());
         } catch (Exception e) {
-            LOGGER.error(String.format("Unable to get translations for '%s' locale", Locale.getDefault().toString()), e);
+            LOGGER.error("Unable to get translations for locale: " + Locale.getDefault().toString(), e);
         }
 
         return null;

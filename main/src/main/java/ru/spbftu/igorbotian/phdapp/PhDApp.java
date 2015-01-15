@@ -117,7 +117,6 @@ public class PhDApp {
             }
 
             JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
             logger.fatal("Unhandled exception caught. Exiting application", e);
         }
     }

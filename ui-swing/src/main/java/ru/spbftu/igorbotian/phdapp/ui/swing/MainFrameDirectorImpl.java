@@ -87,6 +87,7 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                         viewSampleButton
                 };
 
+                LOGGER.debug("Performing action: " + action);
                 selectedCrossValidator = crossValidators.asyncPrecisionValidator();
                 break;
             case CALCULATE_AVERAGE_PRECISION:
@@ -101,6 +102,7 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                 };
 
                 selectedCrossValidator = crossValidators.asyncAveragePrecisionValidator();
+                LOGGER.debug("Performing action: " + action);
                 break;
             case ANALYZE_PRECISION_ON_SAMPLE_SIZE_DEPENDENCE:
                 widgets = new JComponent[]{
@@ -113,6 +115,7 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                 };
 
                 selectedCrossValidator = crossValidators.asyncPrecisionDependenceOnSampleSizeAnalyzer();
+                LOGGER.debug("Performing action: " + action);
                 break;
             case ANALYZE_PRECISION_ON_TRAINING_TESTING_SETS_SIZE_RATIO_DEPENDENCE:
                 widgets = new JComponent[]{
@@ -125,6 +128,7 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                 };
 
                 selectedCrossValidator = crossValidators.asyncPrecisionDependenceOnTrainingSetSizeAnalyzer();
+                LOGGER.debug("Performing action: " + action);
                 break;
             case ANALYZE_PRECISION_ON_CLASSIFIER_PARAMS_DEPENDENCE:
                 widgets = new JComponent[]{
@@ -137,6 +141,7 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                 };
 
                 selectedCrossValidator = crossValidators.asyncPrecisionDependenceOnClassifierParametersAnalyzer();
+                LOGGER.debug("Performing action: " + action);
                 break;
             case ANALYZE_PRECISION_ON_PRECISE_INTERVAL_SETS_SIZE_RATIO_DEPENDENCE:
                 widgets = new JComponent[]{
@@ -149,6 +154,7 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                 };
 
                 selectedCrossValidator = crossValidators.asyncPrecisionDependenceOnPreciseIntervalJudgementsRatioAnalyzer();
+                LOGGER.debug("Performing action: " + action);
                 break;
             default:
                 LOGGER.error("Unsupported user action detected: " + action);

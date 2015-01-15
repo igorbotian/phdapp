@@ -58,12 +58,17 @@ public final class Log4j {
         Path log4jXml = configFolder.resolve(LOG4J_XML);
 
         if (Files.exists(log4jXml)) {
+            System.out.println("Loading LOG4J configuration from file: " + log4jXml.toAbsolutePath().toString());
             DOMConfigurator.configure(log4jXml.toAbsolutePath().toString());
         } else {
             Path log4jProps = configFolder.resolve(LOG4J_PROPERTIES);
 
             if (Files.exists(log4jProps)) {
+                System.out.println("Loading LOG4J configuration from file: " + log4jProps.toAbsolutePath().toString());
                 PropertyConfigurator.configure(log4jProps.toAbsolutePath().toString());
+            } else {
+                System.err.println("No LOG4J configuration files found in configuration folder: "
+                        + configFolder.toAbsolutePath().toString());
             }
         }
     }

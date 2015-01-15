@@ -101,6 +101,7 @@ abstract class AbstractPairwiseClassifierCrossValidator<R extends Report>
      * Уведомление о том, что процесс кросс-валидации начался
      */
     protected void fireCrossValidationStarted() {
+        LOGGER.info("Cross-validation process started");
         progressListeners.forEach(listener -> listener.crossValidationStarted(this));
     }
 
@@ -120,6 +121,7 @@ abstract class AbstractPairwiseClassifierCrossValidator<R extends Report>
      * Уведомление о том, что процесс кросс-валидации был прерван
      */
     protected void fireCrossValidationInterrupted() {
+        LOGGER.info("Cross-validation process interrupted");
         progressListeners.forEach(listener -> listener.crossValidationInterrupted(this));
     }
 
@@ -127,6 +129,7 @@ abstract class AbstractPairwiseClassifierCrossValidator<R extends Report>
      * Уведомление о том, что произошла указанная ошибка в процессе кросс-валидации
      */
     protected void fireCrossValidationFailed(Throwable reason) {
+        LOGGER.info("Cross-validation process failed: " + reason.getMessage());
         progressListeners.forEach(listener -> listener.crossValidationFailed(this, Objects.requireNonNull(reason)));
     }
 
@@ -134,6 +137,7 @@ abstract class AbstractPairwiseClassifierCrossValidator<R extends Report>
      * Уведомление о том, что процесс кросс-валидации завершён с указанными результатами
      */
     protected void fireCrossValidationCompleted(R report) {
+        LOGGER.info("Cross-validation process completed");
         progressListeners.forEach(listener -> listener.crossValidationCompleted(this, Objects.requireNonNull(report)));
     }
 
@@ -160,7 +164,7 @@ abstract class AbstractPairwiseClassifierCrossValidator<R extends Report>
 
         Set<? extends ClassifierParameter<?>> classifierParams = extractClassifierParams(specificValidatorParams);
         CrossValidatorParameterFactory parameterFactory
-                = new SpecificCrossValidatorParameterFactory(crossValidatorParameterFactory, specificValidatorParams);
+                = override(crossValidatorParameterFactory, specificValidatorParams);
 
         try {
             return validate(classifier, classifierParams, parameterFactory);
@@ -195,7 +199,7 @@ abstract class AbstractPairwiseClassifierCrossValidator<R extends Report>
      * @return экземпляр фабрики параметров средства кросс-валидации
      */
     protected CrossValidatorParameterFactory override(CrossValidatorParameterFactory paramsFactory,
-                                                      Set<CrossValidatorParameter<?>> specificParams) {
+                                                      Set<? extends CrossValidatorParameter<?>> specificParams) {
         Objects.requireNonNull(paramsFactory);
         Objects.requireNonNull(specificParams);
 

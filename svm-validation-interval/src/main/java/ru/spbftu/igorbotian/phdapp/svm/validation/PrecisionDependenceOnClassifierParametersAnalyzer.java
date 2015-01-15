@@ -69,8 +69,11 @@ class PrecisionDependenceOnClassifierParametersAnalyzer
         List<SingleClassificationReport> iterations = new ArrayList<>(numberOfIterations);
 
         for (double ccp = ppLowerBound; ccp <= ppUpperBound; ccp += ppStepSize) {
+            LOGGER.debug("Constant cost parameter = " + ccp);
+            ClassifierParameter<Double> ccpParam = classifierParameterFactory.penaltyParameter(ccp);
+
             for (double gkp = gkpLowerBound; gkp <= gkpUpperBound; gkp += gkpStepSize) {
-                ClassifierParameter<Double> ccpParam = classifierParameterFactory.penaltyParameter(ccp);
+                LOGGER.debug("Gaussian kernel parameter: " + gkp);
                 ClassifierParameter<Double> gkpParam = classifierParameterFactory.gaussianKernelParameter(gkp);
 
                 try {

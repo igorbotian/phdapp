@@ -50,6 +50,7 @@ class PreciseIntervalJudgementsRatioAnalyzer
         List<SingleClassificationReport> iterations = new ArrayList<>((upperBound - lowerBound) / stepSize);
 
         for (int i = lowerBound; i <= upperBound; i += stepSize) {
+            LOGGER.debug("Ratio = " + i);
             CrossValidatorParameter<Integer> ratioParam = specificValidatorParams.preciseIntervalJudgmentsCountRatio(i);
 
             try {

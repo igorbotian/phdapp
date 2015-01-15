@@ -48,6 +48,7 @@ class PrecisionDependenceOnSampleSizeAnalyzer extends AbstractPairwiseClassifier
         List<SingleClassificationReport> iterations = new ArrayList<>((upperBound - lowerBound) / stepSize);
 
         for (int i = lowerBound; i <= upperBound; i += stepSize) {
+            LOGGER.debug("Sample size: " + i);
             CrossValidatorParameter<Integer> sampleSizeParam = specificValidatorParams.sampleSize(i);
 
             try {
