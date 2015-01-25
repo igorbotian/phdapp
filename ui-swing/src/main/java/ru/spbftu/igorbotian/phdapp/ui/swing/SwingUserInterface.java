@@ -32,7 +32,7 @@ import java.util.Objects;
  */
 class SwingUserInterface implements UserInterface {
 
-    private static Logger LOGGER = Logger.getLogger(SwingUserInterface.class);
+    private static final Logger LOGGER = Logger.getLogger(SwingUserInterface.class);
 
     private final SwingUIHelper uiHelper;
 

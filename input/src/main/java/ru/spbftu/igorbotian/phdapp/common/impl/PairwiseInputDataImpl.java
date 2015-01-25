@@ -54,7 +54,7 @@ class PairwiseInputDataImpl extends AbstractInputDataImpl implements PairwiseInp
             return true;
         }
 
-        if (obj == null || !(obj instanceof PointwiseInputDataImpl)) {
+        if (obj == null || !(obj instanceof PairwiseInputDataImpl)) {
             return false;
         }
 

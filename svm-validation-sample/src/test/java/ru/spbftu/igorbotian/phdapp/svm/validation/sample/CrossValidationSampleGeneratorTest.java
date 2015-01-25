@@ -20,12 +20,10 @@ package ru.spbftu.igorbotian.phdapp.svm.validation.sample;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import ru.spbftu.igorbotian.phdapp.common.DataModule;
-import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfigurationModule;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.Line;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.Point;

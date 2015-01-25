@@ -24,12 +24,12 @@ class PrecisionValidator extends AbstractPairwiseClassifierCrossValidator<Single
     /**
      * Фабрика математических примитивов
      */
-    protected MathDataFactory mathDataFactory;
+    protected final MathDataFactory mathDataFactory;
 
     /**
      * Фабрика объектов предметной области
      */
-    protected DataFactory dataFactory;
+    protected final DataFactory dataFactory;
 
     protected PrecisionValidator(CrossValidationSampleManager sampleManager,
                                  IntervalClassifierParameterFactory classifierParameterFactory,

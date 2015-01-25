@@ -49,12 +49,12 @@ class PointImpl implements Point {
     /**
      * Класс, которому принадлежит данная точка
      */
-    private DataClass dataClass;
+    private final DataClass dataClass;
 
     /**
      * Фабрика создания объектов предметной области
      */
-    private DataFactory dataFactory;
+    private final DataFactory dataFactory;
 
     public PointImpl(double x, double y, DataClass dataClass, DataFactory dataFactory) {
         this.x = x;

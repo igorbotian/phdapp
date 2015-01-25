@@ -23,7 +23,7 @@ class AveragePrecisionValidator extends AbstractPairwiseClassifierCrossValidator
     /**
      * Средство кросс-валидации точности единичной классифации
      */
-    private PrecisionValidator precisionValidator;
+    private final PrecisionValidator precisionValidator;
 
     public AveragePrecisionValidator(CrossValidationSampleManager sampleManager,
                                      IntervalClassifierParameterFactory classifierParameterFactory,

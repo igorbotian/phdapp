@@ -19,7 +19,6 @@
 package ru.spbftu.igorbotian.phdapp.ui.swing.widget;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.util.Objects;
@@ -29,8 +28,8 @@ import java.util.Objects;
  */
 public abstract class NumberSpinner<T extends Number> extends JPanel {
 
-    private JLabel label;
-    private JSpinner spinner;
+    private final JLabel label;
+    private final JSpinner spinner;
 
     protected NumberSpinner(String description, SpinnerModel spinnerModel) {
         this.spinner = new JSpinner(Objects.requireNonNull(spinnerModel));

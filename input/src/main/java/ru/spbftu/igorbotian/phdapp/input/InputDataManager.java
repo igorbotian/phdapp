@@ -19,7 +19,6 @@ package ru.spbftu.igorbotian.phdapp.input;
  */
 
 import ru.spbftu.igorbotian.phdapp.common.DataException;
-import ru.spbftu.igorbotian.phdapp.common.InputData;
 import ru.spbftu.igorbotian.phdapp.common.PointwiseInputData;
 
 import java.io.IOException;

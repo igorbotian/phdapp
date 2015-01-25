@@ -34,7 +34,6 @@ public interface AsyncPairwiseClassifierCrossValidator<R extends Report> extends
      *
      * @param classifier      попарный классификатор
      * @param validatorParams множество параметров кросс-валидации
-     * @throws CrossValidationException в случае ошибки кросс-валидации
      * @throws NullPointerException     если хотя бы один из параметров не задан
      */
     void validateAsync(PairwiseClassifier classifier, Set<? extends CrossValidatorParameter<?>> validatorParams);

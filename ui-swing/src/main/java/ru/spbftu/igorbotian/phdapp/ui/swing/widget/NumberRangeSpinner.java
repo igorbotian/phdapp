@@ -19,7 +19,6 @@
 package ru.spbftu.igorbotian.phdapp.ui.swing.widget;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.util.Objects;
@@ -27,12 +26,12 @@ import java.util.Objects;
 /**
  * Виджет для ввода диапазона чисел с заданными пределами, имеющего заданное описание
  */
-public abstract class NumberRangeSpinner <T extends Number> extends JPanel {
+public abstract class NumberRangeSpinner<T extends Number> extends JPanel {
 
-    private JLabel label;
-    private JSpinner minSpinner;
-    private JSpinner maxSpinner;
-    private JSpinner stepSizeSpinner;
+    private final JLabel label;
+    private final JSpinner minSpinner;
+    private final JSpinner maxSpinner;
+    private final JSpinner stepSizeSpinner;
 
     public NumberRangeSpinner(String description, SpinnerModel minSpinnerModel,
                               SpinnerModel maxSpinnerModel, SpinnerModel stepSizeSpinnerModel) {
@@ -91,6 +90,7 @@ public abstract class NumberRangeSpinner <T extends Number> extends JPanel {
 
     /**
      * Получение значения нижней границы интервального значения параметра
+     *
      * @return значение нижней границы интервального значения параметра
      */
     @SuppressWarnings("unchecked")
@@ -100,6 +100,7 @@ public abstract class NumberRangeSpinner <T extends Number> extends JPanel {
 
     /**
      * Получение значения верхней границы интервального значения параметра
+     *
      * @return значение верхней границы интервального значения параметра
      */
     @SuppressWarnings("unchecked")
@@ -109,6 +110,7 @@ public abstract class NumberRangeSpinner <T extends Number> extends JPanel {
 
     /**
      * Получение шага изменения значения параметра
+     *
      * @return шага измненения значения параметра
      */
     @SuppressWarnings("unchecked")
@@ -118,6 +120,7 @@ public abstract class NumberRangeSpinner <T extends Number> extends JPanel {
 
     /**
      * Задание значения нижней границы интервального значения параметра
+     *
      * @param value новое значение нижней границы интервального значения параметра
      */
     public void setMinValue(T value) {
@@ -126,6 +129,7 @@ public abstract class NumberRangeSpinner <T extends Number> extends JPanel {
 
     /**
      * Задание значения верхней границы интервального значения параметра
+     *
      * @param value новое значение верхней границы интервального значения параметра
      */
     public void setMaxValue(T value) {
@@ -134,6 +138,7 @@ public abstract class NumberRangeSpinner <T extends Number> extends JPanel {
 
     /**
      * Задание шага изменения значения параметра
+     *
      * @param value новое значение шага изменения значения параметра
      */
     public void setStepSize(T value) {
@@ -142,6 +147,7 @@ public abstract class NumberRangeSpinner <T extends Number> extends JPanel {
 
     /**
      * Добавление "слушателя" изменения значения нижней границы интервального значения параметра
+     *
      * @param listener "слушатель" типа <code>ChangeListener</code>
      * @throws NullPointerException если "слушатель" не задан
      */
@@ -151,6 +157,7 @@ public abstract class NumberRangeSpinner <T extends Number> extends JPanel {
 
     /**
      * Добавление "слушателя" изменения значения верхней границы интервального значения параметра
+     *
      * @param listener "слушатель" типа <code>ChangeListener</code>
      * @throws NullPointerException если "слушатель" не задан
      */
@@ -160,6 +167,7 @@ public abstract class NumberRangeSpinner <T extends Number> extends JPanel {
 
     /**
      * Добавление "слушателя" изменения значения шага изменения значения параметра
+     *
      * @param listener "слушатель" типа <code>ChangeListener</code>
      * @throws NullPointerException если "слушатель" не задан
      */

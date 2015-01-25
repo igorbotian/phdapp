@@ -41,18 +41,18 @@ class CrossValidationParamsWidgetsImpl implements CrossValidationParamsWidgets {
 
     private final UIHelper uiHelper;
 
-    private DoubleSpinner precisePenaltyParamSpinner;
-    private DoubleRangeSpinner intervalPenaltyParamSpinner;
-    private DoubleSpinner preciseGaussianKernelParamSpinner;
-    private DoubleRangeSpinner intervalGaussianKernelParamSpinner;
-    private IntegerSpinner samplesToGenerateCountSpinner;
-    private IntegerSpinner preciseSampleSizeSpinner;
-    private IntegerRangeSpinner intervalSampleSizeSpinner;
-    private IntegerSpinner preciseTrainingTestingSetsSizeRatioSpinner;
-    private IntegerRangeSpinner intervalTrainingTestingSetsSizeRatioSpinner;
-    private IntegerSpinner precisePreciseIntervalJudgmentsCountRatioSpinner;
-    private IntegerRangeSpinner intervalPreciseIntervalJudgmentsCountRatioSpinner;
-    private JCheckBox stopCrossValidationOnErrorCheckBox;
+    private final DoubleSpinner precisePenaltyParamSpinner;
+    private final DoubleRangeSpinner intervalPenaltyParamSpinner;
+    private final DoubleSpinner preciseGaussianKernelParamSpinner;
+    private final DoubleRangeSpinner intervalGaussianKernelParamSpinner;
+    private final IntegerSpinner samplesToGenerateCountSpinner;
+    private final IntegerSpinner preciseSampleSizeSpinner;
+    private final IntegerRangeSpinner intervalSampleSizeSpinner;
+    private final IntegerSpinner preciseTrainingTestingSetsSizeRatioSpinner;
+    private final IntegerRangeSpinner intervalTrainingTestingSetsSizeRatioSpinner;
+    private final IntegerSpinner precisePreciseIntervalJudgmentsCountRatioSpinner;
+    private final IntegerRangeSpinner intervalPreciseIntervalJudgmentsCountRatioSpinner;
+    private final JCheckBox stopCrossValidationOnErrorCheckBox;
 
     public CrossValidationParamsWidgetsImpl(UIHelper uiHelper, ApplicationConfiguration appConfig) {
         Objects.requireNonNull(appConfig);
