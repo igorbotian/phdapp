@@ -315,6 +315,10 @@ project(':utils') {
                 project(':ioc'),
                 log4j
         )
+
+        testCompile(
+                junit
+        )
     }
 }
 
