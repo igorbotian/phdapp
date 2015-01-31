@@ -19,11 +19,15 @@
 package ru.spbftu.igorbotian.phdapp.output.csv;
 
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
+import ru.spbftu.igorbotian.phdapp.svm.ClassifierParameter;
+import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidatorParameter;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.MultiClassificationReport;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.SingleClassificationReport;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -114,10 +118,14 @@ class MultiClassificationReportCSVWriter implements ReportCSVWriter<MultiClassif
         );
 
         if(!report.classifications().isEmpty()) {
-            singleReportWriter.writeHeaderTo(report.classifications().get(0), writer);
+            SingleClassificationReport anyReport = report.classifications().get(0);
+            List<ClassifierParameter<?>> classifierParams = new ArrayList<>(anyReport.classifierParameters());
+            List<CrossValidatorParameter<?>> validatorParams = new ArrayList<>(anyReport.crossValidatorParameters());
+
+            singleReportWriter.writeHeaderTo(writer, classifierParams, validatorParams);
 
             for (SingleClassificationReport iterationReport : report.classifications()) {
-                singleReportWriter.writeTo(iterationReport, writer, false);
+                singleReportWriter.writeTo(iterationReport, writer, false, classifierParams, validatorParams);
             }
         }
     }

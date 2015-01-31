@@ -25,6 +25,8 @@ import ru.spbftu.igorbotian.phdapp.svm.validation.report.SingleClassificationRep
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -55,26 +57,41 @@ class SingleClassificationReportCSVWriter implements ReportCSVWriter<SingleClass
         Objects.requireNonNull(report);
         Objects.requireNonNull(writer);
 
+        writeTo(report, writer, includeHeader, new ArrayList<>(report.classifierParameters()),
+                new ArrayList<>(report.crossValidatorParameters()));
+    }
+
+    public void writeTo(SingleClassificationReport report, PrintWriter writer, boolean includeHeader,
+                        List<ClassifierParameter<?>> classifierParams,
+                        List<CrossValidatorParameter<?>> validatorParams) throws IOException {
+        Objects.requireNonNull(report);
+        Objects.requireNonNull(writer);
+        Objects.requireNonNull(classifierParams);
+        Objects.requireNonNull(validatorParams);
+
         CSVWriter csv = new CSVWriter(writer);
 
         if (includeHeader) {
-            writeHeaderTo(report, csv);
+            writeHeaderTo(csv, classifierParams, validatorParams);
         }
 
-        writeContentsTo(report, csv);
+        writeContentsTo(report, csv, classifierParams, validatorParams);
     }
 
-    void writeHeaderTo(SingleClassificationReport report, CSVWriter csv) throws IOException {
-        String[] headerItems = new String[report.classifierParameters().size()
-                + report.crossValidatorParameters().size() + 4 /* accuracy, precision, recall, f-measure */];
+    void writeHeaderTo(CSVWriter csv,
+                       List<ClassifierParameter<?>> classifierParams,
+                       List<CrossValidatorParameter<?>> validatorParams) throws IOException {
+
+        String[] headerItems = new String[classifierParams.size() + validatorParams.size()
+                + 4 /* accuracy, precision, recall, f-measure */];
         int i = 0;
 
-        for(ClassifierParameter<?> param : report.classifierParameters()) {
+        for (ClassifierParameter<?> param : classifierParams) {
             headerItems[i] = localization.getLabel(param.name());
             i++;
         }
 
-        for(CrossValidatorParameter<?> param : report.crossValidatorParameters()) {
+        for (CrossValidatorParameter<?> param : validatorParams) {
             headerItems[i] = localization.getLabel(param.name());
             i++;
         }
@@ -90,18 +107,21 @@ class SingleClassificationReportCSVWriter implements ReportCSVWriter<SingleClass
         csv.writeLine(headerItems);
     }
 
-    private void writeContentsTo(SingleClassificationReport report, CSVWriter csv) throws IOException {
-        String[] lineItems = new String[report.classifierParameters().size()
-                + report.crossValidatorParameters().size() + 4 /* accuracy, precision, recall, f-measure */];
+    private void writeContentsTo(SingleClassificationReport report, CSVWriter csv,
+                                 List<ClassifierParameter<?>> classifierParams,
+                                 List<CrossValidatorParameter<?>> validatorParams) throws IOException {
+
+        String[] lineItems = new String[classifierParams.size() + validatorParams.size()
+                + 4 /* accuracy, precision, recall, f-measure */];
         int i = 0;
 
-        for(ClassifierParameter<?> param : report.classifierParameters()) {
-            lineItems[i] = param.value().toString();
+        for (ClassifierParameter<?> param : classifierParams) {
+            lineItems[i] = getClassifierParamValueById(report, param.name());
             i++;
         }
 
-        for(CrossValidatorParameter<?> param : report.crossValidatorParameters()) {
-            lineItems[i] = param.value().value().toString();
+        for (CrossValidatorParameter<?> param : validatorParams) {
+            lineItems[i] = getCrossValidatorParamValueById(report, param.name());
             i++;
         }
 
@@ -114,5 +134,25 @@ class SingleClassificationReportCSVWriter implements ReportCSVWriter<SingleClass
         lineItems[i] = Double.toString(report.fMeasure());
 
         csv.writeLine(lineItems);
+    }
+
+    private String getClassifierParamValueById(SingleClassificationReport report, String paramId) {
+        for(ClassifierParameter<?> param : report.classifierParameters()) {
+            if(paramId.equals(param.name())) {
+                return param.value().toString();
+            }
+        }
+
+        throw new IllegalStateException("Unknown classifier parameter: " + paramId);
+    }
+
+    private String getCrossValidatorParamValueById(SingleClassificationReport report, String paramId) {
+        for(CrossValidatorParameter<?> param : report.crossValidatorParameters()) {
+            if(paramId.equals(param.name())) {
+                return param.value().value().toString();
+            }
+        }
+
+        throw new IllegalStateException("Unknown cross-validator parameter: " + paramId);
     }
 }
