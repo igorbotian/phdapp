@@ -334,7 +334,7 @@ apply plugin: 'application'
 
 mainClassName = phdAppMainClassName
 applicationDefaultJvmArgs = ["-Dphdapp.conf.folder=../conf", "-Xdock:name=Classifier", "-ea",
-                             "-Duser.country=RU", "-Duser.language=ru"]
+                             "-Duser.country=US", "-Duser.language=en"]
 
 startScripts {
     classpath += files('src/dist/lib/conf')
@@ -342,4 +342,22 @@ startScripts {
 
 distZip {
     baseName = phdAppName
+}
+
+//-------------------------------------------------------------------------------------------------
+// Конфигурация средства статического анализа кода SonarQube
+//-------------------------------------------------------------------------------------------------
+
+apply plugin: "sonar-runner"
+
+sonarRunner {
+    toolVersion = '2.4'
+
+    sonarProperties {
+        property "sonar.host.url", "http://localhost:9000"
+        property "sonar.jdbc.url", "jdbc:h2:tcp://localhost:9092/sonar"
+        property "sonar.jdbc.driverClassName", "com.h2.Driver"
+        property "sonar.jdbc.username", "sonar"
+        property "sonar.jdbc.password", "sonar"
+    }
 }
