@@ -46,7 +46,7 @@ class PointwiseTrainingSetImpl extends UnclassifiedDataImpl implements Pointwise
     }
 
     @Override
-    @SuppressWarnings("unchecked") // check is made by means of the constructor
+    @SuppressWarnings("unchecked")
     public Set<? extends PointwiseTrainingObject> objects() {
         return (Set<? extends PointwiseTrainingObject>) super.objects();
     }

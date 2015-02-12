@@ -41,7 +41,7 @@ import java.util.*;
  */
 class CrossValidationResultsWindowDirectorImpl implements CrossValidationResultsWindowDirector {
 
-    private final Logger LOGGER = Logger.getLogger(CrossValidationResultsWindowDirectorImpl.class);
+    private static final Logger LOGGER = Logger.getLogger(CrossValidationResultsWindowDirectorImpl.class);
 
     private static final String LAST_USED_CSV_FILE_PARAM = "lastUsedCSVFile";
     private static final String DEFAULT_LAST_USED_CSV_FILE = "results.csv";

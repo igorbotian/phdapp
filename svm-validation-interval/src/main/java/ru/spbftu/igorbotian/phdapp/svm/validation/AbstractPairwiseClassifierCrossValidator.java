@@ -149,7 +149,7 @@ abstract class AbstractPairwiseClassifierCrossValidator<R extends Report>
                 fireCrossValidationStarted();
                 R report = validate(classifier, validatorParams);
                 fireCrossValidationCompleted(report);
-            } catch (Throwable e) {
+            } catch (Exception e) {
                 LOGGER.error("An error occurred during cross-validation", e);
                 fireCrossValidationFailed(e);
             }

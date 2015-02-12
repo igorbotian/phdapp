@@ -21,7 +21,7 @@ import java.util.Objects;
 @Singleton
 class ApplicationConfigurationImpl extends PropertiesBasedConfiguration implements ApplicationConfiguration, ShutdownHook {
 
-    private final Logger LOGGER = Logger.getLogger(PropertiesBasedConfiguration.class);
+    private static final Logger LOGGER = Logger.getLogger(PropertiesBasedConfiguration.class);
 
     /**
      * Название файла конфигурации приложения в формате .properties / .conf
@@ -60,7 +60,7 @@ class ApplicationConfigurationImpl extends PropertiesBasedConfiguration implemen
                 Files.createDirectory(configFolder);
             } catch (IOException e) {
                 throw new IllegalStateException("Unable to create configuration folder: "
-                        + configFolder.toAbsolutePath().toString());
+                        + configFolder.toAbsolutePath().toString(), e);
             }
         }
 

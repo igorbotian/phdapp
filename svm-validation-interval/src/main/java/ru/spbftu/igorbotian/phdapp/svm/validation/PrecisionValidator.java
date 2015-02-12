@@ -152,7 +152,7 @@ class PrecisionValidator extends AbstractPairwiseClassifierCrossValidator<Single
 
     private boolean firstPointIsCloserToSecondSupportingPoint(Point first, Point second) {
         Point supportingPoint = sampleManager.sampleGenerator().secondSupportingPoint();
-        return (first.distanceTo(supportingPoint) < second.distanceTo(supportingPoint));
+        return first.distanceTo(supportingPoint) < second.distanceTo(supportingPoint);
 
     }
 
@@ -217,7 +217,7 @@ class PrecisionValidator extends AbstractPairwiseClassifierCrossValidator<Single
         public static Metrics forData(Map<String, ClassifiedObject> realObjects,
                                       Map<String, ClassifiedObject> classifiedObjects) {
 
-            assert (realObjects.size() == classifiedObjects.size());
+            assert realObjects.size() == classifiedObjects.size();
 
             Map<DataClass, MetricsPerClass> metrics = new HashMap<>();
 

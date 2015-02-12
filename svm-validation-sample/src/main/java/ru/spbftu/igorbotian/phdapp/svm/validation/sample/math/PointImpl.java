@@ -150,7 +150,9 @@ class PointImpl implements Point {
         }
 
         PointImpl other = (PointImpl) obj;
-        return (x == other.x && y == other.y && dataClass.equals(other.dataClass));
+        return x == other.x
+                && y == other.y
+                && dataClass.equals(other.dataClass);
     }
 
     @Override

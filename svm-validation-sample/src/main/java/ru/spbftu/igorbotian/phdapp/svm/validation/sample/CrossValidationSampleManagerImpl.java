@@ -483,7 +483,8 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
                                                                       Integer> expertFunction)
             throws CrossValidationSampleException {
 
-        return composeSetOfIntervalJudgements(sample, 1, 1, expertFunction); // каждая оценка связана ровно с двумя объектами
+        // каждая оценка связана ровно с двумя объектами
+        return composeSetOfIntervalJudgements(sample, 1, 1, expertFunction);
     }
 
     /**
@@ -551,7 +552,7 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
             }
         });
 
-        assert (sample.size() != 1 || sample.entrySet().iterator().next().getValue().size() != 1);
+        assert sample.size() != 1 || sample.entrySet().iterator().next().getValue().size() != 1;
 
         return pair;
     }

@@ -54,19 +54,19 @@ public class PointwiseInputDataPDU {
         Objects.requireNonNull(dataFactory);
         Objects.requireNonNull(inputDataFactory);
 
-        Set<DataClass> classes = new LinkedHashSet<>();
-        this.classes.forEach(clazz -> classes.add(clazz.toObject(dataFactory)));
+        Set<DataClass> resultClasses = new LinkedHashSet<>();
+        classes.forEach(clazz -> resultClasses.add(clazz.toObject(dataFactory)));
 
-        Set<UnclassifiedObject> testingSet = new LinkedHashSet<>();
-        for (UnclassifiedObjectPDU pdu : this.testingSet) {
-            testingSet.add(pdu.toObject(dataFactory));
+        Set<UnclassifiedObject> resultTestingSet = new LinkedHashSet<>();
+        for (UnclassifiedObjectPDU pdu : testingSet) {
+            resultTestingSet.add(pdu.toObject(dataFactory));
         }
 
-        Set<PointwiseTrainingObject> trainingSet = new LinkedHashSet<>();
-        for (PointwiseTrainingObjectPDU pdu : this.trainingSet) {
-            trainingSet.add(pdu.toObject(dataFactory));
+        Set<PointwiseTrainingObject> resultTrainingSet = new LinkedHashSet<>();
+        for (PointwiseTrainingObjectPDU pdu : trainingSet) {
+            resultTrainingSet.add(pdu.toObject(dataFactory));
         }
 
-        return inputDataFactory.newPointwiseData(classes, trainingSet, testingSet);
+        return inputDataFactory.newPointwiseData(resultClasses, resultTrainingSet, resultTestingSet);
     }
 }

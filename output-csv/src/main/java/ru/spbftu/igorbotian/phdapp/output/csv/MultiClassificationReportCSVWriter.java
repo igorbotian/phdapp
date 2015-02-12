@@ -78,7 +78,7 @@ class MultiClassificationReportCSVWriter implements ReportCSVWriter<MultiClassif
     }
 
     private void writeHeaderTo(CSVWriter writer) throws IOException {
-        assert (writer != null);
+        assert writer != null;
 
         writer.writeLine(
                 localization.getLabel(AVERAGE_ACCURACY_LABEL),
@@ -98,8 +98,8 @@ class MultiClassificationReportCSVWriter implements ReportCSVWriter<MultiClassif
     }
 
     private void writeContentsTo(MultiClassificationReport report, CSVWriter writer) throws IOException {
-        assert (report != null);
-        assert (writer != null);
+        assert report != null;
+        assert writer != null;
 
         writer.writeLine(
                 Double.toString(report.averageAccuracy()),

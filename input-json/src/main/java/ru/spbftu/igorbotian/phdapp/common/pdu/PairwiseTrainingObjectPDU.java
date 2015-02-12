@@ -52,18 +52,18 @@ public class PairwiseTrainingObjectPDU {
     public PairwiseTrainingObject toObject(DataFactory dataFactory) throws DataException {
         Objects.requireNonNull(dataFactory);
 
-        Set<UnclassifiedObject> preferable = new HashSet<>();
+        Set<UnclassifiedObject> resultPreferable = new HashSet<>();
 
-        for (UnclassifiedObjectPDU pdu : this.preferable) {
-            preferable.add(pdu.toObject(dataFactory));
+        for (UnclassifiedObjectPDU pdu : preferable) {
+            resultPreferable.add(pdu.toObject(dataFactory));
         }
 
-        Set<UnclassifiedObject> inferior = new HashSet<>();
+        Set<UnclassifiedObject> resultInferior = new HashSet<>();
 
-        for (UnclassifiedObjectPDU pdu : this.inferior) {
-            inferior.add(pdu.toObject(dataFactory));
+        for (UnclassifiedObjectPDU pdu : inferior) {
+            resultInferior.add(pdu.toObject(dataFactory));
         }
 
-        return dataFactory.newPairwiseTrainingObject(preferable, inferior);
+        return dataFactory.newPairwiseTrainingObject(resultPreferable, resultInferior);
     }
 }

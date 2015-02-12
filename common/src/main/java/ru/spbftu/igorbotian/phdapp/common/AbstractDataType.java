@@ -79,7 +79,7 @@ public abstract class AbstractDataType<T> implements DataType<T> {
         }
 
         AbstractDataType other = (AbstractDataType) obj;
-        return (name.equals(other.name) && javaClass.equals(other.javaClass));
+        return name.equals(other.name) && javaClass.equals(other.javaClass);
     }
 
     @Override

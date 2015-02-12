@@ -87,16 +87,16 @@ public abstract class FileBasedInputDataManager implements InputDataManager, Shu
     }
 
     private Path initDataFolder() {
-        Path dataFolder;
+        Path folder;
 
         if (config.hasParam(DATA_FOLDER_CONFIG_SETTING)) {
-            dataFolder = Paths.get(config.getString(DATA_FOLDER_CONFIG_SETTING));
+            folder = Paths.get(config.getString(DATA_FOLDER_CONFIG_SETTING));
         } else {
             Path parentFolder = Paths.get(".").toAbsolutePath().getParent();
-            dataFolder = parentFolder.resolve(DATA_FOLDER_NAME);
+            folder = parentFolder.resolve(DATA_FOLDER_NAME);
         }
 
-        return dataFolder;
+        return folder;
     }
 
     /**

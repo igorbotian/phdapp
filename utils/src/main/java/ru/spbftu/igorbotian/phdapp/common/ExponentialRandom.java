@@ -71,10 +71,10 @@ public final class ExponentialRandom {
     }
 
     private static double density(double x) {
-        assert (x >= 0.0);
+        assert x >= 0.0;
 
         double logDensity = logDensity(x);
-        return (logDensity == Double.NEGATIVE_INFINITY ? 0 : Math.exp(logDensity));
+        return logDensity == Double.NEGATIVE_INFINITY ? 0 : Math.exp(logDensity);
     }
 
     private static double logDensity(double x) {

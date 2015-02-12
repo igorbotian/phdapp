@@ -96,6 +96,10 @@ public class PhDApp {
         return Paths.get(".");
     }
 
+    private PhDApp() {
+        //
+    }
+
     /**
      * Точка входа в программу
      *

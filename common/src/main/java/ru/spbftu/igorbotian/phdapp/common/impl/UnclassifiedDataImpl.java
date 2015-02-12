@@ -83,11 +83,8 @@ class UnclassifiedDataImpl implements UnclassifiedData {
             }
 
             for (String paramName : paramsMap.keySet()) {
-                if (!referentParamsMap.containsKey(paramName)) {
-                    return false;
-                }
-
-                if (!Objects.equals(paramsMap.get(paramName), referentParamsMap.get(paramName))) {
+                if (!referentParamsMap.containsKey(paramName)
+                        || !Objects.equals(paramsMap.get(paramName), referentParamsMap.get(paramName))) {
                     return false;
                 }
             }
@@ -100,7 +97,7 @@ class UnclassifiedDataImpl implements UnclassifiedData {
      * Возвращает ассоциативный массив с именами типов параметров и соответствующих им типов данных
      */
     private Map<String, DataType<?>> paramsMapOf(UnclassifiedObject obj) {
-        assert (obj != null);
+        assert obj != null;
 
         Map<String, DataType<?>> paramsMap = new HashMap<>();
 

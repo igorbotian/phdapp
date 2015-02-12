@@ -126,15 +126,13 @@ class CrossValidationSampleGeneratorImpl implements CrossValidationSampleGenerat
 
     @Override
     public synchronized void regeneratePoints(int count) {
-        if(count % 2 != 0) {
-            count++;
-        }
+        int c = (count % 2 == 0) ? count : count + 1;
 
         secondSet.clear();
         firstSet.clear();
-        firstSet = generateRandomPoints(count / 2, firstPoint);
-        secondSet = generateRandomPoints(count / 2, secondPoint);
-        numberOfPoints = count;
+        firstSet = generateRandomPoints(c / 2, firstPoint);
+        secondSet = generateRandomPoints(c / 2, secondPoint);
+        numberOfPoints = c;
     }
 
     private Set<Point> generateRandomPoints(int count, Point supportingPoint) {

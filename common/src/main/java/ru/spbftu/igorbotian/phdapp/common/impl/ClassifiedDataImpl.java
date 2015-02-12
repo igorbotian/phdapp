@@ -46,7 +46,7 @@ class ClassifiedDataImpl extends UnclassifiedDataImpl implements ClassifiedData 
     }
 
     @Override
-    @SuppressWarnings("unchecked") // check is made by means of the constructor
+    @SuppressWarnings("unchecked")
     public Set<? extends ClassifiedObject> objects() {
         return (Set<? extends ClassifiedObject>) super.objects();
     }

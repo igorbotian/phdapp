@@ -1,12 +1,9 @@
 package ru.spbftu.igorbotian.phdapp.output.csv;
 
-import ru.spbftu.igorbotian.phdapp.svm.ClassifierParameter;
-import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidatorParameter;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.Report;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
 /**
  * Средство сохранения отчёта по работе классификатора с заданными параметрами в формате CSV

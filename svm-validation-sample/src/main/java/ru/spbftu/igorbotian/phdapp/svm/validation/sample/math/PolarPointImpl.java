@@ -127,9 +127,9 @@ class PolarPointImpl implements PolarPoint {
         }
 
         PolarPointImpl other = (PolarPointImpl) obj;
-        return (r == other.r
+        return r == other.r
                 && phi == other.phi
-                && dataClass.equals(other.dataClass));
+                && dataClass.equals(other.dataClass);
     }
 
     @Override

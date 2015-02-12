@@ -25,6 +25,10 @@ package ru.spbftu.igorbotian.phdapp.common;
  */
 public final class BasicDataTypes {
 
+    private BasicDataTypes() {
+        //
+    }
+
     /**
      * Целочисленный тип данных
      */

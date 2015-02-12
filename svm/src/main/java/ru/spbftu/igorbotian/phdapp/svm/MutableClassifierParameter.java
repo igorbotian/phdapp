@@ -11,5 +11,5 @@ public interface MutableClassifierParameter<T> extends ClassifierParameter<T> {
      * @param newValue новое значение заданного типа
      * @throws IllegalArgumentException если новое значение некорректное
      */
-    void setValue(T newValue) throws IllegalArgumentException;
+    void setValue(T newValue);
 }

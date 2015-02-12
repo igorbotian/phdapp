@@ -80,10 +80,10 @@ class PersistentCrossValidatorParameter<T> implements MutableCrossValidatorParam
         }
 
         CrossValidatorParameter other = (CrossValidatorParameter) obj;
-        return (name().equals(other.name())
+        return name().equals(other.name())
                 && value().equals(other.value())
                 && lowerBound().equals(other.lowerBound())
                 && upperBound().equals(other.upperBound())
-                && stepSize().equals(other.stepSize()));
+                && stepSize().equals(other.stepSize());
     }
 }

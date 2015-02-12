@@ -52,12 +52,12 @@ public final class PointwiseTrainingObjectPDU {
     public PointwiseTrainingObject toObject(DataFactory dataFactory) throws DataException {
         Objects.requireNonNull(dataFactory);
 
-        Set<Parameter<?>> params = new LinkedHashSet<>();
+        Set<Parameter<?>> resultParams = new LinkedHashSet<>();
 
-        for (ParameterPDU param : this.params) {
-            params.add(param.toObject(dataFactory));
+        for (ParameterPDU param : params) {
+            resultParams.add(param.toObject(dataFactory));
         }
 
-        return dataFactory.newPointwiseTrainingObject(id, params, realClass.toObject(dataFactory));
+        return dataFactory.newPointwiseTrainingObject(id, resultParams, realClass.toObject(dataFactory));
     }
 }

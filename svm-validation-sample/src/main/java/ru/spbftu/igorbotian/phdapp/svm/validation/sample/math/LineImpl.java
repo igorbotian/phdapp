@@ -89,9 +89,9 @@ class LineImpl implements Line {
         }
 
         LineImpl other = (LineImpl) obj;
-        return (a == other.a
+        return a == other.a
                 && b == other.b
-                && c == other.c);
+                && c == other.c;
     }
 
     @Override

@@ -49,14 +49,14 @@ public final class UnclassifiedDataPDU {
     public UnclassifiedData toObject(DataFactory dataFactory) throws DataException {
         Objects.requireNonNull(dataFactory);
 
-        Set<DataClass> classes = new LinkedHashSet<>();
-        this.classes.forEach(clazz -> classes.add(clazz.toObject(dataFactory)));
+        Set<DataClass> resultClasses = new LinkedHashSet<>();
+        classes.forEach(clazz -> resultClasses.add(clazz.toObject(dataFactory)));
 
-        Set<UnclassifiedObject> objects = new LinkedHashSet<>();
-        for (UnclassifiedObjectPDU pdu : this.objects) {
-            objects.add(pdu.toObject(dataFactory));
+        Set<UnclassifiedObject> resultObjects = new LinkedHashSet<>();
+        for (UnclassifiedObjectPDU pdu : objects) {
+            resultObjects.add(pdu.toObject(dataFactory));
         }
 
-        return dataFactory.newUnclassifiedData(classes, objects);
+        return dataFactory.newUnclassifiedData(resultClasses, resultObjects);
     }
 }

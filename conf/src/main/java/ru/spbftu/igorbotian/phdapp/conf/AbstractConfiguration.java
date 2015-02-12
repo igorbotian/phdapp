@@ -15,7 +15,7 @@ import java.util.function.Function;
  */
 public abstract class AbstractConfiguration implements Configuration {
 
-    private final Logger LOGGER = Logger.getLogger(AbstractConfiguration.class);
+    private static final Logger LOGGER = Logger.getLogger(AbstractConfiguration.class);
 
     /**
      * Контейнер для хранения конфигурационных настроек
@@ -78,7 +78,7 @@ public abstract class AbstractConfiguration implements Configuration {
     }
 
     private <T> T getValue(String param, T defaultValue, Function<String, T> parser) {
-        assert (parser != null);
+        assert parser != null;
 
         Objects.requireNonNull(param);
 

@@ -44,7 +44,7 @@ class DefaultClassifierParameterImpl<T> implements MutableClassifierParameter<T>
     }
 
     @Override
-    public void setValue(T newValue) throws IllegalArgumentException {
+    public void setValue(T newValue) {
         this.value = newValue;
     }
 
@@ -84,8 +84,8 @@ class DefaultClassifierParameterImpl<T> implements MutableClassifierParameter<T>
         }
 
         ClassifierParameter other = (ClassifierParameter) obj;
-        return (name.equals(other.name())
+        return name.equals(other.name())
                 && valueClass.equals(other.valueClass())
-                && value.equals(other.value()));
+                && value.equals(other.value());
     }
 }

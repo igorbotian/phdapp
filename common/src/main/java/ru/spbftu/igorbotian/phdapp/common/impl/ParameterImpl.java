@@ -89,7 +89,7 @@ class ParameterImpl<V> implements Parameter<V> {
         }
 
         ParameterImpl other = (ParameterImpl) obj;
-        return (name.equals(other.name) && value.equals(other.value) && valueType.equals(other.valueType));
+        return name.equals(other.name) && value.equals(other.value) && valueType.equals(other.valueType);
     }
 
     @Override

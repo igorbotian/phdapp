@@ -50,12 +50,12 @@ public final class UnclassifiedObjectPDU {
     public UnclassifiedObject toObject(DataFactory dataFactory) throws DataException {
         Objects.requireNonNull(dataFactory);
 
-        Set<Parameter<?>> params = new LinkedHashSet<>();
+        Set<Parameter<?>> resultParams = new LinkedHashSet<>();
 
-        for (ParameterPDU param : this.params) {
-            params.add(param.toObject(dataFactory));
+        for (ParameterPDU param : params) {
+            resultParams.add(param.toObject(dataFactory));
         }
 
-        return dataFactory.newUnclassifiedObject(id, params);
+        return dataFactory.newUnclassifiedObject(id, resultParams);
     }
 }
