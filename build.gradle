@@ -12,10 +12,6 @@ allprojects {
 
     repositories {
         mavenCentral()
-
-        maven {
-            url 'https://swt-repo.googlecode.com/svn/repo'
-        }
     }
 }
 
@@ -182,6 +178,14 @@ project(':output-summary') {
         )
 
         testCompile junit
+    }
+}
+
+project(':quadprog') {
+    description "DCOPFJ"
+
+    dependencies {
+        compile colt
     }
 }
 
