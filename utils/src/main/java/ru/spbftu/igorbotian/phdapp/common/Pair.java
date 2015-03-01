@@ -29,6 +29,14 @@ public class Pair<F, S> {
         this.second = second;
     }
 
+    /**
+     * Возвращает пару, в которой первый и второй элементы исходной пары поменяны местами
+     * @return объект типа <code>Pair</code>
+     */
+    public Pair<S, F> swap() {
+        return new Pair<>(second, first);
+    }
+
     @Override
     public String toString() {
         return String.format("<%s,%s>", first, second);

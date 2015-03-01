@@ -1,4 +1,4 @@
-package ru.spbftu.igorbotian.phdapp.utils;
+package ru.spbftu.igorbotian.phdapp.common;
 
 import org.junit.Assert;
 import org.junit.Test;
