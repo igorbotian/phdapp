@@ -186,6 +186,7 @@ project(':quadprog') {
 
     dependencies {
         compile colt
+        testCompile junit
     }
 }
 
@@ -210,6 +211,8 @@ project(':svm-interval') {
                 project(':svm'),
                 project(':utils')
         )
+
+        testCompile junit
     }
 }
 
