@@ -2,7 +2,6 @@ package ru.spbftu.igorbotian.phdapp.common;
 
 import org.junit.Assert;
 import org.junit.Test;
-import ru.spbftu.igorbotian.phdapp.common.GaussianKernel;
 
 /**
  * Модульный тест для класса <code>GaussianKernel</code>
