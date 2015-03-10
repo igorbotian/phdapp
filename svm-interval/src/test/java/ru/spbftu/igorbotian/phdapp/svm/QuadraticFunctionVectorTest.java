@@ -36,7 +36,7 @@ import java.util.stream.Stream;
  *
  * @author Igor Botian <igor.botian@gmail.com>
  */
-public class QuadraticVectorTest {
+public class QuadraticFunctionVectorTest {
 
     /**
      * Название параметра, используемого в объектах обучающей выборки

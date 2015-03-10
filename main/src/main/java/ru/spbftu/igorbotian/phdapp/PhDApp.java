@@ -30,6 +30,7 @@ import ru.spbftu.igorbotian.phdapp.locale.java.JavaI18NLocalizationModule;
 import ru.spbftu.igorbotian.phdapp.log.Log4j;
 import ru.spbftu.igorbotian.phdapp.output.csv.CSVOutputDataManagementModule;
 import ru.spbftu.igorbotian.phdapp.output.summary.SummaryOutputDataManagementModule;
+import ru.spbftu.igorbotian.phdapp.quadprog.QuadraticProgrammingModule;
 import ru.spbftu.igorbotian.phdapp.svm.IntervalPairwiseClassifierModule;
 import ru.spbftu.igorbotian.phdapp.svm.validation.SvmIntervalClassifierValidationModule;
 import ru.spbftu.igorbotian.phdapp.svm.validation.SvmValidationCommonsModule;
@@ -71,6 +72,7 @@ public class PhDApp {
             new ApplicationConfigurationModule(CONFIG_FOLDER),
             new JsonInputDataManagementModule(CONFIG_FOLDER),
             new JavaI18NLocalizationModule(),
+            new QuadraticProgrammingModule(),
             new IntervalPairwiseClassifierModule(),
             new SvmValidationCommonsModule(),
             new SvmValidationReportManagementModule(),

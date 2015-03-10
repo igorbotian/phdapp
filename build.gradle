@@ -143,6 +143,7 @@ project(':main') {
                 project(':log-log4j'),
                 project(':output-csv'),
                 project(':output-summary'),
+                project(':quadprog'),
                 project(':svm-validation'),
                 project(':svm-interval'),
                 project(':svm-validation'),
@@ -182,11 +183,15 @@ project(':output-summary') {
 }
 
 project(':quadprog') {
-    description "DCOPFJ"
+    description "Quadratic programming problem solving mechanism"
 
     dependencies {
-        compile colt
-        testCompile junit
+        compile project(':ioc')
+
+        testCompile (
+                googleGuice,
+                junit
+        )
     }
 }
 
