@@ -86,7 +86,7 @@ public class QuadraticProgrammingSolverTest {
      [1] 3
      */
     @Test
-    public void testSolver() {
+    public void testSolver() throws Exception {
         double[] solution = solver.solve(matrix, vector, constraintMatrix, constraintVector);
         Assert.assertArrayEquals(expectedSolution, solution, PRECISION);
     }

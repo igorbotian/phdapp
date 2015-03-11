@@ -186,7 +186,10 @@ project(':quadprog') {
     description "Quadratic programming problem solving mechanism"
 
     dependencies {
-        compile project(':ioc')
+        compile (
+                log4j,
+                project(':ioc')
+        )
 
         testCompile (
                 googleGuice,

@@ -17,9 +17,10 @@ public interface QuadraticProgrammingSolver {
      * @param constraintVector вектор ограничений (bvec)
      *
      * @return вектор, представляющий собой решение задачи квадратичного программирования
+     * @throws Exception в случае невозможности решения задачи квадратичного программирования
      *
      * @see <a href="http://cran.r-project.org/web/packages/quadprog/quadprog.pdf">quadprog</a>
      */
     double[] solve(double[][] matrix, double[] vector,
-                   double[][] constraintMatrix, double[] constraintVector);
+                   double[][] constraintMatrix, double[] constraintVector) throws Exception;
 }

@@ -11,6 +11,6 @@ public class QuadraticProgrammingModule extends PhDAppModule {
 
     @Override
     protected void configure() {
-        bind(QuadraticProgrammingSolver.class).to(QuadraticProgrammingSolverImpl.class);
+        bind(QuadraticProgrammingSolver.class).to(JSQuadraticProgrammingSolver.class);
     }
 }
