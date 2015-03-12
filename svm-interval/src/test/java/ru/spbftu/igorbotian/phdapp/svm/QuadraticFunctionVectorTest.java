@@ -39,6 +39,11 @@ import java.util.stream.Stream;
 public class QuadraticFunctionVectorTest {
 
     /**
+     * Точность сравнения вещественных чисел
+     */
+    private static final double PRECISION = 0.01;
+
+    /**
      * Название параметра, используемого в объектах обучающей выборки
      */
     private static final String PARAM_ID = "param";
@@ -65,11 +70,11 @@ public class QuadraticFunctionVectorTest {
 
         for(Integer size : vectorSizes) {
             QuadraticFunctionVector vector = new QuadraticFunctionVector(randomTrainingSet(PARAM_ID, size));
-            int[] values = vector.values();
+            double[] values = vector.values();
             Assert.assertEquals((int) size, values.length);
 
-            for(int value : values) {
-                Assert.assertEquals(1, value);
+            for(double value : values) {
+                Assert.assertEquals(1, value, PRECISION);
             }
         }
     }

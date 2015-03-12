@@ -11,16 +11,16 @@ import java.util.Collection;
 import java.util.Objects;
 
 /**
- * Реализация средства решения задачи квадратичного программирования.
- * В качестве средства решения используется реализация R-библиотеки 'quadprog' на языке JavaScript
+ * Реализация метода решения задачи квадратичного программирования, предложенного Гольдфарбом и Иднани.
+ * В качестве реализация R-библиотеки 'quadprog' на языке JavaScript.
  *
  * @author Igor Botian <igor.botian@gmail.com>
- * @see QuadraticProgrammingSolver
+ * @see ActiveDualSetAlgorithm
  * @see <a href="https://github.com/albertosantini/node-quadprog">https://github.com/albertosantini/node-quadprog</a>
  */
-class JSQuadraticProgrammingSolver implements QuadraticProgrammingSolver {
+class JSQuadProgSolver implements ActiveDualSetAlgorithm {
 
-    private static final Logger LOGGER = Logger.getLogger(JSQuadraticProgrammingSolver.class);
+    private static final Logger LOGGER = Logger.getLogger(JSQuadProgSolver.class);
 
     /**
      * Идентификатор JavaScript-движка
@@ -43,7 +43,7 @@ class JSQuadraticProgrammingSolver implements QuadraticProgrammingSolver {
      */
     private final ScriptEngine jsEngine;
 
-    public JSQuadraticProgrammingSolver() {
+    public JSQuadProgSolver() {
         ScriptEngineManager manager = new ScriptEngineManager();
         jsEngine = manager.getEngineByName(JAVASCRIPT_ENGINE_NAME);
 
@@ -56,7 +56,7 @@ class JSQuadraticProgrammingSolver implements QuadraticProgrammingSolver {
 
         try {
             jsEngine.eval(new InputStreamReader(
-                    JSQuadraticProgrammingSolver.class.getResourceAsStream(QUADPROG_SCRIPT)
+                    JSQuadProgSolver.class.getResourceAsStream(QUADPROG_SCRIPT)
             ));
 
             register(D_MATRIX, "[]");
@@ -71,7 +71,7 @@ class JSQuadraticProgrammingSolver implements QuadraticProgrammingSolver {
     }
 
     @Override
-    public double[] solve(double[][] matrix, double[] vector,
+    public double[] apply(double[][] matrix, double[] vector,
                           double[][] constraintMatrix, double[] constraintVector) throws Exception {
         Objects.requireNonNull(matrix);
         Objects.requireNonNull(vector);

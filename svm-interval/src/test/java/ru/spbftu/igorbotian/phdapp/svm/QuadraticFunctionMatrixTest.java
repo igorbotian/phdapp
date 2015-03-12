@@ -36,9 +36,9 @@ public class QuadraticFunctionMatrixTest extends BaseQuadProgTest {
 
         Set<Pair<Double, Double>> combination = new LinkedHashSet<>();
 
-        for (int[] xx : preferable) {
+        for (double[] xx : preferable) {
             for (double x : xx) {
-                for (int[] zz : inferior) {
+                for (double[] zz : inferior) {
                     for (double z : zz) {
                         combination.add(new Pair<>(x, z));
                     }
@@ -71,13 +71,11 @@ public class QuadraticFunctionMatrixTest extends BaseQuadProgTest {
     }
 
     private double kernel(GaussianKernelFunction kernelFunction, double x1, double z1, double x2, double z2) {
-        double[] x11 = new double[]{x1};
-        double[] z11 = new double[]{z1};
-        double[] x22 = new double[]{x2};
-        double[] z22 = new double[]{z2};
-
-        return kernelFunction.compute(x11, x22) - kernelFunction.compute(x11, z22)
-                - kernelFunction.compute(z11, x22) - kernelFunction.compute(z11, z22);
+        return MercerKernel.compute(
+                new Pair<>(new double[] {x1}, new double[] {z1}),
+                new Pair<>(new double[] {x2}, new double[] {z2}),
+                kernelFunction
+        );
     }
 
     //-------------------------------------------------------------------------

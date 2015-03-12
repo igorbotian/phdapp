@@ -12,7 +12,7 @@ import org.junit.Test;
  *
  * @author Igor Botian <igor.botian@gmail.com>
  */
-public class QuadraticProgrammingSolverTest {
+public class ActiveDualSetAlgorithmTest {
 
     /**
      * Точность сравнения вещественных чисел
@@ -46,12 +46,12 @@ public class QuadraticProgrammingSolverTest {
      * Ожидаемое значения решения задачи квадратичного программирования
      */
     private final double[] expectedSolution = new double[]{0, 1, 2};
-    private QuadraticProgrammingSolver solver;
+    private ActiveDualSetAlgorithm solver;
 
     @Before
     public void setUp() {
         Injector injector = Guice.createInjector(new QuadraticProgrammingModule());
-        solver = injector.getInstance(QuadraticProgrammingSolver.class);
+        solver = injector.getInstance(ActiveDualSetAlgorithm.class);
     }
 
     /*
@@ -87,7 +87,7 @@ public class QuadraticProgrammingSolverTest {
      */
     @Test
     public void testSolver() throws Exception {
-        double[] solution = solver.solve(matrix, vector, constraintMatrix, constraintVector);
+        double[] solution = solver.apply(matrix, vector, constraintMatrix, constraintVector);
         Assert.assertArrayEquals(expectedSolution, solution, PRECISION);
     }
 }

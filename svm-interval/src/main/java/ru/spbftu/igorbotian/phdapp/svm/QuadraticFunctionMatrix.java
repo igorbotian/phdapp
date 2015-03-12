@@ -73,17 +73,11 @@ class QuadraticFunctionMatrix {
         assert first != null;
         assert second != null;
 
-        if (first.equals(second)) {
-            return 1.0;
-        }
-
-        double[] x1 = makeParameterVector(first.first);
-        double[] z1 = makeParameterVector(first.second);
-        double[] x2 = makeParameterVector(second.first);
-        double[] z2 = makeParameterVector(second.second);
-
-        return kernelFunction.compute(x1, x2) - kernelFunction.compute(x1, z2)
-                - kernelFunction.compute(z1, x2) - kernelFunction.compute(z1, z2);
+        return  MercerKernel.compute(
+                new Pair<>(makeParameterVector(first.first), makeParameterVector(first.second)),
+                new Pair<>(makeParameterVector(second.first), makeParameterVector(second.second)),
+                kernelFunction
+        );
     }
 
     private double[] makeParameterVector(UnclassifiedObject obj) {

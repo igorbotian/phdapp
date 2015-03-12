@@ -58,9 +58,9 @@ class QuadraticFunctionVector {
      *
      * @return одномерный массив из единиц, размер которого равен количеству элементов в обучающей выборке
      */
-    public int[] values() {
-        int[] result = new int[size];
-        Arrays.fill(result, 1);
+    public double[] values() {
+        double[] result = new double[size];
+        Arrays.fill(result, 1.0);
         return result;
     }
 }

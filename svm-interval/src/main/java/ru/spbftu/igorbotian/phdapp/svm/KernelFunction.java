@@ -5,7 +5,7 @@ package ru.spbftu.igorbotian.phdapp.svm;
  *
  * @author Igor Botian <igor.botian@gmail.com>
  */
-public interface KernelFunction {
+interface KernelFunction {
 
     /**
      * Вычисление ядра
@@ -14,5 +14,5 @@ public interface KernelFunction {
      * @param y     вектор с координатами второй точки
      * @return вещественное число
      */
-    public double compute(double[] x, double[] y);
+    double compute(double[] x, double[] y);
 }

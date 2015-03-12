@@ -14,5 +14,5 @@ public interface PairwiseClassifier extends Classifier {
      * @throws ru.spbftu.igorbotian.phdapp.svm.ClassifierTrainingException в случае проблемы обучаения
      * @throws java.lang.NullPointerException                              если обучающая выбора не задана
      */
-    public void train(PairwiseTrainingSet trainingSet) throws ClassifierTrainingException;
+    void train(PairwiseTrainingSet trainingSet) throws ClassifierTrainingException;
 }

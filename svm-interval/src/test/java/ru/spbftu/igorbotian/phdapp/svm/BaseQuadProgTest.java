@@ -34,9 +34,9 @@ public class BaseQuadProgTest {
      * в экспертных оценках.
      * В данном тесте x1 = 11, x2 = 12, x3 = 13
      */
-    protected static final int[][] preferable = new int[][] {
-            {11, 12},
-            {13}
+    protected static final double[][] preferable = new double[][] {
+            {11.0, 12.0},
+            {13.0}
     };
 
     /**
@@ -45,9 +45,9 @@ public class BaseQuadProgTest {
      *
      * В данном тесте z1 = 1.0, z2 = 12.0
      */
-    protected static final int[][] inferior = new int[][] {
-            {1},
-            {2}
+    protected static final double[][] inferior = new double[][] {
+            {1.0},
+            {2.0}
     };
 
     /**
@@ -83,8 +83,8 @@ public class BaseQuadProgTest {
         for(int i = 0; i < preferable.length; i++) {
             Assert.assertTrue(preferable.length == inferior.length);
 
-            Map<String, Integer> preferableItems = new LinkedHashMap<>();
-            Map<String, Integer> inferiorItems = new LinkedHashMap<>();
+            Map<String, Double> preferableItems = new LinkedHashMap<>();
+            Map<String, Double> inferiorItems = new LinkedHashMap<>();
 
             for(int j = 0; j < preferable[i].length; j++) {
                 preferableItems.put("x" + preferableCount, preferable[i][j]);
@@ -103,7 +103,7 @@ public class BaseQuadProgTest {
         }
     }
 
-    private Set<JudgementItem> makeJudgementItems(Map<String, Integer> data) {
+    private Set<JudgementItem> makeJudgementItems(Map<String, Double> data) {
         Set<JudgementItem> items = new LinkedHashSet<>();
         data.forEach((id, value) -> items.add(new JudgementItem(id, value)));
         return items;
@@ -115,7 +115,7 @@ public class BaseQuadProgTest {
                         dataFactory.newUnclassifiedObject(
                                 item.id,
                                 Collections.singleton(
-                                        dataFactory.newParameter(PARAM_ID, item.value, BasicDataTypes.INTEGER))
+                                        dataFactory.newParameter(PARAM_ID, item.value, BasicDataTypes.REAL))
                         )
                 )
         );
@@ -125,7 +125,7 @@ public class BaseQuadProgTest {
                         dataFactory.newUnclassifiedObject(
                                 item.id,
                                 Collections.singleton(
-                                        dataFactory.newParameter(PARAM_ID, item.value, BasicDataTypes.INTEGER))
+                                        dataFactory.newParameter(PARAM_ID, item.value, BasicDataTypes.REAL))
                         )
                 )
         );
@@ -148,9 +148,9 @@ public class BaseQuadProgTest {
         /**
          * Значение параметра объекта (любое; а также любой тип)
          */
-        public final Integer value;
+        public final Double value;
 
-        public JudgementItem(String id, int value) {
+        public JudgementItem(String id, double value) {
             this.id = id;
             this.value = value;
         }

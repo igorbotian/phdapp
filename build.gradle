@@ -216,6 +216,7 @@ project(':svm-interval') {
         compile(
                 project(':common'),
                 project(':ioc'),
+                project(':quadprog'),
                 project(':svm'),
                 project(':utils')
         )
