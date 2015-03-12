@@ -44,7 +44,7 @@ public class CrossValidationSampleManagerTest {
     @Test
     public void testGenerateSampleWithMaximumSize() throws CrossValidationSampleException {
         int sampleSize = CrossValidatorParameterFactory.SAMPLE_SIZE_MAX;
-        Assert.assertEquals(sampleSize, sampleManager.generateSample(sampleSize).objects().size());
+        Assert.assertEquals(sampleSize, sampleManager.generateSample(sampleSize).judgements().size());
     }*/
 
     @Test
@@ -139,7 +139,7 @@ public class CrossValidationSampleManagerTest {
     private int numberOfPreciseJudgements(PairwiseTrainingSet set) {
         int count = 0;
 
-        for(PairwiseTrainingObject obj : set.objects()) {
+        for(Judgement obj : set.judgements()) {
             if(obj.preferable().size() == 1 && obj.inferior().size() == 1) {
                 count++;
             }
@@ -151,7 +151,7 @@ public class CrossValidationSampleManagerTest {
     private int numberOfIntervalJudgements(PairwiseTrainingSet set) {
         int count = 0;
 
-        for(PairwiseTrainingObject obj : set.objects()) {
+        for(Judgement obj : set.judgements()) {
             if(obj.preferable().size() > 1 || obj.inferior().size() > 1) {
                 count++;
             }

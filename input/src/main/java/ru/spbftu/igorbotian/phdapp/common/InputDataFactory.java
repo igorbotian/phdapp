@@ -35,6 +35,6 @@ public interface InputDataFactory {
      * @see ru.spbftu.igorbotian.phdapp.common.PairwiseInputData
      */
     PairwiseInputData newPairwiseData(Set<? extends DataClass> classes,
-                                      Set<? extends PairwiseTrainingObject> trainingSet,
+                                      Set<? extends Judgement> trainingSet,
                                       Set<? extends UnclassifiedObject> objects) throws DataException;
 }

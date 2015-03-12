@@ -62,7 +62,7 @@ public class PairwiseInputDataPDU {
             resultTestingSet.add(pdu.toObject(dataFactory));
         }
 
-        Set<PairwiseTrainingObject> resultTrainingSet = new LinkedHashSet<>();
+        Set<Judgement> resultTrainingSet = new LinkedHashSet<>();
         for (PairwiseTrainingObjectPDU pdu : trainingSet) {
             resultTrainingSet.add(pdu.toObject(dataFactory));
         }

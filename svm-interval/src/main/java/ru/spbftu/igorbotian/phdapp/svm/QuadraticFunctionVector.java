@@ -17,7 +17,7 @@
 
 package ru.spbftu.igorbotian.phdapp.svm;
 
-import ru.spbftu.igorbotian.phdapp.common.PairwiseTrainingObject;
+import ru.spbftu.igorbotian.phdapp.common.Judgement;
 
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -43,7 +43,7 @@ class QuadraticFunctionVector {
      * @throws NullPointerException     если обучающая выборка не задана
      * @throws IllegalArgumentException если обучающая выборка пустая
      */
-    public QuadraticFunctionVector(LinkedHashSet<? extends PairwiseTrainingObject> trainingSet) {
+    public QuadraticFunctionVector(LinkedHashSet<? extends Judgement> trainingSet) {
         Objects.requireNonNull(trainingSet);
 
         if (trainingSet.isEmpty()) {

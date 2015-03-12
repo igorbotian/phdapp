@@ -497,7 +497,7 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
                                                                        Integer> expertFunction)
             throws CrossValidationSampleException {
 
-        Set<PairwiseTrainingObject> trainingSetItems = new HashSet<>();
+        Set<Judgement> trainingSetItems = new HashSet<>();
 
         // проверка для точных экспертных оценок
         if (maxJudgementGroupSize == 1) {
@@ -714,7 +714,7 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
     /**
      * Создание экспертной оценки на основе двух групп объектов, имеющих два различных класса
      */
-    private PairwiseTrainingObject newPairwiseTrainingSetItem(Set<? extends ClassifiedObject> firstGroup,
+    private Judgement newPairwiseTrainingSetItem(Set<? extends ClassifiedObject> firstGroup,
                                                               Set<? extends ClassifiedObject> secondGroup,
                                                               BiFunction<Set<? extends ClassifiedObject>,
                                                                       Set<? extends ClassifiedObject>,
@@ -739,10 +739,10 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
      * Объединенение нескольких обучающих выборок
      */
     private PairwiseTrainingSet combinePairwiseTrainingSets(PairwiseTrainingSet... sets) {
-        Set<PairwiseTrainingObject> objects = new HashSet<>();
+        Set<Judgement> objects = new HashSet<>();
 
         for (PairwiseTrainingSet set : sets) {
-            objects.addAll(set.objects());
+            objects.addAll(set.judgements());
         }
 
         return dataFactory.newPairwiseTrainingSet(objects);

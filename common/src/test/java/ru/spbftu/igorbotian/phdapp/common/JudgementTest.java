@@ -23,11 +23,11 @@ import org.junit.Test;
 import java.util.Collections;
 
 /**
- * Модульные тесты для класса <code>PairwiseTrainingObject</code>
+ * Модульные тесты для класса <code>Judgement</code>
  *
- * @see ru.spbftu.igorbotian.phdapp.common.PairwiseTrainingObject
+ * @see Judgement
  */
-public class PairwiseTrainingObjectTest extends BaseDataTest<PairwiseTrainingObject> {
+public class JudgementTest extends BaseDataTest<Judgement> {
 
     private final UnclassifiedObject firstItem = dataFactory.newUnclassifiedObject("firstItem",
             Collections.singleton(dataFactory.newParameter("param", "firstItem", BasicDataTypes.STRING)));
@@ -36,14 +36,14 @@ public class PairwiseTrainingObjectTest extends BaseDataTest<PairwiseTrainingObj
     private final UnclassifiedObject thirdItem = dataFactory.newUnclassifiedObject("thirdItem",
             Collections.singleton(dataFactory.newParameter("param", "thirdItem", BasicDataTypes.STRING)));
 
-    private final PairwiseTrainingObject obj = dataFactory.newPairwiseTrainingObject(
+    private final Judgement obj = dataFactory.newPairwiseTrainingObject(
             Collections.singleton(firstItem), Collections.singleton(secondItem)
     );
-    private final PairwiseTrainingObject similarObj = dataFactory.newPairwiseTrainingObject(
+    private final Judgement similarObj = dataFactory.newPairwiseTrainingObject(
             Collections.singleton(firstItem), Collections.singleton(secondItem)
     );
 
-    private final PairwiseTrainingObject differentObj = dataFactory.newPairwiseTrainingObject(
+    private final Judgement differentObj = dataFactory.newPairwiseTrainingObject(
             Collections.singleton(firstItem), Collections.singleton(thirdItem)
     );
 

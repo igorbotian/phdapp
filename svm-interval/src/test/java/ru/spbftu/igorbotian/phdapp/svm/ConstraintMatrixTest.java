@@ -19,7 +19,7 @@ package ru.spbftu.igorbotian.phdapp.svm;
 
 import org.junit.Assert;
 import org.junit.Test;
-import ru.spbftu.igorbotian.phdapp.common.PairwiseTrainingObject;
+import ru.spbftu.igorbotian.phdapp.common.Judgement;
 
 /**
  * Модульные тесты для класса <code>ConstraintMatrix</code>
@@ -50,8 +50,8 @@ public class ConstraintMatrixTest extends BaseQuadProgTest {
         ConstraintMatrix matrix = new ConstraintMatrix(PENALTY_PARAM, trainingSet);
         int i = 0;
 
-        for(PairwiseTrainingObject judgement : trainingSet) {
-            double[][] coeffs = matrix.coefficientsForJudgement(judgement);
+        for(Judgement judgement : trainingSet) {
+            double[][] coeffs = matrix.forJudgement(judgement);
 
             Assert.assertEquals(2, coeffs.length);
             Assert.assertArrayEquals(expectedCoefficients[i], coeffs[0], PRECISION);
@@ -64,14 +64,14 @@ public class ConstraintMatrixTest extends BaseQuadProgTest {
     @Test
     public void testConstraintVector() {
         ConstraintMatrix matrix = new ConstraintMatrix(PENALTY_PARAM, trainingSet);
-        double[] data = matrix.constraintVector();
+        double[] data = matrix.constraints();
         Assert.assertArrayEquals(new double[]{0.0, -PENALTY_PARAM, 0.0, -PENALTY_PARAM}, data, PRECISION);
     }
 
     @Test
     public void testCoefficientVector() {
         ConstraintMatrix matrix = new ConstraintMatrix(PENALTY_PARAM, trainingSet);
-        double[][] data = matrix.coefficientVector();
+        double[][] data = matrix.values();
 
         Assert.assertEquals(expectedCoefficients.length, data.length);
 

@@ -74,8 +74,8 @@ public class QuadraticFunctionVectorTest {
         }
     }
 
-    private LinkedHashSet<? extends PairwiseTrainingObject> randomTrainingSet(String paramId, int count) {
-        LinkedHashSet<PairwiseTrainingObject> result = new LinkedHashSet<>();
+    private LinkedHashSet<? extends Judgement> randomTrainingSet(String paramId, int count) {
+        LinkedHashSet<Judgement> result = new LinkedHashSet<>();
 
         for(int i = 0; i < count; i++) {
             result.add(randomJudgement(paramId));
@@ -84,7 +84,7 @@ public class QuadraticFunctionVectorTest {
         return result;
     }
 
-    private PairwiseTrainingObject randomJudgement(String paramId) {
+    private Judgement randomJudgement(String paramId) {
         return dataFactory.newPairwiseTrainingObject(
                 Collections.singleton(randomObject(paramId)),
                 Collections.singleton(randomObject(paramId))

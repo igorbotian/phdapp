@@ -57,9 +57,9 @@ class DataFactoryImpl implements DataFactory {
         return new PointwiseTrainingObjectImpl(id, params, realClass);
     }
 
-    public PairwiseTrainingObject newPairwiseTrainingObject(Set<? extends UnclassifiedObject> preferable,
+    public Judgement newPairwiseTrainingObject(Set<? extends UnclassifiedObject> preferable,
                                                                    Set<? extends UnclassifiedObject> inferior) {
-        return new PairwiseTrainingObjectImpl(preferable, inferior);
+        return new JudgementImpl(preferable, inferior);
     }
 
     public UnclassifiedData newUnclassifiedData(Set<? extends DataClass> classes,
@@ -77,7 +77,7 @@ class DataFactoryImpl implements DataFactory {
         return new PointwiseTrainingSetImpl(classes, objects);
     }
 
-    public PairwiseTrainingSet newPairwiseTrainingSet(Set<? extends PairwiseTrainingObject> objects) {
+    public PairwiseTrainingSet newPairwiseTrainingSet(Set<? extends Judgement> objects) {
         return new PairwiseTrainingSetImpl(objects);
     }
 }

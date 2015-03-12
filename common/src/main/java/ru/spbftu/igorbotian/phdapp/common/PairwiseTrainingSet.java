@@ -25,14 +25,14 @@ import java.util.Set;
  * Характеризуются наличием обучающей выборки, содержащей информацию о предпочтении множества одних исходных объектов
  * над множеством других.
  *
- * @see ru.spbftu.igorbotian.phdapp.common.PairwiseTrainingObject
+ * @see Judgement
  */
 public interface PairwiseTrainingSet {
 
     /**
      * Получение множества пар, составляющих обучающую выборку.
      *
-     * @return множество пар объектов типа <code>PairwiseTrainingObject</code>
+     * @return множество пар объектов типа <code>Judgement</code>
      */
-    Set<? extends PairwiseTrainingObject> objects();
+    Set<? extends Judgement> judgements();
 }

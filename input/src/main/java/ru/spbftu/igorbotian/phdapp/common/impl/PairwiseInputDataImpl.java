@@ -39,8 +39,8 @@ class PairwiseInputDataImpl extends AbstractInputDataImpl implements PairwiseInp
     }
 
     @Override
-    public Set<? extends PairwiseTrainingObject> trainingSet() {
-        return trainingSet.objects();
+    public Set<? extends Judgement> trainingSet() {
+        return trainingSet.judgements();
     }
 
     @Override

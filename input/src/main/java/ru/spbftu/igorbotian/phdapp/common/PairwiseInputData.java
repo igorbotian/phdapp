@@ -27,7 +27,7 @@ import java.util.Set;
  * @see ru.spbftu.igorbotian.phdapp.common.DataClass
  * @see ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject
  * @see ru.spbftu.igorbotian.phdapp.common.ClassifiedObject
- * @see ru.spbftu.igorbotian.phdapp.common.PairwiseTrainingObject
+ * @see Judgement
  */
 public interface PairwiseInputData extends InputData {
 
@@ -35,5 +35,5 @@ public interface PairwiseInputData extends InputData {
      * Получение обучающей выборки
      * @return непустое неизменяемое множество объектов
      */
-    Set<? extends PairwiseTrainingObject> trainingSet();
+    Set<? extends Judgement> trainingSet();
 }

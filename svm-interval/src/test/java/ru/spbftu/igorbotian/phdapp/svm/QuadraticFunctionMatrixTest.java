@@ -9,11 +9,11 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
- * Модульные тесты для класса <code>KernelMatrix</code>
+ * Модульные тесты для класса <code>QuadraticFunctionMatrix</code>
  *
  * @author Igor Botian <igor.botian@gmail.com>
  */
-public class KernelMatrixTest extends BaseQuadProgTest {
+public class QuadraticFunctionMatrixTest extends BaseQuadProgTest {
 
     /**
      * Значение свободного параметра Гауссова ядра
@@ -84,7 +84,7 @@ public class KernelMatrixTest extends BaseQuadProgTest {
 
     @Test
     public void testValues() {
-        double[][] matrix = new KernelMatrix(trainingSet, kernelFunction).values();
+        double[][] matrix = new QuadraticFunctionMatrix(trainingSet, kernelFunction).values();
 
         Assert.assertEquals(expectedMatrix.length, matrix.length);
 

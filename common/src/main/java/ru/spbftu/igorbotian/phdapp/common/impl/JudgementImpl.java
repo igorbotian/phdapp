@@ -18,7 +18,7 @@
 
 package ru.spbftu.igorbotian.phdapp.common.impl;
 
-import ru.spbftu.igorbotian.phdapp.common.PairwiseTrainingObject;
+import ru.spbftu.igorbotian.phdapp.common.Judgement;
 import ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject;
 
 import java.util.Collections;
@@ -26,10 +26,10 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * @see ru.spbftu.igorbotian.phdapp.common.PairwiseTrainingObject
+ * @see ru.spbftu.igorbotian.phdapp.common.Judgement
  * @see ru.spbftu.igorbotian.phdapp.common.DataFactory
  */
-class PairwiseTrainingObjectImpl implements PairwiseTrainingObject {
+class JudgementImpl implements Judgement {
 
     /**
      * Набор исходных объектов, который предпочтителен другого набора
@@ -41,8 +41,8 @@ class PairwiseTrainingObjectImpl implements PairwiseTrainingObject {
      */
     private final Set<? extends UnclassifiedObject> inferior;
 
-    public PairwiseTrainingObjectImpl(Set<? extends UnclassifiedObject> preferable,
-                                      Set<? extends UnclassifiedObject> inferior) {
+    public JudgementImpl(Set<? extends UnclassifiedObject> preferable,
+                         Set<? extends UnclassifiedObject> inferior) {
         this.preferable = Collections.unmodifiableSet(Objects.requireNonNull(preferable));
         this.inferior = Collections.unmodifiableSet(Objects.requireNonNull(inferior));
 
@@ -78,11 +78,11 @@ class PairwiseTrainingObjectImpl implements PairwiseTrainingObject {
             return true;
         }
 
-        if(obj == null || !(obj instanceof PairwiseTrainingObjectImpl)) {
+        if(obj == null || !(obj instanceof JudgementImpl)) {
             return false;
         }
 
-        PairwiseTrainingObjectImpl other = (PairwiseTrainingObjectImpl) obj;
+        JudgementImpl other = (JudgementImpl) obj;
         return preferable.size() == other.preferable.size()
                 && preferable.containsAll(other.preferable)
                 && inferior.size() == other.inferior.size()

@@ -20,7 +20,7 @@ package ru.spbftu.igorbotian.phdapp.common.pdu;
 
 import ru.spbftu.igorbotian.phdapp.common.DataException;
 import ru.spbftu.igorbotian.phdapp.common.DataFactory;
-import ru.spbftu.igorbotian.phdapp.common.PairwiseTrainingObject;
+import ru.spbftu.igorbotian.phdapp.common.Judgement;
 import ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject;
 
 import java.util.HashSet;
@@ -30,14 +30,14 @@ import java.util.Set;
 /**
  * POJO-версия класса, предназначенная для использования в механизме сериализации
  *
- * @see ru.spbftu.igorbotian.phdapp.common.PairwiseTrainingObject
+ * @see ru.spbftu.igorbotian.phdapp.common.Judgement
  */
 public class PairwiseTrainingObjectPDU {
 
     public Set<UnclassifiedObjectPDU> preferable;
     public Set<UnclassifiedObjectPDU> inferior;
 
-    public static PairwiseTrainingObjectPDU toPDU(PairwiseTrainingObject obj) {
+    public static PairwiseTrainingObjectPDU toPDU(Judgement obj) {
         PairwiseTrainingObjectPDU pdu = new PairwiseTrainingObjectPDU();
 
         pdu.inferior = new HashSet<>();
@@ -49,7 +49,7 @@ public class PairwiseTrainingObjectPDU {
         return pdu;
     }
 
-    public PairwiseTrainingObject toObject(DataFactory dataFactory) throws DataException {
+    public Judgement toObject(DataFactory dataFactory) throws DataException {
         Objects.requireNonNull(dataFactory);
 
         Set<UnclassifiedObject> resultPreferable = new HashSet<>();

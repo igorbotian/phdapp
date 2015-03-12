@@ -10,7 +10,7 @@ import java.util.Objects;
  *
  * @author Igor Botian <igor.botian@gmail.com>
  */
-class KernelMatrix {
+class QuadraticFunctionMatrix {
 
     /**
      * Функция ядра
@@ -29,7 +29,7 @@ class KernelMatrix {
      * @throws NullPointerException     если обучающая выборка не задана
      * @throws IllegalArgumentException если обучающая выборка пустая
      */
-    public KernelMatrix(LinkedHashSet<? extends PairwiseTrainingObject> trainingSet, KernelFunction kernelFunction) {
+    public QuadraticFunctionMatrix(LinkedHashSet<? extends Judgement> trainingSet, KernelFunction kernelFunction) {
         Objects.requireNonNull(kernelFunction);
         Objects.requireNonNull(trainingSet);
 
@@ -113,15 +113,15 @@ class KernelMatrix {
      * экспертной оценки, а второй - из множества менее предпочтительных элементов этой или другой экспертной оценки
      */
     private LinkedHashSet<Pair<UnclassifiedObject, UnclassifiedObject>> combinationOfAllJudgementElements(
-            LinkedHashSet<? extends PairwiseTrainingObject> trainingSet) {
+            LinkedHashSet<? extends Judgement> trainingSet) {
 
         assert trainingSet != null;
 
         LinkedHashSet<Pair<UnclassifiedObject, UnclassifiedObject>> result = new LinkedHashSet<>();
 
-        for (PairwiseTrainingObject judgement : trainingSet) {
+        for (Judgement judgement : trainingSet) {
             for (UnclassifiedObject preferableElement : judgement.preferable()) {
-                for (PairwiseTrainingObject anotherJudgement : trainingSet) {
+                for (Judgement anotherJudgement : trainingSet) {
                     for (UnclassifiedObject inferiorElement : anotherJudgement.inferior()) {
                         result.add(new Pair<>(preferableElement, inferiorElement));
                     }

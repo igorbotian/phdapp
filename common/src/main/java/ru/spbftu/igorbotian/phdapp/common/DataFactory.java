@@ -83,15 +83,15 @@ public interface DataFactory {
     PointwiseTrainingObject newPointwiseTrainingObject(String id, Set<Parameter<?>> params, DataClass realClass);
 
     /**
-     * Создание объекта типа <code>PairwiseTrainingObject</code>
+     * Создание объекта типа <code>Judgement</code>
      *
      * @param preferable набор исходных объектов, который предпочтителен другого набора
      * @param inferior   набор исходных объектов, над которым другой набор имеет предпочтение
-     * @return объект типа <code>PairwiseTrainingObject</code> с заданными параметрами
+     * @return объект типа <code>Judgement</code> с заданными параметрами
      * @throws java.lang.NullPointerException     если хотя бы один из параметров не задан
      * @throws java.lang.IllegalArgumentException если хотя бы один объект из одного набора также содержится и во втором
      */
-    PairwiseTrainingObject newPairwiseTrainingObject(Set<? extends UnclassifiedObject> preferable,
+    Judgement newPairwiseTrainingObject(Set<? extends UnclassifiedObject> preferable,
                                                      Set<? extends UnclassifiedObject> inferior);
 
     /**
@@ -152,5 +152,5 @@ public interface DataFactory {
      * @return объект типа <code>PairwiseTrainingSet</code> с заданными параметрами
      * @throws java.lang.NullPointerException если множество элементов обучающей выборки не задано
      */
-    PairwiseTrainingSet newPairwiseTrainingSet(Set<? extends PairwiseTrainingObject> objects);
+    PairwiseTrainingSet newPairwiseTrainingSet(Set<? extends Judgement> objects);
 }

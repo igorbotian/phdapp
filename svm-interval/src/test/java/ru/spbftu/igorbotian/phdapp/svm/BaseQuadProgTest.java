@@ -63,7 +63,7 @@ public class BaseQuadProgTest {
     /**
      * Обучающая выборка
      */
-    protected LinkedHashSet<PairwiseTrainingObject> trainingSet;
+    protected LinkedHashSet<Judgement> trainingSet;
 
     @BeforeClass
     public static void init() {
@@ -109,7 +109,7 @@ public class BaseQuadProgTest {
         return items;
     }
 
-    private PairwiseTrainingObject makeJudgement(Set<JudgementItem> preferable, Set<JudgementItem> inferior) {
+    private Judgement makeJudgement(Set<JudgementItem> preferable, Set<JudgementItem> inferior) {
         Set<UnclassifiedObject> preferableItems = new LinkedHashSet<>();
         preferable.forEach(item -> preferableItems.add(
                         dataFactory.newUnclassifiedObject(

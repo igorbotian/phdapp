@@ -51,7 +51,7 @@ class InputDataFactoryImpl implements InputDataFactory {
 
     @Override
     public PairwiseInputData newPairwiseData(Set<? extends DataClass> classes,
-                                             Set<? extends PairwiseTrainingObject> trainingSet,
+                                             Set<? extends Judgement> trainingSet,
                                              Set<? extends UnclassifiedObject> objects) throws DataException {
         return new PairwiseInputDataImpl(dataFactory.newUnclassifiedData(classes, objects),
                 dataFactory.newPairwiseTrainingSet(trainingSet));

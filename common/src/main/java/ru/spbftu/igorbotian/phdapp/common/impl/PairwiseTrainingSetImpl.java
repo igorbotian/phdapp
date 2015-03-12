@@ -18,7 +18,7 @@
 
 package ru.spbftu.igorbotian.phdapp.common.impl;
 
-import ru.spbftu.igorbotian.phdapp.common.PairwiseTrainingObject;
+import ru.spbftu.igorbotian.phdapp.common.Judgement;
 import ru.spbftu.igorbotian.phdapp.common.PairwiseTrainingSet;
 
 import java.util.Collections;
@@ -34,14 +34,14 @@ class PairwiseTrainingSetImpl implements PairwiseTrainingSet {
     /**
      * Элементы обучающей выборки
      */
-    private final Set<? extends PairwiseTrainingObject> objects;
+    private final Set<? extends Judgement> objects;
 
-    public PairwiseTrainingSetImpl(Set<? extends PairwiseTrainingObject> objects) {
+    public PairwiseTrainingSetImpl(Set<? extends Judgement> objects) {
         this.objects = Collections.unmodifiableSet(Objects.requireNonNull(objects));
     }
 
     @Override
-    public Set<? extends PairwiseTrainingObject> objects() {
+    public Set<? extends Judgement> judgements() {
         return objects;
     }
 

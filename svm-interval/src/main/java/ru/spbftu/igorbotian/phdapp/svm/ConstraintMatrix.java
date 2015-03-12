@@ -18,8 +18,8 @@
 package ru.spbftu.igorbotian.phdapp.svm;
 
 import ru.spbftu.igorbotian.phdapp.common.Combination;
+import ru.spbftu.igorbotian.phdapp.common.Judgement;
 import ru.spbftu.igorbotian.phdapp.common.Pair;
-import ru.spbftu.igorbotian.phdapp.common.PairwiseTrainingObject;
 import ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject;
 
 import java.util.*;
@@ -41,12 +41,12 @@ class ConstraintMatrix {
     /**
      * Множество экспертных оценок с учётом порядка, заданного пользователем
      */
-    private final LinkedHashSet<PairwiseTrainingObject> judgements;
+    private final LinkedHashSet<Judgement> judgements;
 
     /**
      * Ассоциативный массив, ключом которого является экспертная оценка, а значение - сочетание всех её элементов
      */
-    private final Map<PairwiseTrainingObject, Set<Pair<UnclassifiedObject, UnclassifiedObject>>> combinations;
+    private final Map<Judgement, Set<Pair<UnclassifiedObject, UnclassifiedObject>>> combinations;
 
     /**
      * Список столбцов матрицы, являющимся множеством из сочетаний элементов всех экспертных оценок
@@ -61,7 +61,7 @@ class ConstraintMatrix {
      * @throws NullPointerException     если обучающая выборка не задана
      * @throws IllegalArgumentException если обучающая выборка пустая
      */
-    public ConstraintMatrix(double penaltyParameter, LinkedHashSet<? extends PairwiseTrainingObject> trainingSet) {
+    public ConstraintMatrix(double penaltyParameter, LinkedHashSet<? extends Judgement> trainingSet) {
         Objects.requireNonNull(trainingSet);
 
         if (trainingSet.isEmpty()) {
@@ -81,7 +81,7 @@ class ConstraintMatrix {
      * @return двумерный массив из вещественных чисел, элементы которого соответствуют паре из сочетания элементов
      * из всех экспертных оценок, а строки - верхнему и нижнему ограничению, соответствующим экспертной оценке
      */
-    public double[][] coefficientsForJudgement(PairwiseTrainingObject judgement) {
+    public double[][] forJudgement(Judgement judgement) {
         Objects.requireNonNull(judgement);
 
         Set<Pair<UnclassifiedObject, UnclassifiedObject>> combination = combinations.get(judgement);
@@ -109,12 +109,12 @@ class ConstraintMatrix {
      * @return двумерный массив из вещественных чисел, столбцы которого соответствуют элементу из сочетания элементов
      * из всех экспертных оценок, а строка - верхнее или нижнее ограничения для соответствующей экспертной оценки
      */
-    public double[][] coefficientVector() {
+    public double[][] values() {
         double[][] result = new double[2 * judgements.size()][];
         int i = 0;
 
-        for (PairwiseTrainingObject judgement : judgements) {
-            for (double[] row : coefficientsForJudgement(judgement)) {
+        for (Judgement judgement : judgements) {
+            for (double[] row : forJudgement(judgement)) {
                 result[i] = row;
                 i++;
             }
@@ -129,7 +129,7 @@ class ConstraintMatrix {
      * @return массив из вещественных чисел, каждое из которых может иметь значение либо 0, либо -С
      * (отрицательное значение заданного параметра штрафа)
      */
-    public double[] constraintVector() {
+    public double[] constraints() {
         double[] result = new double[2 * judgements.size()];
 
         for (int i = 0; i < result.length; i += 2) {
@@ -145,9 +145,9 @@ class ConstraintMatrix {
      * Формирование ассоциативного массива, ключом которого является экспертная оценка,
      * а значение - сочетание всех её элементов
      */
-    private Map<PairwiseTrainingObject, Set<Pair<UnclassifiedObject, UnclassifiedObject>>> composeCombinations()
+    private Map<Judgement, Set<Pair<UnclassifiedObject, UnclassifiedObject>>> composeCombinations()
     {
-        Map<PairwiseTrainingObject, Set<Pair<UnclassifiedObject, UnclassifiedObject>>> result
+        Map<Judgement, Set<Pair<UnclassifiedObject, UnclassifiedObject>>> result
                 = new HashMap<>();
 
         judgements.forEach(judgement -> result.put(judgement, combinationOfJudgementElements(judgement)));
@@ -162,7 +162,7 @@ class ConstraintMatrix {
     private LinkedHashSet<Pair<UnclassifiedObject, UnclassifiedObject>> composeColumns() {
         LinkedHashSet<Pair<UnclassifiedObject, UnclassifiedObject>> result = new LinkedHashSet<>();
 
-        for(PairwiseTrainingObject judgement : judgements) {
+        for(Judgement judgement : judgements) {
             for(Pair<UnclassifiedObject, UnclassifiedObject> pair : combinations.get(judgement)) {
                 if(!result.contains(pair) && !result.contains(pair.swap())) {
                     result.add(pair);
@@ -178,7 +178,7 @@ class ConstraintMatrix {
      */
     @SuppressWarnings("unchecked")
     private Set<Pair<UnclassifiedObject, UnclassifiedObject>> combinationOfJudgementElements(
-            PairwiseTrainingObject judgement) {
+            Judgement judgement) {
         assert judgement != null;
 
         return Combination.of(
