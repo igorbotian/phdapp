@@ -71,7 +71,7 @@ public class QuadraticFunctionMatrixTest extends BaseQuadProgTest {
     }
 
     private double kernel(GaussianKernelFunction kernelFunction, double x1, double z1, double x2, double z2) {
-        return MercerKernel.compute(
+        return MercerKernel.computeDoubles(
                 new Pair<>(new double[] {x1}, new double[] {z1}),
                 new Pair<>(new double[] {x2}, new double[] {z2}),
                 kernelFunction

@@ -1,6 +1,7 @@
 package ru.spbftu.igorbotian.phdapp.svm;
 
 import ru.spbftu.igorbotian.phdapp.common.Pair;
+import ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -18,6 +19,33 @@ final class MercerKernel {
     }
 
     /**
+     * Вычисление значения ядра Мерсера для заданных пар объектов с вещественными параметрами
+     *
+     * @param first          первый объект
+     * @param second         второй объект
+     * @param kernelFunction функция ядра
+     * @return вещественное число
+     * @throws NullPointerException если хотя бы один из аргументов не задан
+     */
+    public static double compute(Pair<UnclassifiedObject, UnclassifiedObject> first,
+                                 Pair<UnclassifiedObject, UnclassifiedObject> second,
+                                 KernelFunction kernelFunction) {
+        Objects.requireNonNull(first);
+        Objects.requireNonNull(second);
+        Objects.requireNonNull(kernelFunction);
+
+        if (first.first.equals(second.first)
+                && first.second.equals(second.second)) {
+            return 1.0;
+        }
+
+        return kernelFunction.compute(first.first, second.first)
+                - kernelFunction.compute(first.first, second.second)
+                - kernelFunction.compute(first.second, second.first)
+                - kernelFunction.compute(first.second, second.second);
+    }
+
+    /**
      * Вычисление значения ядра Мерсера для заданных пар векторов вещественных чисел
      *
      * @param first          первый вектор
@@ -26,7 +54,7 @@ final class MercerKernel {
      * @return вещественное число
      * @throws NullPointerException если хотя бы один из аргументов не задан
      */
-    public static double compute(Pair<double[], double[]> first, Pair<double[], double[]> second,
+    static double computeDoubles(Pair<double[], double[]> first, Pair<double[], double[]> second,
                                  KernelFunction kernelFunction) {
         Objects.requireNonNull(first);
         Objects.requireNonNull(second);

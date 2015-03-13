@@ -73,7 +73,7 @@ class QuadraticFunctionMatrix {
         assert first != null;
         assert second != null;
 
-        return  MercerKernel.compute(
+        return  MercerKernel.computeDoubles(
                 new Pair<>(makeParameterVector(first.first), makeParameterVector(first.second)),
                 new Pair<>(makeParameterVector(second.first), makeParameterVector(second.second)),
                 kernelFunction

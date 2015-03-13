@@ -1,5 +1,7 @@
 package ru.spbftu.igorbotian.phdapp.svm;
 
+import ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject;
+
 /**
  * Функция ядра
  *
@@ -8,11 +10,20 @@ package ru.spbftu.igorbotian.phdapp.svm;
 interface KernelFunction {
 
     /**
-     * Вычисление ядра
+     * Вычисление ядра для заданной пары векторов с вещественными значениями
      *
-     * @param x     вектор с координатами первой точки
-     * @param y     вектор с координатами второй точки
+     * @param x     первый вектор
+     * @param y     второй вектор
      * @return вещественное число
      */
     double compute(double[] x, double[] y);
+
+    /**
+     * Вычисление ядра для пары объектов
+     *
+     * @param x     первый объект
+     * @param y     второй объект
+     * @return вещественное число
+     */
+    double compute(UnclassifiedObject x, UnclassifiedObject y);
 }
