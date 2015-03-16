@@ -18,6 +18,13 @@ import java.util.*;
 class ActiveDualSetOptimizer implements Optimizer {
 
     /**
+     * В пакете quadprog неправильно реализована проверка на то, является ли матрица квадратичной функции положительно
+     * определённой или нет.
+     * Чтобы обойти данную ошибку, необходимо к диагонали матрицы прибавить малое число, не влияющее на результат
+     */
+    private static final double FIX = 0.000001;
+
+    /**
      * Средство решения задачи квадратичного программирования по методу Гольдфарба и Иднани
      */
     private final ActiveDualSetAlgorithm qpSolver;
@@ -128,6 +135,11 @@ class ActiveDualSetOptimizer implements Optimizer {
 
             for (Pair<UnclassifiedObject, UnclassifiedObject> second : variables) {
                 matrix[i][j] = MercerKernel.compute(first, second, kernelFunction);
+
+                if(first.equals(second)) {
+                    matrix[i][j] += FIX;
+                }
+
                 j++;
             }
 
