@@ -12,7 +12,7 @@ import java.util.Objects;
 
 /**
  * Реализация метода решения задачи квадратичного программирования, предложенного Гольдфарбом и Иднани.
- * В качестве реализация R-библиотеки 'quadprog' на языке JavaScript.
+ * Используется реализация R-библиотеки 'quadprog' на языке JavaScript.
  *
  * @author Igor Botian <igor.botian@gmail.com>
  * @see ActiveDualSetAlgorithm
@@ -111,7 +111,7 @@ class JSQuadProgSolver implements ActiveDualSetAlgorithm {
      */
     private JSObject solveQP() throws ScriptException {
         String args = String.join(",", D_MATRIX, D_VECTOR, A_MATRIX, B_VECTOR);
-        return (JSObject) jsEngine.eval("solveQP(" + args + ").solution");
+        return (JSObject) eval("solveQP(" + args + ").solution");
     }
 
     /**
@@ -124,18 +124,18 @@ class JSQuadProgSolver implements ActiveDualSetAlgorithm {
             script += " = " + value;
         }
 
-        jsEngine.eval(script);
+        eval(script);
     }
 
     /**
      * Заполнение JavaScript-вектора указанными значениями
      */
     private void setVector(String name, double[] values) throws ScriptException {
-        jsEngine.eval(name + " = []");
+        eval(name + " = []");
 
         for (int i = 0; i < values.length; i++) {
             // solveQP requires arrays with indices starting at 1
-            jsEngine.eval(name + "[" + (i + 1) + "] = " + values[i]);
+            eval(name + "[" + (i + 1) + "] = " + values[i]);
         }
     }
 
@@ -145,18 +145,22 @@ class JSQuadProgSolver implements ActiveDualSetAlgorithm {
      * на JavaScript
      */
     private void setMatrix(String name, double[][] values) throws ScriptException {
-        jsEngine.eval(name + " = []");
+        eval(name + " = []");
 
         for (int i = 0; i < values[0].length; i++) {
             // solveQP requires arrays with indices starting at 1
-            jsEngine.eval(name + "[" + (i + 1) + "] = []");
+            eval(name + "[" + (i + 1) + "] = []");
         }
 
         for (int i = 0; i < values.length; i++) {
             for (int j = 0; j < values[i].length; j++) {
                 // solveQP requires arrays with indices starting at 1
-                jsEngine.eval(name + "[" + (j + 1) + "][" + (i + 1) + "] = " + values[i][j]);
+                eval(name + "[" + (i + 1) + "][" + (j + 1) + "] = " + values[i][j]);
             }
         }
+    }
+
+    private Object eval(String script) throws ScriptException {
+        return jsEngine.eval(script);
     }
 }

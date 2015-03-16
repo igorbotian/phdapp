@@ -29,15 +29,10 @@ final class MercerKernel {
     public static double compute(Pair<UnclassifiedObject, UnclassifiedObject> first,
                                  Pair<UnclassifiedObject, UnclassifiedObject> second,
                                  KernelFunction kernelFunction) {
-        
+
         Objects.requireNonNull(first);
         Objects.requireNonNull(second);
         Objects.requireNonNull(kernelFunction);
-
-        if (first.first.equals(second.first)
-                && first.second.equals(second.second)) {
-            return 1.0;
-        }
 
         return kernelFunction.compute(first.first, second.first)
                 - kernelFunction.compute(first.first, second.second)

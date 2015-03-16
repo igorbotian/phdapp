@@ -1,9 +1,9 @@
 package ru.spbftu.igorbotian.phdapp.svm;
 
-import ru.spbftu.igorbotian.phdapp.common.Judgement;
+import ru.spbftu.igorbotian.phdapp.common.Pair;
 import ru.spbftu.igorbotian.phdapp.common.PairwiseTrainingSet;
+import ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,11 +18,14 @@ interface Optimizer {
      *
      * @param trainingSet      обучающая выборка
      * @param kernelFunction   функция ядра
-     * @param penaltyParameter параметр штрафа
-     * @return ассоциативный массив, в котором каждой экспертной оценке соответствует
+     * @param penalty параметр штрафа
+     * @return ассоциативный массив, в котором каждой паре объектов из экспертной оценки соответствует
+     * найденный множитель Лагранжа
      * @throws OptimizationException в случае возникновения ошибки в процессе решения задачи оптимизации
-     * @throws NullPointerException если обучающая выборка или функция ядра не заданы
+     * @throws NullPointerException  если обучающая выборка или функция ядра не заданы
      */
-    Map<Judgement, List<Double>> optimize(PairwiseTrainingSet trainingSet, KernelFunction kernelFunction,
-                                                 double penaltyParameter) throws OptimizationException;
+    Map<Pair<UnclassifiedObject, UnclassifiedObject>, Double> optimize(PairwiseTrainingSet trainingSet,
+                                                                       KernelFunction kernelFunction,
+                                                                       double penalty)
+            throws OptimizationException;
 }
