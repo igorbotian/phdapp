@@ -18,13 +18,6 @@ import java.util.*;
 class ActiveDualSetOptimizer implements Optimizer {
 
     /**
-     * В пакете quadprog неправильно реализована проверка на то, является ли матрица квадратичной функции положительно
-     * определённой или нет.
-     * Чтобы обойти данную ошибку, необходимо к диагонали матрицы прибавить малое число, не влияющее на результат
-     */
-    private static final double FIX = 0.000001;
-
-    /**
      * Средство решения задачи квадратичного программирования по методу Гольдфарба и Иднани
      */
     private final ActiveDualSetAlgorithm qpSolver;
@@ -46,10 +39,6 @@ class ActiveDualSetOptimizer implements Optimizer {
         Set<Judgement> judgements = new LinkedHashSet<>(trainingSet.judgements());
         Set<Pair<UnclassifiedObject, UnclassifiedObject>> variables = identifyVariables(judgements);
 
-        for(Pair<UnclassifiedObject, UnclassifiedObject> variable : variables) {
-            System.out.println(variable);
-        }
-
         double[][] quadraticFunctionMatrix = quadraticFunctionMatrix(variables, kernelFunction);
         double[] quadraticFunctionVector = quadraticFunctionVector(variables);
         double[][] constraintMatrix = constraintMatrix(judgements, variables);
@@ -62,7 +51,7 @@ class ActiveDualSetOptimizer implements Optimizer {
                     constraintMatrix,
                     constraintVector
             );
-            System.out.println(Arrays.toString(multipliers));
+
             return associateMultipliersWithVariables(variables, multipliers);
         } catch (Exception e) {
             throw new OptimizationException("Error occurred while solving dual optimization problem", e);
@@ -135,11 +124,6 @@ class ActiveDualSetOptimizer implements Optimizer {
 
             for (Pair<UnclassifiedObject, UnclassifiedObject> second : variables) {
                 matrix[i][j] = MercerKernel.compute(first, second, kernelFunction);
-
-                if(first.equals(second)) {
-                    matrix[i][j] += FIX;
-                }
-
                 j++;
             }
 

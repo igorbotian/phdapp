@@ -28,22 +28,22 @@ public final class GaussianKernel {
             throw new NullPointerException("Vector y cannot be null");
         }
 
-        double distance = euclideanDistance(x, y);
-        return Math.exp(- (distance * distance) / (2 * sigma * sigma));
+        double distance = squaredEuclideanDistance(x, y);
+        return Math.exp(- distance / (2 * sigma * sigma));
     }
 
-    private static double euclideanDistance(double[] x, double[] y) {
+    private static double squaredEuclideanDistance(double[] x, double[] y) {
         int size = Math.max(x.length, y.length);
         double[] first = complement(x, size);
         double[] second = complement(y, size);
         double sum = 0.0;
 
         for(int i = 0; i < size; i++) {
-            double delta = Math.abs(first[i] - second[i]);
+            double delta = first[i] - second[i];
             sum += delta * delta;
         }
 
-        return Math.sqrt(sum);
+        return sum;
     }
 
     private static double[] complement(double[] src, int size) {

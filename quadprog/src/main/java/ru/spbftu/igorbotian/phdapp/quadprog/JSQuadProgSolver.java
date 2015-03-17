@@ -23,6 +23,13 @@ class JSQuadProgSolver implements ActiveDualSetAlgorithm {
     private static final Logger LOGGER = Logger.getLogger(JSQuadProgSolver.class);
 
     /**
+     * В пакете quadprog неправильно реализована проверка на то, является ли матрица квадратичной функции положительно
+     * определённой или нет.
+     * Чтобы обойти данную ошибку, необходимо к диагонали матрицы прибавить малое число, не влияющее на результат
+     */
+    private static final double FIX = 0.000000000001;
+
+    /**
      * Идентификатор JavaScript-движка
      */
     private static final String JAVASCRIPT_ENGINE_NAME = "nashorn";
@@ -33,10 +40,10 @@ class JSQuadProgSolver implements ActiveDualSetAlgorithm {
     private static final String QUADPROG_SCRIPT = "quadprog.js";
 
     /* Названия переменных JavaScript-функции solveQP */
-    private static final String D_MATRIX = "Dmat";
-    private static final String D_VECTOR = "dvec";
-    private static final String A_MATRIX = "Amat";
-    private static final String B_VECTOR = "bvec";
+    private static final String D_MATRIX = "Dmatrix";
+    private static final String D_VECTOR = "Dvector";
+    private static final String A_MATRIX = "Amatrix";
+    private static final String B_VECTOR = "Bvector";
 
     /**
      * Средство вычисления JavaScript-выражений
@@ -79,15 +86,34 @@ class JSQuadProgSolver implements ActiveDualSetAlgorithm {
         Objects.requireNonNull(constraintVector);
 
         try {
-            setMatrix(D_MATRIX, matrix);
+            setMatrix(D_MATRIX, fix(matrix));
             setVector(D_VECTOR, vector);
-            setMatrix(A_MATRIX, constraintMatrix);
+            setMatrix(A_MATRIX, transpose(constraintMatrix));
             setVector(B_VECTOR, constraintVector);
             return jsNumberArrayToJavaDoubleArray(solveQP());
         } catch (ScriptException e) {
             throw new Exception("Unable to solve the quadratic programming problem. " +
                     "An error occurred on executing JavaScript code", e);
         }
+    }
+
+    /**
+     * Обход ошибки определения того, является ли матрица положительно определённой или нет
+     */
+    private double[][] fix(double[][] matrix) {
+        double[][] fixed = new double[matrix.length][matrix[0].length];
+
+        for(int i = 0; i < fixed.length; i++) {
+            for(int j = 0; j < fixed[i].length; j++) {
+                fixed[i][j] = matrix[i][j];
+
+                if(i == j) {
+                    fixed[i][j] += FIX;
+                }
+            }
+        }
+
+        return fixed;
     }
 
     /**
@@ -147,7 +173,7 @@ class JSQuadProgSolver implements ActiveDualSetAlgorithm {
     private void setMatrix(String name, double[][] values) throws ScriptException {
         eval(name + " = []");
 
-        for (int i = 0; i < values[0].length; i++) {
+        for (int i = 0; i < values.length; i++) {
             // solveQP requires arrays with indices starting at 1
             eval(name + "[" + (i + 1) + "] = []");
         }
@@ -161,6 +187,22 @@ class JSQuadProgSolver implements ActiveDualSetAlgorithm {
     }
 
     private Object eval(String script) throws ScriptException {
+        System.out.println(script);
         return jsEngine.eval(script);
+    }
+
+    /**
+     * Транспонирование матрицы
+     */
+    private double[][] transpose(double[][] matrix) {
+        double[][] transposed = new double[matrix[0].length][matrix.length];
+
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                transposed[j][i] = matrix[i][j];
+            }
+        }
+
+        return transposed;
     }
 }

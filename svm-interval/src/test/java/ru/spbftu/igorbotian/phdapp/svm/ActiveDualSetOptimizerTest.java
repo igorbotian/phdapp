@@ -33,7 +33,7 @@ public class ActiveDualSetOptimizerTest {
     /**
      * Точность сравнения вещественных чисел
      */
-    private static final double PRECISION = 0.01;
+    private static final double PRECISION = 0.00001;
 
     /**
      * Значение параметра штрафа
@@ -127,16 +127,78 @@ public class ActiveDualSetOptimizerTest {
     private static Map<Pair<String, String>, Double> makeExpectedSolution() {
         Map<Pair<String, String>, Double> solution = new HashMap<>();
 
-        solution.put(new Pair<>("x1", "z1"), 0.02158369);
-        solution.put(new Pair<>("x2", "z1"), 0.41366764);
-        solution.put(new Pair<>("x1", "z2"), 0.22841631);
-        solution.put(new Pair<>("x3", "z1"), 0.02158369);
-        solution.put(new Pair<>("x3", "z2"), 0.22841631);
+        solution.put(new Pair<>("x1", "z1"), 0.0215824);
+        solution.put(new Pair<>("x2", "z1"), 0.4136706);
+        solution.put(new Pair<>("x1", "z2"), 0.2284175);
+        solution.put(new Pair<>("x3", "z1"), 0.0215824);
+        solution.put(new Pair<>("x3", "z2"), 0.2284175);
 
         return solution;
     }
 
     //-------------------------------------------------------------------------
+
+    /*
+     Соответствующее решение задачи на языке R:
+
+     require('quadprog')
+
+     sigma <- 0.5
+     fix <- 0.000001
+
+     x1 <- 11
+     x2 <- 12
+     x3 <- 13
+     z1 <- 1
+     z2 <- 2
+
+     dvec <- c(1, 1, 1, 1, 1)
+     bvec <- c(0, -0.5, 0, -0.5)
+
+     k <- function(a, b) {
+	      result <- exp(- ((a - b) * (a - b)) / (2 * sigma * sigma))
+          return (result)
+     }
+     m <- function(x1, z1, x2, z2) {
+          result <- k(x1, x2) - k(x1, z2) - k(z1, x2) + k(z1, z2)
+          return (result)
+     }
+
+     dmat <- matrix(c(
+          m(x1, z1, x1, z1) + fix, m(x1, z1, x2, z1), m(x1, z1, x1, z2), m(x1, z1, x3, z1), m(x1, z1, x3, z2),
+          m(x2, z1, x1, z1), m(x2, z1, x2, z1) + fix, m(x2, z1, x1, z2), m(x2, z1, x3, z1), m(x2, z1, x3, z2),
+          m(x1, z2, x1, z1), m(x1, z2, x2, z1), m(x1, z2, x1, z2) + fix, m(x1, z2, x3, z1), m(x1, z2, x3, z2),
+          m(x3, z1, x1, z1), m(x3, z1, x2, z1), m(x3, z1, x1, z2), m(x3, z1, x3, z1) + fix, m(x3, z1, x3, z2),
+          m(x3, z2, x1, z1), m(x3, z2, x2, z1), m(x3, z2, x1, z2), m(x3, z2, x3, z1), m(x3, z2, x3, z2) + fix
+     ), byrow=T, nrow=5, ncol=5)
+
+     amat <- matrix(c(
+          1, 1, 0, 0, 0,
+          -1, -1, 0, 0, 0,
+          1, 0, 1, 1, 1,
+          -1, 0, -1, -1, -1
+     ), byrow=T, nrow=4, ncol=5)
+
+     solve.QP(dmat, dvec, t(amat), bvec)
+
+     $solution
+     [1] 0.02158241 0.41367060 0.22841759 0.02158241 0.22841759
+
+     $value
+     [1] -0.5006529
+
+     $unconstrained.solution
+     [1] 0.1059149 0.3092328 0.2605312 0.1059149 0.2605312
+
+     $iterations
+     [1] 2 0
+
+     $Lagrangian
+     [1] 0.0000000 0.0000000 0.0000000 0.1752705
+
+     $iact
+     [1] 4
+     */
 
     @Test
     public void testSolution() throws OptimizationException {
