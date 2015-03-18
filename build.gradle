@@ -187,7 +187,6 @@ project(':quadprog') {
 
     dependencies {
         compile (
-                colt,
                 log4j,
                 project(':ioc')
         )
