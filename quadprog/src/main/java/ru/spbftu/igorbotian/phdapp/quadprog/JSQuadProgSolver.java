@@ -7,6 +7,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -40,10 +41,10 @@ class JSQuadProgSolver implements ActiveDualSetAlgorithm {
     private static final String QUADPROG_SCRIPT = "quadprog.js";
 
     /* Названия переменных JavaScript-функции solveQP */
-    private static final String D_MATRIX = "Dmatrix";
-    private static final String D_VECTOR = "Dvector";
-    private static final String A_MATRIX = "Amatrix";
-    private static final String B_VECTOR = "Bvector";
+    private static final String OBJECTIVE_FUNCTION_MATRIX = "Dmat";
+    private static final String OBJECTIVE_VECTOR = "dvec";
+    private static final String CONSTRAINT_MATRIX = "Amat";
+    private static final String CONSTRAINT_VECTOR = "bvec";
 
     /**
      * Средство вычисления JavaScript-выражений
@@ -66,10 +67,10 @@ class JSQuadProgSolver implements ActiveDualSetAlgorithm {
                     JSQuadProgSolver.class.getResourceAsStream(QUADPROG_SCRIPT)
             ));
 
-            register(D_MATRIX, "[]");
-            register(D_VECTOR, "[]");
-            register(A_MATRIX, "[]");
-            register(B_VECTOR, "[]");
+            init(OBJECTIVE_FUNCTION_MATRIX, "[]");
+            init(OBJECTIVE_VECTOR, "[]");
+            init(CONSTRAINT_MATRIX, "[]");
+            init(CONSTRAINT_VECTOR, "[]");
         } catch (ScriptException e) {
             String errorMessage = "Failed to initialize 'quadprog' JavaScript package";
             LOGGER.fatal(errorMessage, e);
@@ -78,42 +79,24 @@ class JSQuadProgSolver implements ActiveDualSetAlgorithm {
     }
 
     @Override
-    public double[] apply(double[][] matrix, double[] vector,
+    public double[] apply(double[][] objectiveFunctionMatrix, double[] objectiveFunctionVector,
                           double[][] constraintMatrix, double[] constraintVector) throws Exception {
-        Objects.requireNonNull(matrix);
-        Objects.requireNonNull(vector);
+        Objects.requireNonNull(objectiveFunctionMatrix);
+        Objects.requireNonNull(objectiveFunctionVector);
         Objects.requireNonNull(constraintMatrix);
         Objects.requireNonNull(constraintVector);
 
         try {
-            setMatrix(D_MATRIX, fix(matrix));
-            setVector(D_VECTOR, vector);
-            setMatrix(A_MATRIX, transpose(constraintMatrix));
-            setVector(B_VECTOR, constraintVector);
+            setObjectiveFunctionMatrix(objectiveFunctionMatrix);
+            setObjectiveFunctionVector(objectiveFunctionVector);
+            setConstraintMatrix(constraintMatrix);
+            setConstraintVector(constraintVector);
+
             return jsNumberArrayToJavaDoubleArray(solveQP());
         } catch (ScriptException e) {
             throw new Exception("Unable to solve the quadratic programming problem. " +
                     "An error occurred on executing JavaScript code", e);
         }
-    }
-
-    /**
-     * Обход ошибки определения того, является ли матрица положительно определённой или нет
-     */
-    private double[][] fix(double[][] matrix) {
-        double[][] fixed = new double[matrix.length][matrix[0].length];
-
-        for(int i = 0; i < fixed.length; i++) {
-            for(int j = 0; j < fixed[i].length; j++) {
-                fixed[i][j] = matrix[i][j];
-
-                if(i == j) {
-                    fixed[i][j] += FIX;
-                }
-            }
-        }
-
-        return fixed;
     }
 
     /**
@@ -129,6 +112,10 @@ class JSQuadProgSolver implements ActiveDualSetAlgorithm {
             i++;
         }
 
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("QP solution = " + Arrays.toString(result));
+        }
+
         return result;
     }
 
@@ -136,14 +123,15 @@ class JSQuadProgSolver implements ActiveDualSetAlgorithm {
      * Решение задачи квадратичного программирования на JavaScript
      */
     private JSObject solveQP() throws ScriptException {
-        String args = String.join(",", D_MATRIX, D_VECTOR, A_MATRIX, B_VECTOR);
+        String args = String.join(",", OBJECTIVE_FUNCTION_MATRIX, OBJECTIVE_VECTOR,
+                CONSTRAINT_MATRIX, CONSTRAINT_VECTOR);
         return (JSObject) eval("solveQP(" + args + ").solution");
     }
 
     /**
      * Объявление JavaScript-переменной с указанным значением (необязательным)
      */
-    private void register(String var, String value) throws ScriptException {
+    private void init(String var, String value) throws ScriptException {
         String script = "var " + var;
 
         if (value != null) {
@@ -154,55 +142,109 @@ class JSQuadProgSolver implements ActiveDualSetAlgorithm {
     }
 
     /**
-     * Заполнение JavaScript-вектора указанными значениями
+     * Задание матрицы целевой функции.
+     * Данная операция дополнительно включает в себя обход ошибки определения того,
+     * является ли матрица положительно определённой или нет
      */
-    private void setVector(String name, double[] values) throws ScriptException {
-        eval(name + " = []");
+    private void setObjectiveFunctionMatrix(double[][] values) throws ScriptException {
+        assert values != null;
+        assert values.length > 0;
 
-        for (int i = 0; i < values.length; i++) {
-            // solveQP requires arrays with indices starting at 1
-            eval(name + "[" + (i + 1) + "] = " + values[i]);
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Objection function matrix = " + Arrays.toString(values));
         }
-    }
 
-    /**
-     * Задание JavaScript-матрицы указанными значениями.
-     * В JavaScript матрица будет представлена в транспонированном виде, как того требует реализация quadprog
-     * на JavaScript
-     */
-    private void setMatrix(String name, double[][] values) throws ScriptException {
-        eval(name + " = []");
+        eval(OBJECTIVE_FUNCTION_MATRIX + " = []");
 
-        for (int i = 0; i < values.length; i++) {
-            // solveQP requires arrays with indices starting at 1
-            eval(name + "[" + (i + 1) + "] = []");
+        for (int i = 0; i < values[0].length; i++) {
+            // solveQP требует, чтобы индексы матриц и векторов начинались с 1
+            eval(OBJECTIVE_FUNCTION_MATRIX + "[" + (i + 1) + "] = []");
         }
 
         for (int i = 0; i < values.length; i++) {
             for (int j = 0; j < values[i].length; j++) {
-                // solveQP requires arrays with indices starting at 1
-                eval(name + "[" + (i + 1) + "][" + (j + 1) + "] = " + values[i][j]);
+                // solveQP требует, чтобы индексы матриц и векторов начинались с 1
+                double value = values[i][j];
+
+                if(i == j) {
+                    value += FIX;
+                }
+
+                eval(OBJECTIVE_FUNCTION_MATRIX + "[" + (i + 1) + "][" + (j + 1) + "] = " + value);
             }
+        }
+    }
+
+    /**
+     * Задание вектора целевой функции
+     */
+    private void setObjectiveFunctionVector(double[] values) throws ScriptException {
+        assert values != null;
+        assert values.length > 0;
+
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Objection function vector = " + Arrays.toString(values));
+        }
+
+        eval(OBJECTIVE_VECTOR + " = []");
+
+        for (int i = 0; i < values.length; i++) {
+            // solveQP требует, чтобы индексы матриц и векторов начинались с 1
+            eval(OBJECTIVE_VECTOR + "[" + (i + 1) + "] = " + values[i]);
+        }
+    }
+
+    /**
+     * Задание матрицы ограничений.
+     * Метод solveQP из пакета quadprog требует, чтобы данная матрица была представлена в транспонированном виде
+     */
+    private void setConstraintMatrix(double[][] values) throws ScriptException {
+        assert values != null;
+        assert values.length > 0;
+
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Constraint vector = " + Arrays.toString(values));
+        }
+
+        eval(CONSTRAINT_MATRIX + " = []");
+
+        for (int i = 0; i < values[0].length; i++) {
+            // solveQP требует, чтобы индексы матриц и векторов начинались с 1
+            eval(CONSTRAINT_MATRIX + "[" + (i + 1) + "] = []");
+        }
+
+        for (int i = 0; i < values.length; i++) {
+            for (int j = 0; j < values[i].length; j++) {
+                // solveQP требует, чтобы индексы матриц и векторов начинались с 1
+                eval(CONSTRAINT_MATRIX + "[" + (j + 1) + "][" + (i + 1) + "] = " + values[i][j]);
+            }
+        }
+    }
+
+    /**
+     * Задание вектора ограничений
+     */
+    private void setConstraintVector(double[] values) throws ScriptException {
+        assert values != null;
+        assert values.length > 0;
+
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Constraint matrix = " + Arrays.toString(values));
+        }
+
+        eval(CONSTRAINT_VECTOR + " = []");
+
+        for (int i = 0; i < values.length; i++) {
+            // solveQP требует, чтобы индексы матриц и векторов начинались с 1
+            eval(CONSTRAINT_VECTOR + "[" + (i + 1) + "] = " + values[i]);
         }
     }
 
     private Object eval(String script) throws ScriptException {
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug(script);
+        }
         System.out.println(script);
         return jsEngine.eval(script);
-    }
-
-    /**
-     * Транспонирование матрицы
-     */
-    private double[][] transpose(double[][] matrix) {
-        double[][] transposed = new double[matrix[0].length][matrix.length];
-
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[i].length; j++) {
-                transposed[j][i] = matrix[i][j];
-            }
-        }
-
-        return transposed;
     }
 }
