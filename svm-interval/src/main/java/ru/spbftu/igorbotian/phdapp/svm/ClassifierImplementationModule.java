@@ -11,6 +11,6 @@ class ClassifierImplementationModule extends PhDAppModule {
 
     @Override
     protected void configure() {
-        bind(Optimizer.class).to(ActiveDualSetOptimizer.class);
+        bind(QuadraticProgrammingSolver.class).to(ActiveDualSetQuadraticProgrammingSolver.class);
     }
 }

@@ -15,9 +15,9 @@ import java.util.Objects;
  * Реализация метода решения задачи квадратичного программирования, предложенного Гольдфарбом и Иднани.
  * Используется реализация R-библиотеки 'quadprog' на языке JavaScript.
  *
- * @author Igor Botian <igor.botian@gmail.com>
  * @see ActiveDualSetAlgorithm
  * @see <a href="https://github.com/albertosantini/node-quadprog">https://github.com/albertosantini/node-quadprog</a>
+ * @author Igor Botian <igor.botian@gmail.com>
  */
 class JSQuadProgSolver implements ActiveDualSetAlgorithm {
 
@@ -81,6 +81,7 @@ class JSQuadProgSolver implements ActiveDualSetAlgorithm {
     @Override
     public double[] apply(double[][] objectiveFunctionMatrix, double[] objectiveFunctionVector,
                           double[][] constraintMatrix, double[] constraintVector) throws Exception {
+
         Objects.requireNonNull(objectiveFunctionMatrix);
         Objects.requireNonNull(objectiveFunctionVector);
         Objects.requireNonNull(constraintMatrix);

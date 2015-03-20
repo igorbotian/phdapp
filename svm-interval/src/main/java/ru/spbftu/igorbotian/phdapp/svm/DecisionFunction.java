@@ -9,7 +9,8 @@ import java.util.Objects;
 import java.util.function.BiFunction;
 
 /**
- * Решающая функция, определяющая предпочтение одной группы объектов над другими
+ * Решающая функция, определяющая предпочтение одной группы объектов над другими.
+ * Основана на решении задачи квадратичного программирования.
  *
  * @author Igor Botian <igor.botian@gmail.com>
  */
@@ -38,13 +39,21 @@ class DecisionFunction {
         this.kernelFunction = kernelFunction;
     }
 
+    /**
+     * Выяснение, является ли объект более предпочтительным, чем второй, или нет
+     *
+     * @param object              исходный объект
+     * @param objectToCompareWith объект, с которым сравнивается исходный объект
+     * @return <code>true</code>, если исходный объект предпочтительнее; <code>false</code>, если наоборот
+     * @throws DecisionException если определить предпочтение невозможно
+     */
     public boolean isPreferable(UnclassifiedObject object, UnclassifiedObject objectToCompareWith)
             throws DecisionException {
 
         Objects.requireNonNull(object);
         Objects.requireNonNull(objectToCompareWith);
 
-        if(object.equals(objectToCompareWith)) {
+        if (object.equals(objectToCompareWith)) {
             throw new DecisionException("Decision function cannot be applied to equal objects: " + object.toString());
         }
 
@@ -57,7 +66,7 @@ class DecisionFunction {
                     + "; " + objectToCompareWith.toString());
         }
 
-        return (first < second); // TODO уточнить
+        return (first > second);
     }
 
     private double computeFirst(Pair<UnclassifiedObject, UnclassifiedObject> objectsToCompare) {
@@ -78,7 +87,7 @@ class DecisionFunction {
 
         double result = 0.0;
 
-        for(Pair<UnclassifiedObject, UnclassifiedObject> pair : lagrangianMultipliers.keySet()) {
+        for (Pair<UnclassifiedObject, UnclassifiedObject> pair : lagrangianMultipliers.keySet()) {
             result += lagrangianMultipliers.get(pair) * kernel.apply(pair, objectsToCompare);
         }
 

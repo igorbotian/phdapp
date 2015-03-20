@@ -12,7 +12,7 @@ import java.util.*;
 import java.util.stream.Stream;
 
 /**
- * Модульные тесты для класса <code>ActiveDualSetOptimizer</code>
+ * Модульные тесты для класса <code>ActiveDualSetQuadraticProgrammingSolver</code>
  * Тестовая обучающая выборка состоит из следующих экспертных оценок:
  * {x1, x2} > {z1};
  * {x1, x3} > {z1, z2}.
@@ -23,7 +23,7 @@ import java.util.stream.Stream;
  *
  * @author Igor Botian <igor.botian@gmail.com>
  */
-public class ActiveDualSetOptimizerTest {
+public class ActiveDualSetQuadraticProgrammingSolverTest {
 
     /**
      * Идентификатора тестового параметра
@@ -63,7 +63,7 @@ public class ActiveDualSetOptimizerTest {
     /**
      * Средство решения задачи квадратичного программирования
      */
-    private static Optimizer optimizer;
+    private static QuadraticProgrammingSolver qpSolver;
 
     /**
      * Обучающая выборка
@@ -78,7 +78,7 @@ public class ActiveDualSetOptimizerTest {
                         new ClassifierImplementationModule())
         );
         dataFactory = injector.getInstance(DataFactory.class);
-        optimizer = injector.getInstance(Optimizer.class);
+        qpSolver = injector.getInstance(QuadraticProgrammingSolver.class);
 
         trainingSet = makeTrainingSet();
         expectedSolution = makeExpectedSolution();
@@ -201,9 +201,9 @@ public class ActiveDualSetOptimizerTest {
      */
 
     @Test
-    public void testSolution() throws OptimizationException {
+    public void testSolution() throws QuadraticProgrammingException {
         Map<Pair<UnclassifiedObject, UnclassifiedObject>, Double> solution =
-                optimizer.optimize(trainingSet, kernelFunction, PENALTY);
+                qpSolver.solve(trainingSet, kernelFunction, PENALTY);
 
         Assert.assertEquals(expectedSolution.size(), solution.size());
 

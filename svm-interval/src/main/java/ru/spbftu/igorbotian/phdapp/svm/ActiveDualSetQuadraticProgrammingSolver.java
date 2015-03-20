@@ -10,28 +10,28 @@ import ru.spbftu.igorbotian.phdapp.quadprog.ActiveDualSetAlgorithm;
 import java.util.*;
 
 /**
- * Средство решения исходной задачи оптимизации с помощью алгоритма, предложенного Гольфарбом и Иднани
+ * Средство решения задачи квадратичного программирования по методу, предложенному Гольфарбом и Иднани
  *
  * @author Igor Botian <igor.botian@gmail.com>
  * @see ru.spbftu.igorbotian.phdapp.quadprog.ActiveDualSetAlgorithm
  */
-class ActiveDualSetOptimizer implements Optimizer {
+class ActiveDualSetQuadraticProgrammingSolver implements QuadraticProgrammingSolver {
 
     /**
-     * Средство решения задачи квадратичного программирования по методу Гольдфарба и Иднани
+     * Средство решения задачи квадратичного программирования
      */
     private final ActiveDualSetAlgorithm qpSolver;
 
     @Inject
-    public ActiveDualSetOptimizer(ActiveDualSetAlgorithm qpSolver) {
+    public ActiveDualSetQuadraticProgrammingSolver(ActiveDualSetAlgorithm qpSolver) {
         this.qpSolver = Objects.requireNonNull(qpSolver);
     }
 
     @Override
-    public Map<Pair<UnclassifiedObject, UnclassifiedObject>, Double> optimize(PairwiseTrainingSet trainingSet,
-                                                                              KernelFunction kernelFunction,
-                                                                              double penalty)
-            throws OptimizationException {
+    public Map<Pair<UnclassifiedObject, UnclassifiedObject>, Double> solve(PairwiseTrainingSet trainingSet,
+                                                                           KernelFunction kernelFunction,
+                                                                           double penalty)
+            throws QuadraticProgrammingException {
 
         Objects.requireNonNull(trainingSet);
         Objects.requireNonNull(kernelFunction);
@@ -54,23 +54,23 @@ class ActiveDualSetOptimizer implements Optimizer {
 
             return associateMultipliersWithVariables(variables, multipliers);
         } catch (Exception e) {
-            throw new OptimizationException("Error occurred while solving dual optimization problem", e);
+            throw new QuadraticProgrammingException("Error occurred while solving dual optimization problem", e);
         }
     }
 
     /**
-     * Соответствие переменным в задаче оптимизации значениям, полученным в ходе её решения
+     * Соответствие неизвестных в задаче квадратичного программирования значениям, полученным в ходе её решения
      */
     private Map<Pair<UnclassifiedObject, UnclassifiedObject>, Double> associateMultipliersWithVariables(
             Set<Pair<UnclassifiedObject, UnclassifiedObject>> variables, double[] multipliers)
-            throws OptimizationException {
+            throws QuadraticProgrammingException {
 
         assert variables != null;
         assert !variables.isEmpty();
         assert multipliers != null;
 
         if (variables.size() != multipliers.length) {
-            throw new OptimizationException("Number of computed Lagrangian multipliers is not equal " +
+            throw new QuadraticProgrammingException("Number of computed Lagrangian multipliers is not equal " +
                     "to a number of optimization variables: expected = " + variables.size()
                     + "; actual = " + multipliers.length);
         }
@@ -88,10 +88,9 @@ class ActiveDualSetOptimizer implements Optimizer {
     }
 
     /**
-     * Выявление переменных в задаче оптимизации для конкретной обучающей выборки
+     * Выявление неизвестных в задаче квадратичного программирования для конкретной обучающей выборки
      */
     private LinkedHashSet<Pair<UnclassifiedObject, UnclassifiedObject>> identifyVariables(Set<Judgement> judgements) {
-
         assert judgements != null;
 
         LinkedHashSet<Pair<UnclassifiedObject, UnclassifiedObject>> variables = new LinkedHashSet<>();
@@ -173,7 +172,7 @@ class ActiveDualSetOptimizer implements Optimizer {
 
     /**
      * Формирование двух строк матрицы ограничений для заданного ограничения.
-     * Одна строка соответствует нижнему ограничений, а вторая - верхнему
+     * Одна строка соответствует нижнему ограничению, а вторая - верхнему
      */
     private double[][] constraintForJudgement(Judgement judgement,
                                               Set<Pair<UnclassifiedObject, UnclassifiedObject>> variables) {

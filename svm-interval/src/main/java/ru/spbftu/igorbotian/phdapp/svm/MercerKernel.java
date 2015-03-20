@@ -9,7 +9,7 @@ import java.util.Objects;
  * Ядро Мерсера
  *
  * @author Igor Botian <igor.botian@gmail.com>
- * @see <a href="http://en.wikipedia.org/wiki/Kernel_method">http://en.wikipedia.org/wiki/Kernel_method</a>
+ * @see <a href="http://research.microsoft.com/apps/pubs/default.aspx?id=65610">http://research.microsoft.com/apps/pubs/default.aspx?id=65610</a>
  */
 final class MercerKernel {
 
