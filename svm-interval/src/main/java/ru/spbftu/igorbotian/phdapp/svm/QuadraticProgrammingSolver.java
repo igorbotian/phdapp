@@ -11,7 +11,7 @@ import java.util.Map;
  *
  * @author Igor Botian <igor.botian@gmail.com>
  */
-interface QuadraticProgrammingSolver {
+interface QuadraticProgrammingSolver<T> {
 
     /**
      * Решения задачи квадратичного программирования с заданными параметрами
@@ -25,7 +25,7 @@ interface QuadraticProgrammingSolver {
      * @throws NullPointerException  если обучающая выборка или функция ядра не заданы
      */
     Map<Pair<UnclassifiedObject, UnclassifiedObject>, Double> solve(PairwiseTrainingSet trainingSet,
-                                                                    KernelFunction kernelFunction,
+                                                                    KernelFunction<T> kernelFunction,
                                                                     double penalty)
             throws QuadraticProgrammingException;
 }

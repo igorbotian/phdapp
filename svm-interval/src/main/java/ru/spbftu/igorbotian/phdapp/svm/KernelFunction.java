@@ -7,7 +7,7 @@ import ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject;
  *
  * @author Igor Botian <igor.botian@gmail.com>
  */
-interface KernelFunction {
+interface KernelFunction <T> {
 
     /**
      * Вычисление ядра для заданной пары векторов с вещественными значениями
@@ -25,5 +25,5 @@ interface KernelFunction {
      * @param y     второй объект
      * @return вещественное число
      */
-    double compute(UnclassifiedObject x, UnclassifiedObject y);
+    double compute(T x, T y);
 }

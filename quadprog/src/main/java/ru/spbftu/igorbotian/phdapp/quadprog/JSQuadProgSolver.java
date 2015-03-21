@@ -245,7 +245,7 @@ class JSQuadProgSolver implements ActiveDualSetAlgorithm {
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug(script);
         }
-        System.out.println(script);
+
         return jsEngine.eval(script);
     }
 }

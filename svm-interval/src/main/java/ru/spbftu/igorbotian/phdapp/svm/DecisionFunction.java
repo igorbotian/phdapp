@@ -1,12 +1,10 @@
 package ru.spbftu.igorbotian.phdapp.svm;
 
 import ru.spbftu.igorbotian.phdapp.common.Pair;
-import ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject;
 
 import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.BiFunction;
 
 /**
  * Решающая функция, определяющая предпочтение одной группы объектов над другими.
@@ -14,20 +12,19 @@ import java.util.function.BiFunction;
  *
  * @author Igor Botian <igor.botian@gmail.com>
  */
-class DecisionFunction {
+class DecisionFunction<T> {
 
     /**
      * Ассоциативный массив, в котором каждой паре объектов из обучащей выборки соответствует множитель Лагранжа
      */
-    private final Map<Pair<UnclassifiedObject, UnclassifiedObject>, Double> lagrangianMultipliers;
+    private final Map<Pair<T, T>, Double> lagrangianMultipliers;
 
     /**
      * Функция ядра
      */
-    private final KernelFunction kernelFunction;
+    private final KernelFunction<T> kernelFunction;
 
-    public DecisionFunction(Map<Pair<UnclassifiedObject, UnclassifiedObject>, Double> lagrangianMultipliers,
-                            KernelFunction kernelFunction) {
+    public DecisionFunction(Map<Pair<T, T>, Double> lagrangianMultipliers, KernelFunction<T> kernelFunction) {
         Objects.requireNonNull(lagrangianMultipliers);
         Objects.requireNonNull(kernelFunction);
 
@@ -47,7 +44,7 @@ class DecisionFunction {
      * @return <code>true</code>, если исходный объект предпочтительнее; <code>false</code>, если наоборот
      * @throws DecisionException если определить предпочтение невозможно
      */
-    public boolean isPreferable(UnclassifiedObject object, UnclassifiedObject objectToCompareWith)
+    public boolean isPreferable(T object, T objectToCompareWith)
             throws DecisionException {
 
         Objects.requireNonNull(object);
@@ -57,9 +54,8 @@ class DecisionFunction {
             throw new DecisionException("Decision function cannot be applied to equal objects: " + object.toString());
         }
 
-        Pair<UnclassifiedObject, UnclassifiedObject> objectsToCompare = new Pair<>(object, objectToCompareWith);
-        double first = computeFirst(objectsToCompare);
-        double second = computeSecond(objectsToCompare);
+        double first = compute(new Pair<>(object, objectToCompareWith));
+        double second = compute(new Pair<>(objectToCompareWith, object));
 
         if (first - second == 0.0) {
             throw new DecisionException("Cannot decide which object in the pair is preferable: " + object.toString()
@@ -69,28 +65,14 @@ class DecisionFunction {
         return (first > second);
     }
 
-    private double computeFirst(Pair<UnclassifiedObject, UnclassifiedObject> objectsToCompare) {
-        return compute(objectsToCompare, (x, z) -> MercerKernel.compute(x, z, kernelFunction));
-    }
-
-    private double computeSecond(Pair<UnclassifiedObject, UnclassifiedObject> objectsToCompare) {
-        return compute(objectsToCompare, (x, z) -> MercerKernel.compute(z, x, kernelFunction));
-    }
-
-    private double compute(Pair<UnclassifiedObject, UnclassifiedObject> objectsToCompare,
-                           BiFunction<
-                                   Pair<UnclassifiedObject, UnclassifiedObject>,
-                                   Pair<UnclassifiedObject, UnclassifiedObject>,
-                                   Double> kernel) {
+    private double compute(Pair<T, T> objectsToCompare) {
         assert objectsToCompare != null;
-        assert kernel != null;
+        double sum = 0;
 
-        double result = 0.0;
-
-        for (Pair<UnclassifiedObject, UnclassifiedObject> pair : lagrangianMultipliers.keySet()) {
-            result += lagrangianMultipliers.get(pair) * kernel.apply(pair, objectsToCompare);
+        for (Pair<T, T> pair : lagrangianMultipliers.keySet()) {
+            sum += lagrangianMultipliers.get(pair) * MercerKernel.compute(pair, objectsToCompare, kernelFunction);
         }
 
-        return result;
+        return sum;
     }
 }

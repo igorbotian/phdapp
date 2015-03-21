@@ -15,7 +15,7 @@ import java.util.*;
  * @author Igor Botian <igor.botian@gmail.com>
  * @see ru.spbftu.igorbotian.phdapp.quadprog.ActiveDualSetAlgorithm
  */
-class ActiveDualSetQuadraticProgrammingSolver implements QuadraticProgrammingSolver {
+class ActiveDualSetQuadraticProgrammingSolver implements QuadraticProgrammingSolver<UnclassifiedObject> {
 
     /**
      * Средство решения задачи квадратичного программирования
@@ -29,7 +29,7 @@ class ActiveDualSetQuadraticProgrammingSolver implements QuadraticProgrammingSol
 
     @Override
     public Map<Pair<UnclassifiedObject, UnclassifiedObject>, Double> solve(PairwiseTrainingSet trainingSet,
-                                                                           KernelFunction kernelFunction,
+                                                                           KernelFunction<UnclassifiedObject> kernelFunction,
                                                                            double penalty)
             throws QuadraticProgrammingException {
 
@@ -110,7 +110,7 @@ class ActiveDualSetQuadraticProgrammingSolver implements QuadraticProgrammingSol
      * Формирование матрицы квадратичной функции
      */
     private double[][] quadraticFunctionMatrix(Set<Pair<UnclassifiedObject, UnclassifiedObject>> variables,
-                                               KernelFunction kernelFunction) {
+                                               KernelFunction<UnclassifiedObject> kernelFunction) {
         assert variables != null;
         assert !variables.isEmpty();
         assert kernelFunction != null;

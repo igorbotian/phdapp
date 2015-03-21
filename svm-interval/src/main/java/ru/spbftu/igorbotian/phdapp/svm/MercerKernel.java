@@ -26,9 +26,9 @@ final class MercerKernel {
      * @return вещественное число
      * @throws NullPointerException если хотя бы один из аргументов не задан
      */
-    public static double compute(Pair<UnclassifiedObject, UnclassifiedObject> first,
-                                 Pair<UnclassifiedObject, UnclassifiedObject> second,
-                                 KernelFunction kernelFunction) {
+    public static <T> double compute(Pair<T, T> first,
+                                 Pair<T, T> second,
+                                 KernelFunction<T> kernelFunction) {
 
         Objects.requireNonNull(first);
         Objects.requireNonNull(second);

@@ -12,7 +12,7 @@ import java.util.Objects;
  *
  * @author Igor Botian <igor.botian@gmail.com>
  */
-public class GaussianKernelFunction implements KernelFunction {
+public class GaussianKernelFunction implements KernelFunction<UnclassifiedObject> {
 
     /**
      * Свободный параметр
