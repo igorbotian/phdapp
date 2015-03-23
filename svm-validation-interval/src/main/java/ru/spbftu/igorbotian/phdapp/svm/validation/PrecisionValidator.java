@@ -68,7 +68,7 @@ class PrecisionValidator extends AbstractPairwiseClassifierCrossValidator<Single
                 preciseIntervalJudgementsCountRatio, maxJudgementGroupSize, this::judgePoints);
 
         try {
-            classifier.train(trainingSet);
+            classifier.train(trainingSet, specificClassifierParams);
             ClassifiedData classifiedData = classifier.classify(testingSet, specificClassifierParams);
             return composeReport(testingSet, classifiedData, specificClassifierParams, specificValidatorParams);
         } catch (ClassifierTrainingException e) {

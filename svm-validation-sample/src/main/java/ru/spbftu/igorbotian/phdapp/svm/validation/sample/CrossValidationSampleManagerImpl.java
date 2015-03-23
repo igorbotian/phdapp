@@ -59,7 +59,7 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
                 sampleGenerator.firstSupportingPoint().dataClass(),
                 sampleGenerator.secondSupportingPoint().dataClass()
         ).collect(Collectors.toSet());
-        Set<ClassifiedObject> data = new HashSet<>();
+        Set<ClassifiedObject> data = new LinkedHashSet<>();
         sampleGenerator.firstSetOfPoints().forEach(data::add);
         sampleGenerator.secondSetOfPoints().forEach(data::add);
 
@@ -186,8 +186,8 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
                                                                            int firstGroupSize)
             throws CrossValidationSampleException {
 
-        Set<ClassifiedObject> firstGroup = new HashSet<>(smallestValidSets.first);
-        Set<ClassifiedObject> secondGroup = new HashSet<>(smallestValidSets.second);
+        Set<ClassifiedObject> firstGroup = new LinkedHashSet<>(smallestValidSets.first);
+        Set<ClassifiedObject> secondGroup = new LinkedHashSet<>(smallestValidSets.second);
         Iterator<? extends ClassifiedObject> it = sample.objects().iterator();
         int i = 0;
 
@@ -235,8 +235,8 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
     private Pair<Set<ClassifiedObject>, Set<ClassifiedObject>> composeSmallestValidGroups(
             Map<DataClass, LinkedList<ClassifiedObject>> sampleItemsByClasses) {
 
-        Set<ClassifiedObject> firstGroup = new HashSet<>();
-        Set<ClassifiedObject> secondGroup = new HashSet<>();
+        Set<ClassifiedObject> firstGroup = new LinkedHashSet<>();
+        Set<ClassifiedObject> secondGroup = new LinkedHashSet<>();
 
         Map<DataClass, LinkedList<ClassifiedObject>> smallestGroups = extractSmallestGroups(sampleItemsByClasses);
         boolean putNextObjectToFirstGroup = true;
@@ -295,7 +295,7 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
      * Формирование набора классов, которым принадлежат объект из заданного множества
      */
     private Set<? extends DataClass> dataClassesOf(Set<? extends ClassifiedObject> objects) {
-        Set<DataClass> classes = new HashSet<>();
+        Set<DataClass> classes = new LinkedHashSet<>();
 
         for (ClassifiedObject obj : objects) {
             if (!classes.contains(obj.dataClass())) {
@@ -739,7 +739,7 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
      * Объединенение нескольких обучающих выборок
      */
     private PairwiseTrainingSet combinePairwiseTrainingSets(PairwiseTrainingSet... sets) {
-        Set<Judgement> objects = new HashSet<>();
+        Set<Judgement> objects = new LinkedHashSet<>();
 
         for (PairwiseTrainingSet set : sets) {
             objects.addAll(set.judgements());

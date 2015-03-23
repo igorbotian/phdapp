@@ -16,7 +16,7 @@ import java.util.*;
 /**
  * Средство анализа завимимости точности классификации от размера обучающей выборки
  */
-public class TrainingSetSizeRatioAnalyzer extends AbstractPairwiseClassifierCrossValidator<MultiClassificationReport> {
+class TrainingSetSizeRatioAnalyzer extends AbstractPairwiseClassifierCrossValidator<MultiClassificationReport> {
 
     private static final Logger LOGGER = Logger.getLogger(TrainingSetSizeRatioAnalyzer.class);
 

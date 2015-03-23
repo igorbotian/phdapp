@@ -214,6 +214,7 @@ project(':svm-interval') {
 
     dependencies {
         compile(
+                project(':conf-app'),
                 project(':common'),
                 project(':ioc'),
                 project(':quadprog'),
