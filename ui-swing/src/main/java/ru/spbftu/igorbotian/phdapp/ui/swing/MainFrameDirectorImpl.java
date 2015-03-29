@@ -2,7 +2,7 @@ package ru.spbftu.igorbotian.phdapp.ui.swing;
 
 import com.google.inject.Singleton;
 import org.apache.log4j.Logger;
-import ru.spbftu.igorbotian.phdapp.svm.validation.AsyncPairwiseClassifierCrossValidator;
+import ru.spbftu.igorbotian.phdapp.svm.validation.AsyncRankingPairwiseClassifierCrossValidator;
 import ru.spbftu.igorbotian.phdapp.svm.validation.IntervalPairwiseClassifierCrossValidators;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.Report;
 import ru.spbftu.igorbotian.phdapp.ui.common.UserAction;
@@ -38,7 +38,7 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
     /**
      * Средство кросс-валидации, выбранное пользователем
      */
-    private AsyncPairwiseClassifierCrossValidator<? extends Report> selectedCrossValidator;
+    private AsyncRankingPairwiseClassifierCrossValidator<? extends Report> selectedCrossValidator;
 
     public MainFrameDirectorImpl(SwingUIHelper uiHelper, IntervalPairwiseClassifierCrossValidators crossValidators) {
         this.uiHelper = uiHelper;
@@ -51,7 +51,7 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
     }
 
     @Override
-    public AsyncPairwiseClassifierCrossValidator<? extends Report> selectedCrossValidator() {
+    public AsyncRankingPairwiseClassifierCrossValidator<? extends Report> selectedCrossValidator() {
         return selectedCrossValidator;
     }
 

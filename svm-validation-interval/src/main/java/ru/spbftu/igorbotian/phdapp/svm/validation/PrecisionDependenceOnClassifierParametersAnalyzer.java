@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 import ru.spbftu.igorbotian.phdapp.svm.ClassifierParameter;
 import ru.spbftu.igorbotian.phdapp.svm.IntervalClassifierParameterFactory;
-import ru.spbftu.igorbotian.phdapp.svm.PairwiseClassifier;
+import ru.spbftu.igorbotian.phdapp.svm.RankingPairwiseClassifier;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.MultiClassificationReport;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.ReportFactory;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.SingleClassificationReport;
@@ -22,7 +22,7 @@ import java.util.stream.Stream;
  * Средство анализа завимимости точности классификации от параметров классификации
  */
 class PrecisionDependenceOnClassifierParametersAnalyzer
-        extends AbstractPairwiseClassifierCrossValidator<MultiClassificationReport> {
+        extends AbstractRankingPairwiseClassifierCrossValidator<MultiClassificationReport> {
 
     private static final Logger LOGGER = Logger.getLogger(PrecisionDependenceOnClassifierParametersAnalyzer.class);
 
@@ -48,7 +48,7 @@ class PrecisionDependenceOnClassifierParametersAnalyzer
     }
 
     @Override
-    protected MultiClassificationReport validate(PairwiseClassifier classifier,
+    protected MultiClassificationReport validate(RankingPairwiseClassifier classifier,
                                                  Set<? extends ClassifierParameter<?>> specificClassifierParams,
                                                  CrossValidatorParameterFactory specificValidatorParams)
             throws CrossValidationSampleException, CrossValidationException {
@@ -84,7 +84,7 @@ class PrecisionDependenceOnClassifierParametersAnalyzer
                                     specificValidatorParams)
                     );
                 } catch (CrossValidationSampleException | CrossValidationException e) {
-                    if(stopCrossValidationOnError()) {
+                    if (stopCrossValidationOnError()) {
                         throw e;
                     } else {
                         LOGGER.error(e);

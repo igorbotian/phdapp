@@ -2,7 +2,7 @@ package ru.spbftu.igorbotian.phdapp.ui.swing;
 
 import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidationException;
 import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidationProgressListener;
-import ru.spbftu.igorbotian.phdapp.svm.validation.PairwiseClassifierCrossValidator;
+import ru.spbftu.igorbotian.phdapp.svm.validation.RankingPairwiseClassifierCrossValidator;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.Report;
 
 import javax.swing.*;
@@ -98,24 +98,24 @@ public class CrossValidationProgressWindow extends JDialog implements CrossValid
     }
 
     @Override
-    public <R extends Report> void crossValidationStarted(PairwiseClassifierCrossValidator<R> validator) {
+    public <R extends Report> void crossValidationStarted(RankingPairwiseClassifierCrossValidator<R> validator) {
         setPercentsCompleted(0);
     }
 
     @Override
-    public <R extends Report> void crossValidationContinued(PairwiseClassifierCrossValidator<R> validator,
+    public <R extends Report> void crossValidationContinued(RankingPairwiseClassifierCrossValidator<R> validator,
                                                             int percentsCompleted) {
         setPercentsCompleted(percentsCompleted);
     }
 
     @Override
-    public <R extends Report> void crossValidationInterrupted(PairwiseClassifierCrossValidator<R> validator) {
+    public <R extends Report> void crossValidationInterrupted(RankingPairwiseClassifierCrossValidator<R> validator) {
         uiHelper.crossValidationProgressWindowDirector().removeProgressListener(this);
         goToPreviousWindow();
     }
 
     @Override
-    public <R extends Report> void crossValidationCompleted(PairwiseClassifierCrossValidator<R> validator,
+    public <R extends Report> void crossValidationCompleted(RankingPairwiseClassifierCrossValidator<R> validator,
                                                             Report report) {
 
         setPercentsCompleted(100);
@@ -124,7 +124,7 @@ public class CrossValidationProgressWindow extends JDialog implements CrossValid
     }
 
     @Override
-    public <R extends Report> void crossValidationFailed(PairwiseClassifierCrossValidator<R> validator,
+    public <R extends Report> void crossValidationFailed(RankingPairwiseClassifierCrossValidator<R> validator,
                                                          Throwable reason) {
 
         uiHelper.crossValidationProgressWindowDirector().removeProgressListener(this);

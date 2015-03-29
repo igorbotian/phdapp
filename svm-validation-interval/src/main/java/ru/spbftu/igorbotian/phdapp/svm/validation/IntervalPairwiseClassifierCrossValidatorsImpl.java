@@ -76,62 +76,62 @@ class IntervalPairwiseClassifierCrossValidatorsImpl implements IntervalPairwiseC
     }
 
     @Override
-    public PairwiseClassifierCrossValidator<SingleClassificationReport> precisionValidator() {
+    public RankingPairwiseClassifierCrossValidator<SingleClassificationReport> precisionValidator() {
         return precisionValidator;
     }
 
     @Override
-    public AsyncPairwiseClassifierCrossValidator<SingleClassificationReport> asyncPrecisionValidator() {
+    public AsyncRankingPairwiseClassifierCrossValidator<SingleClassificationReport> asyncPrecisionValidator() {
         return precisionValidator;
     }
 
     @Override
-    public PairwiseClassifierCrossValidator<MultiClassificationReport> averagePrecisionValidator() {
+    public RankingPairwiseClassifierCrossValidator<MultiClassificationReport> averagePrecisionValidator() {
         return averagePrecisionValidator;
     }
 
     @Override
-    public AsyncPairwiseClassifierCrossValidator<MultiClassificationReport> asyncAveragePrecisionValidator() {
+    public AsyncRankingPairwiseClassifierCrossValidator<MultiClassificationReport> asyncAveragePrecisionValidator() {
         return averagePrecisionValidator;
     }
 
     @Override
-    public PairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnSampleSizeAnalyzer() {
+    public RankingPairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnSampleSizeAnalyzer() {
         return precisionDependenceOnSampleSizeAnalyzer;
     }
 
     @Override
-    public AsyncPairwiseClassifierCrossValidator<MultiClassificationReport> asyncPrecisionDependenceOnSampleSizeAnalyzer() {
+    public AsyncRankingPairwiseClassifierCrossValidator<MultiClassificationReport> asyncPrecisionDependenceOnSampleSizeAnalyzer() {
         return precisionDependenceOnSampleSizeAnalyzer;
     }
 
     @Override
-    public PairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnTrainingSetSizeAnalyzer() {
+    public RankingPairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnTrainingSetSizeAnalyzer() {
         return trainingSetSizeRatioAnalyzer;
     }
 
     @Override
-    public AsyncPairwiseClassifierCrossValidator<MultiClassificationReport> asyncPrecisionDependenceOnTrainingSetSizeAnalyzer() {
+    public AsyncRankingPairwiseClassifierCrossValidator<MultiClassificationReport> asyncPrecisionDependenceOnTrainingSetSizeAnalyzer() {
         return trainingSetSizeRatioAnalyzer;
     }
 
     @Override
-    public PairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnClassifierParametersAnalyzer() {
+    public RankingPairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnClassifierParametersAnalyzer() {
         return precisionDependenceOnClassifierParametersAnalyzer;
     }
 
     @Override
-    public AsyncPairwiseClassifierCrossValidator<MultiClassificationReport> asyncPrecisionDependenceOnClassifierParametersAnalyzer() {
+    public AsyncRankingPairwiseClassifierCrossValidator<MultiClassificationReport> asyncPrecisionDependenceOnClassifierParametersAnalyzer() {
         return precisionDependenceOnClassifierParametersAnalyzer;
     }
 
     @Override
-    public PairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnPreciseIntervalJudgementsRatioAnalyzer() {
+    public RankingPairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnPreciseIntervalJudgementsRatioAnalyzer() {
         return preciseIntervalJudgementsRatioAnalyzer;
     }
 
     @Override
-    public AsyncPairwiseClassifierCrossValidator<MultiClassificationReport> asyncPrecisionDependenceOnPreciseIntervalJudgementsRatioAnalyzer() {
+    public AsyncRankingPairwiseClassifierCrossValidator<MultiClassificationReport> asyncPrecisionDependenceOnPreciseIntervalJudgementsRatioAnalyzer() {
         return preciseIntervalJudgementsRatioAnalyzer;
     }
 }

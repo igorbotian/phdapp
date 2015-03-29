@@ -15,7 +15,7 @@ import java.util.*;
  * @author Igor Botian <igor.botian@gmail.com>
  * @see ru.spbftu.igorbotian.phdapp.quadprog.ActiveDualSetAlgorithm
  */
-class ActiveDualSetQuadraticProgrammingSolver implements QuadraticProgrammingSolver<UnclassifiedObject> {
+class ActiveDualSetQuadraticProgrammingSolver implements QuadraticProgrammingSolver {
 
     /**
      * Средство решения задачи квадратичного программирования

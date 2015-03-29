@@ -1,8 +1,8 @@
 package ru.spbftu.igorbotian.phdapp.ui.common;
 
 import com.google.inject.Inject;
-import ru.spbftu.igorbotian.phdapp.svm.PairwiseClassifier;
-import ru.spbftu.igorbotian.phdapp.svm.validation.AsyncPairwiseClassifierCrossValidator;
+import ru.spbftu.igorbotian.phdapp.svm.RankingPairwiseClassifier;
+import ru.spbftu.igorbotian.phdapp.svm.validation.AsyncRankingPairwiseClassifierCrossValidator;
 import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidationException;
 import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidationProgressListener;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.Report;
@@ -17,10 +17,10 @@ import java.util.stream.Stream;
 class CrossValidationProgressWindowDirectorImpl implements CrossValidationProgressWindowDirector {
 
     private final UIHelper uiHelper;
-    private final PairwiseClassifier classifier;
+    private final RankingPairwiseClassifier classifier;
 
     @Inject
-    public CrossValidationProgressWindowDirectorImpl(UIHelper uiHelper, PairwiseClassifier classifier) {
+    public CrossValidationProgressWindowDirectorImpl(UIHelper uiHelper, RankingPairwiseClassifier classifier) {
         this.uiHelper = Objects.requireNonNull(uiHelper);
         this.classifier = Objects.requireNonNull(classifier);
     }
@@ -47,8 +47,8 @@ class CrossValidationProgressWindowDirectorImpl implements CrossValidationProgre
         ).collect(Collectors.toSet()));
     }
 
-    private AsyncPairwiseClassifierCrossValidator<? extends Report> selectedValidator() {
-        AsyncPairwiseClassifierCrossValidator<? extends Report> validator
+    private AsyncRankingPairwiseClassifierCrossValidator<? extends Report> selectedValidator() {
+        AsyncRankingPairwiseClassifierCrossValidator<? extends Report> validator
                 = uiHelper.mainFrameDirector().selectedCrossValidator();
 
         if (validator == null) {

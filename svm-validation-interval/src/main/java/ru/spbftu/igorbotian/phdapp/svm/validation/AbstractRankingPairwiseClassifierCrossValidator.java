@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 import ru.spbftu.igorbotian.phdapp.svm.ClassifierParameter;
 import ru.spbftu.igorbotian.phdapp.svm.IntervalClassifierParameterFactory;
-import ru.spbftu.igorbotian.phdapp.svm.PairwiseClassifier;
+import ru.spbftu.igorbotian.phdapp.svm.RankingPairwiseClassifier;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.Report;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.ReportFactory;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.CrossValidationSampleException;
@@ -20,10 +20,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * Абстрактная реализация средства кросс-валидации попарного классификатора
  */
-abstract class AbstractPairwiseClassifierCrossValidator<R extends Report>
-        implements AsyncPairwiseClassifierCrossValidator<R> {
+abstract class AbstractRankingPairwiseClassifierCrossValidator<R extends Report>
+        implements AsyncRankingPairwiseClassifierCrossValidator<R> {
 
-    private static final Logger LOGGER = Logger.getLogger(AbstractPairwiseClassifierCrossValidator.class);
+    private static final Logger LOGGER = Logger.getLogger(AbstractRankingPairwiseClassifierCrossValidator.class);
 
     private static final String STOP_CROSS_VALIDATION_ON_ERROR_PARAM = "stopCrossValidationOnError";
 
@@ -62,11 +62,11 @@ abstract class AbstractPairwiseClassifierCrossValidator<R extends Report>
      */
     private final AtomicBoolean processInterrupted = new AtomicBoolean(false);
 
-    protected AbstractPairwiseClassifierCrossValidator(CrossValidationSampleManager sampleManager,
-                                                       IntervalClassifierParameterFactory classifierParameterFactory,
-                                                       CrossValidatorParameterFactory crossValidatorParameterFactory,
-                                                       ReportFactory reportFactory,
-                                                       ApplicationConfiguration appConfig) {
+    protected AbstractRankingPairwiseClassifierCrossValidator(CrossValidationSampleManager sampleManager,
+                                                              IntervalClassifierParameterFactory classifierParameterFactory,
+                                                              CrossValidatorParameterFactory crossValidatorParameterFactory,
+                                                              ReportFactory reportFactory,
+                                                              ApplicationConfiguration appConfig) {
 
         this.sampleManager = Objects.requireNonNull(sampleManager);
         this.classifierParameterFactory = Objects.requireNonNull(classifierParameterFactory);
@@ -142,7 +142,8 @@ abstract class AbstractPairwiseClassifierCrossValidator<R extends Report>
     }
 
     @Override
-    public void validateAsync(PairwiseClassifier classifier, Set<? extends CrossValidatorParameter<?>> validatorParams) {
+    public void validateAsync(RankingPairwiseClassifier classifier,
+                              Set<? extends CrossValidatorParameter<?>> validatorParams) {
         Executors.newSingleThreadExecutor().submit(() -> {
             try {
                 processInterrupted.set(false);
@@ -157,8 +158,10 @@ abstract class AbstractPairwiseClassifierCrossValidator<R extends Report>
     }
 
     @Override
-    public R validate(PairwiseClassifier classifier, Set<? extends CrossValidatorParameter<?>> specificValidatorParams)
+    public R validate(RankingPairwiseClassifier classifier,
+                      Set<? extends CrossValidatorParameter<?>> specificValidatorParams)
             throws CrossValidationException {
+
         Objects.requireNonNull(classifier);
         Objects.requireNonNull(specificValidatorParams);
 
@@ -237,7 +240,7 @@ abstract class AbstractPairwiseClassifierCrossValidator<R extends Report>
     }
 
     /**
-     * Кросс-валидация заданного попарного классификатора с заданными параметрами кросс-валидации
+     * Кросс-валидация заданного ранжирующего попарного классификатора с заданными параметрами кросс-валидации
      *
      * @param classifier               попарный классификатор, подлежащий кросс-валидации
      * @param specificClassifierParams параметры классификатора, имеющие значение, отличные от значений по умолчанию
@@ -247,7 +250,7 @@ abstract class AbstractPairwiseClassifierCrossValidator<R extends Report>
      * @throws CrossValidationSampleException в случае ошибки формирования выборки для кросс-валидации
      * @throws CrossValidationException       в случае ошибки в процессе кросс-валидации
      */
-    protected abstract R validate(PairwiseClassifier classifier,
+    protected abstract R validate(RankingPairwiseClassifier classifier,
                                   Set<? extends ClassifierParameter<?>> specificClassifierParams,
                                   CrossValidatorParameterFactory specificValidatorParams)
             throws CrossValidationSampleException, CrossValidationException;

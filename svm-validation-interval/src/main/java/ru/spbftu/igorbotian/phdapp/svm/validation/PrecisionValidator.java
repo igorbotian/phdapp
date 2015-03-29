@@ -15,9 +15,9 @@ import java.util.*;
 import java.util.function.Function;
 
 /**
- * Средство кросс-валидации, направленное на точность работы попарного классификатора
+ * Средство кросс-валидации, направленное на точность работы ранжирующего попарного классификатора
  */
-class PrecisionValidator extends AbstractPairwiseClassifierCrossValidator<SingleClassificationReport> {
+class PrecisionValidator extends AbstractRankingPairwiseClassifierCrossValidator<SingleClassificationReport> {
 
     private static final Logger LOGGER = Logger.getLogger(PrecisionValidator.class);
 
@@ -44,7 +44,7 @@ class PrecisionValidator extends AbstractPairwiseClassifierCrossValidator<Single
     }
 
     @Override
-    protected SingleClassificationReport validate(PairwiseClassifier classifier,
+    protected SingleClassificationReport validate(RankingPairwiseClassifier classifier,
                                                   Set<? extends ClassifierParameter<?>> specificClassifierParams,
                                                   CrossValidatorParameterFactory specificValidatorParams)
             throws CrossValidationSampleException, CrossValidationException {
@@ -69,8 +69,7 @@ class PrecisionValidator extends AbstractPairwiseClassifierCrossValidator<Single
 
         try {
             classifier.train(trainingSet, specificClassifierParams);
-            ClassifiedData classifiedData = classifier.classify(testingSet, specificClassifierParams);
-            return composeReport(testingSet, classifiedData, specificClassifierParams, specificValidatorParams);
+            return validate(classifier, specificClassifierParams, specificValidatorParams, testingSet.objects());
         } catch (ClassifierTrainingException e) {
             throw new CrossValidationException("Failed to train objects during cross-validation", e);
         } catch (ClassificationException e) {
@@ -78,11 +77,76 @@ class PrecisionValidator extends AbstractPairwiseClassifierCrossValidator<Single
         }
     }
 
+    private SingleClassificationReport validate(RankingPairwiseClassifier classifier,
+                                                Set<? extends ClassifierParameter<?>> specificClassifierParams,
+                                                CrossValidatorParameterFactory specificValidatorParams,
+                                                Set<? extends UnclassifiedObject> testingSet)
+            throws CrossValidationException, ClassificationException {
+
+        assert classifier != null;
+        assert specificClassifierParams != null;
+        assert testingSet != null;
+
+        Set<Point> testingSetOfPoints = asTestingSetOfPoints(testingSet);
+        Set<Pair<Point, Point>> testingPairs = composeTestingPairs(testingSetOfPoints);
+        Map<Pair<Point, Point>, Boolean> classificationResult
+                = classify(classifier, specificClassifierParams, testingPairs);
+        return composeReport(classificationResult, specificClassifierParams, specificValidatorParams);
+    }
+
+    private <T extends UnclassifiedObject> Map<Pair<T, T>, Boolean> classify(RankingPairwiseClassifier classifier,
+                                                                             Set<? extends ClassifierParameter<?>> specificClassifierParams,
+                                                                             Set<Pair<T, T>> data) throws ClassificationException {
+        assert classifier != null;
+        assert data != null;
+
+        Map<Pair<T, T>, Boolean> results = new HashMap<>();
+
+        for (Pair<T, T> pair : data) {
+            results.put(pair, classifier.classify(pair.first, pair.second, specificClassifierParams));
+        }
+
+        return results;
+    }
+
+    private Set<Point> asTestingSetOfPoints(Set<? extends UnclassifiedObject> testingSet)
+            throws CrossValidationException {
+
+        assert testingSet != null;
+        Set<Point> result = new LinkedHashSet<>();
+
+        for (UnclassifiedObject obj : testingSet) {
+            if (!(obj instanceof Point)) {
+                throw new CrossValidationException("Unsupported type of testing set item: " + obj.getClass().getName());
+            }
+
+            result.add((Point) obj);
+        }
+
+        return result;
+    }
+
+    private <T> Set<Pair<T, T>> composeTestingPairs(Set<T> testingSet) {
+        assert testingSet != null;
+        Set<Pair<T, T>> pairs = new LinkedHashSet<>();
+        Iterator<T> it = testingSet.iterator();
+
+        while (it.hasNext()) {
+            T first = it.next();
+
+            if (it.hasNext()) {
+                pairs.add(new Pair<>(first, it.next()));
+            }
+        }
+
+        return pairs;
+    }
+
     /**
      * Функция, определяющая экспертную оценку для заданных групп объектов
      */
     private Integer judgePoints(Set<? extends ClassifiedObject> firstGroup, Set<? extends ClassifiedObject> secondGroup) {
-        if(bothGroupsBelongToSameClass(firstGroup, secondGroup)) {
+        if (bothGroupsBelongToSameClass(firstGroup, secondGroup)) {
             return 0;
         }
 
@@ -102,14 +166,14 @@ class PrecisionValidator extends AbstractPairwiseClassifierCrossValidator<Single
 
         DataClass clazz = firstGroup.iterator().next().dataClass();
 
-        for(ClassifiedObject obj : firstGroup) {
-            if(!obj.dataClass().equals(clazz)) {
+        for (ClassifiedObject obj : firstGroup) {
+            if (!obj.dataClass().equals(clazz)) {
                 return false;
             }
         }
 
-        for(ClassifiedObject obj : secondGroup) {
-            if(!obj.dataClass().equals(clazz)) {
+        for (ClassifiedObject obj : secondGroup) {
+            if (!obj.dataClass().equals(clazz)) {
                 return false;
             }
         }
@@ -156,22 +220,20 @@ class PrecisionValidator extends AbstractPairwiseClassifierCrossValidator<Single
 
     }
 
+    private Boolean realPointClassifier(Pair<Point, Point> points) {
+        assert points != null;
+        return firstPointIsCloserToSecondSupportingPoint(points.first, points.second);
+    }
+
     /**
      * Формирования отчёта по единичной классификации
      */
-    private SingleClassificationReport composeReport(ClassifiedData realData, ClassifiedData classifiedData,
+    private SingleClassificationReport composeReport(Map<Pair<Point, Point>, Boolean> classificationResult,
                                                      Set<? extends ClassifierParameter<?>> specificClassifierParams,
                                                      CrossValidatorParameterFactory specificValidatorParams)
             throws CrossValidationException {
 
-        Map<String, ClassifiedObject> realObjects = toClassifiedObjectsMap(realData);
-        Map<String, ClassifiedObject> classifiedObjects = toClassifiedObjectsMap(classifiedData);
-
-        if (!realObjects.keySet().equals(classifiedObjects.keySet())) {
-            throw new CrossValidationException("Real objects and their classified equivalents should have the same IDs");
-        }
-
-        Metrics metrics = Metrics.forData(realObjects, classifiedObjects);
+        Metrics metrics = Metrics.forData(classificationResult, this::realPointClassifier);
 
         return reportFactory.newSingleClassificationReport(
                 specificClassifierParams, specificValidatorParams.defaultValues(),
@@ -180,126 +242,58 @@ class PrecisionValidator extends AbstractPairwiseClassifierCrossValidator<Single
     }
 
     /**
-     * Создание ассоциативного массива "идентификатор объекта - сам объект" на основе заданного множества объектов
-     */
-    private Map<String, ClassifiedObject> toClassifiedObjectsMap(ClassifiedData data) throws CrossValidationException {
-        Map<String, ClassifiedObject> map = new HashMap<>();
-
-        for (ClassifiedObject obj : data.objects()) {
-            if (map.containsKey(obj.id())) {
-                throw new CrossValidationException("Classified data contains multiple objects with the same ID: "
-                        + obj.id());
-            }
-
-            map.put(obj.id(), obj);
-        }
-
-        return map;
-    }
-
-    /**
-     * Метрики оценки точности работы классификатора
+     * Метрики оценки точности работы ранжирующего классификатора
      *
      * @see <a href="http://en.wikipedia.org/wiki/Precision_and_recall">http://en.wikipedia.org/wiki/Precision_and_recall</a>
      */
     private static class Metrics {
 
-        private final float accuracy;
-        private final float precision;
-        private final float recall;
-
-        private Metrics(float accuracy, float precision, float recall) {
-            this.accuracy = accuracy;
-            this.precision = precision;
-            this.recall = recall;
-        }
-
-        public static Metrics forData(Map<String, ClassifiedObject> realObjects,
-                                      Map<String, ClassifiedObject> classifiedObjects) {
-
-            assert realObjects.size() == classifiedObjects.size();
-
-            Map<DataClass, MetricsPerClass> metrics = new HashMap<>();
-
-            for (String objId : realObjects.keySet()) {
-                DataClass realClass = realObjects.get(objId).dataClass();
-                DataClass givenClass = classifiedObjects.get(objId).dataClass();
-
-                if (!metrics.containsKey(realClass)) {
-                    metrics.put(realClass, new MetricsPerClass());
-                }
-
-                if (!metrics.containsKey(givenClass)) {
-                    metrics.put(givenClass, new MetricsPerClass());
-                }
-
-                MetricsPerClass metricsPerRealClass = metrics.get(realClass);
-                MetricsPerClass metricsPerGivenClass = metrics.get(givenClass);
-
-                if (realClass.equals(givenClass)) {
-                    metricsPerRealClass.truePositives++;
-                } else {
-                    metricsPerRealClass.falseNegatives++;
-                    metricsPerGivenClass.falsePositives++;
-                }
-            }
-
-            return new Metrics(
-                    averageValue(metrics, MetricsPerClass::accuracy),
-                    averageValue(metrics, MetricsPerClass::precision),
-                    averageValue(metrics, MetricsPerClass::recall)
-            );
-        }
-
-        /**
-         * Вычисление среднего значения по всем классам в выборке для данной метрики
-         */
-        private static float averageValue(Map<DataClass, MetricsPerClass> metrics, Function<MetricsPerClass,
-                Float> metricGetter) {
-
-            float metricSum = 0.0f;
-
-            for (DataClass clazz : metrics.keySet()) {
-                metricSum += metricGetter.apply(metrics.get(clazz));
-            }
-
-            return metricSum / metrics.size();
-        }
-
-        public float accuracy() {
-            return accuracy;
-        }
-
-        public float precision() {
-            return precision;
-        }
-
-        public float recall() {
-            return recall;
-        }
-    }
-
-    /**
-     * Метрики оценки точности работы классификатора применительно к каждому классу классификации отдельно
-     *
-     * @see <a href="http://en.wikipedia.org/wiki/Precision_and_recall">http://en.wikipedia.org/wiki/Precision_and_recall</a>
-     */
-    private static class MetricsPerClass {
-
         /**
          * Количество объектов, которое классификатор верно отнёс к данному классу
          */
-        public int truePositives;
+        private int truePositives;
 
         /**
          * Количество объектов другого класса, которое классификаторо неверно отнёс к данному классу
          */
-        public int falsePositives;
+        private int falsePositives;
 
         /**
          * Количество объектов данного класса, которое классификатор к нему не отнёс
          */
-        public int falseNegatives;
+        private int falseNegatives;
+
+        private Metrics(int truePositives, int falsePositives, int falseNegatives) {
+            this.truePositives = truePositives;
+            this.falsePositives = falsePositives;
+            this.falseNegatives = falseNegatives;
+        }
+
+        public static <T extends UnclassifiedObject> Metrics forData(Map<Pair<T, T>, Boolean> classificationResult,
+                                                                     Function<Pair<T, T>, Boolean> realClassifier) {
+
+            assert classificationResult != null;
+            assert realClassifier != null;
+
+            int truePositives = 0;
+            int falsePositives = 0;
+            int falseNegatives = 0;
+
+            for (Pair<T, T> pair : classificationResult.keySet()) {
+                boolean givenResult = classificationResult.get(pair);
+                boolean realResult = realClassifier.apply(pair);
+
+                if (givenResult && realResult) {
+                    truePositives++;
+                } else if(realResult) {
+                    falseNegatives++;
+                } else if (givenResult) {
+                    falsePositives++;
+                }
+            }
+
+            return new Metrics(truePositives, falsePositives, falseNegatives);
+        }
 
         /**
          * Получение значения метрики Accuracy для заданного класса

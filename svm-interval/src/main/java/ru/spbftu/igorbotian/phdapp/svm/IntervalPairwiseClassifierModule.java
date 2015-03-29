@@ -11,9 +11,8 @@ public class IntervalPairwiseClassifierModule extends PhDAppModule {
     @Override
     protected void configure() {
         install(new QuadraticProgrammingModule());
-        install(new ClassifierImplementationModule());
+        bind(QuadraticProgrammingSolver.class).to(ActiveDualSetQuadraticProgrammingSolver.class);
         bind(IntervalClassifierParameterFactory.class).to(IntervalClassifierParameterFactoryImpl.class);
-        bind(PairwiseClassifier.class).to(IntervalPairwiseClassifier.class);
         bind(RankingPairwiseClassifier.class).to(IntervalRankingPairwiseClassifier.class);
     }
 }

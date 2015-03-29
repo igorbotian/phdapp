@@ -73,7 +73,7 @@ public abstract class BaseQuadraticProgrammingTest {
         Injector injector = Guice.createInjector(Arrays.asList(
                         new DataModule(),
                         new QuadraticProgrammingModule(),
-                        new ClassifierImplementationModule())
+                        new IntervalPairwiseClassifierModule())
         );
         dataFactory = injector.getInstance(DataFactory.class);
         qpSolver = injector.getInstance(QuadraticProgrammingSolver.class);

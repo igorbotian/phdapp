@@ -6,7 +6,7 @@ import ru.spbftu.igorbotian.phdapp.svm.validation.report.SingleClassificationRep
 /**
  * Фабрика средств кросс-валидации попарного классификатора
  *
- * @see PairwiseClassifierCrossValidator
+ * @see RankingPairwiseClassifierCrossValidator
  */
 public interface IntervalPairwiseClassifierCrossValidators {
 
@@ -15,7 +15,7 @@ public interface IntervalPairwiseClassifierCrossValidators {
      *
      * @return средство кросс-валидации для данного действия
      */
-    PairwiseClassifierCrossValidator<SingleClassificationReport> precisionValidator();
+    RankingPairwiseClassifierCrossValidator<SingleClassificationReport> precisionValidator();
 
     /**
      * Средство кросс-валидации, ориентированное на значение точности единичной попарной классификации
@@ -23,14 +23,14 @@ public interface IntervalPairwiseClassifierCrossValidators {
      *
      * @return средство кросс-валидации для данного действия
      */
-    AsyncPairwiseClassifierCrossValidator<SingleClassificationReport> asyncPrecisionValidator();
+    AsyncRankingPairwiseClassifierCrossValidator<SingleClassificationReport> asyncPrecisionValidator();
 
     /**
      * Средство кросс-валидации, ориентированное на среднее значение точности серии попарных классификаций
      *
      * @return средство кросс-валидации для данного действия
      */
-    PairwiseClassifierCrossValidator<MultiClassificationReport> averagePrecisionValidator();
+    RankingPairwiseClassifierCrossValidator<MultiClassificationReport> averagePrecisionValidator();
 
     /**
      * Средство кросс-валидации, ориентированное на среднее значение точности серии попарных классификаций
@@ -38,49 +38,49 @@ public interface IntervalPairwiseClassifierCrossValidators {
      *
      * @return средство кросс-валидации для данного действия
      */
-    AsyncPairwiseClassifierCrossValidator<MultiClassificationReport> asyncAveragePrecisionValidator();
+    AsyncRankingPairwiseClassifierCrossValidator<MultiClassificationReport> asyncAveragePrecisionValidator();
 
     /**
      * Средство анализа зависимости точности классификации от размера выборки
      *
      * @return средство кросс-валидации для данного действия
      */
-    PairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnSampleSizeAnalyzer();
+    RankingPairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnSampleSizeAnalyzer();
 
     /**
      * Средство анализа зависимости точности классификации от размера выборки и работающее в асинхронном режиме
      *
      * @return средство кросс-валидации для данного действия
      */
-    AsyncPairwiseClassifierCrossValidator<MultiClassificationReport> asyncPrecisionDependenceOnSampleSizeAnalyzer();
+    AsyncRankingPairwiseClassifierCrossValidator<MultiClassificationReport> asyncPrecisionDependenceOnSampleSizeAnalyzer();
 
     /**
      * Средство анализа завимимости точности классификации от размера обучающей выборки
      *
      * @return средство кросс-валидации для данного действия
      */
-    PairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnTrainingSetSizeAnalyzer();
+    RankingPairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnTrainingSetSizeAnalyzer();
 
     /**
      * Средство анализа завимимости точности классификации от размера обучающей выборки и работающее в асинхронном режиме
      *
      * @return средство кросс-валидации для данного действия
      */
-    AsyncPairwiseClassifierCrossValidator<MultiClassificationReport> asyncPrecisionDependenceOnTrainingSetSizeAnalyzer();
+    AsyncRankingPairwiseClassifierCrossValidator<MultiClassificationReport> asyncPrecisionDependenceOnTrainingSetSizeAnalyzer();
 
     /**
      * Средство анализа завимимости точности классификации от параметров классификации
      *
      * @return средство кросс-валидации для данного действия
      */
-    PairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnClassifierParametersAnalyzer();
+    RankingPairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnClassifierParametersAnalyzer();
 
     /**
      * Средство анализа завимимости точности классификации от параметров классификации и работающее в асинхронном режиме
      *
      * @return средство кросс-валидации для данного действия
      */
-    AsyncPairwiseClassifierCrossValidator<MultiClassificationReport> asyncPrecisionDependenceOnClassifierParametersAnalyzer();
+    AsyncRankingPairwiseClassifierCrossValidator<MultiClassificationReport> asyncPrecisionDependenceOnClassifierParametersAnalyzer();
 
     /**
      * Средство анализа завимимости точности классификации от процентного соотношения количества точных/интервальных
@@ -88,7 +88,7 @@ public interface IntervalPairwiseClassifierCrossValidators {
      *
      * @return средство кросс-валидации для данного действия
      */
-    PairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnPreciseIntervalJudgementsRatioAnalyzer();
+    RankingPairwiseClassifierCrossValidator<MultiClassificationReport> precisionDependenceOnPreciseIntervalJudgementsRatioAnalyzer();
 
     /**
      * Средство анализа завимимости точности классификации от процентного соотношения количества точных/интервальных
@@ -97,5 +97,5 @@ public interface IntervalPairwiseClassifierCrossValidators {
      *
      * @return средство кросс-валидации для данного действия
      */
-    AsyncPairwiseClassifierCrossValidator<MultiClassificationReport> asyncPrecisionDependenceOnPreciseIntervalJudgementsRatioAnalyzer();
+    AsyncRankingPairwiseClassifierCrossValidator<MultiClassificationReport> asyncPrecisionDependenceOnPreciseIntervalJudgementsRatioAnalyzer();
 }

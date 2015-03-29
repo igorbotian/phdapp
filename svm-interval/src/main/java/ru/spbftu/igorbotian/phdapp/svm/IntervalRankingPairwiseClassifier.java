@@ -25,10 +25,10 @@ public class IntervalRankingPairwiseClassifier implements RankingPairwiseClassif
      * Средство решения задачи квадратичного программирования, применяемое в ходе построения решающей функции
      * для заданной обучающей выборки
      */
-    private QuadraticProgrammingSolver<UnclassifiedObject> qpSolver;
+    private QuadraticProgrammingSolver qpSolver;
 
     @Inject
-    public IntervalRankingPairwiseClassifier(QuadraticProgrammingSolver<UnclassifiedObject> qpSolver) {
+    public IntervalRankingPairwiseClassifier(QuadraticProgrammingSolver qpSolver) {
         this.qpSolver = Objects.requireNonNull(qpSolver);
     }
 

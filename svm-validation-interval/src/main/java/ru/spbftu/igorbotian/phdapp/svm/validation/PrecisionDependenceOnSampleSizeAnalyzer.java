@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 import ru.spbftu.igorbotian.phdapp.svm.ClassifierParameter;
 import ru.spbftu.igorbotian.phdapp.svm.IntervalClassifierParameterFactory;
-import ru.spbftu.igorbotian.phdapp.svm.PairwiseClassifier;
+import ru.spbftu.igorbotian.phdapp.svm.RankingPairwiseClassifier;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.MultiClassificationReport;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.ReportFactory;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.SingleClassificationReport;
@@ -16,7 +16,7 @@ import java.util.*;
 /**
  * Средство анализа зависимости точности классификации от размера обучающей выборки
  */
-class PrecisionDependenceOnSampleSizeAnalyzer extends AbstractPairwiseClassifierCrossValidator<MultiClassificationReport> {
+class PrecisionDependenceOnSampleSizeAnalyzer extends AbstractRankingPairwiseClassifierCrossValidator<MultiClassificationReport> {
 
     private static final Logger LOGGER = Logger.getLogger(PrecisionDependenceOnSampleSizeAnalyzer.class);
 
@@ -26,17 +26,17 @@ class PrecisionDependenceOnSampleSizeAnalyzer extends AbstractPairwiseClassifier
     private final PrecisionValidator precisionValidator;
 
     public PrecisionDependenceOnSampleSizeAnalyzer(CrossValidationSampleManager sampleManager,
-                                                      IntervalClassifierParameterFactory classifierParameterFactory,
-                                                      CrossValidatorParameterFactory crossValidatorParameterFactory,
-                                                      ReportFactory reportFactory,
-                                                      PrecisionValidator precisionValidator,
-                                                      ApplicationConfiguration appConfig) {
+                                                   IntervalClassifierParameterFactory classifierParameterFactory,
+                                                   CrossValidatorParameterFactory crossValidatorParameterFactory,
+                                                   ReportFactory reportFactory,
+                                                   PrecisionValidator precisionValidator,
+                                                   ApplicationConfiguration appConfig) {
         super(sampleManager, classifierParameterFactory, crossValidatorParameterFactory, reportFactory, appConfig);
         this.precisionValidator = Objects.requireNonNull(precisionValidator);
     }
 
     @Override
-    protected MultiClassificationReport validate(PairwiseClassifier classifier,
+    protected MultiClassificationReport validate(RankingPairwiseClassifier classifier,
                                                  Set<? extends ClassifierParameter<?>> specificClassifierParams,
                                                  CrossValidatorParameterFactory specificValidatorParams)
             throws CrossValidationSampleException, CrossValidationException {
@@ -58,7 +58,7 @@ class PrecisionDependenceOnSampleSizeAnalyzer extends AbstractPairwiseClassifier
                         override(specificValidatorParams, Collections.singleton(sampleSizeParam))
                 ));
             } catch (CrossValidationSampleException | CrossValidationException e) {
-                if(stopCrossValidationOnError()) {
+                if (stopCrossValidationOnError()) {
                     throw e;
                 } else {
                     LOGGER.error(e);

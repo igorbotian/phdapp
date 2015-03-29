@@ -24,7 +24,7 @@ import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
 import ru.spbftu.igorbotian.phdapp.output.csv.ReportCSVWriterFactory;
 import ru.spbftu.igorbotian.phdapp.output.summary.ReportSummaryWriterFactory;
-import ru.spbftu.igorbotian.phdapp.svm.PairwiseClassifier;
+import ru.spbftu.igorbotian.phdapp.svm.RankingPairwiseClassifier;
 import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidatorParameterFactory;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.CrossValidationSampleManager;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.MathDataFactory;
@@ -54,7 +54,7 @@ public abstract class AbstractUIHelper implements UIHelper {
                             ReportCSVWriterFactory reportCSVWriterFactory,
                             CrossValidatorParameterFactory crossValidatorParameterFactory,
                             MathDataFactory mathDataFactory,
-                            PairwiseClassifier classifier) {
+                            RankingPairwiseClassifier classifier) {
 
         Objects.requireNonNull(localization);
         Objects.requireNonNull(configuration);

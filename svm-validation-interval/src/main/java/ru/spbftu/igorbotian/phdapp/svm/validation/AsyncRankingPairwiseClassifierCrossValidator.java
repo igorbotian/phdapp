@@ -1,16 +1,16 @@
 package ru.spbftu.igorbotian.phdapp.svm.validation;
 
-import ru.spbftu.igorbotian.phdapp.svm.PairwiseClassifier;
+import ru.spbftu.igorbotian.phdapp.svm.RankingPairwiseClassifier;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.Report;
 
 import java.util.Set;
 
 /**
- * Средство проведения кросс-валидации попарного классификатора с заданными параметрами в асинхронном режиме
+ * Средство проведения кросс-валидации ранжирующего попарного классификатора с заданными параметрами в асинхронном режиме
  *
- * @see PairwiseClassifierCrossValidator
+ * @see RankingPairwiseClassifierCrossValidator
  */
-public interface AsyncPairwiseClassifierCrossValidator<R extends Report> extends PairwiseClassifierCrossValidator<R> {
+public interface AsyncRankingPairwiseClassifierCrossValidator<R extends Report> extends RankingPairwiseClassifierCrossValidator<R> {
 
     /**
      * Регистрация получателя уведомлений о ходе кросс-валидации
@@ -29,14 +29,14 @@ public interface AsyncPairwiseClassifierCrossValidator<R extends Report> extends
     void removeProgressListener(CrossValidationProgressListener listener);
 
     /**
-     * Асинхронная кросс-валидация заданного попарного классификатора с заданными параметрами кросс-валидации.
+     * Асинхронная кросс-валидация заданного ранжирующего попарного классификатора с заданными параметрами кросс-валидации.
      * Только в этом случае будут рассылаться уведомления о ходе кросс-валидации.
      *
      * @param classifier      попарный классификатор
      * @param validatorParams множество параметров кросс-валидации
-     * @throws NullPointerException     если хотя бы один из параметров не задан
+     * @throws NullPointerException если хотя бы один из параметров не задан
      */
-    void validateAsync(PairwiseClassifier classifier, Set<? extends CrossValidatorParameter<?>> validatorParams);
+    void validateAsync(RankingPairwiseClassifier classifier, Set<? extends CrossValidatorParameter<?>> validatorParams);
 
     /**
      * Прерывание процесса кросс-валидации, выполняющегося в асинхронном режиме

@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 import ru.spbftu.igorbotian.phdapp.svm.ClassifierParameter;
 import ru.spbftu.igorbotian.phdapp.svm.IntervalClassifierParameterFactory;
-import ru.spbftu.igorbotian.phdapp.svm.PairwiseClassifier;
+import ru.spbftu.igorbotian.phdapp.svm.RankingPairwiseClassifier;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.MultiClassificationReport;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.ReportFactory;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.SingleClassificationReport;
@@ -16,7 +16,7 @@ import java.util.*;
 /**
  * Средство анализа завимимости точности классификации от размера обучающей выборки
  */
-class TrainingSetSizeRatioAnalyzer extends AbstractPairwiseClassifierCrossValidator<MultiClassificationReport> {
+class TrainingSetSizeRatioAnalyzer extends AbstractRankingPairwiseClassifierCrossValidator<MultiClassificationReport> {
 
     private static final Logger LOGGER = Logger.getLogger(TrainingSetSizeRatioAnalyzer.class);
 
@@ -37,7 +37,7 @@ class TrainingSetSizeRatioAnalyzer extends AbstractPairwiseClassifierCrossValida
     }
 
     @Override
-    protected MultiClassificationReport validate(PairwiseClassifier classifier,
+    protected MultiClassificationReport validate(RankingPairwiseClassifier classifier,
                                                  Set<? extends ClassifierParameter<?>> specificClassifierParams,
                                                  CrossValidatorParameterFactory specificValidatorParams)
             throws CrossValidationSampleException, CrossValidationException {
@@ -48,7 +48,7 @@ class TrainingSetSizeRatioAnalyzer extends AbstractPairwiseClassifierCrossValida
         int stepSize = ratio.stepSize().value();
         List<SingleClassificationReport> iterations = new ArrayList<>((upperBound - lowerBound) / stepSize);
 
-        for(int i = lowerBound; i <= upperBound; i += stepSize) {
+        for (int i = lowerBound; i <= upperBound; i += stepSize) {
             LOGGER.debug("Ratio = " + i);
             CrossValidatorParameter<Integer> ratioParam = specificValidatorParams.trainingTestingSetsSizeRatio(i);
 
@@ -59,7 +59,7 @@ class TrainingSetSizeRatioAnalyzer extends AbstractPairwiseClassifierCrossValida
                         override(specificValidatorParams, Collections.singleton(ratioParam))
                 ));
             } catch (CrossValidationSampleException | CrossValidationException e) {
-                if(stopCrossValidationOnError()) {
+                if (stopCrossValidationOnError()) {
                     throw e;
                 } else {
                     LOGGER.error(e);
