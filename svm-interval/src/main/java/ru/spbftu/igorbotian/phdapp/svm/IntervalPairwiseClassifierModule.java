@@ -14,5 +14,6 @@ public class IntervalPairwiseClassifierModule extends PhDAppModule {
         install(new ClassifierImplementationModule());
         bind(IntervalClassifierParameterFactory.class).to(IntervalClassifierParameterFactoryImpl.class);
         bind(PairwiseClassifier.class).to(IntervalPairwiseClassifier.class);
+        bind(RankingPairwiseClassifier.class).to(IntervalRankingPairwiseClassifier.class);
     }
 }
