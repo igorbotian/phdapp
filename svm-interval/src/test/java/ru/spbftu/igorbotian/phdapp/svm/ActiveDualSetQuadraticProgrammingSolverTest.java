@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import ru.spbftu.igorbotian.phdapp.common.Pair;
 import ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject;
+import ru.spbftu.igorbotian.phdapp.quadprog.QuadraticProgrammingException;
 
 import java.util.Map;
 

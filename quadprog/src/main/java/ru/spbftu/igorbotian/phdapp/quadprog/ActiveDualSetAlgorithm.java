@@ -26,5 +26,5 @@ public interface ActiveDualSetAlgorithm {
      * @see <a href="http://cran.r-project.org/web/packages/quadprog/quadprog.pdf">quadprog</a>
      */
     double[] apply(double[][] matrix, double[] vector,
-                   double[][] constraintMatrix, double[] constraintVector) throws Exception;
+                   double[][] constraintMatrix, double[] constraintVector) throws QuadraticProgrammingException;
 }

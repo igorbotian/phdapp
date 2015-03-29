@@ -1,12 +1,11 @@
-package ru.spbftu.igorbotian.phdapp.svm;
+package ru.spbftu.igorbotian.phdapp.quadprog;
 
 /**
- * Ошибка, произошедшая во время решения задачи квадратичного программирования, являющейся частью исходной задачи
- * классификации
+ * Ошибка, возникшая в ходе решения задачи квадратичного программирования
  *
  * @author Igor Botian <igor.botian@gmail.com>
  */
-class QuadraticProgrammingException extends ClassificationException {
+public class QuadraticProgrammingException extends Exception {
 
     public QuadraticProgrammingException() {
         super();

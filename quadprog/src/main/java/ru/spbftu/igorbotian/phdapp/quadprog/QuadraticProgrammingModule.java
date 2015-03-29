@@ -11,6 +11,6 @@ public class QuadraticProgrammingModule extends PhDAppModule {
 
     @Override
     protected void configure() {
-        bind(ActiveDualSetAlgorithm.class).to(JSQuadProgSolver.class);
+        bind(ActiveDualSetAlgorithm.class).to(QuadProgSolver.class);
     }
 }

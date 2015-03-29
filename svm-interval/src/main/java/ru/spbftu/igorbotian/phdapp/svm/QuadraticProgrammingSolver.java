@@ -3,6 +3,7 @@ package ru.spbftu.igorbotian.phdapp.svm;
 import ru.spbftu.igorbotian.phdapp.common.Pair;
 import ru.spbftu.igorbotian.phdapp.common.PairwiseTrainingSet;
 import ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject;
+import ru.spbftu.igorbotian.phdapp.quadprog.QuadraticProgrammingException;
 
 import java.util.Map;
 
