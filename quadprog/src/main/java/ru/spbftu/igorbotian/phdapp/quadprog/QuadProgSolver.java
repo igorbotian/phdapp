@@ -23,6 +23,10 @@ class QuadProgSolver implements ActiveDualSetAlgorithm {
                 toFortranArray(constraintVector)
         );
 
+        if (solution.message != null && !solution.message.isEmpty()) {
+            throw new QuadraticProgrammingException(solution.message);
+        }
+
         return toJavaArray(solution.solution);
     }
 
