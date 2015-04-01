@@ -4,8 +4,10 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.BeforeClass;
 import ru.spbftu.igorbotian.phdapp.common.*;
+import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfigurationModule;
 import ru.spbftu.igorbotian.phdapp.quadprog.QuadraticProgrammingModule;
 
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -71,6 +73,7 @@ public abstract class BaseQuadraticProgrammingTest {
     @BeforeClass
     public static void init() {
         Injector injector = Guice.createInjector(Arrays.asList(
+                        new ApplicationConfigurationModule(Paths.get(".")),
                         new DataModule(),
                         new QuadraticProgrammingModule(),
                         new IntervalPairwiseClassifierModule())

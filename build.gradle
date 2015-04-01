@@ -188,6 +188,8 @@ project(':quadprog') {
     dependencies {
         compile (
                 log4j,
+                files('lib/RCaller-2.5.jar'),
+                project(':conf-app'),
                 project(':ioc')
         )
 

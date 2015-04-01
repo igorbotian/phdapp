@@ -5,6 +5,9 @@ import com.google.inject.Injector;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfigurationModule;
+
+import java.nio.file.Paths;
 
 /**
  * Проверка корректности результатов решения задачи квадратичного программирования с помощью алгоритма Гольдфарба-Иднани.
@@ -50,7 +53,10 @@ public class ActiveDualSetAlgorithmTest {
 
     @Before
     public void setUp() {
-        Injector injector = Guice.createInjector(new QuadraticProgrammingModule());
+        Injector injector = Guice.createInjector(
+                new QuadraticProgrammingModule(),
+                new ApplicationConfigurationModule(Paths.get("."))
+        );
         solver = injector.getInstance(ActiveDualSetAlgorithm.class);
     }
 
