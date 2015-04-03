@@ -228,6 +228,22 @@ project(':svm-interval') {
     }
 }
 
+project(':svm-precise') {
+    description 'SVM classification mechanism that supports precise data only'
+
+    dependencies {
+        compile(
+                project(':conf-app'),
+                project(':common'),
+                project(':ioc'),
+                project(':quadprog'),
+                project(':svm'),
+                project(':svm-interval'),
+                project(':utils')
+        )
+    }
+}
+
 project(':svm-validation') {
     description 'Cross-validation common entities'
 
