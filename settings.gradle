@@ -1,2 +1,2 @@
-include 'common', 'conf', 'conf-app', 'input', 'input-json', 'ioc', 'locale', 'locale-java-i18n', 'log-log4j', 'main', 'output-csv', 'output-summary', 'quadprog', 'svm', 'svm-interval', 'svm-precise', 'svm-validation', 'svm-validation-interval', 'svm-validation-report', 'svm-validation-sample', 'ui', 'ui-common', 'ui-swing', 'utils'
+include 'common', 'conf', 'conf-app', 'input', 'input-json', 'ioc', 'locale', 'locale-java-i18n', 'log-log4j', 'main', 'output-csv', 'output-summary', 'quadprog', 'svm', 'svm-interval', 'svm-precise', 'svm-validation', 'svm-validation-interval', 'svm-validation-param', 'svm-validation-report', 'svm-validation-sample', 'ui', 'ui-common', 'ui-swing', 'utils'
 rootProject.name = phdAppName

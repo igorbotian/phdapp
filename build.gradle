@@ -144,9 +144,9 @@ project(':main') {
                 project(':output-csv'),
                 project(':output-summary'),
                 project(':quadprog'),
-                project(':svm-validation'),
                 project(':svm-interval'),
                 project(':svm-validation'),
+                project(':svm-validation-param'),
                 project(':svm-validation-interval'),
                 project(':svm-validation-report'),
                 project(':svm-validation-sample'),
@@ -246,14 +246,6 @@ project(':svm-precise') {
 
 project(':svm-validation') {
     description 'Cross-validation common entities'
-
-    dependencies {
-        compile(
-                project(':ioc'),
-                project(':svm'),
-                project(':svm-interval')
-        )
-    }
 }
 
 project(':svm-validation-interval') {
@@ -265,8 +257,21 @@ project(':svm-validation-interval') {
                 project(':svm'),
                 project(':svm-interval'),
                 project(':svm-validation'),
+                project(':svm-validation-param'),
                 project(':svm-validation-report'),
                 project(':svm-validation-sample')
+        )
+    }
+}
+
+project(':svm-validation-param') {
+    description 'Parametrization functionality of the SVM classification mechanism'
+
+    dependencies {
+        compile(
+                project(':ioc'),
+                project(':svm'),
+                project(':svm-interval')
         )
     }
 }
@@ -278,7 +283,7 @@ project(':svm-validation-report') {
         compile(
                 project(':ioc'),
                 project(':svm'),
-                project(':svm-validation')
+                project(':svm-validation-param')
         )
     }
 }
@@ -292,7 +297,7 @@ project(':svm-validation-sample') {
                 project(':conf-app'),
                 project(':svm'),
                 project(':svm-interval'),
-                project(':svm-validation'),
+                project(':svm-validation-param'),
                 project(':utils')
         )
 
