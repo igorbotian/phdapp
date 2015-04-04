@@ -246,6 +246,14 @@ project(':svm-precise') {
 
 project(':svm-validation') {
     description 'Cross-validation common entities'
+
+    dependencies {
+        compile(
+                project(':svm'),
+                project(':svm-validation-param'),
+                project(':svm-validation-report')
+        )
+    }
 }
 
 project(':svm-validation-interval') {

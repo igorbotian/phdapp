@@ -34,7 +34,8 @@ class PrecisionValidator extends AbstractRankingPairwiseClassifierCrossValidator
     protected PrecisionValidator(CrossValidationSampleManager sampleManager,
                                  IntervalClassifierParameterFactory classifierParameterFactory,
                                  CrossValidatorParameterFactory crossValidatorParameterFactory,
-                                 ReportFactory reportFactory, MathDataFactory mathDataFactory,
+                                 ReportFactory reportFactory,
+                                 MathDataFactory mathDataFactory,
                                  DataFactory dataFactory,
                                  ApplicationConfiguration appConfig) {
 

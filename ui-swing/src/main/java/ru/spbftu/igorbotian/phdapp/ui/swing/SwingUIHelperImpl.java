@@ -24,6 +24,7 @@ import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 import ru.spbftu.igorbotian.phdapp.locale.Localization;
 import ru.spbftu.igorbotian.phdapp.output.csv.ReportCSVWriterFactory;
 import ru.spbftu.igorbotian.phdapp.output.summary.ReportSummaryWriterFactory;
+import ru.spbftu.igorbotian.phdapp.svm.IntervalRankingPairwiseClassifier;
 import ru.spbftu.igorbotian.phdapp.svm.RankingPairwiseClassifier;
 import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidatorParameterFactory;
 import ru.spbftu.igorbotian.phdapp.svm.validation.IntervalPairwiseClassifierCrossValidators;
@@ -54,7 +55,7 @@ class SwingUIHelperImpl extends AbstractUIHelper implements SwingUIHelper {
                              ReportCSVWriterFactory reportCSVWriterFactory,
                              CrossValidatorParameterFactory crossValidatorParameterFactory,
                              MathDataFactory mathDataFactory,
-                             RankingPairwiseClassifier classifier,
+                             IntervalRankingPairwiseClassifier classifier,
                              IntervalPairwiseClassifierCrossValidators validators,
                              ErrorDialogs errorDialogs) {
 
