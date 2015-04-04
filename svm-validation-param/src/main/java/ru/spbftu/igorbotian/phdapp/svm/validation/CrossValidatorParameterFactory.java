@@ -10,172 +10,184 @@ import java.util.Set;
 public interface CrossValidatorParameterFactory {
 
     /**
+     * Идентификатор максимально допустимого размера множеств объектов в экспертной оценке
+     */
+    String MAX_JUDGEMENT_GROUP_SIZE_PARAM_ID = "maxJudgementGroupSize";
+
+    /**
+     * Значение по умолчанию максимально допустимого размера множеств объектов в экспертной оценке
+     */
+    int DEFAULT_MAX_JUDGEMENT_GROUP_SIZE_VALUE = 5;
+
+    //-------------------------------------------------------------------------
+
+    /**
      * Идентификатор штрафного параметра
      */
-    public static final String PENALTY_PARAM_ID = IntervalClassifierParameterFactory.PENALTY_PARAM_ID;
+    String PENALTY_PARAM_ID = IntervalClassifierParameterFactory.PENALTY_PARAM_ID;
 
     /**
      * Значение по умолчанию штрафного параметра
      */
-    public static final double PENALTY_PARAM_DEFAULT_VALUE
+    double PENALTY_PARAM_DEFAULT_VALUE
             = IntervalClassifierParameterFactory.PENALTY_PARAM_DEFAULT_VALUE;
 
     /**
      * Значение по умолчанию нижней границы интервального значения штрафного параметра
      */
-    public static final double PENALTY_PARAM_DEFAULT_LOWER_BOUND = 0.1;
+    double PENALTY_PARAM_DEFAULT_LOWER_BOUND = 0.1;
 
     /**
      * Значение по умолчанию верхней границы интервального значения штрафного параметра
      */
-    public static final double PENALTY_PARAM_DEFAULT_UPPER_BOUND = 32;
+    double PENALTY_PARAM_DEFAULT_UPPER_BOUND = 32;
 
     /**
      * Минимально допустимое значение штрафного параметра
      */
-    public static final double PENALTY_PARAM_MIN_VALUE = IntervalClassifierParameterFactory.PENALTY_PARAM_MIN_VALUE;
+    double PENALTY_PARAM_MIN_VALUE = IntervalClassifierParameterFactory.PENALTY_PARAM_MIN_VALUE;
 
     /**
      * Максимально допустимое значение штрафного параметра
      */
-    public static final double PENALTY_PARAM_MAX_VALUE = IntervalClassifierParameterFactory.PENALTY_PARAM_MAX_VALUE;
+    double PENALTY_PARAM_MAX_VALUE = IntervalClassifierParameterFactory.PENALTY_PARAM_MAX_VALUE;
 
     /**
      * Значение по умолчанию величины изменения штрафного параметра в процессе кросс-валидации
      */
-    public static final double PENALTY_PARAM_DEFAULT_STEP_SIZE = 0.1;
+    double PENALTY_PARAM_DEFAULT_STEP_SIZE = 0.1;
 
     /**
      * Минимально допустимое значение величины изменения штрафного параметра в процессе кросс-валидации
      */
-    public static final double PENALTY_PARAM_STEP_SIZE_MIN = 0.001;
+    double PENALTY_PARAM_STEP_SIZE_MIN = 0.001;
 
     /**
      * Максимально допустимое значение величины изменения штрафного параметра в процессе кросс-валидации
      */
-    public static final double PENALTY_PARAM_STEP_SIZE_MAX = PENALTY_PARAM_MAX_VALUE;
+    double PENALTY_PARAM_STEP_SIZE_MAX = PENALTY_PARAM_MAX_VALUE;
 
     //-------------------------------------------------------------------------
 
     /**
      * Идентификатор параметра Гауссова ядра
      */
-    public static final String GAUSSIAN_KERNEL_PARAM_ID = IntervalClassifierParameterFactory.GAUSSIAN_KERNEL_PARAM_ID;
+    String GAUSSIAN_KERNEL_PARAM_ID = IntervalClassifierParameterFactory.GAUSSIAN_KERNEL_PARAM_ID;
 
     /**
      * Значение по умолчанию параметра Гауссова ядра
      */
-    public static final double GAUSSIAN_KERNEL_PARAM_DEFAULT_VALUE
+    double GAUSSIAN_KERNEL_PARAM_DEFAULT_VALUE
             = IntervalClassifierParameterFactory.GAUSSIAN_KERNEL_PARAM_DEFAULT_VALUE;
 
     /**
      * Значение по умолчанию нижней границы интервального значения параметра Гауссова ядра
      */
-    public static final double GAUSSIAN_KERNEL_PARAM_DEFAULT_LOWER_BOUND = 0.1;
+    double GAUSSIAN_KERNEL_PARAM_DEFAULT_LOWER_BOUND = 0.1;
 
     /**
      * Значение по умолчанию верхней границы интервального значения параметра Гауссова ядра
      */
-    public static final double GAUSSIAN_KERNEL_PARAM_DEFAULT_UPPER_BOUND = 32;
+    double GAUSSIAN_KERNEL_PARAM_DEFAULT_UPPER_BOUND = 32;
 
     /**
      * Минимально допустимое значение параметра Гауссова ядра
      */
-    public static final double GAUSSIAN_KERNEL_PARAM_MIN_VALUE
+    double GAUSSIAN_KERNEL_PARAM_MIN_VALUE
             = IntervalClassifierParameterFactory.GAUSSIAN_KERNEL_PARAM_MIN_VALUE;
 
     /**
      * Максимально допустимое значение параметра Гауссова ядра
      */
-    public static final double GAUSSIAN_KERNEL_PARAM_MAX_VALUE
+    double GAUSSIAN_KERNEL_PARAM_MAX_VALUE
             = IntervalClassifierParameterFactory.GAUSSIAN_KERNEL_PARAM_MAX_VALUE;
 
     /**
      * Значение по умолчанию величины изменения параметра Гауссова ядра в процессе кросс-валидации
      */
-    public static final double GAUSSIAN_KERNEL_PARAM_DEFAULT_STEP_SIZE = 0.1;
+    double GAUSSIAN_KERNEL_PARAM_DEFAULT_STEP_SIZE = 0.1;
 
     /**
      * Минимально допустимое значение величины изменения параметра Гауссова ядра в процессе кросс-валидации
      */
-    public static final double GAUSSIAN_KERNEL_PARAM_STEP_SIZE_MIN = 0.001;
+    double GAUSSIAN_KERNEL_PARAM_STEP_SIZE_MIN = 0.001;
 
     /**
      * Максимально допустимое значение величины изменения параметра Гауссова ядра в процессе кросс-валидации
      */
-    public static final double GAUSSIAN_KERNEL_PARAM_STEP_SIZE_MAX = GAUSSIAN_KERNEL_PARAM_MAX_VALUE;
+    double GAUSSIAN_KERNEL_PARAM_STEP_SIZE_MAX = GAUSSIAN_KERNEL_PARAM_MAX_VALUE;
 
     //-------------------------------------------------------------------------
 
     /**
      * Идентификатор параметра, задающего количество генерируемых выборок
      */
-    public static final String SAMPLES_TO_GENERATE_COUNT_ID = "samplesToGenerateCount";
+    String SAMPLES_TO_GENERATE_COUNT_ID = "samplesToGenerateCount";
 
     /**
      * Значение по умолчанию параметра, задающего количество генерируемых выборок
      */
-    public static final int SAMPLES_TO_GENERATE_COUNT_DEFAULT_VALUE = 100;
+    int SAMPLES_TO_GENERATE_COUNT_DEFAULT_VALUE = 100;
 
     /**
      * Значение по умолчанию нижней границы интервального значения параметра, задающего количество генерируемых выборок
      */
-    public static final int SAMPLES_TO_GENERATE_COUNT_DEFAULT_LOWER_BOUND = 1;
+    int SAMPLES_TO_GENERATE_COUNT_DEFAULT_LOWER_BOUND = 1;
 
     /**
      * Значение по умолчанию верхней границы интервального значения параметра, задающего количество генерируемых выборок
      */
-    public static final int SAMPLES_TO_GENERATE_COUNT_DEFAULT_UPPER_BOUND = Integer.MAX_VALUE;
+    int SAMPLES_TO_GENERATE_COUNT_DEFAULT_UPPER_BOUND = Integer.MAX_VALUE;
 
     /**
      * Минимально допустимое значение параметра, задающего количество генерируемых выборок
      */
-    public static final int SAMPLES_TO_GENERATE_COUNT_MIN = 1;
+    int SAMPLES_TO_GENERATE_COUNT_MIN = 1;
 
     /**
      * Максимально допустимое значение параметра, задающего количество генерируемых выборок
      */
-    public static final int SAMPLES_TO_GENERATE_COUNT_MAX = Integer.MAX_VALUE;
+    int SAMPLES_TO_GENERATE_COUNT_MAX = Integer.MAX_VALUE;
 
     /**
      * Значение по умолчанию величины изменения параметра, задающего количество генерируемых выборок,
      * в процессе кросс-валидации
      */
-    public static final int SAMPLES_TO_GENERATE_COUNT_DEFAULT_STEP_SIZE = 1;
+    int SAMPLES_TO_GENERATE_COUNT_DEFAULT_STEP_SIZE = 1;
 
     /**
      * Минимально допустимое значение величины изменения параметра, задающего количество генерируемых выборок,
      * в процессе кросс-валидации
      */
-    public static final int SAMPLES_TO_GENERATE_COUNT_STEP_SIZE_MIN = 1;
+    int SAMPLES_TO_GENERATE_COUNT_STEP_SIZE_MIN = 1;
 
     /**
      * Максимально допустимое значение величины изменения параметра, задающего количество генерируемых выборок,
      * в процессе кросс-валидации
      */
-    public static final int SAMPLES_TO_GENERATE_COUNT_STEP_SIZE_MAX = SAMPLES_TO_GENERATE_COUNT_MAX;
+    int SAMPLES_TO_GENERATE_COUNT_STEP_SIZE_MAX = SAMPLES_TO_GENERATE_COUNT_MAX;
 
     //-------------------------------------------------------------------------
 
     /**
      * Идентификатор параметра, задающего количество объектов в генерируемой выборке
      */
-    public static final String SAMPLE_SIZE_ID = "sampleSize";
+    String SAMPLE_SIZE_ID = "sampleSize";
 
     /**
      * Значение по умолчанию параметра, задающего количество объектов в генерируемой выборке
      */
-    public static final int SAMPLE_SIZE_DEFAULT_VALUE = 1000;
+    int SAMPLE_SIZE_DEFAULT_VALUE = 1000;
 
     /**
      * Значение по умолчанию нижней границы интервального значения параметра, задающего количество объектов в генерируемой выборке
      */
-    public static final int SAMPLE_SIZE_DEFAULT_LOWER_BOUND = 4;
+    int SAMPLE_SIZE_DEFAULT_LOWER_BOUND = 4;
 
     /**
      * Значение по умолчанию верхней границы интервального значения параметра, задающего количество объектов в генерируемой выборке
      */
-    public static final int SAMPLE_SIZE_DEFAULT_UPPER_BOUND = Short.MAX_VALUE;
+    int SAMPLE_SIZE_DEFAULT_UPPER_BOUND = Short.MAX_VALUE;
 
     /**
      * Минимально допустимое значение параметра, задающего количество объектов в генерируемой выборке.
@@ -184,136 +196,154 @@ public interface CrossValidatorParameterFactory {
      * 2) При кросс-валидации генерируемая выборка состоит из объектов из 2-х классов, и при разбиении тестирующая
      * и обучающая выборки сами должны содержать объекты, принадлежащие не менее 2-м классам
      */
-    public static final int SAMPLE_SIZE_MIN = 4;
+    int SAMPLE_SIZE_MIN = 4;
 
     /**
      * Максимально допустимое значение параметра, задающего количество объектов в генерируемой выборке
      */
-    public static final int SAMPLE_SIZE_MAX = Integer.MAX_VALUE;
+    int SAMPLE_SIZE_MAX = Integer.MAX_VALUE;
 
     /**
      * Значение по умолчанию величины изменения параметра, задающего количество объектов в генерируемой выборке,
      * в процессе кросс-валидации
      */
-    public static final int SAMPLE_SIZE_DEFAULT_STEP_SIZE = 2;
+    int SAMPLE_SIZE_DEFAULT_STEP_SIZE = 2;
 
     /**
      * Минимально допустимое значение величины изменения параметра, задающего количество объектов в генерируемой выборке,
      * в процессе кросс-валидации
      */
-    public static final int SAMPLE_SIZE_STEP_SIZE_MIN = 2;
+    int SAMPLE_SIZE_STEP_SIZE_MIN = 2;
 
     /**
      * Минимально допустимое значение величины изменения параметра, задающего количество объектов в генерируемой выборке,
      * в процессе кросс-валидации
      */
-    public static final int SAMPLE_SIZE_STEP_SIZE_MAX = SAMPLE_SIZE_MAX;
+    int SAMPLE_SIZE_STEP_SIZE_MAX = SAMPLE_SIZE_MAX;
 
     //-------------------------------------------------------------------------
 
     /**
      * Идентификатор параметра, задающего соотношение количества объектов, входящих в обучающей и тестирующей выборках
      */
-    public static final String TRAINING_TESTING_SETS_SIZE_RATIO_ID = "trainingTestingSetsSizeRatio";
+    String TRAINING_TESTING_SETS_SIZE_RATIO_ID = "trainingTestingSetsSizeRatio";
 
     /**
      * Значение по умолчанию параметра, задающего соотношение количества объектов, входящих в обучающей и тестирующей выборках
      */
-    public static final int TRAINING_TESTING_SETS_SIZE_RATIO_DEFAULT_VALUE = 30;
+    int TRAINING_TESTING_SETS_SIZE_RATIO_DEFAULT_VALUE = 30;
 
     /**
      * Значение по умолчанию нижней границы интервального значения параметра, задающего соотношение количества объектов,
      * входящих в обучающей и тестирующей выборках
      */
-    public static final int TRAINING_TESTING_SETS_SIZE_RATIO_DEFAULT_LOWER_BOUND = 5;
+    int TRAINING_TESTING_SETS_SIZE_RATIO_DEFAULT_LOWER_BOUND = 5;
 
     /**
      * Значение по умолчанию верхней границы интервального значения параметра, задающего соотношение количества объектов,
      * входящих в обучающей и тестирующей выборках
      */
-    public static final int TRAINING_TESTING_SETS_SIZE_RATIO_DEFAULT_UPPER_BOUND = 100;
+    int TRAINING_TESTING_SETS_SIZE_RATIO_DEFAULT_UPPER_BOUND = 100;
 
     /**
      * Минимально допустимое значение параметра, задающего соотношение количества объектов, входящих в обучающей
      * и тестирующей выборкахе
      */
-    public static final int TRAINING_TESTING_SETS_SIZE_RATIO_MIN = 1;
+    int TRAINING_TESTING_SETS_SIZE_RATIO_MIN = 1;
 
     /**
      * Максимально допустимое значение параметра, задающего соотношение количества объектов, входящих в обучающей
      * и тестирующей выборках
      */
-    public static final int TRAINING_TESTING_SETS_SIZE_RATIO_MAX = 100;
+    int TRAINING_TESTING_SETS_SIZE_RATIO_MAX = 100;
 
     /**
      * Значение по умолчанию величины изменения параметра, задающего соотношение количества объектов,
      * входящих в обучающей и тестирующей выборках, в процессе кросс-валидации
      */
-    public static final int TRAINING_TESTING_SETS_SIZE_RATIO_DEFAULT_STEP_SIZE = 1;
+    int TRAINING_TESTING_SETS_SIZE_RATIO_DEFAULT_STEP_SIZE = 1;
 
     /**
      * Минимальное допустимое величины изменения параметра, задающего соотношение количества объектов,
      * входящих в обучающей и тестирующей выборках, в процессе кросс-валидации
      */
-    public static final int TRAINING_TESTING_SETS_SIZE_RATIO_STEP_SIZE_MIN = 1;
+    int TRAINING_TESTING_SETS_SIZE_RATIO_STEP_SIZE_MIN = 1;
 
     /**
      * Максимально допустимое величины изменения параметра, задающего соотношение количества объектов,
      * входящих в обучающей и тестирующей выборках, в процессе кросс-валидации
      */
-    public static final int TRAINING_TESTING_SETS_SIZE_RATIO_STEP_SIZE_MAX = 50;
+    int TRAINING_TESTING_SETS_SIZE_RATIO_STEP_SIZE_MAX = 50;
 
     //-------------------------------------------------------------------------
 
     /**
      * Идентификатор параметра, задающего соотношение количества точных и интервальных экспертных оценок
      */
-    public static final String PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_ID = "preciseIntervalJudgmentsCountRatio";
+    String PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_ID = "preciseIntervalJudgmentsCountRatio";
 
     /**
      * Значение по умолчанию параметра, задающего соотношение количества точных и интервальных экспертных оценок
      */
-    public static final int PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_DEFAULT_VALUE = 40;
+    int PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_DEFAULT_VALUE = 40;
 
     /**
      * Значение по умолчанию нижней границы интервального значения параметра, задающего соотношение количества точных
      * и интервальных экспертных оценок
      */
-    public static final int PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_DEFAULT_LOWER_BOUND = 0;
+    int PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_DEFAULT_LOWER_BOUND = 0;
 
     /**
      * Значение по умолчанию верхней границы интервального значения параметра, задающего соотношение количества точных
      * и интервальных экспертных оценок
      */
-    public static final int PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_DEFAULT_UPPER_BOUND = 100;
+    int PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_DEFAULT_UPPER_BOUND = 100;
 
     /**
      * Минимально допустимое значение параметра, задающего соотношение количества точных и интервальных экспертных оценок
      */
-    public static final int PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_MIN = 0;
+    int PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_MIN = 0;
 
     /**
      * Максимально допустимое значение параметра, задающего соотношение количества точных и интервальных экспертных оценок
      */
-    public static final int PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_MAX = 100;
+    int PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_MAX = 100;
 
     /**
      * Значение по умолчанию величины изменения параметра, задающего соотношение количества точных
      * и интервальных экспертных оценок, в процессе кросс-валидации
      */
-    public static final int PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_DEFAULT_STEP_SIZE = 1;
+    int PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_DEFAULT_STEP_SIZE = 1;
 
     /**
      * Минимально допустимое значение величины изменения параметра, задающего соотношение количества точных
      * и интервальных экспертных оценок, в процессе кросс-валидации
      */
-    public static final int PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_STEP_SIZE_MIN = 1;
+    int PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_STEP_SIZE_MIN = 1;
 
     /**
      * Максимально допустимое значение величины изменения параметра, задающего соотношение количества точных
      * и интервальных экспертных оценок, в процессе кросс-валидации
      */
-    public static final int PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_STEP_SIZE_MAX = 50;
+    int PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_STEP_SIZE_MAX = 50;
+
+    //-------------------------------------------------------------------------
+
+    /**
+     * Создание параметра, соответствующего максимально допустимому размеру множеств объектов в экспертной оценке
+     *
+     * @return параметр кросс-валидации
+     */
+    CrossValidatorParameter<Integer> maxJudgementGroupSize();
+
+    /**
+     * Создание параметра, соответствующего максимально допустимому размеру множеств объектов в экспертной оценке
+     * и имеющего заданное значение
+     *
+     * @param value целое положительное число, большее нуля
+     * @return параметр кросс-валидации
+     */
+    CrossValidatorParameter<Integer> maxJudgementGroupSize(int value);
 
     //-------------------------------------------------------------------------
 

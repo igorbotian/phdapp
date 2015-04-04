@@ -11,6 +11,17 @@ class CrossValidatorParameterFactoryImpl implements CrossValidatorParameterFacto
 
 
     @Override
+    public CrossValidatorParameter<Integer> maxJudgementGroupSize() {
+        return maxJudgementGroupSize(DEFAULT_MAX_JUDGEMENT_GROUP_SIZE_VALUE);
+    }
+
+    @Override
+    public CrossValidatorParameter<Integer> maxJudgementGroupSize(int value) {
+        return new DefaultCrossValidatorParameterImpl<>(MAX_JUDGEMENT_GROUP_SIZE_PARAM_ID, Integer.class,
+                value, 0, Integer.MAX_VALUE, value, value, 1, 1, 1, Integer::compare);
+    }
+
+    @Override
     public CrossValidatorParameter<Double> penaltyParameter() {
         return penaltyParameter(PENALTY_PARAM_DEFAULT_VALUE);
     }

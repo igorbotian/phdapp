@@ -38,6 +38,7 @@ class CrossValidationProgressWindowDirectorImpl implements CrossValidationProgre
     @Override
     public void validate() {
         selectedValidator().validateAsync(classifier, Stream.of(
+                uiHelper.crossValidatorParamsFrameDirector().maxJudgementGroupSize(),
                 uiHelper.crossValidatorParamsFrameDirector().penaltyParameter(),
                 uiHelper.crossValidatorParamsFrameDirector().gaussianKernelParameter(),
                 uiHelper.crossValidatorParamsFrameDirector().samplesToGenerateCount(),

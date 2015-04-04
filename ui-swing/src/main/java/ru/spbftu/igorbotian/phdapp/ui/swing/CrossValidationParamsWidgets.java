@@ -35,33 +35,38 @@ public interface CrossValidationParamsWidgets {
     /**
      * Величина изменения шага для штрафного параметра
      */
-    public static final double PENALTY_PARAMETER_STEP_SIZE = 0.1;
+    double PENALTY_PARAMETER_STEP_SIZE = 0.1;
 
     /**
      * Величина изменения шага для параметра Гауссова ядра
      */
-    public static final double GAUSSIAN_KERNEL_PARAMETER_STEP_SIZE = 0.1;
+    double GAUSSIAN_KERNEL_PARAMETER_STEP_SIZE = 0.1;
 
     /**
      * Величина изменения шага для параметра, задающего количество генерируемых выборок
      */
-    public static final int SAMPLES_TO_GENERATE_COUNT_STEP_SIZE = 1;
+    int SAMPLES_TO_GENERATE_COUNT_STEP_SIZE = 1;
 
     /**
      * Величина изменения шага для параметра, задающего количество объектов в генерируемой выборке
      */
-    public static final int SAMPLE_SIZE_STEP_SIZE = 2;
+    int SAMPLE_SIZE_STEP_SIZE = 2;
 
     /**
      * Величина изменения шага для параметра, задающего соотношение количества объектов,
      * входящих в обучающей и тестирующей выборках
      */
-    public static final int TRAINING_TESTING_SETS_SIZE_RATIO_STEP_SIZE = 1;
+    int TRAINING_TESTING_SETS_SIZE_RATIO_STEP_SIZE = 1;
 
     /**
      * Величина изменения шага для параметра, задающего соотношение количества точных и интервальных экспертных оценок
      */
-    public static final int PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_STEP_SIZE = 1;
+    int PRECISE_INTERVAL_JUDGEMENTS_COUNT_RATIO_STEP_SIZE = 1;
+
+    /**
+     * Заданное значение максимально допустимого размера множеств объектов в экспертной оценке
+     */
+    IntegerSpinner maxJudgementGroupSizeParamSpinner();
 
     /**
      * Заданное значение штрафного параметра
@@ -69,7 +74,7 @@ public interface CrossValidationParamsWidgets {
     DoubleSpinner precisePenaltyParamSpinner();
 
     /**
-     * Заданный диапазон значений  штрафного параметра
+     * Заданный диапазон значений штрафного параметра
      */
     DoubleRangeSpinner intervalPenaltyParamSpinner();
 

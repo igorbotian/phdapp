@@ -53,7 +53,7 @@ class PrecisionValidator extends AbstractRankingPairwiseClassifierCrossValidator
         int sampleSize = specificValidatorParams.sampleSize().value().value();
         int trainingTestingSetsSizeRatio = specificValidatorParams.trainingTestingSetsSizeRatio().value().value();
         int preciseIntervalJudgementsCountRatio = specificValidatorParams.preciseIntervalJudgmentsCountRatio().value().value();
-        int maxJudgementGroupSize = 5;
+        int maxJudgementGroupSize = specificValidatorParams.maxJudgementGroupSize().value().value();
 
         LOGGER.debug("Sample size = " + sampleSize);
         LOGGER.debug("Training/testing sets size ratio = " + trainingTestingSetsSizeRatio);

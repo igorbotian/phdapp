@@ -35,18 +35,13 @@ import java.util.Objects;
 @Singleton
 class CrossValidationParamsWindowDirectorImpl implements CrossValidationParamsWindowDirector {
 
+    private final MutableCrossValidatorParameter<Integer> maxJudgementGroupSizeParameter;
     private final MutableCrossValidatorParameter<Double> penaltyParameter;
-
     private final MutableCrossValidatorParameter<Double> gaussianKernelParameter;
-
     private final MutableCrossValidatorParameter<Integer> samplesToGenerateCount;
-
     private final MutableCrossValidatorParameter<Integer> sampleSize;
-
     private final MutableCrossValidatorParameter<Integer> trainingTestingSetsSizeRatio;
-
     private final MutableCrossValidatorParameter<Integer> preciseIntervalJudgmentsCountRatio;
-
     private final ApplicationConfiguration appConfig;
 
     @Inject
@@ -54,6 +49,7 @@ class CrossValidationParamsWindowDirectorImpl implements CrossValidationParamsWi
                                                    CrossValidatorParameterFactory crossValidatorParameterFactory) {
 
         this.appConfig = Objects.requireNonNull(appConfig);
+        maxJudgementGroupSizeParameter = newIntegerParameter(crossValidatorParameterFactory.maxJudgementGroupSize());
         penaltyParameter = newDoubleParameter(crossValidatorParameterFactory.penaltyParameter());
         gaussianKernelParameter = newDoubleParameter(crossValidatorParameterFactory.gaussianKernelParameter());
         samplesToGenerateCount = newIntegerParameter(crossValidatorParameterFactory.samplesToGenerateCount());
@@ -70,6 +66,11 @@ class CrossValidationParamsWindowDirectorImpl implements CrossValidationParamsWi
 
     private MutableCrossValidatorParameter<Integer> newIntegerParameter(CrossValidatorParameter<Integer> param) {
         return new PersistentCrossValidatorParameter<>(appConfig, param, Integer::parseInt);
+    }
+
+    @Override
+    public MutableCrossValidatorParameter<Integer> maxJudgementGroupSize() {
+        return maxJudgementGroupSizeParameter;
     }
 
     @Override

@@ -26,6 +26,13 @@ import ru.spbftu.igorbotian.phdapp.svm.validation.MutableCrossValidatorParameter
 public interface CrossValidationParamsWindowDirector {
 
     /**
+     * Получение параметра, задающего максимально допустимый размер множеств экспертной оценки
+     *
+     * @return параметр средства кросс-валидации
+     */
+    MutableCrossValidatorParameter<Integer> maxJudgementGroupSize();
+
+    /**
      * Получение значения штрафного параметра
      *
      * @return параметр классификатора со значением вещественного типа

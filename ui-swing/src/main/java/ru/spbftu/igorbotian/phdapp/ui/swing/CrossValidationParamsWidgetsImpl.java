@@ -41,6 +41,7 @@ class CrossValidationParamsWidgetsImpl implements CrossValidationParamsWidgets {
 
     private final UIHelper uiHelper;
 
+    private final IntegerSpinner maxJudgementGroupSizeParamSpinner;
     private final DoubleSpinner precisePenaltyParamSpinner;
     private final DoubleRangeSpinner intervalPenaltyParamSpinner;
     private final DoubleSpinner preciseGaussianKernelParamSpinner;
@@ -59,6 +60,8 @@ class CrossValidationParamsWidgetsImpl implements CrossValidationParamsWidgets {
         this.uiHelper = Objects.requireNonNull(uiHelper);
 
         CrossValidationParamsWindowDirector director = uiHelper.crossValidatorParamsFrameDirector();
+
+        maxJudgementGroupSizeParamSpinner = preciseIntegerSpinner(director.maxJudgementGroupSize(), 1);
 
         precisePenaltyParamSpinner = preciseDoubleSpinner(director.penaltyParameter(), PENALTY_PARAMETER_STEP_SIZE);
         intervalPenaltyParamSpinner = doubleRangeSpinner(director.penaltyParameter(), PENALTY_PARAMETER_STEP_SIZE);
@@ -161,6 +164,11 @@ class CrossValidationParamsWidgetsImpl implements CrossValidationParamsWidgets {
         spinner.addStepSizeChangeListener(e -> parameter.stepSize().setValue(spinner.getStepSize()));
 
         return spinner;
+    }
+
+    @Override
+    public IntegerSpinner maxJudgementGroupSizeParamSpinner() {
+        return maxJudgementGroupSizeParamSpinner;
     }
 
     @Override

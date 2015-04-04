@@ -38,6 +38,16 @@ class SpecificCrossValidatorParameterFactory implements CrossValidatorParameterF
     }
 
     @Override
+    public CrossValidatorParameter<Integer> maxJudgementGroupSize() {
+        return getParamById(MAX_JUDGEMENT_GROUP_SIZE_PARAM_ID);
+    }
+
+    @Override
+    public CrossValidatorParameter<Integer> maxJudgementGroupSize(int value) {
+        return parameterFactory.maxJudgementGroupSize(value);
+    }
+
+    @Override
     public CrossValidatorParameter<Double> penaltyParameter() {
         return getParamById(CrossValidatorParameterFactory.PENALTY_PARAM_ID);
     }

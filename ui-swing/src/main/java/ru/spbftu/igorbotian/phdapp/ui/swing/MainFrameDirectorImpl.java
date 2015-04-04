@@ -80,6 +80,7 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                 viewSampleButton.addActionListener(e -> new SampleDialog(mainFrame, uiHelper).setVisible(true));
 
                 widgets = new JComponent[]{
+                        uiHelper.widgets().maxJudgementGroupSizeParamSpinner(),
                         uiHelper.widgets().precisePenaltyParamSpinner(),
                         uiHelper.widgets().preciseGaussianKernelParamSpinner(),
                         uiHelper.widgets().preciseTrainingTestingSetsSizeRatioSpinner(),
@@ -92,6 +93,7 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                 break;
             case CALCULATE_AVERAGE_PRECISION:
                 widgets = new JComponent[]{
+                        uiHelper.widgets().maxJudgementGroupSizeParamSpinner(),
                         uiHelper.widgets().preciseSampleSizeSpinner(),
                         uiHelper.widgets().preciseSamplesToGenerateCountSpinner(),
                         uiHelper.widgets().precisePenaltyParamSpinner(),
@@ -106,6 +108,7 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                 break;
             case ANALYZE_PRECISION_ON_SAMPLE_SIZE_DEPENDENCE:
                 widgets = new JComponent[]{
+                        uiHelper.widgets().maxJudgementGroupSizeParamSpinner(),
                         uiHelper.widgets().intervalSampleSizeSpinner(),
                         uiHelper.widgets().precisePenaltyParamSpinner(),
                         uiHelper.widgets().preciseGaussianKernelParamSpinner(),
@@ -119,6 +122,7 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                 break;
             case ANALYZE_PRECISION_ON_TRAINING_TESTING_SETS_SIZE_RATIO_DEPENDENCE:
                 widgets = new JComponent[]{
+                        uiHelper.widgets().maxJudgementGroupSizeParamSpinner(),
                         uiHelper.widgets().preciseSampleSizeSpinner(),
                         uiHelper.widgets().precisePenaltyParamSpinner(),
                         uiHelper.widgets().preciseGaussianKernelParamSpinner(),
@@ -132,6 +136,7 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                 break;
             case ANALYZE_PRECISION_ON_CLASSIFIER_PARAMS_DEPENDENCE:
                 widgets = new JComponent[]{
+                        uiHelper.widgets().maxJudgementGroupSizeParamSpinner(),
                         uiHelper.widgets().preciseSampleSizeSpinner(),
                         uiHelper.widgets().intervalPenaltyParamSpinner(),
                         uiHelper.widgets().intervalGaussianKernelParamSpinner(),
@@ -145,6 +150,7 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                 break;
             case ANALYZE_PRECISION_ON_PRECISE_INTERVAL_SETS_SIZE_RATIO_DEPENDENCE:
                 widgets = new JComponent[]{
+                        uiHelper.widgets().maxJudgementGroupSizeParamSpinner(),
                         uiHelper.widgets().preciseSampleSizeSpinner(),
                         uiHelper.widgets().precisePenaltyParamSpinner(),
                         uiHelper.widgets().preciseGaussianKernelParamSpinner(),
