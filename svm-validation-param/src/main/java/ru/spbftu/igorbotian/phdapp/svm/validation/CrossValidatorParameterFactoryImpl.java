@@ -179,6 +179,7 @@ class CrossValidatorParameterFactoryImpl implements CrossValidatorParameterFacto
     @Override
     public Set<CrossValidatorParameter<?>> defaultValues() {
         return Stream.of(
+                maxJudgementGroupSize(),
                 penaltyParameter(),
                 gaussianKernelParameter(),
                 samplesToGenerateCount(),

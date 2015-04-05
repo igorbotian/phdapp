@@ -73,5 +73,6 @@ public class CSVWriter extends PrintWriter {
     public void writeLine(String... elements) throws IOException {
         write(String.join(";", Objects.requireNonNull(elements)));
         write(LINE_BREAK);
+        flush();
     }
 }

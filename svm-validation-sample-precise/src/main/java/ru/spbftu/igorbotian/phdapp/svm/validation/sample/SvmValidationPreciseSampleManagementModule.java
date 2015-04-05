@@ -12,6 +12,7 @@ public class SvmValidationPreciseSampleManagementModule extends PhDAppModule {
 
     @Override
     protected void configure() {
+        bind(CrossValidationSampleManager.class).to(PreciseCrossValidationSampleManagerImpl.class);
         bind(PreciseCrossValidationSampleManager.class).to(PreciseCrossValidationSampleManagerImpl.class);
     }
 }

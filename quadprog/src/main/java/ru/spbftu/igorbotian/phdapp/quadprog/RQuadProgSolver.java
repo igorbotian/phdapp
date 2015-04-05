@@ -41,18 +41,15 @@ class RQuadProgSolver implements ActiveDualSetAlgorithm {
     private static final String SOLUTION_VAR = "solution";
 
     /**
-     * Средство запуска R-скриптов из Java
+     * Путь к исполняемому файлу среды R
      */
-    private final RCaller rCaller = new RCaller();
+    private final Path rScriptExecutablePath;
 
     @Inject
     public RQuadProgSolver(ApplicationConfiguration config) {
-        Path rScriptPath = Paths.get(Objects.requireNonNull(config).getString(RSCRIPT_PATH_PARAM, UNIX_RSCRIPT_PATH));
+        rScriptExecutablePath = Paths.get(Objects.requireNonNull(config).getString(RSCRIPT_PATH_PARAM, UNIX_RSCRIPT_PATH));
 
-        if (Files.exists(rScriptPath)) {
-            rCaller.setRscriptExecutable(rScriptPath.toAbsolutePath().toString());
-        } else {
-            LOGGER.fatal("Please add path to RScript executable as a value of 'RScript' configuration parameter");
+        if (!Files.exists(rScriptExecutablePath)) {
             throw new IllegalStateException("RScript executable is not set");
         }
     }
@@ -82,6 +79,8 @@ class RQuadProgSolver implements ActiveDualSetAlgorithm {
         code.addRCode(String.format("%s <- solve.QP(%s, %s, t(%s), %s)", RESULT_VAR, DMAT_VAR, DVEC_VAR, AMAT_VAR, BVEC_VAR));
 
         try {
+            RCaller rCaller = new RCaller();
+            rCaller.setRscriptExecutable(rScriptExecutablePath.toAbsolutePath().toString());
             rCaller.setRCode(code);
             LOGGER.debug("Executing generated R script to solve quadratic programming problem");
             rCaller.runAndReturnResult(RESULT_VAR);

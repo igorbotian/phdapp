@@ -378,7 +378,7 @@ class IntervalCrossValidationSampleManagerImpl implements IntervalCrossValidatio
     divideIntoPreciseAndIntervalJudgements(ClassifiedData source, int ratio) throws CrossValidationSampleException {
 
         int objectCount = source.objects().size();
-        assert (objectCount >= 2 && objectCount % 2 == 0);
+        assert objectCount >= 2;
 
         int preciseJudgementsSetSize = (int) Math.floor(objectCount * (100.0 - ratio) / 100.0);
 
