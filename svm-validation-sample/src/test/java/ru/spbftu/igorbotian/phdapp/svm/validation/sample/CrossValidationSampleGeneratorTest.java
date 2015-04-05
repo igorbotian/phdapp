@@ -43,12 +43,12 @@ public class CrossValidationSampleGeneratorTest {
     @Before
     public void setUp() {
         Injector injector = Guice.createInjector(
-                new DataModule(),
                 new ApplicationConfigurationModule(Paths.get(".")),
+                new DataModule(),
                 new SvmValidationSampleManagementModule()
         );
 
-        sampleGenerator = injector.getInstance(CrossValidationSampleManager.class).sampleGenerator();
+        sampleGenerator = injector.getInstance(CrossValidationSampleGenerator.class);
     }
 
     @Test

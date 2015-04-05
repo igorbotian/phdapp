@@ -14,12 +14,13 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Реализация средства формирования выборки для кросс-валидации классификатора
+ * Реализация средства формирования выборки для кросс-валидации ранжирующего попарного классификатора, поддерживающего
+ * групповые экспертные оценки
  */
 @Singleton
-class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
+class IntervalCrossValidationSampleManagerImpl implements IntervalCrossValidationSampleManager {
 
-    private static final Logger LOGGER = Logger.getLogger(CrossValidationSampleManagerImpl.class);
+    private static final Logger LOGGER = Logger.getLogger(IntervalCrossValidationSampleManagerImpl.class);
 
     /**
      * Фабрика объектов предметной области
@@ -32,8 +33,8 @@ class CrossValidationSampleManagerImpl implements CrossValidationSampleManager {
     private CrossValidationSampleGenerator sampleGenerator;
 
     @Inject
-    public CrossValidationSampleManagerImpl(DataFactory dataFactory, MathDataFactory mathDataFactory,
-                                            ApplicationConfiguration appConfig) {
+    public IntervalCrossValidationSampleManagerImpl(DataFactory dataFactory, MathDataFactory mathDataFactory,
+                                                    ApplicationConfiguration appConfig) {
         this.dataFactory = Objects.requireNonNull(dataFactory);
 
         sampleGenerator = new CrossValidationSampleGeneratorImpl(dataFactory,

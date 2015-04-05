@@ -16,7 +16,7 @@ import java.util.Set;
 /**
  * Модульный тест для класса <code>CrossValidationSampleManager</code>
  */
-public class CrossValidationSampleManagerTest {
+public class IntervalCrossValidationSampleManagerTest {
 
     /**
      * Тестируемый класс
@@ -28,9 +28,10 @@ public class CrossValidationSampleManagerTest {
         Injector injector = Guice.createInjector(
                 new DataModule(),
                 new ApplicationConfigurationModule(Paths.get(".")),
-                new SvmValidationSampleManagementModule()
+                new SvmValidationSampleManagementModule(),
+                new SvmValidationIntervalSampleManagementModule()
         );
-        sampleManager = injector.getInstance(CrossValidationSampleManager.class);
+        sampleManager = injector.getInstance(IntervalCrossValidationSampleManager.class);
     }
 
     @Test
@@ -38,14 +39,6 @@ public class CrossValidationSampleManagerTest {
         int sampleSize = 50;
         Assert.assertEquals(sampleSize, sampleManager.generateSample(sampleSize).objects().size());
     }
-
-    /*
-    // this test requires too long time
-    @Test
-    public void testGenerateSampleWithMaximumSize() throws CrossValidationSampleException {
-        int sampleSize = CrossValidatorParameterFactory.SAMPLE_SIZE_MAX;
-        Assert.assertEquals(sampleSize, sampleManager.generateSample(sampleSize).judgements().size());
-    }*/
 
     @Test
     public void testGenerateSampleWithMinimumSize() throws CrossValidationSampleException {

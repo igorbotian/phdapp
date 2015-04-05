@@ -18,6 +18,7 @@
 
 package ru.spbftu.igorbotian.phdapp.svm.validation.sample;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import ru.spbftu.igorbotian.phdapp.common.DataFactory;
 import ru.spbftu.igorbotian.phdapp.common.ExponentialRandom;
@@ -82,6 +83,7 @@ class CrossValidationSampleGeneratorImpl implements CrossValidationSampleGenerat
      */
     private Set<Point> secondSet = new HashSet<>();
 
+    @Inject
     public CrossValidationSampleGeneratorImpl(DataFactory dataFactory, MathDataFactory mathDataFactory,
                                               ApplicationConfiguration appConfig) {
         Objects.requireNonNull(dataFactory);

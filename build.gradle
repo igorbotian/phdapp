@@ -304,7 +304,6 @@ project(':svm-validation-sample') {
         compile(
                 project(':common'),
                 project(':conf-app'),
-                project(':locale-java-i18n'),
                 project(':svm'),
                 project(':svm-interval'),
                 project(':svm-validation-param'),

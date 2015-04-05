@@ -35,6 +35,7 @@ import ru.spbftu.igorbotian.phdapp.svm.IntervalPairwiseClassifierModule;
 import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidationParametrizationModule;
 import ru.spbftu.igorbotian.phdapp.svm.validation.SvmIntervalClassifierValidationModule;
 import ru.spbftu.igorbotian.phdapp.svm.validation.report.SvmValidationReportManagementModule;
+import ru.spbftu.igorbotian.phdapp.svm.validation.sample.SvmValidationIntervalSampleManagementModule;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.SvmValidationSampleManagementModule;
 import ru.spbftu.igorbotian.phdapp.ui.UserInterface;
 import ru.spbftu.igorbotian.phdapp.ui.swing.SwingUserInterfaceModule;
@@ -79,6 +80,7 @@ public class PhDApp {
             new CrossValidationParametrizationModule(),
             new SvmValidationReportManagementModule(),
             new SvmValidationSampleManagementModule(),
+            new SvmValidationIntervalSampleManagementModule(),
             new SvmIntervalClassifierValidationModule(),
             new CSVOutputDataManagementModule(),
             new SummaryOutputDataManagementModule(),
