@@ -46,7 +46,9 @@ class TrainingSetSizeRatioAnalyzer extends AbstractRankingPairwiseClassifierCros
         int lowerBound = ratio.lowerBound().value();
         int upperBound = ratio.upperBound().value();
         int stepSize = ratio.stepSize().value();
-        List<SingleClassificationReport> iterations = new ArrayList<>((upperBound - lowerBound) / stepSize);
+        int numberOfIterations = (int) Math.ceil((upperBound - lowerBound) / stepSize) + 1 /* incl. upperBound */;
+        int iterationsCompleted = 0;
+        List<SingleClassificationReport> iterations = new ArrayList<>(iterationsCompleted);
 
         for (int i = lowerBound; i <= upperBound; i += stepSize) {
             LOGGER.debug("Ratio = " + i);
@@ -66,8 +68,8 @@ class TrainingSetSizeRatioAnalyzer extends AbstractRankingPairwiseClassifierCros
                 }
             }
 
-            fireCrossValidationContinued((int) (100 * (((float) i - (float) lowerBound)
-                    / ((float) upperBound - (float) lowerBound))));
+            iterationsCompleted++;
+            fireCrossValidationContinued((int) (100 * ((float) iterationsCompleted / (float) numberOfIterations)));
 
             if (processInterrupted()) {
                 fireCrossValidationInterrupted();

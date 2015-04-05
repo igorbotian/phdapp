@@ -63,8 +63,8 @@ class PrecisionDependenceOnClassifierParametersAnalyzer
         double gkpUpperBound = gaussianKernelParam.upperBound().value();
         double gkpStepSize = gaussianKernelParam.stepSize().value();
 
-        int numberOfIterations = (int) (((ppUpperBound - ppLowerBound) / ppStepSize)
-                * ((gkpUpperBound - gkpLowerBound) / gkpStepSize));
+        int numberOfIterations = (int) ((Math.ceil((ppUpperBound - ppLowerBound) / ppStepSize) + 1 /* incl. ppUpperBound */)
+                * (Math.ceil((gkpUpperBound - gkpLowerBound) / gkpStepSize) + 1 /* incl. gkpUpperBound */));
         int iterationsCompleted = 0;
         List<SingleClassificationReport> iterations = new ArrayList<>(numberOfIterations);
 
