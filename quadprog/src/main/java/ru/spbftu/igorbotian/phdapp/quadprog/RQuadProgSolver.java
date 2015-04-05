@@ -83,7 +83,9 @@ class RQuadProgSolver implements ActiveDualSetAlgorithm {
 
         try {
             rCaller.setRCode(code);
+            LOGGER.debug("Executing generated R script to solve quadratic programming problem");
             rCaller.runAndReturnResult(RESULT_VAR);
+            LOGGER.debug("Parsing results of the R script executed");
             return rCaller.getParser().getAsDoubleArray(SOLUTION_VAR);
         } catch (ExecutionException e) {
             throw new QuadraticProgrammingException("Unable to solve a quadratic programming problem", e);

@@ -59,10 +59,12 @@ public class PhDApp {
      * Название системного свойства, значение которого указывает на директорию для хранения конфигурационных файлов
      */
     private static final String CONFIG_FOLDER_SYSTEM_PROPERTY = "phdapp.conf.folder";
+
     /**
      * Директория для хранения конфигурационных файлов
      */
     private static final Path CONFIG_FOLDER = getConfigFolder();
+
     /**
      * Список из модулей приложения
      */

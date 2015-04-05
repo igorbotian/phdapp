@@ -57,12 +57,12 @@ class DecisionFunction<T> {
         double first = compute(new Pair<>(object, objectToCompareWith));
         double second = compute(new Pair<>(objectToCompareWith, object));
 
-        if (first - second == 0.0) {
+        /*if (first - second == 0.0) {
             throw new DecisionException("Cannot decide which object in the pair is preferable: " + object.toString()
                     + "; " + objectToCompareWith.toString());
-        }
+        }*/
 
-        return (first > second);
+        return (first >= second);
     }
 
     private double compute(Pair<T, T> objectsToCompare) {
