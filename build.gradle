@@ -150,6 +150,7 @@ project(':main') {
                 project(':svm-validation-interval'),
                 project(':svm-validation-report'),
                 project(':svm-validation-sample'),
+                project(':svm-validation-sample-interval'),
                 project(':ui-swing'),
                 project(':utils')
         )
@@ -297,12 +298,13 @@ project(':svm-validation-report') {
 }
 
 project(':svm-validation-sample') {
-    description 'Cross-validation sample manager for the new SVM classification mechanism'
+    description 'Cross-validation sample manager for generic SVM classification mechanism'
 
     dependencies {
         compile(
                 project(':common'),
                 project(':conf-app'),
+                project(':locale-java-i18n'),
                 project(':svm'),
                 project(':svm-interval'),
                 project(':svm-validation-param'),
@@ -312,6 +314,28 @@ project(':svm-validation-sample') {
         testCompile(
                 junit,
                 project(':common').sourceSets.test.output
+        )
+    }
+}
+
+project(':svm-validation-sample-interval') {
+    description 'Cross-validation sample manager for the new SVM classification mechanism'
+
+    dependencies {
+        compile(
+                project(':svm-validation-sample')
+        )
+
+        testCompile junit
+    }
+}
+
+project(':svm-validation-sample-precise') {
+    description 'Cross-validation sample manager for SVM classification mechanism which supports precise judgements only'
+
+    dependencies {
+        compile(
+                project(':svm-validation-sample')
         )
     }
 }
