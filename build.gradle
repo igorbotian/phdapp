@@ -325,7 +325,10 @@ project(':svm-validation-sample-interval') {
                 project(':svm-validation-sample')
         )
 
-        testCompile junit
+        testCompile(
+                junit,
+                project(':svm-validation-sample').sourceSets.test.output
+        )
     }
 }
 
@@ -335,6 +338,11 @@ project(':svm-validation-sample-precise') {
     dependencies {
         compile(
                 project(':svm-validation-sample')
+        )
+
+        testCompile(
+                junit,
+                project(':svm-validation-sample').sourceSets.test.output
         )
     }
 }

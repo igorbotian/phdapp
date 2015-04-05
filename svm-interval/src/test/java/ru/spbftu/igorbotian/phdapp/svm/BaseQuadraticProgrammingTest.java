@@ -73,7 +73,7 @@ public abstract class BaseQuadraticProgrammingTest {
     @BeforeClass
     public static void init() {
         Injector injector = Guice.createInjector(Arrays.asList(
-                        new ApplicationConfigurationModule(Paths.get(".")),
+                        new ApplicationConfigurationModule(Paths.get("..")),
                         new DataModule(),
                         new QuadraticProgrammingModule(),
                         new IntervalPairwiseClassifierModule())

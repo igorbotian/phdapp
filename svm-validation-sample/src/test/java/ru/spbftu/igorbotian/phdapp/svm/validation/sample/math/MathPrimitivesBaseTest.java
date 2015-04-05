@@ -22,7 +22,7 @@ public abstract class MathPrimitivesBaseTest<T> extends BaseDataTest<T> {
     public void setUp() {
         Injector injector = Guice.createInjector(
                 new DataModule(),
-                new ApplicationConfigurationModule(Paths.get(".")),
+                new ApplicationConfigurationModule(Paths.get("..")),
                 new SvmValidationSampleManagementModule()
         );
 

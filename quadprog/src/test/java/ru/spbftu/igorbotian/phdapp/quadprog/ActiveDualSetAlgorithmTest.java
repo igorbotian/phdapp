@@ -55,7 +55,7 @@ public class ActiveDualSetAlgorithmTest {
     public void setUp() {
         Injector injector = Guice.createInjector(
                 new QuadraticProgrammingModule(),
-                new ApplicationConfigurationModule(Paths.get("."))
+                new ApplicationConfigurationModule(Paths.get(".."))
         );
         solver = injector.getInstance(ActiveDualSetAlgorithm.class);
     }
