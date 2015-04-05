@@ -73,7 +73,11 @@ class PreciseCrossValidationSampleManagerImpl implements PreciseCrossValidationS
         if(trainingSetSize == 0) {
             trainingSetSize = 2;
         } else if (trainingSetSize % 2 != 0) {
-            trainingSetSize++;
+            if(trainingSetSize > 2) {
+                trainingSetSize--;
+            } else {
+                trainingSetSize++;
+            }
             assert (sampleSize - trainingSetSize) % 2 == 0;
         } else if(sampleSize == trainingSetSize) {
             trainingSetSize -= 2;

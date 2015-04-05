@@ -333,9 +333,9 @@ class IntervalCrossValidationSampleManagerImpl implements IntervalCrossValidatio
     /**
      * Проверка, что из заданного количества объектов могут быть сформированы экспертные оценки
      */
-    private void checkSourceSize(ClassifiedData source) {
+    private void checkSourceSize(ClassifiedData source) throws CrossValidationSampleException {
         if (source.objects().size() == 1 || source.objects().size() == 3) {
-            throw new IllegalArgumentException(source.objects().size() + " objects cannot be divided to judgement groups");
+            throw new CrossValidationSampleException(source.objects().size() + " objects cannot be divided to judgement groups");
         }
     }
 

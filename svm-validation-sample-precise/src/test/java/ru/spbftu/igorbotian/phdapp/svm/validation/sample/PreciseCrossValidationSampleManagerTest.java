@@ -34,7 +34,7 @@ public class PreciseCrossValidationSampleManagerTest extends CrossValidationSamp
 
     @Test
     public void testDivideSampleIntoTwoSets() throws CrossValidationSampleException {
-        testDivideSampleIntoTwoSets(10, 50, 6, 4);
+        testDivideSampleIntoTwoSets(10, 50, 4, 6);
         testDivideSampleIntoTwoSets(12, 50, 6, 6);
         testDivideSampleIntoTwoSets(10, 1, 2, 8);
         testDivideSampleIntoTwoSets(10, 100, 8, 2);

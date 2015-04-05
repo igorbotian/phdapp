@@ -187,14 +187,14 @@ project(':quadprog') {
     description "Quadratic programming problem solving mechanism"
 
     dependencies {
-        compile (
+        compile(
                 log4j,
                 files('lib/RCaller-2.5.jar'),
                 project(':conf-app'),
                 project(':ioc')
         )
 
-        testCompile (
+        testCompile(
                 googleGuice,
                 junit
         )
@@ -208,6 +208,23 @@ project(':svm') {
         compile(
                 project(':common'),
                 project(':ioc')
+        )
+    }
+}
+
+project(':svm-checker') {
+    description 'All-in-one comparison mechanism of different ranking pairwise classifiers'
+
+    dependencies {
+        testCompile(
+                junit,
+                googleGuice,
+                project(':log-log4j'),
+                project(':output-csv'),
+                project(':locale-java-i18n'),
+                project(':svm-validation-interval'),
+                project(':svm-validation-sample-interval'),
+                project(':svm-validation-sample-precise')
         )
     }
 }
@@ -414,9 +431,9 @@ apply plugin: 'application'
 mainClassName = phdAppMainClassName
 applicationDefaultJvmArgs = [
         "-Dphdapp.conf.folder=../conf",
-         "-ea",
-         "-Duser.country=US",
-         "-Duser.language=en"
+        "-ea",
+        "-Duser.country=US",
+        "-Duser.language=en"
 ]
 
 startScripts {
