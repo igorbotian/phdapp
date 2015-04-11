@@ -181,10 +181,6 @@ public class BaseChecker {
         return false;
     }
 
-    protected CrossValidatorParameter<?> preciseJudgementsOnly() {
-        return parameters.maxJudgementGroupSize(1);
-    }
-
     protected CrossValidatorParameter<?> maxJudgementGroupSize(int value) {
         return parameters.maxJudgementGroupSize(value);
     }

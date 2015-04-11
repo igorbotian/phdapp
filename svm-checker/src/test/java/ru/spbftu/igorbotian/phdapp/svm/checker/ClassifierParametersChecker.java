@@ -31,7 +31,6 @@ public class ClassifierParametersChecker extends BaseChecker {
         check(
                 "classifier_params_precise.csv",
                 preciseValidators.precisionDependenceOnClassifierParametersAnalyzer(),
-                preciseJudgementsOnly(),
                 withGaussianKernel(GAUSSIAN_KERNEL_FROM, GAUSSIAN_KERNEL_TO, GAUSSIAN_KERNEL_STEP),
                 withPenalty(PENALTY_FROM, PENALTY_TO, PENALTY_STEP)
         );

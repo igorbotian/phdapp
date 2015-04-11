@@ -21,8 +21,7 @@ public class AveragePrecisionChecker extends BaseChecker {
     public void testPreciseClassifier() throws IOException, CrossValidationException {
         check(
                 "average_precision_precise.csv",
-                preciseValidators.averagePrecisionValidator(),
-                preciseJudgementsOnly()
+                preciseValidators.averagePrecisionValidator()
         );
     }
 

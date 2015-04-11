@@ -3,12 +3,15 @@ package ru.spbftu.igorbotian.phdapp.svm.validation.sample;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import ru.spbftu.igorbotian.phdapp.common.*;
+import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.MathDataFactory;
 import ru.spbftu.igorbotian.phdapp.svm.validation.sample.math.Point;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 import java.util.function.BiFunction;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.function.Function;
 
 /**
  * Реализация средства формирования выборки для кросс-валидации ранжирующего попарного классификатора,
@@ -20,93 +23,33 @@ import java.util.stream.Stream;
 class PreciseCrossValidationSampleManagerImpl implements PreciseCrossValidationSampleManager {
 
     private final DataFactory dataFactory;
-    private final CrossValidationSampleGenerator sampleGenerator;
+    private final MathDataFactory mathDataFactory;
+    private final IntervalCrossValidationSampleManager sampleManager;
 
     @Inject
     public PreciseCrossValidationSampleManagerImpl(DataFactory dataFactory,
-                                                   CrossValidationSampleGenerator sampleGenerator) {
+                                                   MathDataFactory mathDataFactory,
+                                                   IntervalCrossValidationSampleManager sampleManager) {
 
         this.dataFactory = Objects.requireNonNull(dataFactory);
-        this.sampleGenerator = Objects.requireNonNull(sampleGenerator);
+        this.mathDataFactory = Objects.requireNonNull(mathDataFactory);
+        this.sampleManager = Objects.requireNonNull(sampleManager);
     }
 
     @Override
     public CrossValidationSampleGenerator sampleGenerator() {
-        return sampleGenerator;
+        return sampleManager.sampleGenerator();
     }
 
     @Override
     public ClassifiedData generateSample(int sampleSize) throws CrossValidationSampleException {
-        checkSampleSize(sampleSize);
-
-        sampleGenerator.regeneratePoints(sampleSize);
-        Set<Point> first = sampleGenerator.firstSetOfPoints();
-        Set<Point> second = sampleGenerator.secondSetOfPoints();
-
-        Set<DataClass> classes = Stream.of(
-                first.iterator().next().dataClass(),
-                second.iterator().next().dataClass()
-        ).collect(Collectors.toSet());
-
-        Set<ClassifiedObject> objects = new HashSet<>();
-        objects.addAll(first);
-        objects.addAll(second);
-
-        try {
-            return dataFactory.newClassifiedData(classes, objects);
-        } catch (DataException e) {
-            throw new CrossValidationSampleException("Failed to generate sample", e);
-        }
+        return sampleManager.generateSample(sampleSize);
     }
 
     @Override
     public Pair<ClassifiedData, ClassifiedData> divideSampleIntoTwoGroups(ClassifiedData sample, int ratio)
             throws CrossValidationSampleException {
-
-        Objects.requireNonNull(sample);
-        checkSampleSize(sample.objects().size());
-        checkRatio(ratio);
-
-        int sampleSize = sample.objects().size();
-        int trainingSetSize = (sampleSize * ratio / 100);
-
-        if(trainingSetSize == 0) {
-            trainingSetSize = 2;
-        } else if (trainingSetSize % 2 != 0) {
-            if(trainingSetSize > 2) {
-                trainingSetSize--;
-            } else {
-                trainingSetSize++;
-            }
-            assert (sampleSize - trainingSetSize) % 2 == 0;
-        } else if(sampleSize == trainingSetSize) {
-            trainingSetSize -= 2;
-        }
-
-        Set<ClassifiedObject> trainingSet = new HashSet<>();
-        Set<ClassifiedObject> testingSet = new HashSet<>();
-
-        int i = 0;
-        Iterator<? extends ClassifiedObject> it = sample.objects().iterator();
-
-        while (i < trainingSetSize) {
-            assert it.hasNext();
-            trainingSet.add(it.next());
-            i++;
-        }
-
-        while (it.hasNext()) {
-            testingSet.add(it.next());
-        }
-
-        try {
-            return new Pair<>(
-                    dataFactory.newClassifiedData(sample.classes(), trainingSet),
-                    dataFactory.newClassifiedData(sample.classes(), testingSet)
-            );
-        } catch (DataException e) {
-            throw new CrossValidationSampleException("Failed to divide a given sample into two groups", e);
-        }
+        return sampleManager.divideSampleIntoTwoGroups(sample, ratio);
     }
 
     @Override
@@ -115,48 +58,66 @@ class PreciseCrossValidationSampleManagerImpl implements PreciseCrossValidationS
                                                            Set<? extends ClassifiedObject>, Integer> expertFunction)
             throws CrossValidationSampleException {
 
-        Objects.requireNonNull(source);
-        Objects.requireNonNull(expertFunction);
-        checkSampleSize(source.objects().size());
-        checkRatio(ratio);
+        PairwiseTrainingSet trainingSet
+                = sampleManager.generateTrainingSet(source, ratio, maxJudgementGroupSize, expertFunction);
+        Set<Judgement> preciseJudgements = new HashSet<>();
 
-        if (maxJudgementGroupSize != 1) {
-            throw new IllegalArgumentException("Maximum judgement group size should be 1 for a classifier " +
-                    "which supports precise judgements only");
+        for (Judgement judgement : trainingSet.judgements()) {
+            if (isPrecise(judgement)) {
+                preciseJudgements.add(judgement);
+            } else {
+                preciseJudgements.add(makePrecise(judgement));
+            }
         }
 
-        Set<Judgement> judgements = new HashSet<>();
-        Iterator<? extends ClassifiedObject> it = source.objects().iterator();
-
-        while(it.hasNext()) {
-            Set<ClassifiedObject> first = Collections.singleton(it.next());
-            assert it.hasNext();
-            Set<ClassifiedObject> second = Collections.singleton(it.next());
-
-            int isFirstPreferable = expertFunction.apply(first, second);
-
-            judgements.add(dataFactory.newPairwiseTrainingObject(
-                    isFirstPreferable > 0 ? first : second,
-                    isFirstPreferable > 0 ? second : first
-            ));
-        }
-
-        return dataFactory.newPairwiseTrainingSet(judgements);
+        return dataFactory.newPairwiseTrainingSet(preciseJudgements);
     }
 
-    private void checkSampleSize(int size) {
-        if (size < 0) {
-            throw new IllegalArgumentException("Sample size should have a positive value: " + size);
-        }
-
-        if (size % 2 != 0) {
-            throw new IllegalArgumentException("Sample size should have an even value: " + size);
-        }
+    private boolean isPrecise(Judgement judgement) {
+        assert judgement != null;
+        return (judgement.inferior().size() == 1 && judgement.preferable().size() == 1);
     }
 
-    private void checkRatio(int ratio) {
-        if (ratio < 1 || ratio > 100) {
-            throw new IllegalArgumentException("Ratio is out of range (0..100): " + ratio);
+    private Judgement makePrecise(Judgement intervalJudgement) throws CrossValidationSampleException {
+        assert intervalJudgement != null;
+        Set<Point> preferable = asPoints(intervalJudgement.preferable());
+        Set<Point> inferior = asPoints(intervalJudgement.inferior());
+        return dataFactory.newPairwiseTrainingObject(makePrecise(preferable), makePrecise(inferior));
+    }
+
+    private Set<Point> asPoints(Set<? extends UnclassifiedObject> objects) throws CrossValidationSampleException {
+        Set<Point> points = new HashSet<>();
+
+        for (UnclassifiedObject object : objects) {
+            if (object instanceof Point) {
+                points.add((Point) object);
+            } else {
+                throw new CrossValidationSampleException("A given type is unsupported by the sample manager: "
+                        + object.getClass().getName());
+            }
         }
+
+        return points;
+    }
+
+    private Set<Point> makePrecise(Set<Point> points) {
+        if (points.size() <= 1) {
+            return points;
+        }
+
+        double avgX = average(points, Point::x);
+        double avgY = average(points, Point::y);
+
+        return Collections.singleton(mathDataFactory.newPoint(avgX, avgY));
+    }
+
+    private double average(Set<Point> points, Function<Point, Double> valueSupplier) {
+        double sum = 0.0;
+
+        for (Point point : points) {
+            sum += valueSupplier.apply(point);
+        }
+
+        return sum / points.size();
     }
 }

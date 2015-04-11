@@ -27,7 +27,6 @@ public class SampleSizeChecker extends BaseChecker {
         check(
                 "sample_size_precise.csv",
                 preciseValidators.precisionDependenceOnSampleSizeAnalyzer(),
-                preciseJudgementsOnly(),
                 withSampleSize(FROM, TO, STEP)
         );
     }

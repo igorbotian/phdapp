@@ -354,7 +354,8 @@ project(':svm-validation-sample-precise') {
 
     dependencies {
         compile(
-                project(':svm-validation-sample')
+                project(':svm-validation-sample'),
+                project(':svm-validation-sample-interval')
         )
 
         testCompile(

@@ -12,7 +12,11 @@ public class SvmValidationIntervalSampleManagementModule extends PhDAppModule {
 
     @Override
     protected void configure() {
-        bind(CrossValidationSampleManager.class).to(IntervalCrossValidationSampleManagerImpl.class);
+        bindCrossValidationSampleManager();
         bind(IntervalCrossValidationSampleManager.class).to(IntervalCrossValidationSampleManagerImpl.class);
+    }
+
+    protected void bindCrossValidationSampleManager() {
+        bind(CrossValidationSampleManager.class).to(IntervalCrossValidationSampleManagerImpl.class);
     }
 }

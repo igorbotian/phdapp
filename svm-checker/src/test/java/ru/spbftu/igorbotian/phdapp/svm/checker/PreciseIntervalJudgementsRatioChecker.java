@@ -27,7 +27,6 @@ public class PreciseIntervalJudgementsRatioChecker extends BaseChecker {
         check(
                 "precise_interval_judgements_ratio_precise.csv",
                 preciseValidators.precisionDependenceOnPreciseIntervalJudgementsRatioAnalyzer(),
-                preciseJudgementsOnly(),
                 withRatio(FROM, TO, STEP)
         );
     }

@@ -34,7 +34,7 @@ public class PreciseCrossValidationSampleManagerTest extends CrossValidationSamp
 
     @Test
     public void testDivideSampleIntoTwoSets() throws CrossValidationSampleException {
-        testDivideSampleIntoTwoSets(10, 50, 4, 6);
+        testDivideSampleIntoTwoSets(10, 50, 5, 5);
         testDivideSampleIntoTwoSets(12, 50, 6, 6);
         testDivideSampleIntoTwoSets(10, 1, 2, 8);
         testDivideSampleIntoTwoSets(10, 100, 8, 2);
@@ -42,12 +42,12 @@ public class PreciseCrossValidationSampleManagerTest extends CrossValidationSamp
 
     @Test
     public void testGenerateTrainingSet() throws CrossValidationSampleException {
-        int maxJudgementGroupSize = 1; /* any */
+        int maxJudgementGroupSize = 5; /* any */
 
         testGenerateTrainingSet(10, 1, maxJudgementGroupSize, new int[]{0}, 5);
-        testGenerateTrainingSet(10, 50, maxJudgementGroupSize, new int[]{0}, 5);
-        testGenerateTrainingSet(10, 60, maxJudgementGroupSize, new int[]{0}, 5);
-        testGenerateTrainingSet(10, 100, maxJudgementGroupSize, new int[]{0}, 5);
+        testGenerateTrainingSet(10, 50, maxJudgementGroupSize, new int[]{0}, 4);
+        testGenerateTrainingSet(10, 60, maxJudgementGroupSize, new int[]{0}, 3);
+        testGenerateTrainingSet(10, 100, maxJudgementGroupSize, new int[]{0}, 1);
     }
 
     @Override

@@ -27,7 +27,6 @@ public class TrainingTestingSetsSizeChecker extends BaseChecker {
         check(
                 "training_testing_sets_ratio_precise.csv",
                 preciseValidators.precisionDependenceOnTrainingSetSizeAnalyzer(),
-                preciseJudgementsOnly(),
                 withRatio(FROM, TO, STEP)
         );
     }
