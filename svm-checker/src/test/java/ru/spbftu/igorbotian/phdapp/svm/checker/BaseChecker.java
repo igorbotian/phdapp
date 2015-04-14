@@ -40,12 +40,15 @@ import java.util.stream.Stream;
 public class BaseChecker {
 
     protected static final int MAX_JUDGEMENT_GROUP_SIZE = 5;
-    protected static final int SAMPLE_SIZE = 100;
+    protected static final int SAMPLE_SIZE = 300;
     protected static final int SAMPLES_TO_GENERATE = 100;
     protected static final int PRECISE_INTERVAL_JUDGEMENT_COUNT_RATIO = 50;
     protected static final int TRAINING_TESTING_SETS_SIZE_RATIO = 50;
-    protected static final double GAUSSIAN_KERNEL_PARAMETER = 0.1;
-    protected static final double PENALTY_PARAMETER = 1.0;
+
+    /* Значения параметров ниже имеют оптимальные значения, найденные эмпиририческим способом */
+
+    protected static final double GAUSSIAN_KERNEL_PARAMETER = 6.5;
+    protected static final double PENALTY_PARAMETER = 16.5;
 
     /**
      * Параметр, задающий поведение механизма кросс-валидации в случае ошибки
@@ -63,7 +66,7 @@ public class BaseChecker {
     private static final Path CONFIG_FOLDER = getConfigFolder();
 
     private ReportCSVWriterFactory reportFactory;
-    private RankingPairwiseClassifier classifier;
+    protected RankingPairwiseClassifier classifier;
     protected CrossValidatorParameterFactory parameters;
     protected IntervalPairwiseClassifierCrossValidators intervalValidators;
     protected IntervalPairwiseClassifierCrossValidators preciseValidators;
@@ -152,7 +155,7 @@ public class BaseChecker {
         }
     }
 
-    private Set<CrossValidatorParameter<?>> applySpecificParameters(CrossValidatorParameter<?>... params) {
+    protected Set<CrossValidatorParameter<?>> applySpecificParameters(CrossValidatorParameter<?>... params) {
         assert params != null;
 
         Set<CrossValidatorParameter<?>> result = new HashSet<>();
