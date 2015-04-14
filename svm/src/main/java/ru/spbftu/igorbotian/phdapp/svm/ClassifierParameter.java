@@ -1,5 +1,7 @@
 package ru.spbftu.igorbotian.phdapp.svm;
 
+import java.util.Comparator;
+
 /**
  * Параметр классификатора
  */
@@ -9,29 +11,35 @@ public interface ClassifierParameter<T> {
      * Название параметра
      * @return строковый идентификатор
      */
-    public String name();
+    String name();
 
     /**
      * Значение параметра
      * @return значение заданного типа
      */
-    public T value();
+    T value();
 
     /**
      * Получение минимально допустимого значения параметра
      * @return значение заданного типа
      */
-    public T minValue();
+    T minValue();
 
     /**
      * Получение максимально допустимого значения параметра
      * @return значение заданного типа
      */
-    public T maxValue();
+    T maxValue();
 
     /**
      * Тип значения параметра
      * @return класс, соответствующий типу параметра
      */
-    public Class<T> valueClass();
+    Class<T> valueClass();
+
+    /**
+     * Компаратор значений данного параметра
+     * @return компаратор
+     */
+    Comparator<T> comparator();
 }

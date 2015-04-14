@@ -184,13 +184,24 @@ abstract class AbstractRankingPairwiseClassifierCrossValidator<R extends Report>
         for (ClassifierParameter<?> classifierParam : classifierParameterFactory.defaultValues()) {
             for (CrossValidatorParameter<?> validatorParam : validatorParams) {
                 if (classifierParam.name().equals(validatorParam.name())) {
-                    classifierParams.add(classifierParam);
+                    classifierParams.add(toClassifierParameter(validatorParam));
                     break;
                 }
             }
         }
 
         return classifierParams;
+    }
+
+    private <T> ClassifierParameter<T> toClassifierParameter(CrossValidatorParameter<T> param) {
+        return classifierParameterFactory.newParameter(
+                param.name(),
+                param.value().value(),
+                param.value().minValue(),
+                param.value().maxValue(),
+                param.value().valueClass(),
+                param.value().comparator()
+        );
     }
 
     /**

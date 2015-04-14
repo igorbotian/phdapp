@@ -1,5 +1,6 @@
 package ru.spbftu.igorbotian.phdapp.svm;
 
+import java.util.Comparator;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -50,5 +51,10 @@ class IntervalClassifierParameterFactoryImpl extends AbstractClassifierParameter
                 penaltyParameter(),
                 gaussianKernelParameter()
         ).collect(Collectors.toSet());
+    }
+
+    @Override
+    public <T> ClassifierParameter<T> newParameter(String name, T value, T minValue, T maxValue, Class<T> valueClass, Comparator<T> comparator) {
+        return new DefaultClassifierParameterImpl<>(name, valueClass, value, minValue, maxValue, comparator);
     }
 }

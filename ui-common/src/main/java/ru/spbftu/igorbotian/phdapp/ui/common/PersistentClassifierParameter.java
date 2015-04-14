@@ -5,6 +5,7 @@ import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 import ru.spbftu.igorbotian.phdapp.svm.ClassifierParameter;
 import ru.spbftu.igorbotian.phdapp.svm.MutableClassifierParameter;
 
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.function.Function;
 
@@ -69,6 +70,11 @@ class PersistentClassifierParameter<T> implements MutableClassifierParameter<T> 
     @Override
     public Class<T> valueClass() {
         return parameter.valueClass();
+    }
+
+    @Override
+    public Comparator<T> comparator() {
+        return parameter.comparator();
     }
 
     @Override

@@ -13,6 +13,7 @@ class DefaultClassifierParameterImpl<T> implements MutableClassifierParameter<T>
     private final T minValue;
     private final T maxValue;
     private final Class<T> valueClass;
+    private final Comparator<T> comparator;
 
     public DefaultClassifierParameterImpl(String name, Class<T> valueClass, T value, T minValue, T maxValue,
                                           Comparator<T> comparator) {
@@ -31,6 +32,7 @@ class DefaultClassifierParameterImpl<T> implements MutableClassifierParameter<T>
         this.minValue = minValue;
         this.maxValue = maxValue;
         this.valueClass = Objects.requireNonNull(valueClass);
+        this.comparator = comparator;
     }
 
     @Override
@@ -61,6 +63,11 @@ class DefaultClassifierParameterImpl<T> implements MutableClassifierParameter<T>
     @Override
     public Class<T> valueClass() {
         return valueClass;
+    }
+
+    @Override
+    public Comparator<T> comparator() {
+        return comparator;
     }
 
     @Override
