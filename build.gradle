@@ -410,6 +410,7 @@ project(':utils') {
     dependencies {
         compile(
                 project(':ioc'),
+                jts,
                 log4j
         )
 
