@@ -3,8 +3,7 @@ package ru.spbftu.igorbotian.phdapp.common;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Collections;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -20,7 +19,7 @@ public class HausdorffDistanceTest {
 
     @Test
     public void testSamePoint() {
-        HausdorffDistance.Point point = new HausdorffDistance.Point(1.0, 1.0);
+        List<Double> point = newPoint(1.0, 1.0);
         Assert.assertEquals(0.0, HausdorffDistance.compute(
                 Collections.singleton(point),
                 Collections.singleton(point)
@@ -30,29 +29,29 @@ public class HausdorffDistanceTest {
     @Test
     public void testPoints() {
         Assert.assertEquals(1.0, HausdorffDistance.compute(
-                Collections.singleton(new HausdorffDistance.Point(0.0, 0.0)),
-                Collections.singleton(new HausdorffDistance.Point(-1.0, 0.0))
+                Collections.singleton(newPoint(0.0, 0.0)),
+                Collections.singleton(newPoint(-1.0, 0.0))
         ), PRECISION);
         Assert.assertEquals(Math.sqrt(2.0), HausdorffDistance.compute(
-                Collections.singleton(new HausdorffDistance.Point(0.0, 0.0)),
-                Collections.singleton(new HausdorffDistance.Point(1.0, 1.0))
+                Collections.singleton(newPoint(0.0, 0.0)),
+                Collections.singleton(newPoint(1.0, 1.0))
         ), PRECISION);
     }
 
     @Test
     public void testSquares() {
-        Set<HausdorffDistance.Point> first = Stream.of(
-                new HausdorffDistance.Point(0.0, 0.0),
-                new HausdorffDistance.Point(0.0, 1.0),
-                new HausdorffDistance.Point(1.0, 1.0),
-                new HausdorffDistance.Point(1.0, 0.0)
+        Set<List<Double>> first = Stream.of(
+                newPoint(0.0, 0.0),
+                newPoint(0.0, 1.0),
+                newPoint(1.0, 1.0),
+                newPoint(1.0, 0.0)
         ).collect(Collectors.toSet());
 
-        Set<HausdorffDistance.Point> second = Stream.of(
-                new HausdorffDistance.Point(2.0, 0.0),
-                new HausdorffDistance.Point(2.0, 1.0),
-                new HausdorffDistance.Point(3.0, 1.0),
-                new HausdorffDistance.Point(3.0, 0.0)
+        Set<List<Double>> second = Stream.of(
+                newPoint(2.0, 0.0),
+                newPoint(2.0, 1.0),
+                newPoint(3.0, 1.0),
+                newPoint(3.0, 0.0)
         ).collect(Collectors.toSet());
 
         Assert.assertEquals(2.0, HausdorffDistance.compute(first, second), PRECISION);
@@ -60,16 +59,16 @@ public class HausdorffDistanceTest {
 
     @Test
     public void testTriangles() {
-        Set<HausdorffDistance.Point> first = Stream.of(
-                new HausdorffDistance.Point(0.0, 0.0),
-                new HausdorffDistance.Point(0.0, 1.0),
-                new HausdorffDistance.Point(1.0, 0.0)
+        Set<List<Double>> first = Stream.of(
+                newPoint(0.0, 0.0),
+                newPoint(0.0, 1.0),
+                newPoint(1.0, 0.0)
         ).collect(Collectors.toSet());
 
-        Set<HausdorffDistance.Point> second = Stream.of(
-                new HausdorffDistance.Point(2.0, 0.0),
-                new HausdorffDistance.Point(2.0, 1.0),
-                new HausdorffDistance.Point(3.0, 0.0)
+        Set<List<Double>> second = Stream.of(
+                newPoint(2.0, 0.0),
+                newPoint(2.0, 1.0),
+                newPoint(3.0, 0.0)
         ).collect(Collectors.toSet());
 
         Assert.assertEquals(2.0, HausdorffDistance.compute(first, second), PRECISION);
@@ -77,20 +76,24 @@ public class HausdorffDistanceTest {
 
     @Test
     public void testPolygons() {
-        Set<HausdorffDistance.Point> first = Stream.of(
-                new HausdorffDistance.Point(-1.0, 0.0),
-                new HausdorffDistance.Point(-2.0, 0.0),
-                new HausdorffDistance.Point(-2.0, -2.0),
-                new HausdorffDistance.Point(-1.0, -2.0)
+        Set<List<Double>> first = Stream.of(
+                newPoint(-1.0, 0.0),
+                newPoint(-2.0, 0.0),
+                newPoint(-2.0, -2.0),
+                newPoint(-1.0, -2.0)
         ).collect(Collectors.toSet());
 
-        Set<HausdorffDistance.Point> second = Stream.of(
-                new HausdorffDistance.Point(1.0, 0.0),
-                new HausdorffDistance.Point(1.0, 2.0),
-                new HausdorffDistance.Point(2.0, 2.0),
-                new HausdorffDistance.Point(2.0, 0.0)
+        Set<List<Double>> second = Stream.of(
+                newPoint(1.0, 0.0),
+                newPoint(1.0, 2.0),
+                newPoint(2.0, 2.0),
+                newPoint(2.0, 0.0)
         ).collect(Collectors.toSet());
 
         Assert.assertEquals(Math.sqrt(13.0), HausdorffDistance.compute(first, second), PRECISION);
+    }
+    
+    private List<Double> newPoint(Double... params) {
+        return Arrays.asList(params);
     }
 }

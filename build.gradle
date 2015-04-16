@@ -262,6 +262,22 @@ project(':svm-precise') {
     }
 }
 
+project(':svm-ranksvm') {
+    description 'RankSVM classification mechanism that supports interval data'
+
+    dependencies {
+        compile(
+                project(':conf-app'),
+                project(':common'),
+                project(':ioc'),
+                project(':svm'),
+                project(':utils')
+        )
+
+        testCompile junit
+    }
+}
+
 project(':svm-validation') {
     description 'Cross-validation common entities'
 
@@ -410,7 +426,6 @@ project(':utils') {
     dependencies {
         compile(
                 project(':ioc'),
-                jts,
                 log4j
         )
 
