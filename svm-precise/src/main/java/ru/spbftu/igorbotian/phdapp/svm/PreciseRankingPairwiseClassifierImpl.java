@@ -48,7 +48,6 @@ class PreciseRankingPairwiseClassifierImpl implements PreciseRankingPairwiseClas
     @Override
     public boolean classify(UnclassifiedObject first, UnclassifiedObject second,
                             Set<? extends ClassifierParameter<?>> params) throws ClassificationException {
-        // TODO
         return classifier.classify(first, second, params);
     }
 }

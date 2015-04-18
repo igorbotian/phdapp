@@ -12,7 +12,7 @@ import java.util.Map;
  *
  * @author Igor Botian <igor.botian@gmail.com>
  */
-interface QuadraticProgrammingSolver {
+public interface QuadraticProgrammingSolver {
 
     /**
      * Решения задачи квадратичного программирования с заданными параметрами

@@ -5,16 +5,7 @@ package ru.spbftu.igorbotian.phdapp.svm;
  *
  * @author Igor Botian <igor.botian@gmail.com>
  */
-interface KernelFunction<T> {
-
-    /**
-     * Вычисление ядра для заданной пары векторов с вещественными значениями
-     *
-     * @param x первый вектор
-     * @param y второй вектор
-     * @return вещественное число
-     */
-    double compute(double[] x, double[] y);
+public interface KernelFunction<T> {
 
     /**
      * Вычисление ядра для пары объектов

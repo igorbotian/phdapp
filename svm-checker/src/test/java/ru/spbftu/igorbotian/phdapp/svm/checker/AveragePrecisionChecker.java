@@ -33,4 +33,13 @@ public class AveragePrecisionChecker extends BaseChecker {
                 intervalValidators.averagePrecisionValidator()
         );
     }
+
+    @Ignore
+    @Test
+    public void testHausdorffIntervalClassifier() throws IOException, CrossValidationException {
+        check(
+                "average_precision_interval_hausdorff.csv",
+                intervalValidators.averagePrecisionValidator()
+        );
+    }
 }

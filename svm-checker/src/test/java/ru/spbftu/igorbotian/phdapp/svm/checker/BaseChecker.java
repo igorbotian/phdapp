@@ -11,7 +11,7 @@ import ru.spbftu.igorbotian.phdapp.log.Log4j;
 import ru.spbftu.igorbotian.phdapp.output.csv.CSVOutputDataManagementModule;
 import ru.spbftu.igorbotian.phdapp.output.csv.ReportCSVWriter;
 import ru.spbftu.igorbotian.phdapp.output.csv.ReportCSVWriterFactory;
-import ru.spbftu.igorbotian.phdapp.quadprog.QuadraticProgrammingModule;
+import ru.spbftu.igorbotian.phdapp.svm.HausdorffIntervalRankingPairwiseClassifierModule;
 import ru.spbftu.igorbotian.phdapp.svm.IntervalPairwiseClassifierModule;
 import ru.spbftu.igorbotian.phdapp.svm.IntervalRankingPairwiseClassifier;
 import ru.spbftu.igorbotian.phdapp.svm.RankingPairwiseClassifier;
@@ -48,7 +48,7 @@ public class BaseChecker {
     /* Значения параметров ниже имеют оптимальные значения, найденные эмпиририческим способом */
 
     protected static final double GAUSSIAN_KERNEL_PARAMETER = 6.5;
-    protected static final double PENALTY_PARAMETER = 16.5;
+    protected static final double PENALTY_PARAMETER = 14.0; // 16.5 для точных и интервальных (без Хаусдорфа) оценок
 
     /**
      * Параметр, задающий поведение механизма кросс-валидации в случае ошибки
@@ -82,14 +82,18 @@ public class BaseChecker {
                 new ApplicationConfigurationModule(Paths.get("..")),
                 new JavaI18NLocalizationModule(),
                 new CSVOutputDataManagementModule(),
-                new QuadraticProgrammingModule(),
                 new CrossValidationParametrizationModule(),
                 new SvmValidationReportManagementModule(),
-                new IntervalPairwiseClassifierModule(),
                 new SvmValidationSampleManagementModule()
         );
 
+        /*Injector intervalInjector = parentInjector.createChildInjector(
+                new IntervalPairwiseClassifierModule(),
+                new SvmValidationIntervalSampleManagementModule(),
+                new SvmIntervalClassifierValidationModule()
+        );*/
         Injector intervalInjector = parentInjector.createChildInjector(
+                new HausdorffIntervalRankingPairwiseClassifierModule(),
                 new SvmValidationIntervalSampleManagementModule(),
                 new SvmIntervalClassifierValidationModule()
         );
@@ -101,6 +105,7 @@ public class BaseChecker {
                 STOP_CROSS_VALIDATION_ON_ERROR_PARAM, true);
 
         Injector preciseInjector = parentInjector.createChildInjector(
+                new IntervalPairwiseClassifierModule(),
                 new SvmValidationPreciseSampleManagementModule(),
                 new SvmIntervalClassifierValidationModule()
         );
@@ -161,8 +166,8 @@ public class BaseChecker {
         Set<CrossValidatorParameter<?>> result = new HashSet<>();
         Arrays.stream(params).forEach(result::add);
 
-        for(CrossValidatorParameter<?> defaultParam : defaultParameters) {
-            if(!containsParam(result, defaultParam)) {
+        for (CrossValidatorParameter<?> defaultParam : defaultParameters) {
+            if (!containsParam(result, defaultParam)) {
                 result.add(defaultParam);
             }
         }
@@ -175,8 +180,8 @@ public class BaseChecker {
         assert set != null;
         assert param != null;
 
-        for(CrossValidatorParameter<?> entry : set) {
-            if(entry.name().equals(param.name())) {
+        for (CrossValidatorParameter<?> entry : set) {
+            if (entry.name().equals(param.name())) {
                 return true;
             }
         }

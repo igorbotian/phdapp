@@ -48,7 +48,7 @@ public abstract class BaseQuadraticProgrammingTest {
     /**
      * Функция ядра, применяемая при решении задачи квадратичного программирования
      */
-    protected static final KernelFunction<UnclassifiedObject> kernelFunction = new GaussianKernelFunction(SIGMA);
+    protected static final KernelFunction<UnclassifiedObject> kernelFunction = new GaussianKernelFunctionImpl(SIGMA);
 
     /**
      * Ожидаемые значения переменных оптимизации

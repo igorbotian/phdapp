@@ -222,6 +222,7 @@ project(':svm-checker') {
                 project(':log-log4j'),
                 project(':output-csv'),
                 project(':locale-java-i18n'),
+                project(':svm-interval-hausdorff'),
                 project(':svm-validation-interval'),
                 project(':svm-validation-sample-interval'),
                 project(':svm-validation-sample-precise')
@@ -243,6 +244,20 @@ project(':svm-interval') {
         )
 
         testCompile junit
+    }
+}
+
+project(':svm-interval-hausdorff') {
+    description 'SVM classification mechanism that supports interval data and uses the Hausdorff distance'
+
+    dependencies {
+        compile(
+                project(':common'),
+                project(':ioc'),
+                project(':svm'),
+                project(':svm-interval'),
+                project(':utils')
+        )
     }
 }
 

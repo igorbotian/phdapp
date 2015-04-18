@@ -27,8 +27,8 @@ public class ClassifierParametersChecker extends BaseChecker {
     private static final double GAUSSIAN_KERNEL_TO = 32.0;
     private static final double GAUSSIAN_KERNEL_STEP = 0.5;
 
-    private static final double PENALTY_FROM = 16.0;
-    private static final double PENALTY_TO = 18.0;
+    private static final double PENALTY_FROM = 13.0;
+    private static final double PENALTY_TO = 15.0;
     private static final double PENALTY_STEP = 0.5;
 
     @Ignore
@@ -59,12 +59,12 @@ public class ClassifierParametersChecker extends BaseChecker {
     @Ignore
     @Test
     public void testIntervalClassifier() throws IOException, CrossValidationException {
-        /*check(
-                "classifier_params_interval.csv",
+        check(
+                "classifier_params_interval_hausdorff.csv",
                 intervalValidators.precisionDependenceOnClassifierParametersAnalyzer(),
                 withGaussianKernel(GAUSSIAN_KERNEL_FROM, GAUSSIAN_KERNEL_TO, GAUSSIAN_KERNEL_STEP),
                 withPenalty(PENALTY_FROM, PENALTY_TO, PENALTY_STEP)
-        );*/
+        );
 
         /*RankingPairwiseClassifierCrossValidator<MultiClassificationReport> crossValidator
                 = preciseValidators.precisionDependenceOnClassifierParametersAnalyzer();
