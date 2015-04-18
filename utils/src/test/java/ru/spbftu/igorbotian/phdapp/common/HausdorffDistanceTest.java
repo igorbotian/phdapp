@@ -92,7 +92,26 @@ public class HausdorffDistanceTest {
 
         Assert.assertEquals(Math.sqrt(13.0), HausdorffDistance.compute(first, second), PRECISION);
     }
-    
+
+    @Test
+    public void testIntersectedFigures() {
+        Set<List<Double>> first = Stream.of(
+                newPoint(0.0, 0.0),
+                newPoint(0.0, 2.0),
+                newPoint(2.0, 2.0),
+                newPoint(2.0, 0.0)
+        ).collect(Collectors.toSet());
+
+        Set<List<Double>> second = Stream.of(
+                newPoint(1.0, 1.0),
+                newPoint(3.0, 1.0),
+                newPoint(3.0, 3.0),
+                newPoint(0.0, 3.0)
+        ).collect(Collectors.toSet());
+
+        Assert.assertEquals(Math.sqrt(2), HausdorffDistance.compute(first, second), PRECISION);
+    }
+
     private List<Double> newPoint(Double... params) {
         return Arrays.asList(params);
     }
