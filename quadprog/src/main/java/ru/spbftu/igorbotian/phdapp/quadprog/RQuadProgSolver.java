@@ -23,6 +23,11 @@ class RQuadProgSolver implements ActiveDualSetAlgorithm {
     private static final Logger LOGGER = Logger.getLogger(RQuadProgSolver.class);
 
     /**
+     * Количество знаков после запятой после округления значений
+     */
+    private static final int PRECISION = 10;
+
+    /**
      * Название параметра, который содержит путь к среде выполнения R-скриптов
      */
     private static final String RSCRIPT_PATH_PARAM = "RScript";
@@ -58,13 +63,11 @@ class RQuadProgSolver implements ActiveDualSetAlgorithm {
     public double[] apply(double[][] matrix, double[] vector, double[][] constraintMatrix, double[] constraintVector)
             throws QuadraticProgrammingException {
 
-        // В реализации quadprog содержится ошибка определения, является ли матрица квадратичной функции
-        // положительно определённой или нет.
-        // Добавление малого значения позволяет обойти эту проблему
-        for (int i = 0; i < matrix.length; i++) {
-            if (i < matrix[i].length) {
-                matrix[i][i] += 0.000000001;
-            }
+        roundValues(matrix, PRECISION);
+        fixPositiveDefinition(matrix);
+
+        if (!isMatrixSymmetric(matrix)) {
+            throw new QuadraticProgrammingException("Quadratic matrix should be symmetric");
         }
 
         /* Генерация R-скрипта на основе заданных параметров */
@@ -89,5 +92,47 @@ class RQuadProgSolver implements ActiveDualSetAlgorithm {
         } catch (ExecutionException e) {
             throw new QuadraticProgrammingException("Unable to solve a quadratic programming problem", e);
         }
+    }
+
+    private void roundValues(double[][] matrix, int mantissa) {
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                if(i != j) {
+                    matrix[i][j] = round(matrix[i][j], mantissa);
+                }
+            }
+        }
+    }
+
+    private double round(double value, int mantissa) {
+        double scale = Math.pow(10.0, mantissa);
+        return Math.round(value * scale) / scale;
+    }
+
+    private void fixPositiveDefinition(double[][] matrix) {
+        // В реализации quadprog содержится ошибка определения, является ли матрица квадратичной функции
+        // положительно определённой или нет.
+        // Добавление малого значения позволяет обойти эту проблему
+        for (int i = 0; i < matrix.length; i++) {
+            if (i < matrix[i].length) {
+                matrix[i][i] += 0.000000001;
+            }
+        }
+    }
+
+    private boolean isMatrixSymmetric(double[][] matrix) {
+        for (int i = 0; i < matrix.length; i++) {
+            if (matrix[i].length != matrix.length) {
+                return false;
+            }
+
+            for (int j = 0; j < matrix[i].length; j++) {
+                if (matrix[i][j] != matrix[j][i]) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }
