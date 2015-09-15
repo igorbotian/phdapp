@@ -37,8 +37,8 @@ public final class HausdorffDistance {
         }
 
         return Math.max(
-                max(minDistancesBetween(first, second)),
-                max(minDistancesBetween(second, first))
+                Collections.max(minDistancesBetween(first, second)),
+                Collections.max(minDistancesBetween(second, first))
         );
     }
 
@@ -71,34 +71,16 @@ public final class HausdorffDistance {
         Set<Double> minDistances = new HashSet<>();
 
         for (List<Double> firstPoint : first) {
-            double min = Double.MAX_VALUE;
+            Set<Double> distances = new HashSet<>();
 
-            for (List<Double> secondPoint : second) {
-                min = Math.min(min, distanceBetween(firstPoint, secondPoint));
+            for(List<Double> secondPoint : second) {
+                distances.add(distanceBetween(firstPoint, secondPoint));
             }
 
-            minDistances.add(min);
+            minDistances.add(Collections.min(distances));
         }
 
         return minDistances;
-    }
-
-    /**
-     * Выявление наибольшего вещественного числа из набора
-     */
-    private static double max(Collection<Double> numbers) {
-        assert numbers != null;
-        assert !numbers.isEmpty();
-
-        double max = Double.MIN_VALUE;
-
-        for (double number : numbers) {
-            if (number > max) {
-                max = number;
-            }
-        }
-
-        return max;
     }
 
     /**
@@ -114,8 +96,7 @@ public final class HausdorffDistance {
         double sum = 0.0;
 
         for (int i = 0; i < first.size(); i++) {
-            double diff = first.get(i) - second.get(i);
-            sum += diff * diff;
+            sum += Math.pow(first.get(i) - second.get(i), 2.0);
         }
 
         return Math.sqrt(sum);
