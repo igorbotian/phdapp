@@ -1,7 +1,6 @@
 package ru.spbftu.igorbotian.phdapp.svm;
 
 import ru.spbftu.igorbotian.phdapp.common.Pair;
-import ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject;
 
 import java.util.Objects;
 
@@ -27,8 +26,8 @@ final class MercerKernel {
      * @throws NullPointerException если хотя бы один из аргументов не задан
      */
     public static <T> double compute(Pair<T, T> first,
-                                 Pair<T, T> second,
-                                 KernelFunction<T> kernelFunction) {
+                                     Pair<T, T> second,
+                                     KernelFunction<T> kernelFunction) {
 
         Objects.requireNonNull(first);
         Objects.requireNonNull(second);

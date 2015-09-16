@@ -32,7 +32,7 @@ public class DecisionFunctionTest extends BaseQuadraticProgrammingTest {
         Assert.assertTrue(decisionFunction.isPreferable(makeJudgementItem("x11", 11.0), makeJudgementItem("x01", 1.0)));
         Assert.assertFalse(decisionFunction.isPreferable(makeJudgementItem("x01", 1.0), makeJudgementItem("x11", 11.0)));
 
-        Assert.assertTrue(decisionFunction.isPreferable(makeJudgementItem("x13", 13.0), makeJudgementItem("x11", 11.0)));
-        Assert.assertFalse(decisionFunction.isPreferable(makeJudgementItem("x11", 11.0), makeJudgementItem("x13", 13.0)));
+        Assert.assertTrue(decisionFunction.isPreferable(makeJudgementItem("x13", 13.0), makeJudgementItem("x07", 7.0)));
+        Assert.assertFalse(decisionFunction.isPreferable(makeJudgementItem("x07", 7.0), makeJudgementItem("x13", 13.0)));
     }
 }

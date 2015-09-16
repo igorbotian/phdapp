@@ -74,31 +74,12 @@ public final class HausdorffDistance {
             Set<Double> distances = new HashSet<>();
 
             for(List<Double> secondPoint : second) {
-                distances.add(distanceBetween(firstPoint, secondPoint));
+                distances.add(EuclideanDistance.compute(firstPoint, secondPoint));
             }
 
             minDistances.add(Collections.min(distances));
         }
 
         return minDistances;
-    }
-
-    /**
-     * Вычисления между двумя точками в N-мерном пространстве
-     */
-    private static double distanceBetween(List<Double> first, List<Double> second) {
-        assert first != null;
-        assert !first.isEmpty();
-        assert second != null;
-        assert !second.isEmpty();
-        assert first.size() == second.size();
-
-        double sum = 0.0;
-
-        for (int i = 0; i < first.size(); i++) {
-            sum += Math.pow(first.get(i) - second.get(i), 2.0);
-        }
-
-        return Math.sqrt(sum);
     }
 }

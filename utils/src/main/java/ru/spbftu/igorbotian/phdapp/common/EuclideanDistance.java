@@ -1,6 +1,7 @@
 package ru.spbftu.igorbotian.phdapp.common;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Средство вычисления Евклидова расстояния между векторами в N-мерном пространстве
@@ -13,6 +14,25 @@ public final class EuclideanDistance {
         //
     }
 
+    /**
+     * Вычисления между двумя точками в N-мерном пространстве
+     */
+    public static double compute(List<Double> first, List<Double> second) {
+        assert first != null;
+        assert !first.isEmpty();
+        assert second != null;
+        assert !second.isEmpty();
+        assert first.size() == second.size();
+
+        return EuclideanDistance.compute(
+                first.stream().mapToDouble(Double::doubleValue).toArray(),
+                second.stream().mapToDouble(Double::doubleValue).toArray()
+        );
+    }
+
+    /**
+     * Вычисления между двумя точками в N-мерном пространстве
+     */
     public static double compute(double[] x, double[] y) {
         int size = Math.max(x.length, y.length);
         double[] first = complement(x, size);
