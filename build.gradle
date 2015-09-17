@@ -441,6 +441,7 @@ project(':utils') {
     dependencies {
         compile(
                 project(':ioc'),
+                commonsMath,
                 log4j
         )
 

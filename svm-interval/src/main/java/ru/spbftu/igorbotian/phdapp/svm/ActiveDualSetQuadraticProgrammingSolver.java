@@ -1,10 +1,7 @@
 package ru.spbftu.igorbotian.phdapp.svm;
 
 import com.google.inject.Inject;
-import ru.spbftu.igorbotian.phdapp.common.Judgement;
-import ru.spbftu.igorbotian.phdapp.common.Pair;
-import ru.spbftu.igorbotian.phdapp.common.PairwiseTrainingSet;
-import ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject;
+import ru.spbftu.igorbotian.phdapp.common.*;
 import ru.spbftu.igorbotian.phdapp.quadprog.ActiveDualSetAlgorithm;
 import ru.spbftu.igorbotian.phdapp.quadprog.QuadraticProgrammingException;
 
@@ -17,6 +14,11 @@ import java.util.*;
  * @see ru.spbftu.igorbotian.phdapp.quadprog.ActiveDualSetAlgorithm
  */
 class ActiveDualSetQuadraticProgrammingSolver implements QuadraticProgrammingSolver {
+
+    /**
+     * Количество знаков после запятой после округления значений
+     */
+    private static final int PRECISION = 10;
 
     /**
      * Средство решения задачи квадратичного программирования
@@ -44,6 +46,10 @@ class ActiveDualSetQuadraticProgrammingSolver implements QuadraticProgrammingSol
         double[] quadraticFunctionVector = quadraticFunctionVector(variables);
         double[][] constraintMatrix = constraintMatrix(judgements, variables);
         double[] constraintVector = constraintVector(judgements, penalty);
+
+        if(!MatrixUtils.isPositiveDefinite(quadraticFunctionMatrix)) {
+            throw new QuadraticProgrammingException("Quadratic function matrix should be positive definite");
+        }
 
         try {
             double[] multipliers = qpSolver.apply(
@@ -123,7 +129,7 @@ class ActiveDualSetQuadraticProgrammingSolver implements QuadraticProgrammingSol
             int j = 0;
 
             for (Pair<UnclassifiedObject, UnclassifiedObject> second : variables) {
-                matrix[i][j] = MercerKernel.compute(first, second, kernelFunction);
+                matrix[i][j] = round(MercerKernel.compute(first, second, kernelFunction), PRECISION);
                 j++;
             }
 
@@ -131,6 +137,11 @@ class ActiveDualSetQuadraticProgrammingSolver implements QuadraticProgrammingSol
         }
 
         return matrix;
+    }
+
+    private double round(double value, int mantissa) {
+        double scale = Math.pow(10.0, mantissa);
+        return Math.round(value * scale) / scale;
     }
 
     /**
