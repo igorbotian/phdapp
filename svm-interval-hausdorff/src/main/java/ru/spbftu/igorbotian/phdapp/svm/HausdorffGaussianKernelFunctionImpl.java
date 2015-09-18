@@ -44,25 +44,16 @@ class HausdorffGaussianKernelFunctionImpl extends GaussianKernelFunction<Unclass
     }
 
     private Set<List<Double>> toNumericalVectors(UnclassifiedObjectSet set) {
-        assert set != null;
-
         Set<List<Double>> vectors = new HashSet<>();
+        Map<String, Integer> paramIndexes = UnclassifiedObjectUtils.composeMapOfParamIndexes(
+                (UnclassifiedObject) set.parameters().iterator().next().value()
+        );
 
         for (Parameter<?> param : set.parameters()) {
             assert param.value() instanceof UnclassifiedObject;
-            vectors.add(asVectorParams(UnclassifiedObjectUtils.toNumericalVector((UnclassifiedObject) param.value())));
+            vectors.add(UnclassifiedObjectUtils.toNumericalVector((UnclassifiedObject) param.value(), paramIndexes));
         }
 
         return vectors;
-    }
-
-    private List<Double> asVectorParams(double[] values) {
-        List<Double> vectorParams = new ArrayList<>(values.length);
-
-        for (double value : values) {
-            vectorParams.add(value);
-        }
-
-        return vectorParams;
     }
 }

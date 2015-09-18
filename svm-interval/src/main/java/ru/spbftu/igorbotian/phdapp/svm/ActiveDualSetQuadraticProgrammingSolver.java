@@ -47,10 +47,6 @@ class ActiveDualSetQuadraticProgrammingSolver implements QuadraticProgrammingSol
         double[][] constraintMatrix = constraintMatrix(judgements, variables);
         double[] constraintVector = constraintVector(judgements, penalty);
 
-        if(!MatrixUtils.isPositiveDefinite(quadraticFunctionMatrix)) {
-            throw new QuadraticProgrammingException("Quadratic function matrix should be positive definite");
-        }
-
         try {
             double[] multipliers = qpSolver.apply(
                     quadraticFunctionMatrix,
@@ -61,7 +57,11 @@ class ActiveDualSetQuadraticProgrammingSolver implements QuadraticProgrammingSol
 
             return associateMultipliersWithVariables(variables, multipliers);
         } catch (QuadraticProgrammingException e) {
-            throw new QuadraticProgrammingException("Error occurred while solving dual optimization problem", e);
+            if(!MatrixUtils.isPositiveDefinite(quadraticFunctionMatrix)) {
+                throw new QuadraticProgrammingException("Quadratic function matrix should be positive definite");
+            } else {
+                throw new QuadraticProgrammingException("Error occurred while solving dual optimization problem", e);
+            }
         }
     }
 

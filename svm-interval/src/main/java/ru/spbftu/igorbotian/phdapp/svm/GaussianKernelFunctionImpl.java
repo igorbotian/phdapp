@@ -3,6 +3,7 @@ package ru.spbftu.igorbotian.phdapp.svm;
 import ru.spbftu.igorbotian.phdapp.common.EuclideanDistance;
 import ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject;
 
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.BiFunction;
 
@@ -26,9 +27,11 @@ class GaussianKernelFunctionImpl extends GaussianKernelFunction<UnclassifiedObje
         Objects.requireNonNull(x);
         Objects.requireNonNull(y);
 
+        Map<String, Integer> paramIndexes = UnclassifiedObjectUtils.composeMapOfParamIndexes(x);
+
         return EuclideanDistance.compute(
-                UnclassifiedObjectUtils.toNumericalVector(x),
-                UnclassifiedObjectUtils.toNumericalVector(y)
+                UnclassifiedObjectUtils.toNumericalVector(x, paramIndexes),
+                UnclassifiedObjectUtils.toNumericalVector(y, paramIndexes)
         );
     }
 }

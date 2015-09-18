@@ -35,7 +35,7 @@ public class ClassifierParametersChecker extends BaseChecker {
     @Test
     public void testPreciseClassifier() throws IOException, CrossValidationException {
         /*check(
-                "classifier_params_precise.csv",
+                "classifier_params_precise_hausdorff.csv",
                 preciseValidators.precisionDependenceOnClassifierParametersAnalyzer(),
                 withGaussianKernel(GAUSSIAN_KERNEL_FROM, GAUSSIAN_KERNEL_TO, GAUSSIAN_KERNEL_STEP),
                 withPenalty(PENALTY_FROM, PENALTY_TO, PENALTY_STEP)
@@ -59,15 +59,15 @@ public class ClassifierParametersChecker extends BaseChecker {
     @Ignore
     @Test
     public void testIntervalClassifier() throws IOException, CrossValidationException {
-        check(
+        /*check(
                 "classifier_params_interval_hausdorff.csv",
                 intervalValidators.precisionDependenceOnClassifierParametersAnalyzer(),
                 withGaussianKernel(GAUSSIAN_KERNEL_FROM, GAUSSIAN_KERNEL_TO, GAUSSIAN_KERNEL_STEP),
                 withPenalty(PENALTY_FROM, PENALTY_TO, PENALTY_STEP)
-        );
+        );*/
 
-        /*RankingPairwiseClassifierCrossValidator<MultiClassificationReport> crossValidator
-                = preciseValidators.precisionDependenceOnClassifierParametersAnalyzer();
+        RankingPairwiseClassifierCrossValidator<MultiClassificationReport> crossValidator
+                = intervalValidators.precisionDependenceOnClassifierParametersAnalyzer();
         MultiClassificationReport report = crossValidator.validate(classifier,
                 applySpecificParameters(
                         withGaussianKernel(GAUSSIAN_KERNEL_FROM, GAUSSIAN_KERNEL_TO, GAUSSIAN_KERNEL_STEP),
@@ -78,7 +78,7 @@ public class ClassifierParametersChecker extends BaseChecker {
         HashMap<Double, List<SingleClassificationReport>> reports = divideByPenalty(report);
         for(double penalty : reports.keySet()) {
             printStatistics(penalty, reports.get(penalty));
-        }*/
+        }
     }
 
     private LinkedHashMap<Double, List<SingleClassificationReport>> divideByPenalty(MultiClassificationReport report) {

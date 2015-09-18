@@ -87,16 +87,13 @@ public class BaseChecker {
                 new SvmValidationSampleManagementModule()
         );
 
-        /*Injector intervalInjector = parentInjector.createChildInjector(
-                new IntervalPairwiseClassifierModule(),
-                new SvmValidationIntervalSampleManagementModule(),
-                new SvmIntervalClassifierValidationModule()
-        );*/
         Injector intervalInjector = parentInjector.createChildInjector(
+                //new IntervalPairwiseClassifierModule(),
                 new HausdorffIntervalRankingPairwiseClassifierModule(),
                 new SvmValidationIntervalSampleManagementModule(),
                 new SvmIntervalClassifierValidationModule()
         );
+
         reportFactory = intervalInjector.getInstance(ReportCSVWriterFactory.class);
         classifier = intervalInjector.getInstance(IntervalRankingPairwiseClassifier.class);
         parameters = intervalInjector.getInstance(CrossValidatorParameterFactory.class);

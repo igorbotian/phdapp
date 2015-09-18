@@ -4,7 +4,7 @@ import ru.spbftu.igorbotian.phdapp.common.BasicDataTypes;
 import ru.spbftu.igorbotian.phdapp.common.Parameter;
 import ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject;
 
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Утилитарный класс для произведения манипуляций над объектами, подлежащими классификации
@@ -18,31 +18,54 @@ public final class UnclassifiedObjectUtils {
     }
 
     /**
-     * Представление заданного объекта, подлежащего классификации, в виде вещественного вектора
-     *
-     * @param obj объект, подлежащий классификации
-     * @return массив из вещественных чисел
-     * @throws NullPointerException     если параметр не задан
-     * @throws IllegalArgumentException если хотя бы один параметр объекта, подлежащего классификации,
-     *                                  имеет нечисловой тип
+     * Попытка получения значения заданного параметра в виде вещественного числа
+     * @param param параметр объекта, подлежащего классификации
+     * @return вещественное число
+     * @throws IllegalArgumentException если значение параметра не может быть приведено к вещественному значению
      */
-    public static double[] toNumericalVector(UnclassifiedObject obj) {
-        Objects.requireNonNull(obj);
-        double[] result = new double[obj.parameters().size()];
+    public static Double toDoubleValue(Parameter<?> param) {
+        if (param.valueType().equals(BasicDataTypes.INTEGER)) {
+            return Double.valueOf((Integer) param.value());
+        } else if (param.valueType().equals(BasicDataTypes.REAL)) {
+            return (Double) param.value();
+        } else {
+            throw new IllegalArgumentException("Unsupported parameter type: " + param.valueType());
+        }
+    }
+
+    /**
+     * Формирование ассоциативного массива, в котором ключами являются названия параметров объекта,
+     * подлежащего классификации, а значения - индексы в массиве параметров
+     * @param obj объект, подлежащий классификации
+     * @return ассоциативный массив, сформированный заданным способом
+     */
+    public static Map<String, Integer> composeMapOfParamIndexes(UnclassifiedObject obj) {
+        Map<String, Integer> indexes = new HashMap<>();
         int i = 0;
 
-        for (Parameter param : obj.parameters()) {
-            if (param.valueType().equals(BasicDataTypes.INTEGER)) {
-                result[i] = (Integer) param.value();
-            } else if (param.valueType().equals(BasicDataTypes.REAL)) {
-                result[i] = (Double) param.value();
-            } else {
-                throw new IllegalArgumentException("Unsupported parameter type: " + param.valueType());
-            }
-
+        for(Parameter<?> param : obj.parameters()) {
+            indexes.put(param.name(), i);
             i++;
         }
 
-        return result;
+        return indexes;
+    }
+
+    /**
+     * Формирование вектора из вещественных чисел для заданного объекта, подлежащего классификации
+     * и ассоциативного массива, отображающего его параметра на индексы вектора
+     * @param obj объект, подлежащий классификации
+     * @param paramIndexes ассоциативный массив, в котором ключами являются названия параметров объекта,
+     * подлежащего классификации, а значения - индексы в массиве параметров
+     * @return вещественный вектор
+     */
+    public static List<Double> toNumericalVector(UnclassifiedObject obj, Map<String, Integer> paramIndexes) {
+        Double[] vector = new Double[obj.parameters().size()];
+
+        for(Parameter<?> param : obj.parameters()) {
+            vector[paramIndexes.get(param.name())] = UnclassifiedObjectUtils.toDoubleValue(param);
+        }
+
+        return Arrays.asList(vector);
     }
 }

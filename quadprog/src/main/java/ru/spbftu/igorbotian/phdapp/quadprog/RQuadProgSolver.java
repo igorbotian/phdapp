@@ -28,6 +28,11 @@ class RQuadProgSolver implements ActiveDualSetAlgorithm {
     private static final int PRECISION = 10;
 
     /**
+     * Малое вещественное значение, близкое к нулю
+     */
+    private static final double TINY_VALUE = 0.000000001;
+
+    /**
      * Название параметра, который содержит путь к среде выполнения R-скриптов
      */
     private static final String RSCRIPT_PATH_PARAM = "RScript";
@@ -112,10 +117,26 @@ class RQuadProgSolver implements ActiveDualSetAlgorithm {
     private void fixPositiveDefinition(double[][] matrix) {
         // В реализации quadprog содержится ошибка определения, является ли матрица квадратичной функции
         // положительно определённой или нет.
-        // Добавление малого значения позволяет обойти эту проблему
+        // Добавление малого значения к элементам диагонали позволяет обойти эту проблему
+        // К тому же дополнительно необходимо избавиться от нулевых элементов
+        fixDiagonal(matrix);
+        fixZeroes(matrix);
+    }
+
+    private void fixDiagonal(double[][] matrix) {
         for (int i = 0; i < matrix.length; i++) {
             if (i < matrix[i].length) {
-                matrix[i][i] += 0.000000001;
+                matrix[i][i] += TINY_VALUE;
+            }
+        }
+    }
+
+    private void fixZeroes(double[][] matrix) {
+        for(int i = 0; i < matrix.length; i++) {
+            for(int j = 0; j < matrix[i].length; j++) {
+                if(Math.abs(matrix[i][j]) == 0.0) {
+                    matrix[i][j] = TINY_VALUE;
+                }
             }
         }
     }
