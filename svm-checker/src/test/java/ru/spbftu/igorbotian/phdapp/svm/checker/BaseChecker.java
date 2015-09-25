@@ -12,7 +12,6 @@ import ru.spbftu.igorbotian.phdapp.output.csv.CSVOutputDataManagementModule;
 import ru.spbftu.igorbotian.phdapp.output.csv.ReportCSVWriter;
 import ru.spbftu.igorbotian.phdapp.output.csv.ReportCSVWriterFactory;
 import ru.spbftu.igorbotian.phdapp.svm.HausdorffIntervalRankingPairwiseClassifierModule;
-import ru.spbftu.igorbotian.phdapp.svm.IntervalPairwiseClassifierModule;
 import ru.spbftu.igorbotian.phdapp.svm.IntervalRankingPairwiseClassifier;
 import ru.spbftu.igorbotian.phdapp.svm.RankingPairwiseClassifier;
 import ru.spbftu.igorbotian.phdapp.svm.validation.*;
@@ -102,7 +101,8 @@ public class BaseChecker {
                 STOP_CROSS_VALIDATION_ON_ERROR_PARAM, true);
 
         Injector preciseInjector = parentInjector.createChildInjector(
-                new IntervalPairwiseClassifierModule(),
+                //new IntervalPairwiseClassifierModule(),
+                new HausdorffIntervalRankingPairwiseClassifierModule(),
                 new SvmValidationPreciseSampleManagementModule(),
                 new SvmIntervalClassifierValidationModule()
         );

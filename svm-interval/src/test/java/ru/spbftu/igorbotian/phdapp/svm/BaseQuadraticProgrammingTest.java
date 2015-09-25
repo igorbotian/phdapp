@@ -27,26 +27,32 @@ public abstract class BaseQuadraticProgrammingTest {
      * Идентификатора тестового параметра
      */
     protected static final String PARAM_ID = "test_param";
+
     /**
      * Значение параметра штрафа
      */
     protected static final double PENALTY = 0.5;
+
     /**
      * Значение свободного параметра Гауссова ядра
      */
     protected static final double SIGMA = 0.5;
+
+    /**
+     * Точность сравнения вещественных чисел
+     */
+    protected static final double PRECISION = 0.00001;
+
     /**
      * Фабрика объектов предметной области
      */
     protected DataFactory dataFactory;
+
     /**
      * Средство решения задачи квадратичного программирования
      */
     protected QuadraticProgrammingSolver qpSolver;
-    /**
-     * Точность сравнения вещественных чисел
-     */
-    protected final double PRECISION = 0.00001;
+
     /**
      * Ядро, применяемое при решении задачи квадратичного программирования
      */
