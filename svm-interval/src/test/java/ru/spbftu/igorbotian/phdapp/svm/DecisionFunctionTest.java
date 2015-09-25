@@ -12,7 +12,7 @@ import ru.spbftu.igorbotian.phdapp.quadprog.QuadraticProgrammingException;
  * @author Igor Botian <igor.botian@gmail.com>
  * @see BaseQuadraticProgrammingTest
  */
-public class DecisionFunctionTest extends BaseQuadraticProgrammingTest {
+public class DecisionFunctionTest extends AbstractIntervalQuadraticProgrammingTest {
 
     /**
      * Решающая функция, построенная на основе для заданной обучающей выборки
@@ -21,6 +21,8 @@ public class DecisionFunctionTest extends BaseQuadraticProgrammingTest {
 
     @Before
     public void setUp() throws QuadraticProgrammingException {
+        super.setUp();
+        kernel = new GaussianMercerKernel<>(new GaussianKernelFunctionImpl(SIGMA));
         decisionFunction = new DecisionFunction<>(qpSolver.solve(trainingSet, kernel, PENALTY), kernel);
     }
 
