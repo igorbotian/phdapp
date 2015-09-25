@@ -2,6 +2,7 @@ package ru.spbftu.igorbotian.phdapp.svm;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import org.junit.Assert;
 import org.junit.Before;
 import ru.spbftu.igorbotian.phdapp.common.*;
 import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfigurationModule;
@@ -91,5 +92,19 @@ public abstract class BaseQuadraticProgrammingTest {
                 id,
                 Collections.singleton(dataFactory.newParameter(PARAM_ID, value, BasicDataTypes.REAL))
         );
+    }
+
+    protected void testSolution() throws QuadraticProgrammingException {
+        Map<Pair<UnclassifiedObject, UnclassifiedObject>, Double> solution =
+                qpSolver.solve(trainingSet, kernel, PENALTY);
+
+        Assert.assertEquals(expectedSolution.size(), solution.size());
+
+        for (Pair<UnclassifiedObject, UnclassifiedObject> pair : solution.keySet()) {
+            Pair<String, String> key = new Pair<>(pair.first.id(), pair.second.id());
+
+            Assert.assertTrue(expectedSolution.containsKey(key));
+            Assert.assertEquals(expectedSolution.get(key), solution.get(pair), PRECISION);
+        }
     }
 }

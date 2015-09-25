@@ -1,13 +1,8 @@
 package ru.spbftu.igorbotian.phdapp.svm;
 
-import ru.spbftu.igorbotian.phdapp.common.DataType;
-import ru.spbftu.igorbotian.phdapp.common.Parameter;
-import ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject;
+import ru.spbftu.igorbotian.phdapp.common.*;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Множество объектов, подлежащих классификации
@@ -63,6 +58,21 @@ class UnclassifiedObjectSet implements UnclassifiedObject {
     @Override
     public Set<Parameter<?>> parameters() {
         return params;
+    }
+
+    public static PairwiseTrainingSet toPreciseJudgements(DataFactory dataFactory, PairwiseTrainingSet trainingSet) {
+        assert trainingSet != null;
+
+        Set<Judgement> preciseJudgements = new LinkedHashSet<>();
+        trainingSet.judgements().forEach(judgement -> preciseJudgements.add(toPreciseJudgement(dataFactory, judgement)));
+        return dataFactory.newPairwiseTrainingSet(preciseJudgements);
+    }
+
+    private static Judgement toPreciseJudgement(DataFactory dataFactory, Judgement judgement) {
+        assert judgement != null;
+        return dataFactory.newPairwiseTrainingObject(
+                Collections.singleton(new UnclassifiedObjectSet(judgement.preferable())),
+                Collections.singleton(new UnclassifiedObjectSet(judgement.inferior())));
     }
 
     /**

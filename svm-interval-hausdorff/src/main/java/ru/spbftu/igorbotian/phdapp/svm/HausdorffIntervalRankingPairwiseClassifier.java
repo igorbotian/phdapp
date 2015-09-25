@@ -3,12 +3,10 @@ package ru.spbftu.igorbotian.phdapp.svm;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import ru.spbftu.igorbotian.phdapp.common.DataFactory;
-import ru.spbftu.igorbotian.phdapp.common.Judgement;
 import ru.spbftu.igorbotian.phdapp.common.PairwiseTrainingSet;
 import ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject;
 
 import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -39,22 +37,7 @@ public class HausdorffIntervalRankingPairwiseClassifier extends AbstractInterval
             throws ClassifierTrainingException {
 
         sigma = getParameter(IntervalClassifierParameterFactory.GAUSSIAN_KERNEL_PARAM_ID, params);
-        super.train(toPreciseJudgements(trainingSet), params);
-    }
-
-    private PairwiseTrainingSet toPreciseJudgements(PairwiseTrainingSet trainingSet) {
-        assert trainingSet != null;
-
-        Set<Judgement> preciseJudgements = new LinkedHashSet<>();
-        trainingSet.judgements().forEach(judgement -> preciseJudgements.add(toPreciseJudgement(judgement)));
-        return dataFactory.newPairwiseTrainingSet(preciseJudgements);
-    }
-
-    private Judgement toPreciseJudgement(Judgement judgement) {
-        assert judgement != null;
-        return dataFactory.newPairwiseTrainingObject(
-                Collections.singleton(new UnclassifiedObjectSet(judgement.preferable())),
-                Collections.singleton(new UnclassifiedObjectSet(judgement.inferior())));
+        super.train(UnclassifiedObjectSet.toPreciseJudgements(dataFactory, trainingSet), params);
     }
 
     @Override

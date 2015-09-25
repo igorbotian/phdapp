@@ -261,6 +261,11 @@ project(':svm-interval-hausdorff') {
                 project(':svm-interval'),
                 project(':utils')
         )
+
+        testCompile(
+                junit,
+                project(':svm-interval').sourceSets.test.output
+        )
     }
 }
 

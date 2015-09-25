@@ -1,12 +1,7 @@
 package ru.spbftu.igorbotian.phdapp.svm;
 
-import org.junit.Assert;
 import org.junit.Test;
-import ru.spbftu.igorbotian.phdapp.common.Pair;
-import ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject;
 import ru.spbftu.igorbotian.phdapp.quadprog.QuadraticProgrammingException;
-
-import java.util.Map;
 
 /**
  * Модульные тесты для класса <code>ActiveDualSetQuadraticProgrammingSolver</code>,
@@ -83,16 +78,6 @@ public class ActiveDualSetPreciseQuadraticProgrammingSolverTest extends Abstract
 
     @Test
     public void testSolution() throws QuadraticProgrammingException {
-        Map<Pair<UnclassifiedObject, UnclassifiedObject>, Double> solution =
-                qpSolver.solve(trainingSet, kernel, PENALTY);
-
-        Assert.assertEquals(expectedSolution.size(), solution.size());
-
-        for (Pair<UnclassifiedObject, UnclassifiedObject> pair : solution.keySet()) {
-            Pair<String, String> key = new Pair<>(pair.first.id(), pair.second.id());
-
-            Assert.assertTrue(expectedSolution.containsKey(key));
-            Assert.assertEquals(expectedSolution.get(key), solution.get(pair), PRECISION);
-        }
+        super.testSolution();
     }
 }
