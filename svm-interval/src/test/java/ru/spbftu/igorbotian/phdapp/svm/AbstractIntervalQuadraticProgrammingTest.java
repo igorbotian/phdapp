@@ -1,15 +1,14 @@
 package ru.spbftu.igorbotian.phdapp.svm;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import org.junit.BeforeClass;
-import ru.spbftu.igorbotian.phdapp.common.*;
-import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfigurationModule;
-import ru.spbftu.igorbotian.phdapp.quadprog.QuadraticProgrammingException;
-import ru.spbftu.igorbotian.phdapp.quadprog.QuadraticProgrammingModule;
+import ru.spbftu.igorbotian.phdapp.common.Judgement;
+import ru.spbftu.igorbotian.phdapp.common.Pair;
+import ru.spbftu.igorbotian.phdapp.common.PairwiseTrainingSet;
+import ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject;
 
-import java.nio.file.Paths;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Stream;
 
 /**
@@ -24,26 +23,8 @@ import java.util.stream.Stream;
  */
 public abstract class AbstractIntervalQuadraticProgrammingTest extends BaseQuadraticProgrammingTest {
 
-    @BeforeClass
-    public static void init() {
-        Injector injector = Guice.createInjector(Arrays.asList(
-                        new ApplicationConfigurationModule(Paths.get("..")),
-                        new DataModule(),
-                        new QuadraticProgrammingModule(),
-                        new IntervalPairwiseClassifierModule())
-        );
-        dataFactory = injector.getInstance(DataFactory.class);
-        qpSolver = injector.getInstance(QuadraticProgrammingSolver.class);
-    }
-
     @Override
-    public void setUp() throws QuadraticProgrammingException{
-        super.setUp();
-        trainingSet = makeTrainingSet();
-        expectedSolution = makeExpectedSolution();
-    }
-
-    private static PairwiseTrainingSet makeTrainingSet() {
+    protected PairwiseTrainingSet makeTrainingSet() {
         LinkedHashSet<Judgement> trainingSet = new LinkedHashSet<>();
 
         trainingSet.add(dataFactory.newPairwiseTrainingObject(
@@ -70,13 +51,14 @@ public abstract class AbstractIntervalQuadraticProgrammingTest extends BaseQuadr
         return dataFactory.newPairwiseTrainingSet(trainingSet);
     }
 
-    private static Set<UnclassifiedObject> makeJudgementItemSet(UnclassifiedObject... judgements) {
+    private Set<UnclassifiedObject> makeJudgementItemSet(UnclassifiedObject... judgements) {
         Set<UnclassifiedObject> set = new LinkedHashSet<>();
         Stream.of(judgements).forEach(set::add);
         return set;
     }
 
-    private static Map<Pair<String, String>, Double> makeExpectedSolution() {
+    @Override
+    protected Map<Pair<String, String>, Double> makeExpectedSolution() {
         Map<Pair<String, String>, Double> solution = new HashMap<>();
 
         solution.put(new Pair<>("x1", "z1"), 0.0215824);

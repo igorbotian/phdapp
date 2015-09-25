@@ -1,11 +1,19 @@
 package ru.spbftu.igorbotian.phdapp.svm;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.junit.Before;
 import ru.spbftu.igorbotian.phdapp.common.*;
+import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfigurationModule;
+import ru.spbftu.igorbotian.phdapp.ioc.PhDAppModule;
 import ru.spbftu.igorbotian.phdapp.quadprog.QuadraticProgrammingException;
+import ru.spbftu.igorbotian.phdapp.quadprog.QuadraticProgrammingModule;
 
+import java.nio.file.Paths;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Базовый класс для модульных тестов в данном пакете.
@@ -29,11 +37,11 @@ public abstract class BaseQuadraticProgrammingTest {
     /**
      * Фабрика объектов предметной области
      */
-    protected static DataFactory dataFactory;
+    protected DataFactory dataFactory;
     /**
      * Средство решения задачи квадратичного программирования
      */
-    protected static QuadraticProgrammingSolver qpSolver;
+    protected QuadraticProgrammingSolver qpSolver;
     /**
      * Точность сравнения вещественных чисел
      */
@@ -55,10 +63,30 @@ public abstract class BaseQuadraticProgrammingTest {
 
     @Before
     public void setUp() throws QuadraticProgrammingException {
-        //
+        Injector injector = createInjector();
+        dataFactory = injector.getInstance(DataFactory.class);
+        qpSolver = injector.getInstance(QuadraticProgrammingSolver.class);
+        trainingSet = makeTrainingSet();
+        expectedSolution = makeExpectedSolution();
     }
 
-    protected static UnclassifiedObject makeJudgementItem(String id, double value) {
+    private Injector createInjector() {
+        Set<PhDAppModule> modules = new LinkedHashSet<>();
+        modules.add(new ApplicationConfigurationModule(Paths.get("..")));
+        modules.add(new DataModule());
+        modules.add(new QuadraticProgrammingModule());
+        modules.addAll(injectModules());
+
+        return Guice.createInjector(modules);
+    }
+
+    protected abstract Set<PhDAppModule> injectModules();
+
+    protected abstract PairwiseTrainingSet makeTrainingSet();
+
+    protected abstract Map<Pair<String, String>, Double> makeExpectedSolution();
+
+    protected UnclassifiedObject makeJudgementItem(String id, double value) {
         return dataFactory.newUnclassifiedObject(
                 id,
                 Collections.singleton(dataFactory.newParameter(PARAM_ID, value, BasicDataTypes.REAL))

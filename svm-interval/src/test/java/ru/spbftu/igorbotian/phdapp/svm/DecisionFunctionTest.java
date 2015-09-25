@@ -4,7 +4,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject;
+import ru.spbftu.igorbotian.phdapp.ioc.PhDAppModule;
 import ru.spbftu.igorbotian.phdapp.quadprog.QuadraticProgrammingException;
+
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Модульные тесты для класса <code>DecisionFunction</code>
@@ -24,6 +29,11 @@ public class DecisionFunctionTest extends AbstractIntervalQuadraticProgrammingTe
         super.setUp();
         kernel = new GaussianMercerKernel<>(new GaussianKernelFunctionImpl(SIGMA));
         decisionFunction = new DecisionFunction<>(qpSolver.solve(trainingSet, kernel, PENALTY), kernel);
+    }
+
+    @Override
+    protected Set<PhDAppModule> injectModules() {
+        return Stream.of(new IntervalPairwiseClassifierModule()).collect(Collectors.toSet());
     }
 
     @Test

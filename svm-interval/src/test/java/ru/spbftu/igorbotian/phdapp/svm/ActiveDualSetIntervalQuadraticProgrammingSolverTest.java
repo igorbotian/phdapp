@@ -4,9 +4,13 @@ import org.junit.Assert;
 import org.junit.Test;
 import ru.spbftu.igorbotian.phdapp.common.Pair;
 import ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject;
+import ru.spbftu.igorbotian.phdapp.ioc.PhDAppModule;
 import ru.spbftu.igorbotian.phdapp.quadprog.QuadraticProgrammingException;
 
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Модульные тесты для класса <code>ActiveDualSetQuadraticProgrammingSolver</code>,
@@ -21,6 +25,11 @@ public class ActiveDualSetIntervalQuadraticProgrammingSolverTest extends Abstrac
     public void setUp() throws QuadraticProgrammingException {
         super.setUp();
         kernel = new GaussianMercerKernel<>(new GaussianKernelFunctionImpl(SIGMA));
+    }
+
+    @Override
+    protected Set<PhDAppModule> injectModules() {
+        return Stream.of(new IntervalPairwiseClassifierModule()).collect(Collectors.toSet());
     }
 
     /*

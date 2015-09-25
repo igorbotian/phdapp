@@ -1,15 +1,10 @@
 package ru.spbftu.igorbotian.phdapp.svm;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import org.junit.BeforeClass;
 import ru.spbftu.igorbotian.phdapp.common.*;
-import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfigurationModule;
-import ru.spbftu.igorbotian.phdapp.quadprog.QuadraticProgrammingException;
-import ru.spbftu.igorbotian.phdapp.quadprog.QuadraticProgrammingModule;
+import ru.spbftu.igorbotian.phdapp.ioc.PhDAppModule;
 
-import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -24,27 +19,16 @@ import java.util.stream.Stream;
  */
 public abstract class AbstractPreciseQuadraticProgrammingTest extends BaseQuadraticProgrammingTest {
 
-    @BeforeClass
-    public static void init() {
-        Injector injector = Guice.createInjector(Arrays.asList(
-                        new ApplicationConfigurationModule(Paths.get("..")),
-                        new DataModule(),
-                        new QuadraticProgrammingModule(),
-                        new IntervalPairwiseClassifierModule(),
-                        new PreciseRankingPairwiseClassifierModule())
-        );
-        dataFactory = injector.getInstance(DataFactory.class);
-        qpSolver = injector.getInstance(QuadraticProgrammingSolver.class);
+    @Override
+    protected Set<PhDAppModule> injectModules() {
+        return Stream.of(
+                new IntervalPairwiseClassifierModule(),
+                new PreciseRankingPairwiseClassifierModule()
+        ).collect(Collectors.toSet());
     }
 
     @Override
-    public void setUp() throws QuadraticProgrammingException {
-        super.setUp();
-        trainingSet = makeTrainingSet();
-        expectedSolution = makeExpectedSolution();
-    }
-
-    private static PairwiseTrainingSet makeTrainingSet() {
+    protected PairwiseTrainingSet makeTrainingSet() {
         LinkedHashSet<Judgement> trainingSet = new LinkedHashSet<>();
 
         trainingSet.add(dataFactory.newPairwiseTrainingObject(
@@ -74,14 +58,8 @@ public abstract class AbstractPreciseQuadraticProgrammingTest extends BaseQuadra
         return set;
     }
 
-    protected static UnclassifiedObject makeJudgementItem(String id, double value) {
-        return dataFactory.newUnclassifiedObject(
-                id,
-                Collections.singleton(dataFactory.newParameter(PARAM_ID, value, BasicDataTypes.REAL))
-        );
-    }
-
-    private static Map<Pair<String, String>, Double> makeExpectedSolution() {
+    @Override
+    protected Map<Pair<String, String>, Double> makeExpectedSolution() {
         Map<Pair<String, String>, Double> solution = new HashMap<>();
 
         solution.put(new Pair<>("x1", "z1"), 0.4403983);
