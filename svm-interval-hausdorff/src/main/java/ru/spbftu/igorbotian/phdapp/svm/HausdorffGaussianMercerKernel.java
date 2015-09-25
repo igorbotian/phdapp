@@ -98,14 +98,14 @@ class HausdorffGaussianMercerKernel extends GaussianMercerKernel<UnclassifiedObj
 
     @SuppressWarnings("unchecked")
     private Map<String, Double> convertToAverageItem(Set<Map<String, Double>> item, Set<Map<String, Double>>... others) {
-        Map<Double, Map<String, Double>> mostDistanceItems = new HashMap<>();
+        Map<Double, Map<String, Double>> mostDistantItems = new HashMap<>();
 
         for(Set<Map<String, Double>> other : others) {
-            Map.Entry<Double, Map<String, Double>> mostDistanceItem = findMostDistantItem(item, other);
-            mostDistanceItems.put(mostDistanceItem.getKey(), mostDistanceItem.getValue());
+            Map.Entry<Double, Map<String, Double>> mostDistantItem = findMostDistantItem(item, other);
+            mostDistantItems.put(mostDistantItem.getKey(), mostDistantItem.getValue());
         }
 
-        return computeAverageItem(mostDistanceItems);
+        return computeAverageItem(mostDistantItems);
     }
 
     //-------------------------------------------------------------------------
@@ -150,33 +150,20 @@ class HausdorffGaussianMercerKernel extends GaussianMercerKernel<UnclassifiedObj
 
     //-------------------------------------------------------------------------
 
-    private Map<String, Double> computeAverageItem(Map<Double, Map<String, Double>> mostDistanceItems) {
-        assert !mostDistanceItems.isEmpty();
+    private Map<String, Double> computeAverageItem(Map<Double, Map<String, Double>> mostDistantItems) {
+        assert !mostDistantItems.isEmpty();
 
         Map<String, Double> average = new HashMap<>();
-        double sumOfDistances = sum(mostDistanceItems.keySet());
+        double sumOfDistances = mostDistantItems.keySet().stream().reduce(Double::sum).get();
 
-        for(String param : mostDistanceItems.values().iterator().next().keySet()) {
-            double sumOfValues = 0.0;
-
-            for(Map.Entry<Double, Map<String, Double>> item : mostDistanceItems.entrySet()) {
-                sumOfValues += item.getKey() * item.getValue().get(param);
-            }
-
+        for(String param : mostDistantItems.values().iterator().next().keySet()) {
+            double sumOfValues = mostDistantItems.entrySet().stream().mapToDouble(
+                    e -> e.getKey() * e.getValue().get(param)
+            ).sum();
             average.put(param, sumOfValues / sumOfDistances);
         }
 
         return average;
-    }
-
-    private double sum(Collection<Double> numbers) {
-        double result = 0.0;
-
-        for(Double number : numbers) {
-            result += number;
-        }
-
-        return result;
     }
 
     //-------------------------------------------------------------------------

@@ -8,7 +8,7 @@ import ru.spbftu.igorbotian.phdapp.common.PairwiseTrainingSet;
 import ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject;
 
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -16,7 +16,7 @@ import java.util.Set;
  * @author Igor Botian <igor.botian@gmail.com>
  */
 @Singleton
-class HausdorffIntervalRankingPairwiseClassifier extends AbstractIntervalRankingPairwiseClassifier {
+public class HausdorffIntervalRankingPairwiseClassifier extends AbstractIntervalRankingPairwiseClassifier {
 
     /**
      * Фабрика объектов предметной области
@@ -45,7 +45,7 @@ class HausdorffIntervalRankingPairwiseClassifier extends AbstractIntervalRanking
     private PairwiseTrainingSet toPreciseJudgements(PairwiseTrainingSet trainingSet) {
         assert trainingSet != null;
 
-        Set<Judgement> preciseJudgements = new HashSet<>();
+        Set<Judgement> preciseJudgements = new LinkedHashSet<>();
         trainingSet.judgements().forEach(judgement -> preciseJudgements.add(toPreciseJudgement(judgement)));
         return dataFactory.newPairwiseTrainingSet(preciseJudgements);
     }
