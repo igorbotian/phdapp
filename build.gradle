@@ -235,6 +235,7 @@ project(':svm-interval') {
 
     dependencies {
         compile(
+                commonsLang,
                 project(':conf-app'),
                 project(':common'),
                 project(':ioc'),

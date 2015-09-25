@@ -51,10 +51,11 @@ class HausdorffGaussianMercerKernel extends GaussianMercerKernel<UnclassifiedObj
         Set<Map<String, Double>> secondFirst = extractItems(second.first);
         Set<Map<String, Double>> secondSecond = extractItems(second.second);
 
-        Map<String, Double> avgFirstFirst = convertToAverageItem(firstFirst, firstSecond, secondFirst, secondSecond);
-        Map<String, Double> avgFirstSecond = convertToAverageItem(firstSecond, firstFirst, secondFirst, secondSecond);
-        Map<String, Double> avgSecondFirst = convertToAverageItem(secondFirst, firstFirst, firstSecond, secondSecond);
-        Map<String, Double> avgSecondSecond = convertToAverageItem(secondSecond, firstFirst, firstSecond, secondFirst);
+        // см. GaussianMerkelKernel - first.first не зависит от first.second (то же самое для других)
+        Map<String, Double> avgFirstFirst = convertToAverageItem(firstFirst, secondFirst, secondSecond);
+        Map<String, Double> avgFirstSecond = convertToAverageItem(firstSecond, secondFirst, secondSecond);
+        Map<String, Double> avgSecondFirst = convertToAverageItem(secondFirst, firstFirst, firstSecond);
+        Map<String, Double> avgSecondSecond = convertToAverageItem(secondSecond, firstFirst, firstSecond);
 
         return new Pair<>(
                 new Pair<>(

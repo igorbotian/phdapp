@@ -1,6 +1,7 @@
 package ru.spbftu.igorbotian.phdapp.svm;
 
 import com.google.inject.Inject;
+import org.apache.commons.lang3.StringUtils;
 import ru.spbftu.igorbotian.phdapp.common.*;
 import ru.spbftu.igorbotian.phdapp.quadprog.ActiveDualSetAlgorithm;
 import ru.spbftu.igorbotian.phdapp.quadprog.QuadraticProgrammingException;
@@ -20,6 +21,8 @@ class ActiveDualSetQuadraticProgrammingSolver implements QuadraticProgrammingSol
      * Количество знаков после запятой после округления значений
      */
     private static final int PRECISION = 10;
+
+    private static final double TINY_VALUE = 1 / Double.parseDouble("1" + StringUtils.repeat('0', PRECISION));
 
     /**
      * Средство решения задачи квадратичного программирования
@@ -43,27 +46,95 @@ class ActiveDualSetQuadraticProgrammingSolver implements QuadraticProgrammingSol
         Set<Judgement> judgements = new LinkedHashSet<>(trainingSet.judgements());
         Set<Pair<UnclassifiedObject, UnclassifiedObject>> variables = identifyVariables(judgements);
 
-        double[][] quadraticFunctionMatrix = quadraticFunctionMatrix(variables, kernel);
-        double[] quadraticFunctionVector = quadraticFunctionVector(variables);
-        double[][] constraintMatrix = constraintMatrix(judgements, variables);
-        double[] constraintVector = constraintVector(judgements, penalty);
+        double[][] qfMatrix = quadraticFunctionMatrix(variables, kernel);
+        double[] qfVector = quadraticFunctionVector(variables);
+        double[][] cMatrix = constraintMatrix(judgements, variables);
+        double[] cVector = constraintVector(judgements, penalty);
 
         try {
-            double[] multipliers = qpSolver.apply(
-                    quadraticFunctionMatrix,
-                    quadraticFunctionVector,
-                    constraintMatrix,
-                    constraintVector
-            );
-
-            return associateMultipliersWithVariables(variables, multipliers);
+            return solve(variables, qfMatrix, qfVector, cMatrix, cVector);
         } catch (QuadraticProgrammingException e) {
-            if (!MatrixUtils.isPositiveDefinite(quadraticFunctionMatrix)) {
-                throw new QuadraticProgrammingException("Quadratic function matrix should be positive definite");
-            } else {
-                throw new QuadraticProgrammingException("Error occurred while solving dual optimization problem", e);
+            if (!MatrixUtils.isPositiveDefinite(qfMatrix)) {
+                tryToFixPositiveDefinition(qfMatrix);
+
+                try {
+                    return solve(variables, qfMatrix, qfVector, cMatrix, cVector);
+                } catch (QuadraticProgrammingException ex) {
+                    if(!MatrixUtils.isPositiveDefinite(qfMatrix)) {
+                        throw new QuadraticProgrammingException("Quadratic function matrix should be positive definite");
+                    }
+                }
+            }
+
+            throw new QuadraticProgrammingException("Error occurred while solving dual optimization problem", e);
+        }
+    }
+
+    /**
+     * Попытка эквивалентного преобразования матрицы с целью приведения её к виду положительно определённой матрицы
+     */
+    private void tryToFixPositiveDefinition(double[][] matrix) {
+        add(matrix, Math.abs(findMin(matrix)));
+        fixZeroes(matrix);
+    }
+
+    /**
+     * Поиск в матрице ячейки с наименьшим значением
+     */
+    private double findMin(double[][] matrix) {
+        double min = Double.MAX_VALUE;
+
+        for (double[] row : matrix) {
+            for (double value : row) {
+                if (value < min) {
+                    min = value;
+                }
             }
         }
+
+        return min;
+    }
+
+    /**
+     * Добавление к значению каждой ячейки матрицы заданного числа
+     */
+    private void add(double[][] matrix, double value) {
+        for(int i = 0; i < matrix.length; i++) {
+            for(int j = 0; j < matrix[i].length; j++) {
+                matrix[i][j] += value;
+            }
+        }
+    }
+
+    /**
+     * Замена каждого нулевого значения в матрице на некое малое число
+     */
+    private void fixZeroes(double[][] matrix) {
+        for(int i = 0; i < matrix.length; i++) {
+            for(int j = 0; j < matrix[i].length; j++) {
+                if(Math.abs(matrix[i][j]) == 0.0) {
+                    matrix[i][j] = TINY_VALUE;
+                }
+            }
+        }
+    }
+
+    /**
+     * Решение задачи квадратичного программирования заданным способом
+     */
+    private Map<Pair<UnclassifiedObject, UnclassifiedObject>, Double> solve(
+            Set<Pair<UnclassifiedObject, UnclassifiedObject>> variables, double[][] qfMatrix, double[] qfVector,
+            double[][] cMatrix, double[] cVector)
+            throws QuadraticProgrammingException {
+
+        double[] multipliers = qpSolver.apply(
+                qfMatrix,
+                qfVector,
+                cMatrix,
+                cVector
+        );
+
+        return associateMultipliersWithVariables(variables, multipliers);
     }
 
     /**
