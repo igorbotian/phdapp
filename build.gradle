@@ -243,7 +243,10 @@ project(':svm-interval') {
                 project(':utils')
         )
 
-        testCompile junit
+        testCompile(
+                junit,
+                project(':svm-precise')
+        )
     }
 }
 
