@@ -6,6 +6,7 @@ import ru.spbftu.igorbotian.phdapp.quadprog.ActiveDualSetAlgorithm;
 import ru.spbftu.igorbotian.phdapp.quadprog.QuadraticProgrammingException;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Средство решения задачи квадратичного программирования по методу, предложенному Гольфарбом и Иднани
@@ -57,7 +58,7 @@ class ActiveDualSetQuadraticProgrammingSolver implements QuadraticProgrammingSol
 
             return associateMultipliersWithVariables(variables, multipliers);
         } catch (QuadraticProgrammingException e) {
-            if(!MatrixUtils.isPositiveDefinite(quadraticFunctionMatrix)) {
+            if (!MatrixUtils.isPositiveDefinite(quadraticFunctionMatrix)) {
                 throw new QuadraticProgrammingException("Quadratic function matrix should be positive definite");
             } else {
                 throw new QuadraticProgrammingException("Error occurred while solving dual optimization problem", e);
@@ -122,18 +123,13 @@ class ActiveDualSetQuadraticProgrammingSolver implements QuadraticProgrammingSol
         assert !variables.isEmpty();
         assert kernel != null;
 
+        List<Pair<UnclassifiedObject, UnclassifiedObject>> variablesList = variables.stream().collect(Collectors.toList());
         double[][] matrix = new double[variables.size()][variables.size()];
-        int i = 0;
 
-        for (Pair<UnclassifiedObject, UnclassifiedObject> first : variables) {
-            int j = 0;
-
-            for (Pair<UnclassifiedObject, UnclassifiedObject> second : variables) {
-                matrix[i][j] = round(kernel.compute(first, second), PRECISION);
-                j++;
+        for (int i = 0; i < variablesList.size(); i++) {
+            for (int j = i; j < variablesList.size(); j++) {
+                matrix[i][j] = matrix[j][i] = round(kernel.compute(variablesList.get(i), variablesList.get(j)), PRECISION);
             }
-
-            i++;
         }
 
         return matrix;

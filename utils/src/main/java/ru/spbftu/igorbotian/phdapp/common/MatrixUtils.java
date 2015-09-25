@@ -22,8 +22,10 @@ public final class MatrixUtils {
     public static boolean isPositiveDefinite(double[][] matrix) {
         try {
             new CholeskyDecomposition(new Array2DRowRealMatrix(matrix));
-        } catch (NonPositiveDefiniteMatrixException | NonSymmetricMatrixException e) {
+        } catch (NonPositiveDefiniteMatrixException e) {
             return false;
+        } catch (NonSymmetricMatrixException e) {
+            return false; // ветка добавлена в целях отладки
         }
 
         return true;
