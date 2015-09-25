@@ -34,7 +34,7 @@ class IntervalRankingPairwiseClassifierImpl extends AbstractIntervalRankingPairw
     }
 
     @Override
-    protected KernelFunction<UnclassifiedObject> getKernelFunction() {
-        return new GaussianKernelFunctionImpl(sigma);
+    protected Kernel<UnclassifiedObject> getKernel() {
+        return new GaussianMercerKernel<>(new GaussianKernelFunctionImpl(sigma));
     }
 }

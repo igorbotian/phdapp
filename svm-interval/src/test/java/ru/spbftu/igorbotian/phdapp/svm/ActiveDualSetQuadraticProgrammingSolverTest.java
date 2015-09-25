@@ -81,7 +81,7 @@ public class ActiveDualSetQuadraticProgrammingSolverTest extends BaseQuadraticPr
     @Test
     public void testSolution() throws QuadraticProgrammingException {
         Map<Pair<UnclassifiedObject, UnclassifiedObject>, Double> solution =
-                qpSolver.solve(trainingSet, kernelFunction, PENALTY);
+                qpSolver.solve(trainingSet, kernel, PENALTY);
 
         Assert.assertEquals(expectedSolution.size(), solution.size());
 

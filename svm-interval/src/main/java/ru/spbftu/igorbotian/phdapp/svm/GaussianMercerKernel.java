@@ -10,10 +10,12 @@ import java.util.Objects;
  * @author Igor Botian <igor.botian@gmail.com>
  * @see <a href="http://research.microsoft.com/apps/pubs/default.aspx?id=65610">http://research.microsoft.com/apps/pubs/default.aspx?id=65610</a>
  */
-final class MercerKernel {
+public class GaussianMercerKernel<T> implements Kernel<T> {
 
-    private MercerKernel() {
-        //
+    private GaussianKernelFunction<T> kernelFunction;
+
+    public GaussianMercerKernel(GaussianKernelFunction<T> kernelFunction) {
+        this.kernelFunction = Objects.requireNonNull(kernelFunction);
     }
 
     /**
@@ -21,17 +23,14 @@ final class MercerKernel {
      *
      * @param first          первый объект
      * @param second         второй объект
-     * @param kernelFunction функция ядра
      * @return вещественное число
      * @throws NullPointerException если хотя бы один из аргументов не задан
      */
-    public static <T> double compute(Pair<T, T> first,
-                                     Pair<T, T> second,
-                                     KernelFunction<T> kernelFunction) {
+    @Override
+    public double compute(Pair<T, T> first, Pair<T, T> second) {
 
         Objects.requireNonNull(first);
         Objects.requireNonNull(second);
-        Objects.requireNonNull(kernelFunction);
 
         return kernelFunction.compute(first.first, second.first)
                 - kernelFunction.compute(first.first, second.second)

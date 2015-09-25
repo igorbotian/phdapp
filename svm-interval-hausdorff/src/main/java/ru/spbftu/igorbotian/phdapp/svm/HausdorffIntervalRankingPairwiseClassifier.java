@@ -72,7 +72,7 @@ class HausdorffIntervalRankingPairwiseClassifier extends AbstractIntervalRanking
     }
 
     @Override
-    protected KernelFunction<UnclassifiedObject> getKernelFunction() {
-        return new HausdorffGaussianKernelFunctionImpl(sigma);
+    protected Kernel<UnclassifiedObject> getKernel() {
+        return new HausdorffGaussianMercerKernel(sigma, dataFactory);
     }
 }

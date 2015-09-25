@@ -32,17 +32,17 @@ class ActiveDualSetQuadraticProgrammingSolver implements QuadraticProgrammingSol
 
     @Override
     public Map<Pair<UnclassifiedObject, UnclassifiedObject>, Double> solve(PairwiseTrainingSet trainingSet,
-                                                                           KernelFunction<UnclassifiedObject> kernelFunction,
+                                                                           Kernel<UnclassifiedObject> kernel,
                                                                            double penalty)
             throws QuadraticProgrammingException {
 
         Objects.requireNonNull(trainingSet);
-        Objects.requireNonNull(kernelFunction);
+        Objects.requireNonNull(kernel);
 
         Set<Judgement> judgements = new LinkedHashSet<>(trainingSet.judgements());
         Set<Pair<UnclassifiedObject, UnclassifiedObject>> variables = identifyVariables(judgements);
 
-        double[][] quadraticFunctionMatrix = quadraticFunctionMatrix(variables, kernelFunction);
+        double[][] quadraticFunctionMatrix = quadraticFunctionMatrix(variables, kernel);
         double[] quadraticFunctionVector = quadraticFunctionVector(variables);
         double[][] constraintMatrix = constraintMatrix(judgements, variables);
         double[] constraintVector = constraintVector(judgements, penalty);
@@ -117,10 +117,10 @@ class ActiveDualSetQuadraticProgrammingSolver implements QuadraticProgrammingSol
      * Формирование матрицы квадратичной функции
      */
     private double[][] quadraticFunctionMatrix(Set<Pair<UnclassifiedObject, UnclassifiedObject>> variables,
-                                               KernelFunction<UnclassifiedObject> kernelFunction) {
+                                               Kernel<UnclassifiedObject> kernel) {
         assert variables != null;
         assert !variables.isEmpty();
-        assert kernelFunction != null;
+        assert kernel != null;
 
         double[][] matrix = new double[variables.size()][variables.size()];
         int i = 0;
@@ -129,7 +129,7 @@ class ActiveDualSetQuadraticProgrammingSolver implements QuadraticProgrammingSol
             int j = 0;
 
             for (Pair<UnclassifiedObject, UnclassifiedObject> second : variables) {
-                matrix[i][j] = round(MercerKernel.compute(first, second, kernelFunction), PRECISION);
+                matrix[i][j] = round(kernel.compute(first, second), PRECISION);
                 j++;
             }
 

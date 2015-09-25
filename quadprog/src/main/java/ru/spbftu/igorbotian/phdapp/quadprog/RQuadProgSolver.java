@@ -71,10 +71,6 @@ class RQuadProgSolver implements ActiveDualSetAlgorithm {
         roundValues(matrix, PRECISION);
         fixPositiveDefinition(matrix);
 
-        if (!isMatrixSymmetric(matrix)) {
-            throw new QuadraticProgrammingException("Quadratic matrix should be symmetric");
-        }
-
         /* Генерация R-скрипта на основе заданных параметров */
 
         RCode code = new RCode();
@@ -117,10 +113,8 @@ class RQuadProgSolver implements ActiveDualSetAlgorithm {
     private void fixPositiveDefinition(double[][] matrix) {
         // В реализации quadprog содержится ошибка определения, является ли матрица квадратичной функции
         // положительно определённой или нет.
-        // Добавление малого значения к элементам диагонали позволяет обойти эту проблему
-        // К тому же дополнительно необходимо избавиться от нулевых элементов
+        // Добавление малого значения к элементам диагонали позволяет обойти эту проблему.
         fixDiagonal(matrix);
-        fixZeroes(matrix);
     }
 
     private void fixDiagonal(double[][] matrix) {
@@ -129,31 +123,5 @@ class RQuadProgSolver implements ActiveDualSetAlgorithm {
                 matrix[i][i] += TINY_VALUE;
             }
         }
-    }
-
-    private void fixZeroes(double[][] matrix) {
-        for(int i = 0; i < matrix.length; i++) {
-            for(int j = 0; j < matrix[i].length; j++) {
-                if(Math.abs(matrix[i][j]) == 0.0) {
-                    matrix[i][j] = TINY_VALUE;
-                }
-            }
-        }
-    }
-
-    private boolean isMatrixSymmetric(double[][] matrix) {
-        for (int i = 0; i < matrix.length; i++) {
-            if (matrix[i].length != matrix.length) {
-                return false;
-            }
-
-            for (int j = 0; j < matrix[i].length; j++) {
-                if (matrix[i][j] != matrix[j][i]) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
     }
 }

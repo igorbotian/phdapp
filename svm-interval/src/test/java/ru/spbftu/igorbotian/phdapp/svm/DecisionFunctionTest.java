@@ -21,7 +21,7 @@ public class DecisionFunctionTest extends BaseQuadraticProgrammingTest {
 
     @Before
     public void setUp() throws QuadraticProgrammingException {
-        decisionFunction = new DecisionFunction<>(qpSolver.solve(trainingSet, kernelFunction, PENALTY), kernelFunction);
+        decisionFunction = new DecisionFunction<>(qpSolver.solve(trainingSet, kernel, PENALTY), kernel);
     }
 
     @Test

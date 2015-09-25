@@ -46,7 +46,7 @@ public abstract class AbstractIntervalRankingPairwiseClassifier implements Inter
     /**
      * Получение ядра, применяемого в процессе решения задачи квадратичного программирования
      */
-    protected abstract KernelFunction<UnclassifiedObject> getKernelFunction();
+    protected abstract Kernel<UnclassifiedObject> getKernel();
 
     private DecisionFunction<UnclassifiedObject> buildDecisionFunction(PairwiseTrainingSet trainingSet,
                                                                        double penalty)
@@ -55,11 +55,11 @@ public abstract class AbstractIntervalRankingPairwiseClassifier implements Inter
         assert trainingSet != null;
 
         try {
-            KernelFunction<UnclassifiedObject> kernelFunction = getKernelFunction();
+            Kernel<UnclassifiedObject> kernel = getKernel();
             Map<Pair<UnclassifiedObject, UnclassifiedObject>, Double> lagrangianMultipliers
-                    = qpSolver.solve(trainingSet, kernelFunction, penalty);
+                    = qpSolver.solve(trainingSet, kernel, penalty);
 
-            return new DecisionFunction<>(lagrangianMultipliers, kernelFunction);
+            return new DecisionFunction<>(lagrangianMultipliers, kernel);
         } catch (QuadraticProgrammingException e) {
             throw new ClassifierTrainingException("Can't build a decision function for a given training set", e);
         }

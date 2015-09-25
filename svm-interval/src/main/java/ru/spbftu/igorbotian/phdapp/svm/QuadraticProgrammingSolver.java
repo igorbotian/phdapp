@@ -17,16 +17,16 @@ public interface QuadraticProgrammingSolver {
     /**
      * Решения задачи квадратичного программирования с заданными параметрами
      *
-     * @param trainingSet      обучающая выборка
-     * @param kernelFunction   функция ядра, применяемая в ходе решения
-     * @param penalty параметр штрафа
+     * @param trainingSet обучающая выборка
+     * @param kernel      ядро, применяемое в ходе решения
+     * @param penalty     параметр штрафа
      * @return ассоциативный массив, в котором каждой паре объектов из экспертной оценки соответствует
      * некоторое вещественное число (как элемент решения задачи)
      * @throws QuadraticProgrammingException в случае возникновения ошибки в процессе решения
-     * @throws NullPointerException  если обучающая выборка или функция ядра не заданы
+     * @throws NullPointerException          если обучающая выборка или функция ядра не заданы
      */
     Map<Pair<UnclassifiedObject, UnclassifiedObject>, Double> solve(PairwiseTrainingSet trainingSet,
-                                                                    KernelFunction<UnclassifiedObject> kernelFunction,
+                                                                    Kernel<UnclassifiedObject> kernel,
                                                                     double penalty)
             throws QuadraticProgrammingException;
 }

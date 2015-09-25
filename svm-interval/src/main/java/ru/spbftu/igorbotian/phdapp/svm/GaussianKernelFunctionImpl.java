@@ -12,7 +12,7 @@ import java.util.function.BiFunction;
  *
  * @author Igor Botian <igor.botian@gmail.com>
  */
-class GaussianKernelFunctionImpl extends GaussianKernelFunction<UnclassifiedObject> {
+public class GaussianKernelFunctionImpl extends GaussianKernelFunction<UnclassifiedObject> {
 
     public GaussianKernelFunctionImpl(double sigma) {
         super(sigma);

@@ -20,20 +20,20 @@ class DecisionFunction<T> {
     private final Map<Pair<T, T>, Double> lagrangianMultipliers;
 
     /**
-     * Функция ядра
+     * Ядро
      */
-    private final KernelFunction<T> kernelFunction;
+    private final Kernel<T> kernel;
 
-    public DecisionFunction(Map<Pair<T, T>, Double> lagrangianMultipliers, KernelFunction<T> kernelFunction) {
+    public DecisionFunction(Map<Pair<T, T>, Double> lagrangianMultipliers, Kernel<T> kernel) {
         Objects.requireNonNull(lagrangianMultipliers);
-        Objects.requireNonNull(kernelFunction);
+        Objects.requireNonNull(kernel);
 
         if (lagrangianMultipliers.isEmpty()) {
             throw new IllegalArgumentException("A set of Lagrangian multipliers cannot be empty");
         }
 
         this.lagrangianMultipliers = Collections.unmodifiableMap(lagrangianMultipliers);
-        this.kernelFunction = kernelFunction;
+        this.kernel = kernel;
     }
 
     /**
@@ -70,7 +70,7 @@ class DecisionFunction<T> {
         double sum = 0;
 
         for (Pair<T, T> pair : lagrangianMultipliers.keySet()) {
-            sum += lagrangianMultipliers.get(pair) * MercerKernel.compute(pair, objectsToCompare, kernelFunction);
+            sum += lagrangianMultipliers.get(pair) * kernel.compute(pair, objectsToCompare);
         }
 
         return sum;
