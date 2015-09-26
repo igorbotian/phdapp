@@ -31,7 +31,7 @@ public abstract class AbstractPreciseQuadraticProgrammingTest extends BaseQuadra
     protected PairwiseTrainingSet makeTrainingSet() {
         LinkedHashSet<Judgement> trainingSet = new LinkedHashSet<>();
 
-        trainingSet.add(dataFactory.newPairwiseTrainingObject(
+        trainingSet.add(dataFactory.newJudgement(
                 makeJudgementItemSet(
                         makeJudgementItem("x1", 11.0)
                 ),
@@ -40,7 +40,7 @@ public abstract class AbstractPreciseQuadraticProgrammingTest extends BaseQuadra
                 )
         ));
 
-        trainingSet.add(dataFactory.newPairwiseTrainingObject(
+        trainingSet.add(dataFactory.newJudgement(
                 makeJudgementItemSet(
                         makeJudgementItem("x2", 12.0)
                 ),

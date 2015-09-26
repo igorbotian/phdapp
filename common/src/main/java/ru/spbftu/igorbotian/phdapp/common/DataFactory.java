@@ -91,8 +91,8 @@ public interface DataFactory {
      * @throws java.lang.NullPointerException     если хотя бы один из параметров не задан
      * @throws java.lang.IllegalArgumentException если хотя бы один объект из одного набора также содержится и во втором
      */
-    Judgement newPairwiseTrainingObject(Set<? extends UnclassifiedObject> preferable,
-                                                     Set<? extends UnclassifiedObject> inferior);
+    Judgement newJudgement(Set<? extends UnclassifiedObject> preferable,
+                           Set<? extends UnclassifiedObject> inferior);
 
     /**
      * Создание объекта типа <code>UnclassifiedData</code>

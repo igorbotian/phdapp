@@ -82,7 +82,7 @@ class PreciseCrossValidationSampleManagerImpl implements PreciseCrossValidationS
         assert intervalJudgement != null;
         Set<Point> preferable = asPoints(intervalJudgement.preferable());
         Set<Point> inferior = asPoints(intervalJudgement.inferior());
-        return dataFactory.newPairwiseTrainingObject(makePrecise(preferable), makePrecise(inferior));
+        return dataFactory.newJudgement(makePrecise(preferable), makePrecise(inferior));
     }
 
     private Set<Point> asPoints(Set<? extends UnclassifiedObject> objects) throws CrossValidationSampleException {

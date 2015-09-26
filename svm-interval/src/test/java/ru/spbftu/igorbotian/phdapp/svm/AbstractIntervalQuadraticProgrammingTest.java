@@ -27,7 +27,7 @@ public abstract class AbstractIntervalQuadraticProgrammingTest extends BaseQuadr
     protected PairwiseTrainingSet makeTrainingSet() {
         LinkedHashSet<Judgement> trainingSet = new LinkedHashSet<>();
 
-        trainingSet.add(dataFactory.newPairwiseTrainingObject(
+        trainingSet.add(dataFactory.newJudgement(
                 makeJudgementItemSet(
                         makeJudgementItem("x1", 11.0),
                         makeJudgementItem("x2", 12.0)
@@ -37,7 +37,7 @@ public abstract class AbstractIntervalQuadraticProgrammingTest extends BaseQuadr
                 )
         ));
 
-        trainingSet.add(dataFactory.newPairwiseTrainingObject(
+        trainingSet.add(dataFactory.newJudgement(
                 makeJudgementItemSet(
                         makeJudgementItem("x1", 11.0),
                         makeJudgementItem("x3", 13.0)

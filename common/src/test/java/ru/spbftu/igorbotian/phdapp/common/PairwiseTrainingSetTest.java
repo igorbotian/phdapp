@@ -36,10 +36,10 @@ public class PairwiseTrainingSetTest extends BaseDataTest<PairwiseTrainingSet> {
     private final UnclassifiedObject thirdObj = dataFactory.newUnclassifiedObject("thirdObj",
             Collections.singleton(dataFactory.newParameter("param", "thirdObj", BasicDataTypes.STRING)));
 
-    private final Judgement firstPair = dataFactory.newPairwiseTrainingObject(
+    private final Judgement firstPair = dataFactory.newJudgement(
             Collections.singleton(firstObj), Collections.singleton(secondObj)
     );
-    private final Judgement secondPair = dataFactory.newPairwiseTrainingObject(
+    private final Judgement secondPair = dataFactory.newJudgement(
             Collections.singleton(firstObj), Collections.singleton(thirdObj)
     );
 

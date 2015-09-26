@@ -36,20 +36,20 @@ public class JudgementTest extends BaseDataTest<Judgement> {
     private final UnclassifiedObject thirdItem = dataFactory.newUnclassifiedObject("thirdItem",
             Collections.singleton(dataFactory.newParameter("param", "thirdItem", BasicDataTypes.STRING)));
 
-    private final Judgement obj = dataFactory.newPairwiseTrainingObject(
+    private final Judgement obj = dataFactory.newJudgement(
             Collections.singleton(firstItem), Collections.singleton(secondItem)
     );
-    private final Judgement similarObj = dataFactory.newPairwiseTrainingObject(
+    private final Judgement similarObj = dataFactory.newJudgement(
             Collections.singleton(firstItem), Collections.singleton(secondItem)
     );
 
-    private final Judgement differentObj = dataFactory.newPairwiseTrainingObject(
+    private final Judgement differentObj = dataFactory.newJudgement(
             Collections.singleton(firstItem), Collections.singleton(thirdItem)
     );
 
     @Test(expected = IllegalArgumentException.class)
     public void testSameObjectInBothSets() {
-        dataFactory.newPairwiseTrainingObject(Collections.singleton(firstItem), Collections.singleton(firstItem));
+        dataFactory.newJudgement(Collections.singleton(firstItem), Collections.singleton(firstItem));
     }
 
     @Test

@@ -64,6 +64,6 @@ public class PairwiseTrainingObjectPDU {
             resultInferior.add(pdu.toObject(dataFactory));
         }
 
-        return dataFactory.newPairwiseTrainingObject(resultPreferable, resultInferior);
+        return dataFactory.newJudgement(resultPreferable, resultInferior);
     }
 }

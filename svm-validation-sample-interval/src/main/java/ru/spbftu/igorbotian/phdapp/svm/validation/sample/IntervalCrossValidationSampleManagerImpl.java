@@ -733,7 +733,7 @@ class IntervalCrossValidationSampleManagerImpl implements IntervalCrossValidatio
             inferior = firstGroup;
         }
 
-        return dataFactory.newPairwiseTrainingObject(preferable, inferior);
+        return dataFactory.newJudgement(preferable, inferior);
     }
 
     /**

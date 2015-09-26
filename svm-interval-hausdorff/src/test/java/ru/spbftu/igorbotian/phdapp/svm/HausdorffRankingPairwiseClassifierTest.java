@@ -71,7 +71,7 @@ public abstract class HausdorffRankingPairwiseClassifierTest {
     }
 
     protected Judgement makeJudgement(Set<? extends UnclassifiedObject> preferable, Set<? extends UnclassifiedObject> inferior) {
-        return dataFactory.newPairwiseTrainingObject(preferable, inferior);
+        return dataFactory.newJudgement(preferable, inferior);
     }
 
     protected Judgement makeJudgement(UnclassifiedObject preferable, UnclassifiedObject inferior) {

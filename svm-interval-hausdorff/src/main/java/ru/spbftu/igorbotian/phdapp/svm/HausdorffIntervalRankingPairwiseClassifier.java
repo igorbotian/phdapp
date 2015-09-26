@@ -6,7 +6,6 @@ import ru.spbftu.igorbotian.phdapp.common.DataFactory;
 import ru.spbftu.igorbotian.phdapp.common.PairwiseTrainingSet;
 import ru.spbftu.igorbotian.phdapp.common.UnclassifiedObject;
 
-import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 
@@ -37,25 +36,11 @@ public class HausdorffIntervalRankingPairwiseClassifier extends AbstractInterval
             throws ClassifierTrainingException {
 
         sigma = getParameter(IntervalClassifierParameterFactory.GAUSSIAN_KERNEL_PARAM_ID, params);
-        super.train(UnclassifiedObjectSet.toPreciseJudgements(dataFactory, trainingSet), params);
-    }
-
-    @Override
-    public boolean classify(UnclassifiedObject first, UnclassifiedObject second,
-                            Set<? extends ClassifierParameter<?>> params) throws ClassificationException {
-        Objects.requireNonNull(first);
-        Objects.requireNonNull(second);
-
-        return super.classify(toPreciseObject(first), toPreciseObject(second), params);
-    }
-
-    private UnclassifiedObjectSet toPreciseObject(UnclassifiedObject object) {
-        assert object != null;
-        return new UnclassifiedObjectSet(Collections.singleton(object));
+        super.train(HausdorffTrainingSetTransformer.transformToPrecise(trainingSet, dataFactory), params);
     }
 
     @Override
     protected Kernel<UnclassifiedObject> getKernel() {
-        return new HausdorffGaussianMercerKernel(sigma, dataFactory);
+        return new GaussianMercerKernel<>(new GaussianKernelFunctionImpl(sigma));
     }
 }
