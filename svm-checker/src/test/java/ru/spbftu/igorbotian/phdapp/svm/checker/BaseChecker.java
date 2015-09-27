@@ -143,7 +143,11 @@ public class BaseChecker {
         Objects.requireNonNull(crossValidatorParameters);
         Objects.requireNonNull(reportFileName);
 
+        long start = System.currentTimeMillis();
         R report = crossValidator.validate(classifier, applySpecificParameters(crossValidatorParameters));
+        long end = System.currentTimeMillis();
+        System.out.println(String.format("Duration = %.5f s.", ((end - start) / 1000.0)));
+
         ReportCSVWriter<R> csvWriter = reportFactory.get((Class<R>) report.getClass());
         PrintWriter writer = null;
 
