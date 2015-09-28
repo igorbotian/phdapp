@@ -11,7 +11,7 @@ import ru.spbftu.igorbotian.phdapp.log.Log4j;
 import ru.spbftu.igorbotian.phdapp.output.csv.CSVOutputDataManagementModule;
 import ru.spbftu.igorbotian.phdapp.output.csv.ReportCSVWriter;
 import ru.spbftu.igorbotian.phdapp.output.csv.ReportCSVWriterFactory;
-import ru.spbftu.igorbotian.phdapp.svm.HausdorffIntervalRankingPairwiseClassifierModule;
+import ru.spbftu.igorbotian.phdapp.svm.ClusterCentroidIntervalRankingPairwiseClassifierModule;
 import ru.spbftu.igorbotian.phdapp.svm.IntervalRankingPairwiseClassifier;
 import ru.spbftu.igorbotian.phdapp.svm.RankingPairwiseClassifier;
 import ru.spbftu.igorbotian.phdapp.svm.validation.*;
@@ -88,7 +88,8 @@ public class BaseChecker {
 
         Injector intervalInjector = parentInjector.createChildInjector(
                 //new IntervalPairwiseClassifierModule(),
-                new HausdorffIntervalRankingPairwiseClassifierModule(),
+                //new HausdorffIntervalRankingPairwiseClassifierModule(),
+                new ClusterCentroidIntervalRankingPairwiseClassifierModule(),
                 new SvmValidationIntervalSampleManagementModule(),
                 new SvmIntervalClassifierValidationModule()
         );
@@ -102,7 +103,8 @@ public class BaseChecker {
 
         Injector preciseInjector = parentInjector.createChildInjector(
                 //new IntervalPairwiseClassifierModule(),
-                new HausdorffIntervalRankingPairwiseClassifierModule(),
+                //new HausdorffIntervalRankingPairwiseClassifierModule(),
+                new ClusterCentroidIntervalRankingPairwiseClassifierModule(),
                 new SvmValidationPreciseSampleManagementModule(),
                 new SvmIntervalClassifierValidationModule()
         );

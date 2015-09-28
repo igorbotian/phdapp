@@ -24,6 +24,8 @@ public final class UnclassifiedObjectUtils {
      * @throws IllegalArgumentException если значение параметра не может быть приведено к вещественному значению
      */
     public static Double toDoubleValue(Parameter<?> param) {
+        Objects.requireNonNull(param);
+
         if (param.valueType().equals(BasicDataTypes.INTEGER)) {
             return Double.valueOf((Integer) param.value());
         } else if (param.valueType().equals(BasicDataTypes.REAL)) {
@@ -40,6 +42,8 @@ public final class UnclassifiedObjectUtils {
      * @return ассоциативный массив, сформированный заданным способом
      */
     public static Map<String, Integer> composeMapOfParamIndexes(UnclassifiedObject obj) {
+        Objects.requireNonNull(obj);
+
         Map<String, Integer> indexes = new HashMap<>();
         int i = 0;
 
@@ -60,6 +64,9 @@ public final class UnclassifiedObjectUtils {
      * @return вещественный вектор
      */
     public static List<Double> toNumericalVector(UnclassifiedObject obj, Map<String, Integer> paramIndexes) {
+        Objects.requireNonNull(obj);
+        Objects.requireNonNull(paramIndexes);
+
         Double[] vector = new Double[obj.parameters().size()];
 
         for(Parameter<?> param : obj.parameters()) {
@@ -67,5 +74,18 @@ public final class UnclassifiedObjectUtils {
         }
 
         return Arrays.asList(vector);
+    }
+
+    /**
+     * Разложение объекта, подлежащего классификации, на ассоциативный массив, в котором ключами являются
+     * названия параметров объекта, а значения - значения этих параметров
+     * @param obj объект, подлежащий классификации
+     * @return результат разложения
+     */
+    public static Map<String, Double> decompose(UnclassifiedObject obj) {
+        Objects.requireNonNull(obj);
+        Map<String, Double> decomposed = new LinkedHashMap<>();
+        obj.parameters().stream().forEach(p -> decomposed.put(p.name(), toDoubleValue(p)));
+        return decomposed;
     }
 }

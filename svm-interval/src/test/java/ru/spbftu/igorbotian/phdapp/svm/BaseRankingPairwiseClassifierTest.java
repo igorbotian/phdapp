@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import ru.spbftu.igorbotian.phdapp.common.*;
 import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfigurationModule;
+import ru.spbftu.igorbotian.phdapp.ioc.PhDAppModule;
 import ru.spbftu.igorbotian.phdapp.quadprog.QuadraticProgrammingModule;
 
 import java.nio.file.Paths;
@@ -15,10 +16,11 @@ import java.util.Collections;
 import java.util.Set;
 
 /**
- * Базовый тест для средства классификации данных, в котором используется расстояние Хаусдорфа
+ * Базовый тест для средства классификации данных
+ *
  * @author Igor Botian <igor.botian@gmail.com>
  */
-public abstract class HausdorffRankingPairwiseClassifierTest {
+public abstract class BaseRankingPairwiseClassifierTest {
 
     /**
      * Идентификатора тестового параметра
@@ -46,7 +48,7 @@ public abstract class HausdorffRankingPairwiseClassifierTest {
                 new ApplicationConfigurationModule(Paths.get("..")),
                 new DataModule(),
                 new QuadraticProgrammingModule(),
-                new HausdorffIntervalRankingPairwiseClassifierModule()
+                rankingPairwiseClassifierModule()
         ));
         dataFactory = injector.getInstance(DataFactory.class);
         classifier = injector.getInstance(IntervalRankingPairwiseClassifier.class);
@@ -61,6 +63,8 @@ public abstract class HausdorffRankingPairwiseClassifierTest {
             Assert.assertTrue(classifier.classify(pair.first, pair.second, Collections.emptySet()));
         }
     }
+
+    protected abstract PhDAppModule rankingPairwiseClassifierModule();
 
     protected abstract Set<Pair<UnclassifiedObject, UnclassifiedObject>> pairsToClassify();
 

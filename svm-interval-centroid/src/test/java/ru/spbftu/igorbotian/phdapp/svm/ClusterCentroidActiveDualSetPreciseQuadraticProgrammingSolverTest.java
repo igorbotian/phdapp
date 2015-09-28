@@ -10,12 +10,12 @@ import java.util.stream.Stream;
 
 /**
  * Модульные тесты для класса <code>ActiveDualSetQuadraticProgrammingSolver</code>,
- * в которых обучающая выборка состоит из интервальных значений, а в решении используется расстояние Хаусдорфа.
+ * в которых обучающая выборка состоит из интервальных значений, а в решении используется расстояние между центрами кластера.
  *
  * @author Igor Botian <igor.botian@gmail.com>
  * @see AbstractIntervalQuadraticProgrammingTest
  */
-public class HausdorffActiveDualSetPreciseQuadraticProgrammingSolverTest extends AbstractPreciseQuadraticProgrammingTest {
+public class ClusterCentroidActiveDualSetPreciseQuadraticProgrammingSolverTest extends AbstractPreciseQuadraticProgrammingTest {
 
     @Override
     public void setUp() throws QuadraticProgrammingException {
@@ -26,7 +26,7 @@ public class HausdorffActiveDualSetPreciseQuadraticProgrammingSolverTest extends
     @Override
     protected Set<PhDAppModule> injectModules() {
         return Stream.of(
-                new HausdorffIntervalRankingPairwiseClassifierModule()
+                new ClusterCentroidIntervalRankingPairwiseClassifierModule()
         ).collect(Collectors.toSet());
     }
 
