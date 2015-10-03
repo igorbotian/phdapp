@@ -42,7 +42,7 @@ public class BaseChecker {
     protected static final int SAMPLE_SIZE = 300;
     protected static final int SAMPLES_TO_GENERATE = 100;
     protected static final int PRECISE_INTERVAL_JUDGEMENT_COUNT_RATIO = 50;
-    protected static final int TRAINING_TESTING_SETS_SIZE_RATIO = 50;
+    protected static final int TRAINING_TESTING_SETS_SIZE_RATIO = 75;
 
     /* Значения параметров ниже имеют оптимальные значения, найденные эмпиририческим способом */
 

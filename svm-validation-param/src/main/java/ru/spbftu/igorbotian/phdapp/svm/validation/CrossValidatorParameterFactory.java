@@ -231,7 +231,7 @@ public interface CrossValidatorParameterFactory {
     /**
      * Значение по умолчанию параметра, задающего соотношение количества объектов, входящих в обучающей и тестирующей выборках
      */
-    int TRAINING_TESTING_SETS_SIZE_RATIO_DEFAULT_VALUE = 30;
+    int TRAINING_TESTING_SETS_SIZE_RATIO_DEFAULT_VALUE = 75;
 
     /**
      * Значение по умолчанию нижней границы интервального значения параметра, задающего соотношение количества объектов,
