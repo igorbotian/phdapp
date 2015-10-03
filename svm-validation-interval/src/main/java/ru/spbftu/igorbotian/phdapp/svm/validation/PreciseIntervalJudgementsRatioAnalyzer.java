@@ -25,16 +25,16 @@ class PreciseIntervalJudgementsRatioAnalyzer
     /**
      * Средство кросс-валидации, направленное на точность работы попарного классификатора
      */
-    private final PrecisionValidator precisionValidator;
+    private final AccuracyValidator accuracyValidator;
 
     public PreciseIntervalJudgementsRatioAnalyzer(CrossValidationSampleManager sampleManager,
                                                   IntervalClassifierParameterFactory classifierParameterFactory,
                                                   CrossValidatorParameterFactory crossValidatorParameterFactory,
                                                   ReportFactory reportFactory,
-                                                  PrecisionValidator precisionValidator,
+                                                  AccuracyValidator accuracyValidator,
                                                   ApplicationConfiguration appConfig) {
         super(sampleManager, classifierParameterFactory, crossValidatorParameterFactory, reportFactory, appConfig);
-        this.precisionValidator = Objects.requireNonNull(precisionValidator);
+        this.accuracyValidator = Objects.requireNonNull(accuracyValidator);
     }
 
     @Override
@@ -56,7 +56,7 @@ class PreciseIntervalJudgementsRatioAnalyzer
             CrossValidatorParameter<Integer> ratioParam = specificValidatorParams.preciseIntervalJudgmentsCountRatio(i);
 
             try {
-                iterations.add(precisionValidator.validate(
+                iterations.add(accuracyValidator.validate(
                         classifier,
                         specificClassifierParams,
                         override(specificValidatorParams, Collections.singleton(ratioParam))

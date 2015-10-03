@@ -18,7 +18,7 @@ import java.util.*;
  * ориентированной на анализ завимимости точности классификации от параметров классификации
  *
  * @author Igor Botian <igor.botian@gmail.com>
- * @see ru.spbftu.igorbotian.phdapp.svm.validation.PrecisionDependenceOnClassifierParametersAnalyzer
+ * @see ru.spbftu.igorbotian.phdapp.svm.validation.AccuracyDependenceOnClassifierParametersAnalyzer
  * @see BaseChecker
  */
 public class ClassifierParametersChecker extends BaseChecker {
@@ -36,13 +36,13 @@ public class ClassifierParametersChecker extends BaseChecker {
     public void testPreciseClassifier() throws IOException, CrossValidationException {
         /*check(
                 "classifier_params_precise_hausdorff.csv",
-                preciseValidators.precisionDependenceOnClassifierParametersAnalyzer(),
+                preciseValidators.accuracyDependenceOnClassifierParametersAnalyzer(),
                 withGaussianKernel(GAUSSIAN_KERNEL_FROM, GAUSSIAN_KERNEL_TO, GAUSSIAN_KERNEL_STEP),
                 withPenalty(PENALTY_FROM, PENALTY_TO, PENALTY_STEP)
         );*/
 
         RankingPairwiseClassifierCrossValidator<MultiClassificationReport> crossValidator
-                = preciseValidators.precisionDependenceOnClassifierParametersAnalyzer();
+                = preciseValidators.accuracyDependenceOnClassifierParametersAnalyzer();
         MultiClassificationReport report = crossValidator.validate(classifier,
                 applySpecificParameters(
                         withGaussianKernel(GAUSSIAN_KERNEL_FROM, GAUSSIAN_KERNEL_TO, GAUSSIAN_KERNEL_STEP),
@@ -61,13 +61,13 @@ public class ClassifierParametersChecker extends BaseChecker {
     public void testIntervalClassifier() throws IOException, CrossValidationException {
         /*check(
                 "classifier_params_interval_hausdorff.csv",
-                intervalValidators.precisionDependenceOnClassifierParametersAnalyzer(),
+                intervalValidators.accuracyDependenceOnClassifierParametersAnalyzer(),
                 withGaussianKernel(GAUSSIAN_KERNEL_FROM, GAUSSIAN_KERNEL_TO, GAUSSIAN_KERNEL_STEP),
                 withPenalty(PENALTY_FROM, PENALTY_TO, PENALTY_STEP)
         );*/
 
         RankingPairwiseClassifierCrossValidator<MultiClassificationReport> crossValidator
-                = intervalValidators.precisionDependenceOnClassifierParametersAnalyzer();
+                = intervalValidators.accuracyDependenceOnClassifierParametersAnalyzer();
         MultiClassificationReport report = crossValidator.validate(classifier,
                 applySpecificParameters(
                         withGaussianKernel(GAUSSIAN_KERNEL_FROM, GAUSSIAN_KERNEL_TO, GAUSSIAN_KERNEL_STEP),

@@ -37,18 +37,18 @@ class MainFrame extends JFrame {
     private static final String QUIT_LABEL = "quit";
     private static final String HELP_LABEL = "help";
     private static final String ABOUT_LABEL = "about";
-    private static final String PRECISION_ACTION_LABEL = "calculatePrecisionAction";
-    private static final String PRECISION_LABEL = "calculatePrecision";
-    private static final String AVERAGE_PRECISION_ACTION_LABEL = "calculateAveragePrecisionAction";
-    private static final String AVERAGE_PRECISION_LABEL = "calculateAveragePrecision";
-    private static final String SAMPLE_SIZE_LABEL = "determinePrecisionDependenceOnSampleSize";
-    private static final String SAMPLE_SIZE_ACTION_LABEL = "determinePrecisionDependenceOnSampleSizeAction";
-    private static final String JUDGEMENTS_COUNT_LABEL = "determinePrecisionDependenceOnJudgementsCount";
-    private static final String JUDGEMENTS_COUNT_ACTION_LABEL = "determinePrecisionDependenceOnJudgementsCountAction";
-    private static final String PARAMETERS_LABEL = "determinePrecisionDependenceOnParameters";
-    private static final String PARAMETERS_ACTION_LABEL = "determinePrecisionDependenceOnParametersAction";
-    private static final String INTERVAL_JUDGEMENTS_RATIO_LABEL = "determinePrecisionDependenceOnIntervalJudgementsRatio";
-    private static final String INTERVAL_JUDGEMENTS_RATIO_ACTION_LABEL = "determinePrecisionDependenceOnIntervalJudgementsRatioAction";
+    private static final String ACCURACY_ACTION_LABEL = "calculateAccuracyAction";
+    private static final String ACCURACY_LABEL = "calculateAccuracy";
+    private static final String AVERAGE_ACCURACY_ACTION_LABEL = "calculateAverageAccuracyAction";
+    private static final String AVERAGE_ACCURACY_LABEL = "calculateAverageAccuracy";
+    private static final String SAMPLE_SIZE_LABEL = "determineAccuracyDependenceOnSampleSize";
+    private static final String SAMPLE_SIZE_ACTION_LABEL = "determineAccuracyDependenceOnSampleSizeAction";
+    private static final String JUDGEMENTS_COUNT_LABEL = "determineAccuracyDependenceOnJudgementsCount";
+    private static final String JUDGEMENTS_COUNT_ACTION_LABEL = "determineAccuracyDependenceOnJudgementsCountAction";
+    private static final String PARAMETERS_LABEL = "determineAccuracyDependenceOnParameters";
+    private static final String PARAMETERS_ACTION_LABEL = "determineAccuracyDependenceOnParametersAction";
+    private static final String INTERVAL_JUDGEMENTS_RATIO_LABEL = "determineAccuracyDependenceOnIntervalJudgementsRatio";
+    private static final String INTERVAL_JUDGEMENTS_RATIO_ACTION_LABEL = "determineAccuracyDependenceOnIntervalJudgementsRatioAction";
     private static final String NEXT_LABEL = "next";
 
     private JMenuBar menuBar;
@@ -59,8 +59,8 @@ class MainFrame extends JFrame {
     private JMenuItem aboutMenuItem;
 
     private ButtonGroup actionsGroup;
-    private JRadioButton precisionActionRadioButton;
-    private JRadioButton averagePrecisionActionRadioButton;
+    private JRadioButton accuracyActionRadioButton;
+    private JRadioButton averageAccuracyActionRadioButton;
     private JRadioButton sampleSizeActionRadioButton;
     private JRadioButton judgementsCountActionRadioButton;
     private JRadioButton parametersActionRadioButton;
@@ -95,12 +95,12 @@ class MainFrame extends JFrame {
         aboutMenuItem = new JMenuItem(uiHelper.getLabel(ABOUT_LABEL));
 
         actionsGroup = new ButtonGroup();
-        precisionActionRadioButton = new JRadioButton(uiHelper.getLabel(PRECISION_ACTION_LABEL));
-        actionsGroup.add(precisionActionRadioButton);
-        precisionActionRadioButton.setSelected(true);
+        accuracyActionRadioButton = new JRadioButton(uiHelper.getLabel(ACCURACY_ACTION_LABEL));
+        actionsGroup.add(accuracyActionRadioButton);
+        accuracyActionRadioButton.setSelected(true);
 
-        averagePrecisionActionRadioButton = new JRadioButton(uiHelper.getLabel(AVERAGE_PRECISION_ACTION_LABEL));
-        actionsGroup.add(averagePrecisionActionRadioButton);
+        averageAccuracyActionRadioButton = new JRadioButton(uiHelper.getLabel(AVERAGE_ACCURACY_ACTION_LABEL));
+        actionsGroup.add(averageAccuracyActionRadioButton);
 
         sampleSizeActionRadioButton = new JRadioButton(uiHelper.getLabel(SAMPLE_SIZE_ACTION_LABEL));
         actionsGroup.add(sampleSizeActionRadioButton);
@@ -127,8 +127,8 @@ class MainFrame extends JFrame {
 
         JPanel actionsGroupPanel = new JPanel();
         actionsGroupPanel.setLayout(new BoxLayout(actionsGroupPanel, BoxLayout.Y_AXIS));
-        actionsGroupPanel.add(describe(precisionActionRadioButton, uiHelper.getLabel(PRECISION_LABEL)));
-        actionsGroupPanel.add(describe(averagePrecisionActionRadioButton, uiHelper.getLabel(AVERAGE_PRECISION_LABEL)));
+        actionsGroupPanel.add(describe(accuracyActionRadioButton, uiHelper.getLabel(ACCURACY_LABEL)));
+        actionsGroupPanel.add(describe(averageAccuracyActionRadioButton, uiHelper.getLabel(AVERAGE_ACCURACY_LABEL)));
         actionsGroupPanel.add(describe(sampleSizeActionRadioButton, uiHelper.getLabel(SAMPLE_SIZE_LABEL)));
         actionsGroupPanel.add(describe(judgementsCountActionRadioButton, uiHelper.getLabel(JUDGEMENTS_COUNT_LABEL)));
         actionsGroupPanel.add(describe(parametersActionRadioButton, uiHelper.getLabel(PARAMETERS_LABEL)));
@@ -207,18 +207,18 @@ class MainFrame extends JFrame {
 
             UserAction action = null;
 
-            if (precisionActionRadioButton == button) {
-                action = UserAction.CALCULATE_PRECISION;
-            } else if (averagePrecisionActionRadioButton == button) {
-                action = UserAction.CALCULATE_AVERAGE_PRECISION;
+            if (accuracyActionRadioButton == button) {
+                action = UserAction.CALCULATE_ACCURACY;
+            } else if (averageAccuracyActionRadioButton == button) {
+                action = UserAction.CALCULATE_AVERAGE_ACCURACY;
             } else if (sampleSizeActionRadioButton == button) {
-                action = UserAction.ANALYZE_PRECISION_ON_SAMPLE_SIZE_DEPENDENCE;
+                action = UserAction.ANALYZE_ACCURACY_ON_SAMPLE_SIZE_DEPENDENCE;
             } else if (judgementsCountActionRadioButton == button) {
-                action = UserAction.ANALYZE_PRECISION_ON_TRAINING_TESTING_SETS_SIZE_RATIO_DEPENDENCE;
+                action = UserAction.ANALYZE_ACCURACY_ON_TRAINING_TESTING_SETS_SIZE_RATIO_DEPENDENCE;
             } else if (parametersActionRadioButton == button) {
-                action = UserAction.ANALYZE_PRECISION_ON_CLASSIFIER_PARAMS_DEPENDENCE;
+                action = UserAction.ANALYZE_ACCURACY_ON_CLASSIFIER_PARAMS_DEPENDENCE;
             } else if (intervalJudgementsActionRadioButton == button) {
-                action = UserAction.ANALYZE_PRECISION_ON_PRECISE_INTERVAL_SETS_SIZE_RATIO_DEPENDENCE;
+                action = UserAction.ANALYZE_ACCURACY_ON_PRECISE_INTERVAL_SETS_SIZE_RATIO_DEPENDENCE;
             }
 
             if (action != null) {

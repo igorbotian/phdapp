@@ -47,8 +47,8 @@ class MultiClassificationReportSummaryWriterImpl implements ReportSummaryWriter<
     private static final String MIN_F_MEASURE_LABEL = "minFMeasure";
     private static final String MAX_F_MEASURE_LABEL = "maxFMeasure";
     private static final String NUMBER_OF_ITERATIONS_LABEL = "numberOfIterations";
-    private static final String MIN_PRECISION_CLASSIFICATION_LABEL = "minPrecisionClassificationLabel";
-    private static final String MAX_PRECISION_CLASSIFICATION_LABEL = "maxPrecisionClassificationLabel";
+    private static final String MIN_ACCURACY_CLASSIFICATION_LABEL = "minAccuracyClassificationLabel";
+    private static final String MAX_ACCURACY_CLASSIFICATION_LABEL = "maxAccuracyClassificationLabel";
 
     private final Localization localization;
     private final ReportSummaryWriter<SingleClassificationReport> singleReportWriter;
@@ -86,11 +86,11 @@ class MultiClassificationReportSummaryWriterImpl implements ReportSummaryWriter<
         summary.writeItem(localization.getLabel(NUMBER_OF_ITERATIONS_LABEL), report.numberOfClassifications());
 
         summary.writeEmptyLine();
-        summary.writeHeader(localization.getLabel(MAX_PRECISION_CLASSIFICATION_LABEL) + ":");
+        summary.writeHeader(localization.getLabel(MAX_ACCURACY_CLASSIFICATION_LABEL) + ":");
         singleReportWriter.writeTo(report.max(), summary);
 
         summary.writeEmptyLine();
-        summary.writeHeader(localization.getLabel(MIN_PRECISION_CLASSIFICATION_LABEL) + ":");
+        summary.writeHeader(localization.getLabel(MIN_ACCURACY_CLASSIFICATION_LABEL) + ":");
         singleReportWriter.writeTo(report.min(), summary);
     }
 }

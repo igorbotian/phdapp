@@ -75,7 +75,7 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
         JComponent[] widgets = null;
 
         switch (action) {
-            case CALCULATE_PRECISION:
+            case CALCULATE_ACCURACY:
                 JButton viewSampleButton = new JButton(uiHelper.getLabel(VIEW_SAMPLE_LABEL) + "...");
                 viewSampleButton.addActionListener(e -> new SampleDialog(mainFrame, uiHelper).setVisible(true));
 
@@ -89,9 +89,9 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                 };
 
                 LOGGER.debug("Performing action: " + action);
-                selectedCrossValidator = crossValidators.asyncPrecisionValidator();
+                selectedCrossValidator = crossValidators.asyncAccuracyValidator();
                 break;
-            case CALCULATE_AVERAGE_PRECISION:
+            case CALCULATE_AVERAGE_ACCURACY:
                 widgets = new JComponent[]{
                         uiHelper.widgets().maxJudgementGroupSizeParamSpinner(),
                         uiHelper.widgets().preciseSampleSizeSpinner(),
@@ -103,10 +103,10 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                         uiHelper.widgets().stopCrossValidationOnErrorCheckBox()
                 };
 
-                selectedCrossValidator = crossValidators.asyncAveragePrecisionValidator();
+                selectedCrossValidator = crossValidators.asyncAverageAccuracyValidator();
                 LOGGER.debug("Performing action: " + action);
                 break;
-            case ANALYZE_PRECISION_ON_SAMPLE_SIZE_DEPENDENCE:
+            case ANALYZE_ACCURACY_ON_SAMPLE_SIZE_DEPENDENCE:
                 widgets = new JComponent[]{
                         uiHelper.widgets().maxJudgementGroupSizeParamSpinner(),
                         uiHelper.widgets().intervalSampleSizeSpinner(),
@@ -117,10 +117,10 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                         uiHelper.widgets().stopCrossValidationOnErrorCheckBox()
                 };
 
-                selectedCrossValidator = crossValidators.asyncPrecisionDependenceOnSampleSizeAnalyzer();
+                selectedCrossValidator = crossValidators.asyncAccuracyDependenceOnSampleSizeAnalyzer();
                 LOGGER.debug("Performing action: " + action);
                 break;
-            case ANALYZE_PRECISION_ON_TRAINING_TESTING_SETS_SIZE_RATIO_DEPENDENCE:
+            case ANALYZE_ACCURACY_ON_TRAINING_TESTING_SETS_SIZE_RATIO_DEPENDENCE:
                 widgets = new JComponent[]{
                         uiHelper.widgets().maxJudgementGroupSizeParamSpinner(),
                         uiHelper.widgets().preciseSampleSizeSpinner(),
@@ -131,10 +131,10 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                         uiHelper.widgets().stopCrossValidationOnErrorCheckBox()
                 };
 
-                selectedCrossValidator = crossValidators.asyncPrecisionDependenceOnTrainingSetSizeAnalyzer();
+                selectedCrossValidator = crossValidators.asyncAccuracyDependenceOnTrainingSetSizeAnalyzer();
                 LOGGER.debug("Performing action: " + action);
                 break;
-            case ANALYZE_PRECISION_ON_CLASSIFIER_PARAMS_DEPENDENCE:
+            case ANALYZE_ACCURACY_ON_CLASSIFIER_PARAMS_DEPENDENCE:
                 widgets = new JComponent[]{
                         uiHelper.widgets().maxJudgementGroupSizeParamSpinner(),
                         uiHelper.widgets().preciseSampleSizeSpinner(),
@@ -145,10 +145,10 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                         uiHelper.widgets().stopCrossValidationOnErrorCheckBox()
                 };
 
-                selectedCrossValidator = crossValidators.asyncPrecisionDependenceOnClassifierParametersAnalyzer();
+                selectedCrossValidator = crossValidators.asyncAccuracyDependenceOnClassifierParametersAnalyzer();
                 LOGGER.debug("Performing action: " + action);
                 break;
-            case ANALYZE_PRECISION_ON_PRECISE_INTERVAL_SETS_SIZE_RATIO_DEPENDENCE:
+            case ANALYZE_ACCURACY_ON_PRECISE_INTERVAL_SETS_SIZE_RATIO_DEPENDENCE:
                 widgets = new JComponent[]{
                         uiHelper.widgets().maxJudgementGroupSizeParamSpinner(),
                         uiHelper.widgets().preciseSampleSizeSpinner(),
@@ -159,7 +159,7 @@ class MainFrameDirectorImpl implements SwingMainFrameDirector {
                         uiHelper.widgets().stopCrossValidationOnErrorCheckBox()
                 };
 
-                selectedCrossValidator = crossValidators.asyncPrecisionDependenceOnPreciseIntervalJudgementsRatioAnalyzer();
+                selectedCrossValidator = crossValidators.asyncAccuracyDependenceOnPreciseIntervalJudgementsRatioAnalyzer();
                 LOGGER.debug("Performing action: " + action);
                 break;
             default:

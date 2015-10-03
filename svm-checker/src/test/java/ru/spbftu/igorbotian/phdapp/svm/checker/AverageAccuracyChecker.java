@@ -11,17 +11,17 @@ import java.io.IOException;
  * ориентированной на среднее значение точности серии попарных классификаций
  *
  * @author Igor Botian <igor.botian@gmail.com>
- * @see ru.spbftu.igorbotian.phdapp.svm.validation.AveragePrecisionValidator
+ * @see ru.spbftu.igorbotian.phdapp.svm.validation.AverageAccuracyValidator
  * @see BaseChecker
  */
-public class AveragePrecisionChecker extends BaseChecker {
+public class AverageAccuracyChecker extends BaseChecker {
 
     @Ignore
     @Test
     public void testPreciseClassifier() throws IOException, CrossValidationException {
         check(
-                "average_precision_precise.csv",
-                preciseValidators.averagePrecisionValidator()
+                "average_accuracy_precise.csv",
+                preciseValidators.averageAccuracyValidator()
         );
     }
 
@@ -29,8 +29,8 @@ public class AveragePrecisionChecker extends BaseChecker {
     @Test
     public void testIntervalClassifier() throws IOException, CrossValidationException {
         check(
-                "average_precision_interval.csv",
-                intervalValidators.averagePrecisionValidator()
+                "average_accuracy_interval.csv",
+                intervalValidators.averageAccuracyValidator()
         );
     }
 }

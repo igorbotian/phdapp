@@ -19,23 +19,23 @@ import java.util.Set;
 /**
  * Средство кросс-валидации, ориентированное на среднее значение точности серии попарных классификаций
  */
-class AveragePrecisionValidator extends AbstractRankingPairwiseClassifierCrossValidator<MultiClassificationReport> {
+class AverageAccuracyValidator extends AbstractRankingPairwiseClassifierCrossValidator<MultiClassificationReport> {
 
-    private static final Logger LOGGER = Logger.getLogger(AveragePrecisionValidator.class);
+    private static final Logger LOGGER = Logger.getLogger(AverageAccuracyValidator.class);
 
     /**
      * Средство кросс-валидации точности единичной классифации
      */
-    private final PrecisionValidator precisionValidator;
+    private final AccuracyValidator accuracyValidator;
 
-    public AveragePrecisionValidator(CrossValidationSampleManager sampleManager,
-                                     IntervalClassifierParameterFactory classifierParameterFactory,
-                                     CrossValidatorParameterFactory crossValidatorParameterFactory,
-                                     ReportFactory reportFactory,
-                                     PrecisionValidator precisionValidator,
-                                     ApplicationConfiguration appConfig) {
+    public AverageAccuracyValidator(CrossValidationSampleManager sampleManager,
+                                    IntervalClassifierParameterFactory classifierParameterFactory,
+                                    CrossValidatorParameterFactory crossValidatorParameterFactory,
+                                    ReportFactory reportFactory,
+                                    AccuracyValidator accuracyValidator,
+                                    ApplicationConfiguration appConfig) {
         super(sampleManager, classifierParameterFactory, crossValidatorParameterFactory, reportFactory, appConfig);
-        this.precisionValidator = Objects.requireNonNull(precisionValidator);
+        this.accuracyValidator = Objects.requireNonNull(accuracyValidator);
     }
 
     @Override
@@ -49,7 +49,7 @@ class AveragePrecisionValidator extends AbstractRankingPairwiseClassifierCrossVa
 
         for (int i = 0; i < samplesToGenerateCount; i++) {
             try {
-                iterations.add(precisionValidator.validate(classifier, specificValidatorParams.defaultValues()));
+                iterations.add(accuracyValidator.validate(classifier, specificValidatorParams.defaultValues()));
             } catch (CrossValidationException e) {
                 if (stopCrossValidationOnError()) {
                     throw e;

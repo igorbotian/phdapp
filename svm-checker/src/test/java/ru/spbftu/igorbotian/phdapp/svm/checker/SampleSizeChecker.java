@@ -12,7 +12,7 @@ import java.io.IOException;
  * ориентированной на анализ зависимости точности классификации от размера обучающей выборки
  *
  * @author Igor Botian <igor.botian@gmail.com>
- * @see ru.spbftu.igorbotian.phdapp.svm.validation.PrecisionDependenceOnSampleSizeAnalyzer
+ * @see ru.spbftu.igorbotian.phdapp.svm.validation.AccuracyDependenceOnSampleSizeAnalyzer
  * @see BaseChecker
  */
 public class SampleSizeChecker extends BaseChecker {
@@ -26,7 +26,7 @@ public class SampleSizeChecker extends BaseChecker {
     public void testPreciseClassifier() throws IOException, CrossValidationException {
         check(
                 "sample_size_precise.csv",
-                preciseValidators.precisionDependenceOnSampleSizeAnalyzer(),
+                preciseValidators.accuracyDependenceOnSampleSizeAnalyzer(),
                 withSampleSize(FROM, TO, STEP)
         );
     }
@@ -36,7 +36,7 @@ public class SampleSizeChecker extends BaseChecker {
     public void testIntervalClassifier() throws IOException, CrossValidationException {
         check(
                 "sample_size_interval.csv",
-                intervalValidators.precisionDependenceOnSampleSizeAnalyzer(),
+                intervalValidators.accuracyDependenceOnSampleSizeAnalyzer(),
                 withSampleSize(FROM, TO, STEP)
         );
     }

@@ -21,29 +21,29 @@ import java.util.stream.Stream;
 /**
  * Средство анализа завимимости точности классификации от параметров классификации
  */
-class PrecisionDependenceOnClassifierParametersAnalyzer
+class AccuracyDependenceOnClassifierParametersAnalyzer
         extends AbstractRankingPairwiseClassifierCrossValidator<MultiClassificationReport> {
 
-    private static final Logger LOGGER = Logger.getLogger(PrecisionDependenceOnClassifierParametersAnalyzer.class);
+    private static final Logger LOGGER = Logger.getLogger(AccuracyDependenceOnClassifierParametersAnalyzer.class);
 
     /**
      * Средство кросс-валидации, направленное на точность работы попарного классификатора
      */
-    private final PrecisionValidator precisionValidator;
+    private final AccuracyValidator accuracyValidator;
 
     /**
      * Фабрика параметров классификатора
      */
     private final IntervalClassifierParameterFactory classifierParameterFactory;
 
-    public PrecisionDependenceOnClassifierParametersAnalyzer(CrossValidationSampleManager sampleManager,
-                                                             IntervalClassifierParameterFactory classifierParameterFactory,
-                                                             CrossValidatorParameterFactory crossValidatorParameterFactory,
-                                                             ReportFactory reportFactory,
-                                                             PrecisionValidator precisionValidator,
-                                                             ApplicationConfiguration appConfig) {
+    public AccuracyDependenceOnClassifierParametersAnalyzer(CrossValidationSampleManager sampleManager,
+                                                            IntervalClassifierParameterFactory classifierParameterFactory,
+                                                            CrossValidatorParameterFactory crossValidatorParameterFactory,
+                                                            ReportFactory reportFactory,
+                                                            AccuracyValidator accuracyValidator,
+                                                            ApplicationConfiguration appConfig) {
         super(sampleManager, classifierParameterFactory, crossValidatorParameterFactory, reportFactory, appConfig);
-        this.precisionValidator = Objects.requireNonNull(precisionValidator);
+        this.accuracyValidator = Objects.requireNonNull(accuracyValidator);
         this.classifierParameterFactory = Objects.requireNonNull(classifierParameterFactory);
     }
 
@@ -77,7 +77,7 @@ class PrecisionDependenceOnClassifierParametersAnalyzer
                 ClassifierParameter<Double> gkpParam = classifierParameterFactory.gaussianKernelParameter(gkp);
 
                 try {
-                    iterations.add(precisionValidator.validate(
+                    iterations.add(accuracyValidator.validate(
                                     classifier,
                                     override(specificClassifierParams,
                                             Stream.of(ccpParam, gkpParam).collect(Collectors.toSet())),

@@ -17,9 +17,9 @@ import java.util.function.Function;
 /**
  * Средство кросс-валидации, направленное на точность работы ранжирующего попарного классификатора
  */
-class PrecisionValidator extends AbstractRankingPairwiseClassifierCrossValidator<SingleClassificationReport> {
+class AccuracyValidator extends AbstractRankingPairwiseClassifierCrossValidator<SingleClassificationReport> {
 
-    private static final Logger LOGGER = Logger.getLogger(PrecisionValidator.class);
+    private static final Logger LOGGER = Logger.getLogger(AccuracyValidator.class);
 
     /**
      * Фабрика математических примитивов
@@ -31,13 +31,13 @@ class PrecisionValidator extends AbstractRankingPairwiseClassifierCrossValidator
      */
     protected final DataFactory dataFactory;
 
-    protected PrecisionValidator(CrossValidationSampleManager sampleManager,
-                                 IntervalClassifierParameterFactory classifierParameterFactory,
-                                 CrossValidatorParameterFactory crossValidatorParameterFactory,
-                                 ReportFactory reportFactory,
-                                 MathDataFactory mathDataFactory,
-                                 DataFactory dataFactory,
-                                 ApplicationConfiguration appConfig) {
+    protected AccuracyValidator(CrossValidationSampleManager sampleManager,
+                                IntervalClassifierParameterFactory classifierParameterFactory,
+                                CrossValidatorParameterFactory crossValidatorParameterFactory,
+                                ReportFactory reportFactory,
+                                MathDataFactory mathDataFactory,
+                                DataFactory dataFactory,
+                                ApplicationConfiguration appConfig) {
 
         super(sampleManager, classifierParameterFactory, crossValidatorParameterFactory, reportFactory, appConfig);
         this.mathDataFactory = Objects.requireNonNull(mathDataFactory);

@@ -23,17 +23,17 @@ class TrainingSetSizeRatioAnalyzer extends AbstractRankingPairwiseClassifierCros
     /**
      * Средство кросс-валидации, направленное на точность работы попарного классификатора
      */
-    private final PrecisionValidator precisionValidator;
+    private final AccuracyValidator accuracyValidator;
 
     public TrainingSetSizeRatioAnalyzer(CrossValidationSampleManager sampleManager,
                                         IntervalClassifierParameterFactory classifierParameterFactory,
                                         CrossValidatorParameterFactory crossValidatorParameterFactory,
                                         ReportFactory reportFactory,
-                                        PrecisionValidator precisionValidator,
+                                        AccuracyValidator accuracyValidator,
                                         ApplicationConfiguration appConfig) {
 
         super(sampleManager, classifierParameterFactory, crossValidatorParameterFactory, reportFactory, appConfig);
-        this.precisionValidator = Objects.requireNonNull(precisionValidator);
+        this.accuracyValidator = Objects.requireNonNull(accuracyValidator);
     }
 
     @Override
@@ -55,7 +55,7 @@ class TrainingSetSizeRatioAnalyzer extends AbstractRankingPairwiseClassifierCros
             CrossValidatorParameter<Integer> ratioParam = specificValidatorParams.trainingTestingSetsSizeRatio(i);
 
             try {
-                iterations.add(precisionValidator.validate(
+                iterations.add(accuracyValidator.validate(
                         classifier,
                         specificClassifierParams,
                         override(specificValidatorParams, Collections.singleton(ratioParam))

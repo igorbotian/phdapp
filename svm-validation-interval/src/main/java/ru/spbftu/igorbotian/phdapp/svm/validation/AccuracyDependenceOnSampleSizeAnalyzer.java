@@ -16,23 +16,23 @@ import java.util.*;
 /**
  * Средство анализа зависимости точности классификации от размера обучающей выборки
  */
-class PrecisionDependenceOnSampleSizeAnalyzer extends AbstractRankingPairwiseClassifierCrossValidator<MultiClassificationReport> {
+class AccuracyDependenceOnSampleSizeAnalyzer extends AbstractRankingPairwiseClassifierCrossValidator<MultiClassificationReport> {
 
-    private static final Logger LOGGER = Logger.getLogger(PrecisionDependenceOnSampleSizeAnalyzer.class);
+    private static final Logger LOGGER = Logger.getLogger(AccuracyDependenceOnSampleSizeAnalyzer.class);
 
     /**
      * Средство кросс-валидации, направленное на точность работы попарного классификатора
      */
-    private final PrecisionValidator precisionValidator;
+    private final AccuracyValidator accuracyValidator;
 
-    public PrecisionDependenceOnSampleSizeAnalyzer(CrossValidationSampleManager sampleManager,
-                                                   IntervalClassifierParameterFactory classifierParameterFactory,
-                                                   CrossValidatorParameterFactory crossValidatorParameterFactory,
-                                                   ReportFactory reportFactory,
-                                                   PrecisionValidator precisionValidator,
-                                                   ApplicationConfiguration appConfig) {
+    public AccuracyDependenceOnSampleSizeAnalyzer(CrossValidationSampleManager sampleManager,
+                                                  IntervalClassifierParameterFactory classifierParameterFactory,
+                                                  CrossValidatorParameterFactory crossValidatorParameterFactory,
+                                                  ReportFactory reportFactory,
+                                                  AccuracyValidator accuracyValidator,
+                                                  ApplicationConfiguration appConfig) {
         super(sampleManager, classifierParameterFactory, crossValidatorParameterFactory, reportFactory, appConfig);
-        this.precisionValidator = Objects.requireNonNull(precisionValidator);
+        this.accuracyValidator = Objects.requireNonNull(accuracyValidator);
     }
 
     @Override
@@ -54,7 +54,7 @@ class PrecisionDependenceOnSampleSizeAnalyzer extends AbstractRankingPairwiseCla
             CrossValidatorParameter<Integer> sampleSizeParam = specificValidatorParams.sampleSize(i);
 
             try {
-                iterations.add(precisionValidator.validate(
+                iterations.add(accuracyValidator.validate(
                         classifier,
                         specificClassifierParams,
                         override(specificValidatorParams, Collections.singleton(sampleSizeParam))

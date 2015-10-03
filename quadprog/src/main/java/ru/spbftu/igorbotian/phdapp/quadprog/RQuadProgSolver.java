@@ -25,7 +25,7 @@ class RQuadProgSolver implements ActiveDualSetAlgorithm {
     /**
      * Количество знаков после запятой после округления значений
      */
-    private static final int PRECISION = 10;
+    private static final int MANTISSA_LENGTH = 10;
 
     /**
      * Малое вещественное значение, близкое к нулю
@@ -68,7 +68,7 @@ class RQuadProgSolver implements ActiveDualSetAlgorithm {
     public double[] apply(double[][] matrix, double[] vector, double[][] constraintMatrix, double[] constraintVector)
             throws QuadraticProgrammingException {
 
-        roundValues(matrix, PRECISION);
+        roundValues(matrix, MANTISSA_LENGTH);
         fixPositiveDefinition(matrix);
 
         /* Генерация R-скрипта на основе заданных параметров */
