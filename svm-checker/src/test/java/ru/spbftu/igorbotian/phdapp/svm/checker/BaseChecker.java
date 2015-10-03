@@ -11,7 +11,7 @@ import ru.spbftu.igorbotian.phdapp.log.Log4j;
 import ru.spbftu.igorbotian.phdapp.output.csv.CSVOutputDataManagementModule;
 import ru.spbftu.igorbotian.phdapp.output.csv.ReportCSVWriter;
 import ru.spbftu.igorbotian.phdapp.output.csv.ReportCSVWriterFactory;
-import ru.spbftu.igorbotian.phdapp.svm.ClusterCentroidIntervalRankingPairwiseClassifierModule;
+import ru.spbftu.igorbotian.phdapp.svm.IntervalPairwiseClassifierModule;
 import ru.spbftu.igorbotian.phdapp.svm.IntervalRankingPairwiseClassifier;
 import ru.spbftu.igorbotian.phdapp.svm.RankingPairwiseClassifier;
 import ru.spbftu.igorbotian.phdapp.svm.validation.*;
@@ -38,16 +38,16 @@ import java.util.stream.Stream;
  */
 public class BaseChecker {
 
-    protected static final int MAX_JUDGEMENT_GROUP_SIZE = 5;
-    protected static final int SAMPLE_SIZE = 300;
+    protected static final int MAX_JUDGEMENT_GROUP_SIZE = 3;
+    protected static final int SAMPLE_SIZE = 500;
     protected static final int SAMPLES_TO_GENERATE = 100;
     protected static final int PRECISE_INTERVAL_JUDGEMENT_COUNT_RATIO = 50;
     protected static final int TRAINING_TESTING_SETS_SIZE_RATIO = 75;
 
     /* Значения параметров ниже имеют оптимальные значения, найденные эмпиририческим способом */
 
-    protected static final double GAUSSIAN_KERNEL_PARAMETER = 6.5;
-    protected static final double PENALTY_PARAMETER = 14.0; // 16.5 для точных и интервальных (без Хаусдорфа) оценок
+    protected static final double GAUSSIAN_KERNEL_PARAMETER = 8;
+    protected static final double PENALTY_PARAMETER = 13.5;
 
     /**
      * Параметр, задающий поведение механизма кросс-валидации в случае ошибки
@@ -87,9 +87,9 @@ public class BaseChecker {
         );
 
         Injector intervalInjector = parentInjector.createChildInjector(
-                //new IntervalPairwiseClassifierModule(),
+                new IntervalPairwiseClassifierModule(),
                 //new HausdorffIntervalRankingPairwiseClassifierModule(),
-                new ClusterCentroidIntervalRankingPairwiseClassifierModule(),
+                //new ClusterCentroidIntervalRankingPairwiseClassifierModule(),
                 new SvmValidationIntervalSampleManagementModule(),
                 new SvmIntervalClassifierValidationModule()
         );
@@ -102,9 +102,9 @@ public class BaseChecker {
                 STOP_CROSS_VALIDATION_ON_ERROR_PARAM, true);
 
         Injector preciseInjector = parentInjector.createChildInjector(
-                //new IntervalPairwiseClassifierModule(),
+                new IntervalPairwiseClassifierModule(),
                 //new HausdorffIntervalRankingPairwiseClassifierModule(),
-                new ClusterCentroidIntervalRankingPairwiseClassifierModule(),
+                //new ClusterCentroidIntervalRankingPairwiseClassifierModule(),
                 new SvmValidationPreciseSampleManagementModule(),
                 new SvmIntervalClassifierValidationModule()
         );
