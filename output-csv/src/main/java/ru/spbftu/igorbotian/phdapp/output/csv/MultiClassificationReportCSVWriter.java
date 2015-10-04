@@ -71,13 +71,13 @@ class MultiClassificationReportCSVWriter implements ReportCSVWriter<MultiClassif
         CSVWriter csv = new CSVWriter(writer);
 
         if (includeHeader) {
-            writeHeaderTo(csv);
+            writeHeaderTo(report, csv);
         }
 
         writeContentsTo(report, csv);
     }
 
-    private void writeHeaderTo(CSVWriter writer) throws IOException {
+    private void writeHeaderTo(MultiClassificationReport report, CSVWriter writer) throws IOException {
         assert writer != null;
 
         writer.writeLine(
@@ -95,11 +95,6 @@ class MultiClassificationReportCSVWriter implements ReportCSVWriter<MultiClassif
                 localization.getLabel(MAX_F_MEASURE_LABEL),
                 localization.getLabel(NUMBER_OF_ITERATIONS_LABEL)
         );
-    }
-
-    private void writeContentsTo(MultiClassificationReport report, CSVWriter writer) throws IOException {
-        assert report != null;
-        assert writer != null;
 
         writer.writeLine(
                 Double.toString(report.averageAccuracy()),
@@ -116,6 +111,11 @@ class MultiClassificationReportCSVWriter implements ReportCSVWriter<MultiClassif
                 Double.toString(report.maxFMeasure()),
                 Integer.toString(report.numberOfClassifications())
         );
+    }
+
+    private void writeContentsTo(MultiClassificationReport report, CSVWriter writer) throws IOException {
+        assert report != null;
+        assert writer != null;
 
         if(!report.classifications().isEmpty()) {
             SingleClassificationReport anyReport = report.classifications().get(0);
