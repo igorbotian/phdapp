@@ -8,14 +8,14 @@ import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidatorParameter;
 import java.io.IOException;
 
 /**
- * Механизм автоматизированной кросс-валидации ранжирующего попарного классификатора, ориентированной на анализ
- * завимимости точности классификации от процентного соотношения количества точных/интервальных экспертных оценок
+ * Абстрактный механизм автоматизированной кросс-валидации ранжирующего попарного классификатора, ориентированной
+ * на анализ завимимости точности классификации от процентного соотношения количества точных/интервальных экспертных оценок
  *
  * @author Igor Botian <igor.botian@gmail.com>
  * @see ru.spbftu.igorbotian.phdapp.svm.validation.PreciseIntervalJudgementsRatioAnalyzer
  * @see BaseChecker
  */
-public class PreciseIntervalJudgementsRatioChecker extends BaseChecker {
+public abstract class PreciseIntervalJudgementsRatioChecker extends BaseChecker {
 
     private static final int FROM = 1;
     private static final int TO = 100;

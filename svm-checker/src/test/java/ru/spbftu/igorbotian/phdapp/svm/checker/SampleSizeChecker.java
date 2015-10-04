@@ -8,14 +8,14 @@ import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidatorParameter;
 import java.io.IOException;
 
 /**
- * Механизм автоматизированной кросс-валидации ранжирующего попарного классификатора,
+ * Абстрактный механизм автоматизированной кросс-валидации ранжирующего попарного классификатора,
  * ориентированной на анализ зависимости точности классификации от размера обучающей выборки
  *
  * @author Igor Botian <igor.botian@gmail.com>
  * @see ru.spbftu.igorbotian.phdapp.svm.validation.AccuracyDependenceOnSampleSizeAnalyzer
  * @see BaseChecker
  */
-public class SampleSizeChecker extends BaseChecker {
+public abstract class SampleSizeChecker extends BaseChecker {
 
     private static final int FROM = 4;
     private static final int TO = 500;

@@ -1,17 +1,18 @@
 package ru.spbftu.igorbotian.phdapp.svm.checker;
 
+import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import org.junit.Before;
 import ru.spbftu.igorbotian.phdapp.common.DataModule;
 import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfiguration;
 import ru.spbftu.igorbotian.phdapp.conf.ApplicationConfigurationModule;
+import ru.spbftu.igorbotian.phdapp.ioc.PhDAppModule;
 import ru.spbftu.igorbotian.phdapp.locale.java.JavaI18NLocalizationModule;
 import ru.spbftu.igorbotian.phdapp.log.Log4j;
 import ru.spbftu.igorbotian.phdapp.output.csv.CSVOutputDataManagementModule;
 import ru.spbftu.igorbotian.phdapp.output.csv.ReportCSVWriter;
 import ru.spbftu.igorbotian.phdapp.output.csv.ReportCSVWriterFactory;
-import ru.spbftu.igorbotian.phdapp.svm.IntervalPairwiseClassifierModule;
 import ru.spbftu.igorbotian.phdapp.svm.IntervalRankingPairwiseClassifier;
 import ru.spbftu.igorbotian.phdapp.svm.RankingPairwiseClassifier;
 import ru.spbftu.igorbotian.phdapp.svm.validation.*;
@@ -36,18 +37,18 @@ import java.util.stream.Stream;
  *
  * @author Igor Botian <igor.botian@gmail.com>
  */
-public class BaseChecker {
+public abstract class BaseChecker {
 
     protected static final int MAX_JUDGEMENT_GROUP_SIZE = 3;
-    protected static final int SAMPLE_SIZE = 500;
+    protected static final int SAMPLE_SIZE = 300;
     protected static final int SAMPLES_TO_GENERATE = 100;
     protected static final int PRECISE_INTERVAL_JUDGEMENT_COUNT_RATIO = 50;
     protected static final int TRAINING_TESTING_SETS_SIZE_RATIO = 75;
 
     /* Значения параметров ниже имеют оптимальные значения, найденные эмпиририческим способом */
 
-    protected static final double GAUSSIAN_KERNEL_PARAMETER = 8;
-    protected static final double PENALTY_PARAMETER = 13.5;
+    protected static final double GAUSSIAN_KERNEL_PARAMETER = 14;
+    protected static final double PENALTY_PARAMETER = 15;
 
     /**
      * Параметр, задающий поведение механизма кросс-валидации в случае ошибки
@@ -86,14 +87,12 @@ public class BaseChecker {
                 new SvmValidationSampleManagementModule()
         );
 
-        Injector intervalInjector = parentInjector.createChildInjector(
-                new IntervalPairwiseClassifierModule(),
-                //new HausdorffIntervalRankingPairwiseClassifierModule(),
-                //new ClusterCentroidIntervalRankingPairwiseClassifierModule(),
+        Set<AbstractModule> intervalInjectorModules = new HashSet<>(injectClassifierModules());
+        intervalInjectorModules.addAll(Stream.of(
                 new SvmValidationIntervalSampleManagementModule(),
                 new SvmIntervalClassifierValidationModule()
-        );
-
+        ).collect(Collectors.toSet()));
+        Injector intervalInjector = parentInjector.createChildInjector(intervalInjectorModules);
         reportFactory = intervalInjector.getInstance(ReportCSVWriterFactory.class);
         classifier = intervalInjector.getInstance(IntervalRankingPairwiseClassifier.class);
         parameters = intervalInjector.getInstance(CrossValidatorParameterFactory.class);
@@ -101,13 +100,12 @@ public class BaseChecker {
         intervalInjector.getInstance(ApplicationConfiguration.class).setBoolean(
                 STOP_CROSS_VALIDATION_ON_ERROR_PARAM, true);
 
-        Injector preciseInjector = parentInjector.createChildInjector(
-                new IntervalPairwiseClassifierModule(),
-                //new HausdorffIntervalRankingPairwiseClassifierModule(),
-                //new ClusterCentroidIntervalRankingPairwiseClassifierModule(),
+        Set<AbstractModule> preciseInjectorModules = new HashSet<>(injectClassifierModules());
+        preciseInjectorModules.addAll(Stream.of(
                 new SvmValidationPreciseSampleManagementModule(),
                 new SvmIntervalClassifierValidationModule()
-        );
+        ).collect(Collectors.toSet()));
+        Injector preciseInjector = parentInjector.createChildInjector(preciseInjectorModules);
         preciseValidators = preciseInjector.getInstance(IntervalPairwiseClassifierCrossValidators.class);
 
         defaultParameters = Stream.of(
@@ -120,6 +118,11 @@ public class BaseChecker {
                 penaltyParameter(PENALTY_PARAMETER)
         ).collect(Collectors.toSet());
     }
+
+    /**
+     * Возвращает модули, содержащие реализацию средства классификации
+     */
+    protected abstract Set<PhDAppModule> injectClassifierModules();
 
     private static Path getConfigFolder() {
         String customConfFolderName = System.getProperty(CONFIG_FOLDER_SYSTEM_PROPERTY);

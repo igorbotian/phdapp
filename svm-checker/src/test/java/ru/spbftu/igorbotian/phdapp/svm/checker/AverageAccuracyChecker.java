@@ -7,14 +7,14 @@ import ru.spbftu.igorbotian.phdapp.svm.validation.CrossValidationException;
 import java.io.IOException;
 
 /**
- * Механизм автоматизированной кросс-валидации ранжирующего попарного классификатора,
+ * Абстрактный механизм автоматизированной кросс-валидации ранжирующего попарного классификатора,
  * ориентированной на среднее значение точности серии попарных классификаций
  *
  * @author Igor Botian <igor.botian@gmail.com>
  * @see ru.spbftu.igorbotian.phdapp.svm.validation.AverageAccuracyValidator
  * @see BaseChecker
  */
-public class AverageAccuracyChecker extends BaseChecker {
+public abstract class AverageAccuracyChecker extends BaseChecker {
 
     @Ignore
     @Test
