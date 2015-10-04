@@ -148,14 +148,13 @@ public class BaseChecker {
         long start = System.currentTimeMillis();
         R report = crossValidator.validate(classifier, applySpecificParameters(crossValidatorParameters));
         long end = System.currentTimeMillis();
-        System.out.println(String.format("Duration = %.5f s.", ((end - start) / 1000.0)));
 
         ReportCSVWriter<R> csvWriter = reportFactory.get((Class<R>) report.getClass());
         PrintWriter writer = null;
 
         try {
-            writer = new PrintWriter(new FileWriter(reportFileName));
-            csvWriter.writeTo(report, writer, true);
+            writer = new PrintWriter(new FileWriter(reportFileName + "_" + Double.toString((end - start) / 1000.0) + ".csv"));
+            csvWriter.writeTo(report, writer, false);
         } finally {
             if (writer != null) {
                 writer.close();

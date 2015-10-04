@@ -25,7 +25,7 @@ public class TrainingTestingSetsSizeChecker extends BaseChecker {
     @Test
     public void testPreciseClassifier() throws IOException, CrossValidationException {
         check(
-                "training_testing_sets_ratio_precise.csv",
+                "training_testing_sets_ratio_precise",
                 preciseValidators.accuracyDependenceOnTrainingSetSizeAnalyzer(),
                 withRatio(FROM, TO, STEP)
         );
@@ -35,7 +35,7 @@ public class TrainingTestingSetsSizeChecker extends BaseChecker {
     @Test
     public void testIntervalClassifier() throws IOException, CrossValidationException {
         check(
-                "training_testing_sets_ratio_interval.csv",
+                "training_testing_sets_ratio_interval",
                 intervalValidators.accuracyDependenceOnTrainingSetSizeAnalyzer(),
                 withRatio(FROM, TO, STEP)
         );

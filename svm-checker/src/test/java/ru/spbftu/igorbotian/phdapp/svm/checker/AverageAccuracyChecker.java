@@ -20,7 +20,7 @@ public class AverageAccuracyChecker extends BaseChecker {
     @Test
     public void testPreciseClassifier() throws IOException, CrossValidationException {
         check(
-                "average_accuracy_precise.csv",
+                "average_accuracy_precise",
                 preciseValidators.averageAccuracyValidator()
         );
     }
@@ -29,7 +29,7 @@ public class AverageAccuracyChecker extends BaseChecker {
     @Test
     public void testIntervalClassifier() throws IOException, CrossValidationException {
         check(
-                "average_accuracy_interval.csv",
+                "average_accuracy_interval",
                 intervalValidators.averageAccuracyValidator()
         );
     }

@@ -25,7 +25,7 @@ public class PreciseIntervalJudgementsRatioChecker extends BaseChecker {
     @Test
     public void testPreciseClassifier() throws IOException, CrossValidationException {
         check(
-                "precise_interval_judgements_ratio_precise.csv",
+                "precise_interval_judgements_ratio_precise",
                 preciseValidators.accuracyDependenceOnPreciseIntervalJudgementsRatioAnalyzer(),
                 withRatio(FROM, TO, STEP)
         );
@@ -35,7 +35,7 @@ public class PreciseIntervalJudgementsRatioChecker extends BaseChecker {
     @Test
     public void testIntervalClassifier() throws IOException, CrossValidationException {
         check(
-                "precise_interval_judgements_ratio_interval.csv",
+                "precise_interval_judgements_ratio_interval",
                 intervalValidators.accuracyDependenceOnPreciseIntervalJudgementsRatioAnalyzer(),
                 withRatio(FROM, TO, STEP)
         );

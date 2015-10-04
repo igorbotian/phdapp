@@ -25,7 +25,7 @@ public class SampleSizeChecker extends BaseChecker {
     @Test
     public void testPreciseClassifier() throws IOException, CrossValidationException {
         check(
-                "sample_size_precise.csv",
+                "sample_size_precise",
                 preciseValidators.accuracyDependenceOnSampleSizeAnalyzer(),
                 withSampleSize(FROM, TO, STEP)
         );
@@ -35,7 +35,7 @@ public class SampleSizeChecker extends BaseChecker {
     @Test
     public void testIntervalClassifier() throws IOException, CrossValidationException {
         check(
-                "sample_size_interval.csv",
+                "sample_size_interval",
                 intervalValidators.accuracyDependenceOnSampleSizeAnalyzer(),
                 withSampleSize(FROM, TO, STEP)
         );
